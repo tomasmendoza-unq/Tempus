@@ -1,11 +1,11 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" version="27.2.0">
   <diagram name="Página-1" id="pgd0bkLDBrPALKb2CUr3">
-    <mxGraphModel dx="1462" dy="1438" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2847" dy="2025" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="IMhIcKIFVwF1vunqSUTB-10" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MateriaCorrelativa&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- correlativas:&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;List&amp;lt;Materia&amp;gt;&lt;/span&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ toDTO(): MateriaDTO&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+&amp;nbsp;addCorrelativas(List&amp;lt;Materia&amp;gt;): void&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="680" y="310" width="230" height="90" as="geometry" />
+          <mxGeometry x="730" y="310" width="230" height="90" as="geometry" />
         </mxCell>
         <mxCell id="IMhIcKIFVwF1vunqSUTB-11" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MateriaSimple&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ toDTO():MateriaDTO&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="279" y="310" width="247.5" height="80" as="geometry" />
@@ -17,7 +17,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="IMhIcKIFVwF1vunqSUTB-18" value="*" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="535" y="238" width="30" height="30" as="geometry" />
+          <mxGeometry x="550" y="260" width="30" height="30" as="geometry" />
         </mxCell>
         <mxCell id="IMhIcKIFVwF1vunqSUTB-20" value="Componente" style="html=1;shape=mxgraph.infographic.ribbonSimple;notch1=20;notch2=20;align=center;verticalAlign=middle;fontSize=14;fontStyle=0;fillColor=#E6D0DE;whiteSpace=wrap;strokeColor=#B5739D;" vertex="1" parent="1">
           <mxGeometry x="180" y="200" width="150" height="35" as="geometry" />
@@ -31,10 +31,10 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="IMhIcKIFVwF1vunqSUTB-25" value="Hoja" style="html=1;shape=mxgraph.infographic.ribbonSimple;notch1=20;notch2=20;align=center;verticalAlign=middle;fontSize=14;fontStyle=0;fillColor=#E6D0DE;whiteSpace=wrap;strokeColor=#B5739D;" vertex="1" parent="1">
-          <mxGeometry x="110" y="336.25" width="150" height="35" as="geometry" />
+          <mxGeometry x="110" y="355" width="159" height="35" as="geometry" />
         </mxCell>
         <mxCell id="IMhIcKIFVwF1vunqSUTB-26" value="Compuesto" style="html=1;shape=mxgraph.infographic.ribbonSimple;notch1=20;notch2=20;align=center;verticalAlign=middle;fontSize=14;fontStyle=0;fillColor=#E6D0DE;whiteSpace=wrap;strokeColor=#B5739D;" vertex="1" parent="1">
-          <mxGeometry x="535" y="337.5" width="140" height="32.5" as="geometry" />
+          <mxGeometry x="560" y="330" width="160" height="32.5" as="geometry" />
         </mxCell>
         <mxCell id="IMhIcKIFVwF1vunqSUTB-29" value="&lt;i&gt;Materia&lt;/i&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="340" y="156" width="200" height="112" as="geometry" />
@@ -62,36 +62,184 @@
             <mxPoint x="420" y="250" as="sourcePoint" />
             <mxPoint x="440" y="270" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="795" y="300" />
+              <mxPoint x="845" y="300" />
               <mxPoint x="620" y="300" />
               <mxPoint x="440" y="300" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="IMhIcKIFVwF1vunqSUTB-38" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MateriaDTo&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- nombre: String&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- correlativas: List&amp;lt;MateriaDTO&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;u&gt;+ new(String, List&amp;lt;MateriaDTO&amp;gt;&lt;/u&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="40" y="10" width="210" height="110" as="geometry" />
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-38" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;&lt;i&gt;MateriaDTO&lt;/i&gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- nombre: String&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- correlativas: List&amp;lt;MateriaDTO&amp;gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;u&gt;+ new(Long, String&amp;gt;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;i&gt;+&amp;nbsp;&lt;span style=&quot;background-color: transparent;&quot;&gt;toEntity(IMateriaFactory): Materia&lt;/span&gt;&lt;/i&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="330" y="-290" width="310" height="110" as="geometry" />
         </mxCell>
         <mxCell id="IMhIcKIFVwF1vunqSUTB-45" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;IMateriaFactory&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ factoryMethod(MateriaDTO) : Materia&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ createSimple(MateriaSimpleDTO):&amp;nbsp;Materia&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+createCorrelativa(MateriaCorrelativaDTO): Materia&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="660" y="120" width="370" height="105.5" as="geometry" />
+          <mxGeometry x="660" y="50.5" width="370" height="105.5" as="geometry" />
         </mxCell>
         <mxCell id="IMhIcKIFVwF1vunqSUTB-46" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="IMhIcKIFVwF1vunqSUTB-45" target="IMhIcKIFVwF1vunqSUTB-30">
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="460" y="150" as="sourcePoint" />
             <mxPoint x="620" y="150" as="targetPoint" />
             <Array as="points">
+              <mxPoint x="600" y="103" />
               <mxPoint x="600" y="173" />
               <mxPoint x="600" y="195" />
             </Array>
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="IMhIcKIFVwF1vunqSUTB-47" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MateriaFactory&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ field: Type&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ &lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;factoryMethod(MateriaDTO) : Materia&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ createSimple(MateriaSimpleDTO):&amp;nbsp;Materia&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ createCorrelativa(MateriaCorrelativaDTO): Materia&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="687" y="-60" width="315" height="130" as="geometry" />
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-47" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MateriaFactory&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;-&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ &lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;factoryMethod(MateriaDTO) : Materia&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ createSimple(MateriaSimpleDTO):&amp;nbsp;Materia&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ createCorrelativa(MateriaCorrelativaDTO): Materia&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="687.5" y="-120" width="315" height="130" as="geometry" />
         </mxCell>
         <mxCell id="IMhIcKIFVwF1vunqSUTB-48" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="IMhIcKIFVwF1vunqSUTB-47" target="IMhIcKIFVwF1vunqSUTB-45">
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="530" y="150" as="sourcePoint" />
             <mxPoint x="690" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-49" value="«Annotation»&lt;br&gt;&lt;b&gt;Patron Composite&lt;/b&gt;" style="html=1;dropTarget=0;whiteSpace=wrap;fillColor=#FFCC99;strokeColor=#FF8000;" vertex="1" parent="1">
+          <mxGeometry x="240" y="460" width="210" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-50" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="IMhIcKIFVwF1vunqSUTB-49">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-51" value="Creador" style="html=1;shape=mxgraph.infographic.ribbonSimple;notch1=20;notch2=20;align=center;verticalAlign=middle;fontSize=14;fontStyle=0;fillColor=#FFCC99;whiteSpace=wrap;strokeColor=#FF8000;" vertex="1" parent="1">
+          <mxGeometry x="510" y="60" width="140" height="32.5" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-52" value="Creador concreto" style="html=1;shape=mxgraph.infographic.ribbonSimple;notch1=20;notch2=20;align=center;verticalAlign=middle;fontSize=14;fontStyle=0;fillColor=#FFCC99;whiteSpace=wrap;strokeColor=#FF8000;" vertex="1" parent="1">
+          <mxGeometry x="520" y="-80" width="160" height="32.5" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-53" value="Producto" style="html=1;shape=mxgraph.infographic.ribbonSimple;notch1=20;notch2=20;align=center;verticalAlign=middle;fontSize=14;fontStyle=0;fillColor=#FFCC99;whiteSpace=wrap;strokeColor=#FF8000;" vertex="1" parent="1">
+          <mxGeometry x="180" y="156" width="150" height="32.5" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-54" value="Producto concreto" style="html=1;shape=mxgraph.infographic.ribbonSimple;notch1=20;notch2=20;align=center;verticalAlign=middle;fontSize=14;fontStyle=0;fillColor=#FFCC99;whiteSpace=wrap;strokeColor=#FF8000;" vertex="1" parent="1">
+          <mxGeometry x="110" y="317.5" width="159" height="32.5" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-55" value="Producto concreto" style="html=1;shape=mxgraph.infographic.ribbonSimple;notch1=20;notch2=20;align=center;verticalAlign=middle;fontSize=14;fontStyle=0;fillColor=#FFCC99;whiteSpace=wrap;strokeColor=#FF8000;" vertex="1" parent="1">
+          <mxGeometry x="561" y="367.5" width="159" height="32.5" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-57" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;IMateriaRepository&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="1158" y="-108" width="190" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-58" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="IMhIcKIFVwF1vunqSUTB-47" target="IMhIcKIFVwF1vunqSUTB-57">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1160" y="-120" as="sourcePoint" />
+            <mxPoint x="1320" y="-120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-59" value="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="-82" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-60" value="materiaRepository" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="-112" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-61" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;IMateriaService&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getCorrelativas(long):&amp;nbsp;MateriaDTO&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+&amp;nbsp;createdMateria(MateriaDTO):&amp;nbsp;MateriaDTO&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="723.5" y="-500" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-63" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="IMhIcKIFVwF1vunqSUTB-47" target="IMhIcKIFVwF1vunqSUTB-38">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="830" y="-200" as="sourcePoint" />
+            <mxPoint x="990" y="-200" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="845" y="-150" />
+              <mxPoint x="845" y="-207" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-64" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MateriaService&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ field: Type&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+ getCorrelativas(long):&amp;nbsp;MateriaDTO&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+&amp;nbsp;createdMateria(MateriaDTO):&amp;nbsp;MateriaDTO&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;- save(Materia): void&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;- findByIdMateria(long):&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Materia&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="698.5" y="-359" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-65" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="IMhIcKIFVwF1vunqSUTB-64" target="IMhIcKIFVwF1vunqSUTB-47">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="810" y="-270" as="sourcePoint" />
+            <mxPoint x="970" y="-270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-66" value="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="935" y="-152" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-67" value="materiaFactory" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="920" y="-182" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-68" value="" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="IMhIcKIFVwF1vunqSUTB-64" target="IMhIcKIFVwF1vunqSUTB-38">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="810" y="-270" as="sourcePoint" />
+            <mxPoint x="970" y="-270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-69" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="IMhIcKIFVwF1vunqSUTB-64" target="IMhIcKIFVwF1vunqSUTB-57">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="810" y="-270" as="sourcePoint" />
+            <mxPoint x="970" y="-270" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1253" y="-260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-70" value="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1205" y="-142" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-71" value="materiaRepository" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="-262" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-72" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="IMhIcKIFVwF1vunqSUTB-64" target="IMhIcKIFVwF1vunqSUTB-61">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="950" y="-340" as="sourcePoint" />
+            <mxPoint x="1110" y="-340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-73" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MateriaCorrelativaDTO&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;-&amp;nbsp;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;u&gt;+ new(Long, String, List&amp;lt;MateriaDTO&amp;gt;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;i&gt;+&amp;nbsp;&lt;/i&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;toEntity(IMateriaFactory): Materia&lt;/span&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="40" y="-380" width="240" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-74" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;MateriaSimpleDTO&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;&lt;u&gt;+ new(Long, String&amp;gt;&lt;/u&gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px 0px 0px 4px;&quot;&gt;+&amp;nbsp;&lt;span style=&quot;background-color: transparent;&quot;&gt;toEntity(IMateriaFactory): Materia&lt;/span&gt;&lt;u&gt;&lt;/u&gt;&lt;/p&gt;&lt;div&gt;&lt;u&gt;&lt;br&gt;&lt;/u&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="45" y="-198" width="210" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-75" value="correlativas" style="endArrow=block;endFill=1;html=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=top;rounded=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="IMhIcKIFVwF1vunqSUTB-73" target="IMhIcKIFVwF1vunqSUTB-74">
+          <mxGeometry x="0.1112" y="-27" relative="1" as="geometry">
+            <mxPoint x="210" y="-220" as="sourcePoint" />
+            <mxPoint x="370" y="-220" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-76" value="*" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="IMhIcKIFVwF1vunqSUTB-75">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="-20" y="92" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-77" value="" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="IMhIcKIFVwF1vunqSUTB-73" target="IMhIcKIFVwF1vunqSUTB-38">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="210" y="-220" as="sourcePoint" />
+            <mxPoint x="370" y="-220" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="160" y="-235" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-78" value="" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="IMhIcKIFVwF1vunqSUTB-74" target="IMhIcKIFVwF1vunqSUTB-38">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="180" y="-230" as="sourcePoint" />
+            <mxPoint x="340" y="-230" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="150" y="-235" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-79" value="MateriaController" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="-500" width="310" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-80" value="-" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="IMhIcKIFVwF1vunqSUTB-79">
+          <mxGeometry y="26" width="310" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-81" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="IMhIcKIFVwF1vunqSUTB-79">
+          <mxGeometry y="52" width="310" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-82" value="+ getCorrelativas(long): ResponseEntity&amp;lt;MateriaDTO&amp;gt;&lt;div&gt;+ setMateria(MateriaDTO):&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;ResponseEntity&amp;lt;?&amp;gt;&lt;/span&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="IMhIcKIFVwF1vunqSUTB-79">
+          <mxGeometry y="60" width="310" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="IMhIcKIFVwF1vunqSUTB-83" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="IMhIcKIFVwF1vunqSUTB-80" target="IMhIcKIFVwF1vunqSUTB-61">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="580" y="-470" as="sourcePoint" />
+            <mxPoint x="805" y="-403" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
