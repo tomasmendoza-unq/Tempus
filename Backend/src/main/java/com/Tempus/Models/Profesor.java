@@ -1,4 +1,4 @@
 package com.Tempus.Models;
 
-public class Horario {
+public class Profesor {
 }
