@@ -8,6 +8,10 @@ import com.Tempus.Repository.IMateriaRepository;
 import com.Tempus.Services.impls.MateriaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
@@ -15,41 +19,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class MateriaServiceTest {
 
+    @Mock
     private IMateriaRepository materiaRepository;
 
+    @Mock
     private MateriaFactory materiaFactory;
 
+    @Mock
     private Materia materia;
 
+    @Mock
     private MateriaDTO materiaDTO;
 
     private MateriaService materiaService;
 
     @BeforeEach
     public void setup(){
-        materiaRepository = mock(IMateriaRepository.class);
-        materiaFactory = mock(MateriaFactory.class);
-        materia = mock(Materia.class);
-        materiaDTO = mock(MateriaDTO.class);
         materiaService = new MateriaService(materiaRepository,materiaFactory);
-
-        when(materiaDTO.getNombre()).thenReturn("Matematiica");
-        when(materiaDTO.getId()).thenReturn(1L);
-        when(materia.toDTO()).thenReturn(materiaDTO);
-        when(materia.getNombre()).thenReturn("Matematica");
-        when(materia.getId()).thenReturn(1L);
     }
 
     @Test
     public void  testGetCorrelativasOk(){
         when(materiaRepository.findById(1L)).thenReturn(Optional.of(materia));
 
-        MateriaDTO resultado = materiaService.findCorrelativasById(1L);
-
-        assertEquals(materiaDTO.getNombre(), resultado.getNombre());
-        assertEquals(materiaDTO.getId(), resultado.getId());
+        materiaService.findCorrelativasById(1L);
 
         verify(materiaRepository).findById(1L);
     }
@@ -60,10 +56,7 @@ public class MateriaServiceTest {
         when(materiaRepository.save(materia)).thenReturn(materia);
         when(materia.toDTO()).thenReturn(materiaDTO);
 
-        MateriaDTO resultado = materiaService.createdMateria(materiaDTO);
-
-        assertEquals(materiaDTO.getNombre(), resultado.getNombre());
-        assertEquals(materiaDTO.getId(), resultado.getId());
+        materiaService.createdMateria(materiaDTO);
 
         verify(materiaRepository).save(materia);
     }

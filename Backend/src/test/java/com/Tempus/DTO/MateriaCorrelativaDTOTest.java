@@ -5,26 +5,37 @@ import com.Tempus.Models.Materia;
 import com.Tempus.Models.MateriaCorrelativa;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class MateriaCorrelativaDTOTest {
 
+    @Mock
     MateriaSimpleDTO materiaSimpleDTO1;
+
+    @Mock
     IMateriaFactory materiaFactory;
+
+    @InjectMocks
     MateriaCorrelativaDTO materiaCorrelativaDTO;
+
+    @Mock
     MateriaCorrelativa materiaCorrelativa;
+
     List<MateriaDTO> materias;
+
 
     @BeforeEach
     public void setup(){
-        materiaFactory = mock(IMateriaFactory.class);
-        materiaSimpleDTO1 = mock(MateriaSimpleDTO.class);
         materias = List.of(materiaSimpleDTO1);
-        materiaCorrelativa = mock(MateriaCorrelativa.class);
 
         when(materiaCorrelativa.getNombre()).thenReturn("Matematica");
         when(materiaCorrelativa.getId()).thenReturn(1L);
@@ -34,7 +45,7 @@ public class MateriaCorrelativaDTOTest {
     }
 
     @Test
-    public void toEntity(){
+    public void toEntityTest(){
         when(materiaFactory.createCorrelativa(materiaCorrelativaDTO)).thenReturn(materiaCorrelativa);
 
         Materia resultado = materiaCorrelativaDTO.toEntity(materiaFactory);

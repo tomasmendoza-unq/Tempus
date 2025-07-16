@@ -11,6 +11,10 @@ import com.Tempus.Models.MateriaSimpleTest;
 import com.Tempus.Repository.IMateriaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
@@ -19,45 +23,46 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class MateriaFactoryTest {
 
+    @Mock
     MateriaDTO materiaDTO;
+
+    @Mock
     MateriaSimpleDTO materiaSimpleDTO;
+
+    @Mock
     MateriaCorrelativaDTO materiaCorrelativaDTO;
+
+    @Mock
     IMateriaRepository materiaRepository;
+
+    @Mock
     ModelMapper modelMapper;
+
     IMateriaFactory materiaFactory;
+
+    @Mock
     Materia materia;
+
+    @Mock
     MateriaSimple materiaSimple;
+
+    @Mock
     MateriaCorrelativa materiaCorrelativa;
+
+    @Mock
     List<MateriaDTO> materiaDTOList;
 
     @BeforeEach
     public void setup(){
-        materiaDTO = mock(MateriaDTO.class);
-        materiaCorrelativaDTO = mock(MateriaCorrelativaDTO.class);
-        materiaSimpleDTO = mock(MateriaSimpleDTO.class);
-        materiaRepository = mock(IMateriaRepository.class);
-        modelMapper = mock(ModelMapper.class);
-        materia = mock(Materia.class);
-        materiaSimple = mock(MateriaSimple.class);
-        materiaCorrelativa = mock(MateriaCorrelativa.class);
-        materiaFactory = new MateriaFactory(modelMapper, materiaRepository);
-
-
-        when(materiaSimple.getNombre()).thenReturn("Matematica");
-        when(materiaCorrelativa.getNombre()).thenReturn("Matematica 2");
-        when(materiaSimpleDTO.getNombre()).thenReturn("Matematica");
-        when(materiaCorrelativaDTO.getNombre()).thenReturn("Matematica 2");
-        when(materiaSimpleDTO.getId()).thenReturn(1L);
-        when(materiaCorrelativaDTO.getId()).thenReturn(2L);
-
+        materiaFactory = new MateriaFactory(modelMapper,materiaRepository);
         materiaDTOList = List.of(materiaSimpleDTO);
-        when(materiaCorrelativaDTO.getCorrelativas()).thenReturn(materiaDTOList);
     }
 
     @Test
-    public void factoryRecibeUnaDTOParaFactorizarlo(){
+    public void factoryRecibeUnaDTOParaFactorizarloTest(){
         when(materiaDTO.toEntity(materiaFactory)).thenReturn(materia);
 
         assertEquals(materia, materiaFactory.factoryMethod(materiaDTO));
@@ -67,27 +72,27 @@ public class MateriaFactoryTest {
     }
 
     @Test
-    public void factoryCreaUnaInstanciaDeMateriaSimple(){
+    public void factoryCreaUnaInstanciaDeMateriaSimpleTest(){
         when(modelMapper.map(materiaSimpleDTO, MateriaSimple.class)).thenReturn(materiaSimple);
 
         Materia resultado = materiaFactory.createSimple(materiaSimpleDTO);
 
-        verify(modelMapper).map(materiaSimpleDTO, MateriaSimple.class);
+        assertEquals(materiaSimple, resultado);
 
-        assertEquals(materiaSimpleDTO.getNombre(), resultado.getNombre());
+        verify(modelMapper).map(materiaSimpleDTO, MateriaSimple.class);
 
     }
 
     @Test
-    public void factoryCreaUnaInstanciaDeMateriaCorrelativa(){
+    public void factoryCreaUnaInstanciaDeMateriaCorrelativaTest(){
         when(modelMapper.map(materiaCorrelativaDTO, MateriaCorrelativa.class)).thenReturn(materiaCorrelativa);
         when(materiaRepository.findById(1L)).thenReturn(Optional.ofNullable(materiaSimple));
+        when(materiaSimpleDTO.getId()).thenReturn(1L);
+        when(materiaCorrelativaDTO.getCorrelativas()).thenReturn(materiaDTOList);
 
         Materia resultado = materiaFactory.createCorrelativa(materiaCorrelativaDTO);
 
-        assertEquals(materiaCorrelativa.getId(), resultado.getId());
-        assertEquals(materiaCorrelativa.getNombre(), resultado.getNombre());
-
+        assertEquals(materiaCorrelativa, resultado);
 
         verify(materiaRepository).findById(1L);
         verify(modelMapper).map(materiaCorrelativaDTO, MateriaCorrelativa.class);

@@ -1,5 +1,8 @@
 package com.Tempus.Services;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public interface ICarreraService {
     Object findMateriasOfCarreraById(long idCarrera);
 
