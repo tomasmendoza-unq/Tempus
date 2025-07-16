@@ -1,14 +1,14 @@
-package com.Tempus.Services.impls;
+package com.Tempus.Factory.impls;
 
 import com.Tempus.DTO.MateriaCorrelativaDTO;
 import com.Tempus.DTO.MateriaDTO;
 import com.Tempus.DTO.MateriaSimpleDTO;
 import com.Tempus.Exceptions.MateriaNotFound;
+import com.Tempus.Factory.IMateriaFactory;
 import com.Tempus.Models.Materia;
 import com.Tempus.Models.MateriaCorrelativa;
 import com.Tempus.Models.MateriaSimple;
 import com.Tempus.Repository.IMateriaRepository;
-import com.Tempus.Services.IMateriaFactory;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +24,11 @@ public class MateriaFactory implements IMateriaFactory {
 
     @Autowired
     private IMateriaRepository materiaRepository;
+
+    public MateriaFactory(ModelMapper modelMapper, IMateriaRepository materiaRepository) {
+        this.modelMapper = modelMapper;
+        this.materiaRepository = materiaRepository;
+    }
 
     public Materia factoryMethod(MateriaDTO materiaDTO){
 

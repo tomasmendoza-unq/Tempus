@@ -25,6 +25,9 @@ public abstract class Materia {
     @GeneratedValue
     protected Long id;
     protected String nombre;
+    @ManyToOne
+    @JoinColumn(name = "id_carrera")
+    private Carrera carrera;
 
     public abstract MateriaDTO toDTO();
 

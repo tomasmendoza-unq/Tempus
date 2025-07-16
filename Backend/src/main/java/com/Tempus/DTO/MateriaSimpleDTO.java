@@ -1,7 +1,7 @@
 package com.Tempus.DTO;
 
 import com.Tempus.Models.Materia;
-import com.Tempus.Services.IMateriaFactory;
+import com.Tempus.Factory.IMateriaFactory;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder

@@ -1,8 +1,6 @@
 package com.Tempus.Controller;
 
-import com.Tempus.DTO.MateriaCorrelativaDTO;
 import com.Tempus.DTO.MateriaDTO;
-import com.Tempus.DTO.MateriaSimpleDTO;
 import com.Tempus.Services.IMateriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +16,7 @@ public class MateriaController {
 
     @GetMapping("/correlativas/{id}")
     public ResponseEntity<MateriaDTO> getCorrelativas(@PathVariable long id){
-        return ResponseEntity.status(HttpStatus.OK).body(materiaService.getCorrelativas(id));
+        return ResponseEntity.status(HttpStatus.FOUND).body(materiaService.findCorrelativasById(id));
     }
 
     @PostMapping("/crear")

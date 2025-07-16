@@ -1,8 +1,8 @@
 package com.Tempus.Services.impls;
 
-import com.Tempus.DTO.MateriaCorrelativaDTO;
 import com.Tempus.DTO.MateriaDTO;
 import com.Tempus.Exceptions.MateriaNotFound;
+import com.Tempus.Factory.impls.MateriaFactory;
 import com.Tempus.Models.Materia;
 import com.Tempus.Repository.IMateriaRepository;
 import com.Tempus.Services.IMateriaService;
@@ -18,8 +18,13 @@ public class MateriaService implements IMateriaService {
     @Autowired
     MateriaFactory materiaFactory;
 
+    public MateriaService(IMateriaRepository materiaRepository, MateriaFactory materiaFactory) {
+        this.materiaRepository = materiaRepository;
+        this.materiaFactory = materiaFactory;
+    }
+
     @Transactional
-    public MateriaDTO getCorrelativas(long id){
+    public MateriaDTO findCorrelativasById(long id){
         return this.findByIdMateria(id).toDTO();
     }
 
