@@ -1,12 +1,17 @@
 package com.Tempus.Services;
 
+import com.Tempus.DTO.CarreraDTO;
+import com.Tempus.DTO.MateriaDTO;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
 
 @Service
 public interface ICarreraService {
-    Object findMateriasOfCarreraById(long idCarrera);
+    Set<MateriaDTO> findMateriasOfCarreraById(long idCarrera);
 
-    Object findCarreraById(Long idCarrera);
+    CarreraDTO findCarreraById(Long idCarrera);
 
-    Object getCarreras();
+    List<CarreraDTO> getCarreras();
 }
