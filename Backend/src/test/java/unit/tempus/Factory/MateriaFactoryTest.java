@@ -1,18 +1,17 @@
-package com.Tempus.Factory;
+package unit.tempus.Factory;
 
 import com.Tempus.DTO.MateriaCorrelativaDTO;
 import com.Tempus.DTO.MateriaDTO;
 import com.Tempus.DTO.MateriaSimpleDTO;
+import com.Tempus.Factory.IMateriaFactory;
 import com.Tempus.Factory.impls.MateriaFactory;
 import com.Tempus.Models.Materia;
 import com.Tempus.Models.MateriaCorrelativa;
 import com.Tempus.Models.MateriaSimple;
-import com.Tempus.Models.MateriaSimpleTest;
 import com.Tempus.Repository.IMateriaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;

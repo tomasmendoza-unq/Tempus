@@ -1,7 +1,6 @@
-package com.Tempus.Service;
+package unit.tempus.Service;
 
 import com.Tempus.DTO.MateriaDTO;
-import com.Tempus.Exceptions.MateriaNotFound;
 import com.Tempus.Factory.impls.MateriaFactory;
 import com.Tempus.Models.Materia;
 import com.Tempus.Repository.IMateriaRepository;
@@ -9,7 +8,6 @@ import com.Tempus.Services.impls.MateriaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 

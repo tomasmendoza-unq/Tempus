@@ -1,8 +1,8 @@
-package com.Tempus.Controller;
+package unit.tempus.Controller;
 
+import com.Tempus.Controller.MateriaController;
 import com.Tempus.DTO.MateriaDTO;
 import com.Tempus.Services.IMateriaService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

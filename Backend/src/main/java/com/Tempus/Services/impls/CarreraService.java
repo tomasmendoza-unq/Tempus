@@ -2,25 +2,23 @@ package com.Tempus.Services.impls;
 
 import com.Tempus.DTO.CarreraDTO;
 import com.Tempus.DTO.MateriaDTO;
+import com.Tempus.Exceptions.ResourceNotFound;
 import com.Tempus.Models.Carrera;
+import com.Tempus.Models.Materia;
 import com.Tempus.Repository.ICarreraRepository;
 import com.Tempus.Services.ICarreraService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CarreraService implements ICarreraService {
 
     @Autowired
     private ICarreraRepository carreraRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Override
     public Set<MateriaDTO> findMateriasOfCarreraById(long idCarrera) {
@@ -33,15 +31,26 @@ public class CarreraService implements ICarreraService {
     }
 
     private CarreraDTO toDTO(Carrera carrera) {
-        return modelMapper.map(carrera, CarreraDTO.class);
+        return CarreraDTO.builder()
+                .nombre(carrera.getNombre())
+                .materias(carrera.getMaterias().stream().map(Materia::toDTO).collect(Collectors.toSet()))
+                .build();
     }
 
     private Carrera findById(Long idCarrera) {
-        return carreraRepository.findById(idCarrera).orElseThrow(() -> new RuntimeException());
+        return carreraRepository
+                .findById(idCarrera)
+                .orElseThrow(
+                        () -> new ResourceNotFound("No se encontro la carrera")
+                );
     }
 
     @Override
     public List<CarreraDTO> getCarreras() {
-        return List.of();
+        return this.findyAll().stream().map(this::toDTO).toList();
+    }
+
+    private List<Carrera> findyAll() {
+        return carreraRepository.findAll();
     }
 }
