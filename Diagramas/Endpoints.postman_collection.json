@@ -1,0 +1,77 @@
+{
+	"info": {
+		"_postman_id": "9c29e1df-0c57-4357-b348-49cd56a3a030",
+		"name": "Endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "37147135",
+		"_collection_link": "https://tempusteam-7959.postman.co/workspace/tempus~85121913-1640-40eb-af16-72c55a1405c1/collection/37147135-9c29e1df-0c57-4357-b348-49cd56a3a030?action=share&source=collection_link&creator=37147135"
+	},
+	"item": [
+		{
+			"name": "Materia",
+			"item": [
+				{
+					"name": "getCorrelativas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/materia/correlativas/1"
+					},
+					"response": []
+				},
+				{
+					"name": "crearMateria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"\",\r\n    \"correlativas\": [],\r\n    \"tipo\": \"SIMPLE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/materia/crear"
+					},
+					"response": []
+				}
+			],
+			"description": "## 📘 Materia API\n\n### 📌 Endpoints\n\n#### 🔍 Obtener correlativas de una materia\n\n```\nGET /materia/correlativas/{id}\n```\n\nObtiene todas las materias correlativas asociadas a una materia específica.\n\n- **Parámetros de ruta:**\n  - `id` (long): ID de la materia de la cual se quieren obtener las correlativas.\n\n- **Respuesta exitosa (302 FOUND):**\n```json\n{\n  \"id\": 1,\n  \"nombre\": \"Algoritmos y Estructuras de Datos\",\n  \"correlativas\": [\n    {\n      \"id\": 2,\n      \"nombre\": \"Matemática Discreta\"\n    },\n    {\n      \"id\": 3,\n      \"nombre\": \"Programación\"\n    }\n  ]\n}\n```\n\n---\n\n#### 📝 Crear una nueva materia\n\n```\nPOST /materia/crear\n```\n\nCrea una nueva materia, que puede ser simple o con correlativas.\n\n- **Cuerpo del request (JSON):**\n\n**Materia simple:**\n```json\n{\n  \"id\": 1,\n  \"nombre\": \"Matemática Discreta\"\n}\n```\n\n**Materia con correlativas:**\n```json\n{\n  \"id\": 2,\n  \"nombre\": \"Algoritmos\",\n  \"correlativas\": [\n    {\n      \"id\": 1,\n      \"nombre\": \"Matemática Discreta\"\n    }\n  ]\n}\n```\n\n- **Respuesta exitosa (201 CREATED):**\n```json\n{\n  \"id\": 2,\n  \"nombre\": \"Algoritmos\",\n  \"correlativas\": [\n    {\n      \"id\": 1,\n      \"nombre\": \"Matemática Discreta\"\n    }\n  ]\n}\n```"
+		},
+		{
+			"name": "Carrera",
+			"item": [
+				{
+					"name": "getCarreras",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/carrera"
+					},
+					"response": []
+				},
+				{
+					"name": "getCarreraById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/carrera/1"
+					},
+					"response": []
+				},
+				{
+					"name": "getMateriasOfCarreraById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/carrera/materia/{id}"
+					},
+					"response": []
+				}
+			],
+			"description": "\n# 📘 API - Carreras\n\nEste recurso permite consultar información sobre carreras universitarias y sus materias asociadas.\n\n---\n\n## 🔹 Obtener todas las carreras\n\n**Endpoint:**  \n`GET /api/carreras`\n\n**Descripción:**  \nDevuelve una lista con todas las carreras disponibles.\n\n**Respuesta Exitosa (HTTP 302):**\n```json\n[\n  {\n    \"nombre\": \"Licenciatura en Informática\",\n    \"materias\": [\n      {\n        \"id\": 1,\n        \"nombre\": \"Matemática Discreta\"\n      },\n      {\n        \"id\": 2,\n        \"nombre\": \"Programación I\"\n      }\n    ]\n  },\n  {\n    \"nombre\": \"Tecnicatura en Programación\",\n    \"materias\": [...]\n  }\n]\n```\n\n---\n\n## 🔹 Obtener una carrera por ID\n\n**Endpoint:**  \n`GET /api/carreras/{id}`\n\n**Descripción:**  \nRetorna la información de una carrera específica según su ID.\n\n**Parámetros de Ruta:**\n- `id` (`Long`): ID de la carrera.\n\n**Respuesta Exitosa (HTTP 302):**\n```json\n{\n  \"nombre\": \"Licenciatura en Informática\",\n  \"materias\": [\n    {\n      \"id\": 1,\n      \"nombre\": \"Matemática Discreta\"\n    }\n  ]\n}\n```\n\n---\n\n## 🔹 Obtener materias de una carrera\n\n**Endpoint:**  \n`GET /api/carreras/materia/{id}`\n\n**Descripción:**  \nDevuelve el conjunto de materias asociadas a una carrera específica.\n\n**Parámetros de Ruta:**\n- `id` (`Long`): ID de la carrera.\n\n**Respuesta Exitosa (HTTP 302):**\n```json\n[\n  {\n    \"id\": 1,\n    \"nombre\": \"Matemática Discreta\"\n  },\n  {\n    \"id\": 2,\n    \"nombre\": \"Algoritmos y Estructuras de Datos\"\n  }\n]\n```\n\n---\n\n## ℹ️ Notas\n\n- En todos los endpoints se devuelve un objeto `CarreraDTO`, el cual contiene:\n  - `nombre`: `String`\n  - `materias`: `Set<MateriaDTO>`\n- Cada `MateriaDTO` incluye típicamente:\n  - `id`: `Long`\n  - `nombre`: `String`\n"
+		}
+	]
+}
