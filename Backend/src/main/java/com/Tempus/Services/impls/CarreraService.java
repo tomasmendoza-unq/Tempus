@@ -37,7 +37,7 @@ public class CarreraService implements ICarreraService {
     }
 
     private Carrera findById(Long idCarrera) {
-        return carreraRepository.findById(idCarrera).orElseThrow(());
+        return carreraRepository.findById(idCarrera).orElseThrow(() -> new RuntimeException());
     }
 
     @Override
