@@ -1,5 +1,8 @@
-package com.Tempus.DTO;
+package com.tempus.unit.DTO;
 
+import com.Tempus.DTO.MateriaCorrelativaDTO;
+import com.Tempus.DTO.MateriaDTO;
+import com.Tempus.DTO.MateriaSimpleDTO;
 import com.Tempus.Factory.IMateriaFactory;
 import com.Tempus.Models.Materia;
 import com.Tempus.Models.MateriaCorrelativa;

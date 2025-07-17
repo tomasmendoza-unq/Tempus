@@ -1,4 +1,4 @@
-package com.Tempus;
+package com.tempus;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

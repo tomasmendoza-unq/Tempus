@@ -1,18 +1,18 @@
-package com.Tempus.Factory;
+package com.tempus.unit.Factory;
 
 import com.Tempus.DTO.MateriaCorrelativaDTO;
 import com.Tempus.DTO.MateriaDTO;
 import com.Tempus.DTO.MateriaSimpleDTO;
+import com.Tempus.Exceptions.ResourceNotFound;
+import com.Tempus.Factory.IMateriaFactory;
 import com.Tempus.Factory.impls.MateriaFactory;
 import com.Tempus.Models.Materia;
 import com.Tempus.Models.MateriaCorrelativa;
 import com.Tempus.Models.MateriaSimple;
-import com.Tempus.Models.MateriaSimpleTest;
 import com.Tempus.Repository.IMateriaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -98,6 +99,16 @@ public class MateriaFactoryTest {
         verify(modelMapper).map(materiaCorrelativaDTO, MateriaCorrelativa.class);
         verify(materiaCorrelativaDTO).getCorrelativas();
         verify(materiaSimpleDTO).getId();
+    }
+
+    @Test
+    public void factoryFallaALCreaRUnaInstanciaDeMateriaCorrelativaTest(){
+        when(modelMapper.map(materiaCorrelativaDTO, MateriaCorrelativa.class)).thenReturn(materiaCorrelativa);
+        when(materiaRepository.findById(1L)).thenReturn(Optional.empty());
+        when(materiaSimpleDTO.getId()).thenReturn(1L);
+        when(materiaCorrelativaDTO.getCorrelativas()).thenReturn(materiaDTOList);
+
+        assertThrows(ResourceNotFound.class, () -> materiaFactory.createCorrelativa(materiaCorrelativaDTO));
     }
 
 }

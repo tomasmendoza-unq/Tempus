@@ -1,7 +1,9 @@
-package com.Tempus.Models;
+package com.tempus.unit.Models;
 
 import com.Tempus.DTO.MateriaCorrelativaDTO;
 import com.Tempus.DTO.MateriaSimpleDTO;
+import com.Tempus.Models.MateriaCorrelativa;
+import com.Tempus.Models.MateriaSimple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

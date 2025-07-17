@@ -1,5 +1,6 @@
-package com.Tempus.DTO;
+package com.tempus.unit.DTO;
 
+import com.Tempus.DTO.MateriaSimpleDTO;
 import com.Tempus.Factory.impls.MateriaFactory;
 import com.Tempus.Models.Materia;
 import com.Tempus.Models.MateriaSimple;

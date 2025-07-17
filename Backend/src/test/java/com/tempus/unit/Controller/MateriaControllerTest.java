@@ -1,8 +1,9 @@
-package com.Tempus.Controller;
+package com.tempus.unit.Controller;
 
+import com.Tempus.Controller.MateriaController;
 import com.Tempus.DTO.MateriaDTO;
+import com.Tempus.Models.Materia;
 import com.Tempus.Services.IMateriaService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,6 +28,9 @@ public class MateriaControllerTest {
     @Mock
     MateriaDTO materiaDTO;
 
+    @Mock
+    MateriaDTO materiaDTO1;
+
     @Test
     public void testGetCorrelativas(){
         when(materiaService.findCorrelativasById(1L)).thenReturn(materiaDTO);
@@ -35,5 +39,16 @@ public class MateriaControllerTest {
 
         assertEquals(HttpStatus.FOUND, response.getStatusCode());
         assertEquals(materiaDTO, response.getBody());
+    }
+
+    @Test
+    public void testSetMateria(){
+        when(materiaService.createdMateria(materiaDTO)).thenReturn(materiaDTO1);
+
+        ResponseEntity<?> response = materiaController.setMateria(materiaDTO);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(materiaDTO1, response.getBody());
+
     }
 }

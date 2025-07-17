@@ -1,7 +1,7 @@
 package com.Tempus.Services.impls;
 
 import com.Tempus.DTO.MateriaDTO;
-import com.Tempus.Exceptions.MateriaNotFound;
+import com.Tempus.Exceptions.ResourceNotFound;
 import com.Tempus.Factory.impls.MateriaFactory;
 import com.Tempus.Models.Materia;
 import com.Tempus.Repository.IMateriaRepository;
@@ -31,19 +31,21 @@ public class MateriaService implements IMateriaService {
     @Override
     public MateriaDTO createdMateria(MateriaDTO materiaDTO) {
         Materia entidad = materiaFactory.factoryMethod(materiaDTO);
-        Materia entidadGuardada = materiaRepository.save(entidad);
+        Materia entidadGuardada = this.save(entidad);
         return entidadGuardada.toDTO();
     }
 
-    private void save(Materia materia) {
-        materiaRepository.save(materia);
+    private Materia save(Materia materia) {
+        return materiaRepository.save(materia);
     }
 
 
     private Materia findByIdMateria(long id) {
-        return materiaRepository.findById(id).orElseThrow(
-                () -> new MateriaNotFound("No se encontro la materia")
-        );
+        return materiaRepository
+                .findById(id)
+                .orElseThrow(
+                    () -> new ResourceNotFound("No se encontro la materia")
+                );
     }
 
 }
