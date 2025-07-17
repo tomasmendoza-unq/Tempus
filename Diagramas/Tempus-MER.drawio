@@ -104,7 +104,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="IMhIcKIFVwF1vunqSUTB-51" value="Creador" style="html=1;shape=mxgraph.infographic.ribbonSimple;notch1=20;notch2=20;align=center;verticalAlign=middle;fontSize=14;fontStyle=0;fillColor=#FFCC99;whiteSpace=wrap;strokeColor=#FF8000;" parent="1" vertex="1">
-          <mxGeometry x="525" y="74.75" width="140" height="32.5" as="geometry" />
+          <mxGeometry x="520" y="74.75" width="140" height="32.5" as="geometry" />
         </mxCell>
         <mxCell id="IMhIcKIFVwF1vunqSUTB-52" value="Creador concreto" style="html=1;shape=mxgraph.infographic.ribbonSimple;notch1=20;notch2=20;align=center;verticalAlign=middle;fontSize=14;fontStyle=0;fillColor=#FFCC99;whiteSpace=wrap;strokeColor=#FF8000;" parent="1" vertex="1">
           <mxGeometry x="520" y="-113.25" width="160" height="32.5" as="geometry" />
