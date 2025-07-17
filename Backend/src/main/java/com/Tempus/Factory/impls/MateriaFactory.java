@@ -3,6 +3,7 @@ package com.Tempus.Factory.impls;
 import com.Tempus.DTO.MateriaCorrelativaDTO;
 import com.Tempus.DTO.MateriaDTO;
 import com.Tempus.DTO.MateriaSimpleDTO;
+import com.Tempus.Exceptions.ResourceNotFound;
 import com.Tempus.Factory.IMateriaFactory;
 import com.Tempus.Models.Materia;
 import com.Tempus.Models.MateriaCorrelativa;
@@ -47,7 +48,7 @@ public class MateriaFactory implements IMateriaFactory {
                 .stream()
                 .map(MateriaDTO::getId)
                 .map(id ->  materiaRepository.findById(id).orElseThrow(
-                        () -> new MateriaNotFound("No se encontro la materia")
+                        () -> new ResourceNotFound("No se encontro la materia")
                         )
                 ).toList();
         materia.addCorrelativas(materias);

@@ -1,4 +1,4 @@
-package unit.tempus.Models;
+package com.tempus.unit.Models;
 
 import com.Tempus.DTO.MateriaCorrelativaDTO;
 import com.Tempus.DTO.MateriaSimpleDTO;

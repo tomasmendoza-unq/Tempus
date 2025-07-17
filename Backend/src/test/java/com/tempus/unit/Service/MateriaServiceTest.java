@@ -1,6 +1,7 @@
-package unit.tempus.Service;
+package com.tempus.unit.Service;
 
 import com.Tempus.DTO.MateriaDTO;
+import com.Tempus.Exceptions.ResourceNotFound;
 import com.Tempus.Factory.impls.MateriaFactory;
 import com.Tempus.Models.Materia;
 import com.Tempus.Repository.IMateriaRepository;
@@ -63,6 +64,6 @@ public class MateriaServiceTest {
     public void testGetCorrelativasThrowsExceptionWhenNotFound() {
         when(materiaRepository.findById(99L)).thenReturn(Optional.empty());
 
-        assertThrows(MateriaNotFound.class, () -> materiaService.findCorrelativasById(99L));
+        assertThrows(ResourceNotFound.class, () -> materiaService.findCorrelativasById(99L));
     }
 }

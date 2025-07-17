@@ -31,12 +31,12 @@ public class MateriaService implements IMateriaService {
     @Override
     public MateriaDTO createdMateria(MateriaDTO materiaDTO) {
         Materia entidad = materiaFactory.factoryMethod(materiaDTO);
-        Materia entidadGuardada = materiaRepository.save(entidad);
+        Materia entidadGuardada = this.save(entidad);
         return entidadGuardada.toDTO();
     }
 
-    private void save(Materia materia) {
-        materiaRepository.save(materia);
+    private Materia save(Materia materia) {
+        return materiaRepository.save(materia);
     }
 
 
