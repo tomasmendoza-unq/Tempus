@@ -31,9 +31,10 @@ public class MateriaFactory implements IMateriaFactory {
     @Autowired
     private ICarreraRepository carreraRepository;
 
-    public MateriaFactory(ModelMapper modelMapper, IMateriaRepository materiaRepository) {
+    public MateriaFactory(ModelMapper modelMapper, IMateriaRepository materiaRepository, ICarreraRepository carreraRepository) {
         this.modelMapper = modelMapper;
         this.materiaRepository = materiaRepository;
+        this.carreraRepository = carreraRepository;
     }
 
     public Materia factoryMethod(MateriaDTO materiaDTO){

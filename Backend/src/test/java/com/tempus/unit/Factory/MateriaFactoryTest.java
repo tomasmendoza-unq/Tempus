@@ -6,9 +6,11 @@ import com.Tempus.DTO.MateriaSimpleDTO;
 import com.Tempus.Exceptions.ResourceNotFound;
 import com.Tempus.Factory.IMateriaFactory;
 import com.Tempus.Factory.impls.MateriaFactory;
+import com.Tempus.Models.Carrera;
 import com.Tempus.Models.Materia;
 import com.Tempus.Models.MateriaCorrelativa;
 import com.Tempus.Models.MateriaSimple;
+import com.Tempus.Repository.ICarreraRepository;
 import com.Tempus.Repository.IMateriaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,14 +53,20 @@ public class MateriaFactoryTest {
     MateriaSimple materiaSimple;
 
     @Mock
+    ICarreraRepository carreraRepository;
+
+    @Mock
     MateriaCorrelativa materiaCorrelativa;
+
+    @Mock
+    Carrera carrera;
 
     @Mock
     List<MateriaDTO> materiaDTOList;
 
     @BeforeEach
     public void setup(){
-        materiaFactory = new MateriaFactory(modelMapper,materiaRepository);
+        materiaFactory = new MateriaFactory(modelMapper,materiaRepository, carreraRepository);
         materiaDTOList = List.of(materiaSimpleDTO);
     }
 
@@ -75,12 +83,25 @@ public class MateriaFactoryTest {
     @Test
     public void factoryCreaUnaInstanciaDeMateriaSimpleTest(){
         when(modelMapper.map(materiaSimpleDTO, MateriaSimple.class)).thenReturn(materiaSimple);
+        when(materiaSimpleDTO.getId_carrera()).thenReturn(1L);
+        when(carreraRepository.findById(1L)).thenReturn(Optional.of(carrera));
 
         Materia resultado = materiaFactory.createSimple(materiaSimpleDTO);
 
         assertEquals(materiaSimple, resultado);
 
         verify(modelMapper).map(materiaSimpleDTO, MateriaSimple.class);
+        verify(carreraRepository).findById(1L);
+        verify(materiaSimpleDTO).getId_carrera();
+    }
+
+    @Test
+    public void factoryFallaAlIntentarCrearUnaInstanciaDeMateriaSimpleTest(){
+        when(modelMapper.map(materiaSimpleDTO, MateriaSimple.class)).thenReturn(materiaSimple);
+        when(materiaSimpleDTO.getId_carrera()).thenReturn(199L);
+        when(carreraRepository.findById(199L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFound.class, () -> materiaFactory.createSimple(materiaSimpleDTO));
 
     }
 
