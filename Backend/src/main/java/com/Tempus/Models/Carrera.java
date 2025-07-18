@@ -3,6 +3,7 @@ package com.Tempus.Models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,4 +18,8 @@ public class Carrera {
 
     @OneToMany(mappedBy = "carrera")
     protected Set<Materia> materias;
+
+    public Carrera() {
+        this.materias = new HashSet<>();
+    }
 }
