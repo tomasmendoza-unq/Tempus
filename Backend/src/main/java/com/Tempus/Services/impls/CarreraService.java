@@ -3,6 +3,7 @@ package com.Tempus.Services.impls;
 import com.Tempus.DTO.CarreraDTO;
 import com.Tempus.DTO.MateriaDTO;
 import com.Tempus.Exceptions.ResourceNotFound;
+import com.Tempus.Factory.IMateriaFactory;
 import com.Tempus.Models.Carrera;
 import com.Tempus.Models.Materia;
 import com.Tempus.Repository.ICarreraRepository;
@@ -48,6 +49,23 @@ public class CarreraService implements ICarreraService {
     @Override
     public List<CarreraDTO> getCarreras() {
         return this.findyAll().stream().map(this::toDTO).toList();
+    }
+
+    @Override
+    public CarreraDTO createdCarrera(CarreraDTO carreraDTO) {
+        Carrera carrera = this.save(carreraDTO);
+        return this.toDTO(carrera);
+    }
+
+    private Carrera save(CarreraDTO carreraDTO) {
+        return carreraRepository.save(this.toEntity(carreraDTO));
+    }
+
+    private Carrera toEntity(CarreraDTO carreraDTO) {
+        return Carrera
+                .builder()
+                .nombre(carreraDTO.getNombre())
+                .build();
     }
 
     private List<Carrera> findyAll() {
