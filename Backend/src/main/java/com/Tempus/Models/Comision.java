@@ -2,12 +2,14 @@ package com.Tempus.Models;
 
 import com.Tempus.Enums.Turno;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@AllArgsConstructor
 @Builder
 public class Comision {
 
@@ -20,6 +22,7 @@ public class Comision {
 
     @OneToMany(mappedBy = "comisiones")
     private List<Dictado> dictados;
+
 
     private String cuatrimestre;
 

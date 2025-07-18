@@ -1,13 +1,18 @@
 package com.Tempus.Models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 public class Carrera {
 
     @Id
@@ -17,9 +22,9 @@ public class Carrera {
     protected String nombre;
 
     @OneToMany(mappedBy = "carrera")
-    protected Set<Materia> materias;
+    @Builder.Default
+    protected Set<Materia> materias = new HashSet<>();
 
     public Carrera() {
-        this.materias = new HashSet<>();
     }
 }

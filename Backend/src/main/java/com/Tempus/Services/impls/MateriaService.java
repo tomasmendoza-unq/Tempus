@@ -5,6 +5,7 @@ import com.Tempus.Exceptions.ResourceNotFound;
 import com.Tempus.Factory.impls.MateriaFactory;
 import com.Tempus.Models.Materia;
 import com.Tempus.Repository.IMateriaRepository;
+import com.Tempus.Services.ICarreraService;
 import com.Tempus.Services.IMateriaService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ public class MateriaService implements IMateriaService {
 
     @Autowired
     IMateriaRepository materiaRepository;
+
     @Autowired
     MateriaFactory materiaFactory;
 

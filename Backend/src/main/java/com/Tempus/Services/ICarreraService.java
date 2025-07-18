@@ -14,4 +14,6 @@ public interface ICarreraService {
     CarreraDTO findCarreraById(Long idCarrera);
 
     List<CarreraDTO> getCarreras();
+
+    CarreraDTO createdCarrera(CarreraDTO carreraDTO);
 }
