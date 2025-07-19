@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Builder
@@ -21,6 +23,8 @@ public class MateriaSimple extends Materia{
         return  MateriaSimpleDTO.builder()
                 .id(id)
                 .nombre(nombre)
+                .id_carrera(getCarrera().getId_carrera())
                 .build();
     }
+
 }

@@ -18,6 +18,9 @@ public class MateriaService implements IMateriaService {
     IMateriaRepository materiaRepository;
 
     @Autowired
+    ICarreraService carreraService;
+
+    @Autowired
     MateriaFactory materiaFactory;
 
     public MateriaService(IMateriaRepository materiaRepository, MateriaFactory materiaFactory) {
