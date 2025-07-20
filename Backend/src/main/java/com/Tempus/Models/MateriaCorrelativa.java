@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MateriaCorrelativa extends Materia{
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "correlativas",
             joinColumns = @JoinColumn(name = "correlativa_id"),
@@ -31,18 +31,20 @@ public class MateriaCorrelativa extends Materia{
     @Override
     public MateriaDTO toDTO() {
         List<MateriaDTO> materiaDTOS = correlativas
-                                        .stream()
-                                        .map(Materia::toDTO).toList();
+                .stream()
+                .map(Materia::toDTO).toList();
         return MateriaCorrelativaDTO.builder()
                 .id(id)
                 .nombre(nombre)
+                .id_carrera(this.getCarrera().getId_carrera())
                 .correlativas(materiaDTOS)
                 .build();
     }
 
 
     public void addCorrelativas(List<Materia> correlativas) {
-        this.correlativas.addAll(correlativas);
+        this.correlativas = new ArrayList<>(correlativas);
     }
+
 
 }

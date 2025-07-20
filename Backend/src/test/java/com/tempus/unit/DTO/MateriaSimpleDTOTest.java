@@ -31,7 +31,7 @@ public class MateriaSimpleDTOTest {
         when(materiaSimple.getNombre()).thenReturn("Matematica");
         when(materiaSimple.getId()).thenReturn(1L);
 
-        materiaSimpleDTO = new MateriaSimpleDTO(1L, "Matematica");
+        materiaSimpleDTO = new MateriaSimpleDTO(1L, "Matematica", 1L);
 
     }
 

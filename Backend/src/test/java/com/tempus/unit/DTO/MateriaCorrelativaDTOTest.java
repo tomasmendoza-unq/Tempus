@@ -43,7 +43,7 @@ public class MateriaCorrelativaDTOTest {
         when(materiaCorrelativa.getNombre()).thenReturn("Matematica");
         when(materiaCorrelativa.getId()).thenReturn(1L);
 
-        materiaCorrelativaDTO = new MateriaCorrelativaDTO(1L, "Matematica", materias);
+        materiaCorrelativaDTO = new MateriaCorrelativaDTO(1L, "Matematica",1L,  materias);
 
     }
 
