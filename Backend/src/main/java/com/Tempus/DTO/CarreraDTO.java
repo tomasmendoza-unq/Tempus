@@ -1,5 +1,6 @@
 package com.Tempus.DTO;
 
+import com.Tempus.Models.Materia;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,7 +10,8 @@ import java.util.Set;
 @Builder
 public class CarreraDTO {
 
-    private Set<MateriaDTO> materias;
+    private Set<MateriaResumenDTO> materias;
     private String nombre;
+
 
 }

@@ -21,7 +21,7 @@ public class Carrera {
 
     protected String nombre;
 
-    @OneToMany(mappedBy = "carrera")
+    @OneToMany(mappedBy = "carrera", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Builder.Default
     protected Set<Materia> materias = new HashSet<>();
 

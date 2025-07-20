@@ -3,6 +3,7 @@ package com.tempus.unit.Controller;
 import com.Tempus.Controller.CarreraController;
 import com.Tempus.DTO.CarreraDTO;
 import com.Tempus.DTO.MateriaDTO;
+import com.Tempus.DTO.MateriaResumenDTO;
 import com.Tempus.Services.ICarreraService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,17 +39,18 @@ public class CarreraControllerTest {
     private List<CarreraDTO> carreraDTOS;
 
     @Mock
-    private MateriaDTO materiaDTO1;
+    MateriaResumenDTO materiaDTOS2;
 
     @Mock
-    private MateriaDTO materiaDTO2;
+    MateriaResumenDTO materiaDTOS1;
 
-    private Set<MateriaDTO> materiaDTOS;
+    @Mock
+    Set<MateriaResumenDTO> materiaDTOS;
 
     @BeforeEach
     public void setUp(){
         carreraDTOS = List.of(carrera, carrera2);
-        materiaDTOS = Set.of(materiaDTO1, materiaDTO2);
+        materiaDTOS = Set.of(materiaDTOS1, materiaDTOS2);
     }
 
     @Test
@@ -86,5 +88,17 @@ public class CarreraControllerTest {
         assertEquals(materiaDTOS, response.getBody());
 
         verify(carreraService).findMateriasOfCarreraById(1L);
+    }
+
+    @Test
+    public void createdCarreraTestOK(){
+        when(carreraService.createdCarrera(carrera)).thenReturn(carrera);
+
+        ResponseEntity<?> response = carreraController.createdCarrera(carrera);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(carrera, response.getBody());
+
+        verify(carreraService).createdCarrera(carrera);
     }
 }

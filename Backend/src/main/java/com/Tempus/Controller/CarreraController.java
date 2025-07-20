@@ -19,18 +19,18 @@ public class CarreraController {
         return ResponseEntity.status(HttpStatus.FOUND).body(carreraService.getCarreras());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id_carrera}")
     public ResponseEntity<?> getCarrera(@PathVariable Long id_carrera){
         return ResponseEntity.status(HttpStatus.FOUND).body(carreraService.findCarreraById(id_carrera));
     }
 
-    @GetMapping("materia/{id}")
+    @GetMapping("materia/{id_carrera}")
     public ResponseEntity<?> getMateriasOfCarrera(@PathVariable long id_carrera){
         return ResponseEntity.status(HttpStatus.FOUND).body(carreraService.findMateriasOfCarreraById(id_carrera));
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<?> getMateriasOfCarrera(@RequestBody CarreraDTO carreraDTO){
+    public ResponseEntity<?> createdCarrera(@RequestBody CarreraDTO carreraDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(carreraService.createdCarrera(carreraDTO));
     }
 

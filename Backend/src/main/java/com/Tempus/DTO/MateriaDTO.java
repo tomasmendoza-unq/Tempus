@@ -5,7 +5,6 @@ import com.Tempus.Factory.IMateriaFactory;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -30,6 +29,7 @@ public abstract class MateriaDTO {
         this.nombre = nombre;
         this.id_carrera = id_carrera;
     }
+
 
     public abstract Materia toEntity(IMateriaFactory materiaFactory);
 }

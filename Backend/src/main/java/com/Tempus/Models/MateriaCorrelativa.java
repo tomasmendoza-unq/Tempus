@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MateriaCorrelativa extends Materia{
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "correlativas",
             joinColumns = @JoinColumn(name = "correlativa_id"),
@@ -45,5 +45,6 @@ public class MateriaCorrelativa extends Materia{
     public void addCorrelativas(List<Materia> correlativas) {
         this.correlativas = new ArrayList<>(correlativas);
     }
+
 
 }

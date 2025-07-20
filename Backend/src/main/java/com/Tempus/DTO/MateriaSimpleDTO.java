@@ -12,6 +12,7 @@ public class MateriaSimpleDTO extends MateriaDTO{
         super(id, nombre, id_carrera);
     }
 
+
     @Override
     public Materia toEntity(IMateriaFactory materiaFactory) {
         return materiaFactory.createSimple(this);
