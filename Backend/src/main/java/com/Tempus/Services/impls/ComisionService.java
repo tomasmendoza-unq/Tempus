@@ -28,9 +28,13 @@ public class ComisionService implements IComisionService {
     @Override
     public ComisionCreatedDTO createdComision(ComisionCreatedDTO comisionDTO) {
         Comision comision = this.save(comisionDTO);
-        ComisionCreatedDTO response = modelMapper.map(comision, ComisionCreatedDTO.class);
+        ComisionCreatedDTO response = this.toDTO(comision);
 
         return response;
+    }
+
+    private ComisionCreatedDTO toDTO(Comision comision) {
+        return modelMapper.map(comision, ComisionCreatedDTO.class);
     }
 
     private Comision save(ComisionCreatedDTO comisionDTO) {
@@ -44,7 +48,7 @@ public class ComisionService implements IComisionService {
         return comision;
     }
 
-    public Materia obtenerMateriaParaComision(Long id) {
+    private Materia obtenerMateriaParaComision(Long id) {
         return materiaService.findByIdMateria(id);
     }
 }

@@ -31,7 +31,7 @@ public class ComisionControllerTest {
 
 
     @Test
-    public void  createdComisionOK(){
+    public void  testCreatedComisionOK(){
         when(comisionService.createdComision(comisionCreatedDTO)).thenReturn(responseDTO);
 
         ResponseEntity<?> response = comisionController.createdComision(comisionCreatedDTO);
