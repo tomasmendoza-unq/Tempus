@@ -28,9 +28,8 @@ public class ComisionService implements IComisionService {
     @Override
     public ComisionCreatedDTO createdComision(ComisionCreatedDTO comisionDTO) {
         Comision comision = this.save(comisionDTO);
-        ComisionCreatedDTO response = comisionFactory.toCreatedDTO(comision);
 
-        return response;
+        return comisionFactory.toCreatedDTO(comision);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.tempus.unit.Service;
 
 import com.Tempus.DTO.ComisionCreatedDTO;
+import com.Tempus.Factory.impls.ComisionFactory;
 import com.Tempus.Models.Comision;
 import com.Tempus.Models.Materia;
 import com.Tempus.Repository.IComisionRepository;
@@ -22,16 +23,10 @@ public class ComisionServiceTest {
     private IComisionRepository comisionRepository;
 
     @Mock
-    private IMateriaService materiaService;
-
-    @Mock
-    private ModelMapper modelMapper;
+    private ComisionFactory comisionFactory;
 
     @InjectMocks
     private ComisionService comisionService;
-
-    @Mock
-    private Materia materia;
 
     @Mock
     private ComisionCreatedDTO comisionCreatedDTO;
@@ -40,23 +35,22 @@ public class ComisionServiceTest {
     private Comision comision;
 
     @Mock
+    private Comision savedComision;
+
+    @Mock
     private ComisionCreatedDTO responseDTO;
 
     @Test
     public void testCreatedComisionOK(){
-        when(comisionRepository.save(comision)).thenReturn(comision);
-        when(modelMapper.map(comision, ComisionCreatedDTO.class)).thenReturn(responseDTO);
-        when(materiaService.findByIdMateria(1L)).thenReturn(materia);
-        when(comisionCreatedDTO.getIdMateria()).thenReturn(1L);
-        when(modelMapper.map(comisionCreatedDTO, Comision.class)).thenReturn(comision);
+        when(comisionFactory.toEntity(comisionCreatedDTO)).thenReturn(comision);
+        when(comisionFactory.toCreatedDTO(savedComision)).thenReturn(responseDTO);
+        when(comisionRepository.save(comision)).thenReturn(savedComision);
 
         comisionService.createdComision(comisionCreatedDTO);
 
         verify(comisionRepository).save(comision);
-        verify(modelMapper).map(comision, ComisionCreatedDTO.class);
-        verify(modelMapper).map(comisionCreatedDTO, Comision.class);
-        verify(materiaService).findByIdMateria(1L);
-        verify(comisionCreatedDTO).getIdMateria();
+        verify(comisionFactory).toCreatedDTO(savedComision);
+        verify(comisionFactory).toEntity(comisionCreatedDTO);
     }
 
 }
