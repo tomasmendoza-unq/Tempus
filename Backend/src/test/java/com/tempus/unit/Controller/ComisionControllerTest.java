@@ -2,6 +2,7 @@ package com.tempus.unit.Controller;
 
 import com.Tempus.Controller.ComisionController;
 import com.Tempus.DTO.ComisionCreatedDTO;
+import com.Tempus.DTO.ComisionDTO;
 import com.Tempus.Services.IComisionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -29,6 +32,11 @@ public class ComisionControllerTest {
     @Mock
     ComisionCreatedDTO responseDTO;
 
+    @Mock
+    ComisionDTO comisionDTO;
+
+    @Mock
+    ComisionDTO comisionDTO2;
 
     @Test
     public void  testCreatedComisionOK(){
@@ -38,6 +46,18 @@ public class ComisionControllerTest {
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(responseDTO, response.getBody());
+
+    }
+
+    @Test
+    public void  testGetComisionesOK(){
+        List<ComisionDTO> comisionDTOS = List.of(comisionDTO,comisionDTO2);
+        when(comisionService.getComisiones()).thenReturn(comisionDTOS);
+
+        ResponseEntity<?> response = comisionController.getComisiones();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(comisionDTOS, response.getBody());
 
     }
 }

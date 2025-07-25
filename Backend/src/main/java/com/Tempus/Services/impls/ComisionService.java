@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ComisionService implements IComisionService {
 
@@ -31,6 +33,11 @@ public class ComisionService implements IComisionService {
         ComisionCreatedDTO response = this.toDTO(comision);
 
         return response;
+    }
+
+    @Override
+    public List<ComisionDTO> getComisiones() {
+        return List.of();
     }
 
     private ComisionCreatedDTO toDTO(Comision comision) {
