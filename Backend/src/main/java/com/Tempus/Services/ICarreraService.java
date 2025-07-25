@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Service
 public interface ICarreraService {
-    Set<MateriaResumenDTO> findMateriasOfCarreraById(long idCarrera);
+    Set<MateriaResumenDTO> findMateriasOfCarreraById(Long idCarrera);
 
     CarreraDTO findCarreraById(Long idCarrera);
 

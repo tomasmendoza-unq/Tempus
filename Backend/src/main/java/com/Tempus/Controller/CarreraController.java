@@ -25,7 +25,7 @@ public class CarreraController {
     }
 
     @GetMapping("materia/{id_carrera}")
-    public ResponseEntity<?> getMateriasOfCarrera(@PathVariable long id_carrera){
+    public ResponseEntity<?> getMateriasOfCarrera(@PathVariable Long id_carrera){
         return ResponseEntity.status(HttpStatus.FOUND).body(carreraService.findMateriasOfCarreraById(id_carrera));
     }
 

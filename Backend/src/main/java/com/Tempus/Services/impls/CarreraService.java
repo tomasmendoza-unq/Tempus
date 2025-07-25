@@ -30,7 +30,7 @@ public class CarreraService implements ICarreraService {
 
     @Override
     @Transactional
-    public Set<MateriaResumenDTO> findMateriasOfCarreraById(long idCarrera) {
+    public Set<MateriaResumenDTO> findMateriasOfCarreraById(Long idCarrera) {
         return this.findCarreraById(idCarrera).getMaterias();
     }
 
