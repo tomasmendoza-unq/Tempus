@@ -29,7 +29,7 @@ public class MateriaService implements IMateriaService {
     }
 
     @Transactional
-    public MateriaDTO findCorrelativasById(long id){
+    public MateriaDTO findCorrelativasById(Long id){
         return this.findByIdMateria(id).toDTO();
     }
 
@@ -45,7 +45,7 @@ public class MateriaService implements IMateriaService {
     }
 
 
-    private Materia findByIdMateria(long id) {
+    public Materia findByIdMateria(Long id) {
         return materiaRepository
                 .findById(id)
                 .orElseThrow(

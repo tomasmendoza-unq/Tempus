@@ -15,7 +15,7 @@ public class MateriaController {
     IMateriaService materiaService;
 
     @GetMapping("/correlativas/{id}")
-    public ResponseEntity<MateriaDTO> getCorrelativas(@PathVariable long id){
+    public ResponseEntity<MateriaDTO> getCorrelativas(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.FOUND).body(materiaService.findCorrelativasById(id));
     }
 
