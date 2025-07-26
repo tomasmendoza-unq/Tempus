@@ -28,7 +28,7 @@ public class ComisionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getComision(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(comisionService.getComision(id));
+        return ResponseEntity.status(HttpStatus.FOUND).body(comisionService.getComision(id));
     }
 
     @PutMapping("/{id}")

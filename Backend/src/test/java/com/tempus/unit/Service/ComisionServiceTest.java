@@ -2,6 +2,7 @@ package com.tempus.unit.Service;
 
 import com.Tempus.DTO.ComisionCreatedDTO;
 import com.Tempus.DTO.ComisionDTO;
+import com.Tempus.Exceptions.ResourceNotFound;
 import com.Tempus.Factory.impls.ComisionFactory;
 import com.Tempus.Models.Comision;
 import com.Tempus.Models.Materia;
@@ -16,7 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -79,4 +82,39 @@ public class ComisionServiceTest {
 
     }
 
+    @Test
+    public void testGetComisionOk(){
+        when(comisionFactory.toDTO(comision)).thenReturn(comisionDTO);
+        when(comisionRepository.findById(1L)).thenReturn(Optional.of(comision));
+
+        comisionService.getComision(1L);
+
+        verify(comisionFactory).toDTO(comision);
+        verify(comisionRepository).findById(1L);
+    }
+    @Test
+    public void testGetComisionFailed(){
+        when(comisionRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFound.class , () -> comisionService.getComision(1L));
+
+    }
+
+    @Test
+    public void testPutComisionOk(){
+        Long id = 1L;
+
+        when(comisionRepository.findById(id)).thenReturn(Optional.of(comision));
+
+        when(comisionRepository.save(comision)).thenReturn(comision2);
+
+        when(comisionFactory.toCreatedDTO(comision2)).thenReturn(responseDTO);
+
+        ComisionCreatedDTO result = comisionService.putComision(id, comisionCreatedDTO);
+
+        verify(comisionRepository).findById(id);
+        verify(comisionFactory).updateEntityFromDTO(comisionCreatedDTO, comision);
+        verify(comisionRepository).save(comision);
+        verify(comisionFactory).toCreatedDTO(comision2);
+    }
 }

@@ -82,4 +82,15 @@ public class ComisionFactoryTest {
         verify(materiaService).findByIdMateria(1L);
         verify(comision).setMateria(materia);
     }
+
+    @Test
+    public void updateEntityFromDTOOk(){
+        when(materiaService.findByIdMateria(1L)).thenReturn(materia);
+        when(comisionCreatedDTO.getIdMateria()).thenReturn(1L);
+
+        comisionFactory.updateEntityFromDTO(comisionCreatedDTO,comision);
+
+        verify(materiaService).findByIdMateria(1L);
+        verify(comisionCreatedDTO).getIdMateria();
+    }
 }
