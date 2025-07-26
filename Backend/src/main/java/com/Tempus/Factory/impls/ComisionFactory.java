@@ -29,10 +29,18 @@ public class ComisionFactory extends AbstractDTOFactory {
     }
 
     public Comision toEntity(ComisionCreatedDTO comisionCreatedDTO){
-        Materia materia = materiaService.findByIdMateria(comisionCreatedDTO.getIdMateria());
+        Materia materia = findMateria(comisionCreatedDTO);
         Comision comision = toEntity(comisionCreatedDTO, Comision.class);
         comision.setMateria(materia);
         return comision;
     }
 
+    private Materia findMateria(ComisionCreatedDTO comisionCreatedDTO) {
+        return materiaService.findByIdMateria(comisionCreatedDTO.getIdMateria());
+    }
+
+    public void updateEntityFromDTO(ComisionCreatedDTO comisionCreatedDTO, Comision comision) {
+        super.updateEntityFromDTO(comisionCreatedDTO, comision);
+        comision.setMateria(findMateria(comisionCreatedDTO));
+    }
 }

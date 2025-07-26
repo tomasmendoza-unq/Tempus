@@ -16,4 +16,7 @@ public abstract class AbstractDTOFactory {
         return modelMapper.map(dto, entityClass);
     }
 
+    protected <D, E> void updateEntityFromDTO(D dto,E entity){
+        modelMapper.map(dto, entity);
+    }
 }

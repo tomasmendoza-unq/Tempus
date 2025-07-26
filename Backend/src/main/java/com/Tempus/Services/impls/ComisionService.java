@@ -2,15 +2,11 @@ package com.Tempus.Services.impls;
 
 import com.Tempus.DTO.ComisionCreatedDTO;
 import com.Tempus.DTO.ComisionDTO;
-import com.Tempus.DTO.MateriaDTO;
+import com.Tempus.Exceptions.ResourceNotFound;
 import com.Tempus.Factory.impls.ComisionFactory;
 import com.Tempus.Models.Comision;
-import com.Tempus.Models.Materia;
 import com.Tempus.Repository.IComisionRepository;
-import com.Tempus.Repository.IMateriaRepository;
 import com.Tempus.Services.IComisionService;
-import com.Tempus.Services.IMateriaService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +30,31 @@ public class ComisionService implements IComisionService {
 
     @Override
     public List<ComisionDTO> getComisiones() {
-        return this.findAll().stream().map(comision -> comisionFactory.toDTO(comision)).toList();
+        return this.findAll().stream().map(this::toDTO).toList();
+    }
+
+    private ComisionDTO toDTO(Comision comision) {
+        return comisionFactory.toDTO(comision);
+    }
+
+    @Override
+    public ComisionDTO getComision(Long id) {
+        return toDTO(this.findByIdComision(id));
+    }
+
+    @Override
+    public ComisionCreatedDTO putComision(Long id, ComisionCreatedDTO comisionCreatedDTO) {
+        Comision comision = this.findByIdComision(id);
+        comisionFactory.updateEntityFromDTO(comisionCreatedDTO, comision);
+        return comisionFactory.toCreatedDTO(comisionRepository.save(comision));
+    }
+
+    private Comision findByIdComision(Long id) {
+        return comisionRepository
+                .findById(id)
+                .orElseThrow(
+                    () -> new ResourceNotFound("No se encontro la materia")
+                );
     }
 
     private List<Comision> findAll() {
