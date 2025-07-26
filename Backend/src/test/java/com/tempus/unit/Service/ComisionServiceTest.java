@@ -1,6 +1,7 @@
 package com.tempus.unit.Service;
 
 import com.Tempus.DTO.ComisionCreatedDTO;
+import com.Tempus.DTO.ComisionDTO;
 import com.Tempus.Factory.impls.ComisionFactory;
 import com.Tempus.Models.Comision;
 import com.Tempus.Models.Materia;
@@ -13,6 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+
+import java.util.List;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,10 +38,19 @@ public class ComisionServiceTest {
     private Comision comision;
 
     @Mock
+    private Comision comision2;
+
+    @Mock
     private Comision savedComision;
 
     @Mock
     private ComisionCreatedDTO responseDTO;
+
+    @Mock
+    private ComisionDTO comisionDTO;
+
+    @Mock
+    private ComisionDTO comisionDTO2;
 
     @Test
     public void testCreatedComisionOK(){
@@ -51,6 +63,20 @@ public class ComisionServiceTest {
         verify(comisionRepository).save(comision);
         verify(comisionFactory).toCreatedDTO(savedComision);
         verify(comisionFactory).toEntity(comisionCreatedDTO);
+    }
+
+    @Test
+    public void testGetComisionesOk(){
+        when(comisionRepository.findAll()).thenReturn(List.of(comision,comision2));
+        when(comisionFactory.toDTO(comision)).thenReturn(comisionDTO);
+        when(comisionFactory.toDTO(comision2)).thenReturn(comisionDTO2);
+
+        comisionService.getComisiones();
+
+        verify(comisionRepository).findAll();
+        verify(comisionFactory).toDTO(comision);
+        verify(comisionFactory).toDTO(comision2);
+
     }
 
 }

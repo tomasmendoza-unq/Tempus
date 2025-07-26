@@ -34,7 +34,11 @@ public class ComisionService implements IComisionService {
 
     @Override
     public List<ComisionDTO> getComisiones() {
-        return List.of();
+        return this.findAll().stream().map(comision -> comisionFactory.toDTO(comision)).toList();
+    }
+
+    private List<Comision> findAll() {
+        return comisionRepository.findAll();
     }
 
     private Comision save(ComisionCreatedDTO comisionDTO) {

@@ -2,6 +2,7 @@ package com.Tempus.Factory.impls;
 
 import com.Tempus.DTO.ComisionCreatedDTO;
 import com.Tempus.DTO.ComisionDTO;
+import com.Tempus.DTO.MateriaDTO;
 import com.Tempus.Factory.AbstractDTOFactory;
 import com.Tempus.Models.Comision;
 import com.Tempus.Models.Materia;
@@ -17,7 +18,10 @@ public class ComisionFactory extends AbstractDTOFactory {
 
 
     public ComisionDTO toDTO(Comision comision){
-        return toDTO(comision, ComisionDTO.class);
+        MateriaDTO materiaDTO = materiaService.findByIdMateriaDTO(comision.getMateria().getId());
+        ComisionDTO comisionDTO = toDTO(comision, ComisionDTO.class);
+        comisionDTO.setMateriaDTO(materiaDTO);
+        return comisionDTO;
     }
 
     public ComisionCreatedDTO toCreatedDTO(Comision comision){

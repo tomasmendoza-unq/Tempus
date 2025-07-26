@@ -44,7 +44,7 @@ public class MateriaServiceTest {
     public void  testGetCorrelativasOk(){
         when(materiaRepository.findById(1L)).thenReturn(Optional.of(materia));
 
-        materiaService.findCorrelativasById(1L);
+        materiaService.findByIdMateriaDTO(1L);
 
         verify(materiaRepository).findById(1L);
     }
@@ -64,6 +64,6 @@ public class MateriaServiceTest {
     public void testGetCorrelativasThrowsExceptionWhenNotFound() {
         when(materiaRepository.findById(99L)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFound.class, () -> materiaService.findCorrelativasById(99L));
+        assertThrows(ResourceNotFound.class, () -> materiaService.findByIdMateriaDTO(99L));
     }
 }
