@@ -81,4 +81,12 @@ public class ComisionControllerTest {
         assertEquals(responseDTO, response.getBody());
     }
 
+    @Test
+    public void testDeleteComisionOk(){
+        ResponseEntity<?> response = comisionController.deleteComision(1L);
+
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+        assertEquals("Se elimino con exito", response.getBody());
+    }
+
 }

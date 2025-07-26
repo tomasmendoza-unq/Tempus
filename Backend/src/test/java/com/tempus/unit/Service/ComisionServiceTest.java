@@ -117,4 +117,25 @@ public class ComisionServiceTest {
         verify(comisionRepository).save(comision);
         verify(comisionFactory).toCreatedDTO(comision2);
     }
+
+    @Test
+    public void testDeleteComisionOk(){
+        Long id = 1L;
+
+        when(comisionRepository.findById(id)).thenReturn(Optional.of(comision));
+
+        comisionService.deleteComision(id);
+
+        verify(comisionRepository).delete(comision);
+        verify(comisionRepository).findById(id);
+    }
+
+    @Test
+    public void testDeleteComisionFailed(){
+        Long id = 1L;
+
+        when(comisionRepository.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFound.class , () -> comisionService.deleteComision(id));
+    }
 }
