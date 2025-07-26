@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/comision")
+@RequestMapping("/comisiones")
 public class ComisionController {
 
     @Autowired
@@ -24,5 +24,21 @@ public class ComisionController {
     @GetMapping
     public ResponseEntity<?> getComisiones(){
         return ResponseEntity.status(HttpStatus.OK).body(comisionService.getComisiones());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getComision(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.FOUND).body(comisionService.getComision(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> putComision(@PathVariable Long id, @RequestBody ComisionCreatedDTO comisionCreatedDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(comisionService.putComision(id, comisionCreatedDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteComision(@PathVariable Long id){
+        comisionService.deleteComision(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Se elimino con exito");
     }
 }

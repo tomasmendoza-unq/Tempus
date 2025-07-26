@@ -60,4 +60,33 @@ public class ComisionControllerTest {
         assertEquals(comisionDTOS, response.getBody());
 
     }
+
+    @Test
+    public void testGetComisionOK(){
+        when(comisionService.getComision(1L)).thenReturn(comisionDTO);
+
+        ResponseEntity<?> response = comisionController.getComision(1L);
+
+        assertEquals(HttpStatus.FOUND, response.getStatusCode());
+        assertEquals(comisionDTO, response.getBody());
+    }
+
+    @Test
+    public void testPutComisionOk(){
+        when(comisionService.putComision(1L, comisionCreatedDTO)).thenReturn(responseDTO);
+
+        ResponseEntity<?> response = comisionController.putComision(1L, comisionCreatedDTO);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(responseDTO, response.getBody());
+    }
+
+    @Test
+    public void testDeleteComisionOk(){
+        ResponseEntity<?> response = comisionController.deleteComision(1L);
+
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+        assertEquals("Se elimino con exito", response.getBody());
+    }
+
 }

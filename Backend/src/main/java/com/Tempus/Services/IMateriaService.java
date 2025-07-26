@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface IMateriaService {
-    public MateriaDTO findCorrelativasById(Long id);
+    public MateriaDTO findByIdMateriaDTO(Long id);
 
     public MateriaDTO createdMateria(MateriaDTO materiaDTO);
 

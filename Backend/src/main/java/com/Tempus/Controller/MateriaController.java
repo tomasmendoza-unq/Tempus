@@ -14,13 +14,13 @@ public class MateriaController {
     @Autowired
     IMateriaService materiaService;
 
-    @GetMapping("/correlativas/{id}")
-    public ResponseEntity<MateriaDTO> getCorrelativas(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.FOUND).body(materiaService.findCorrelativasById(id));
+    @GetMapping("/{id}")
+    public ResponseEntity<MateriaDTO> getMateria(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.FOUND).body(materiaService.findByIdMateriaDTO(id));
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<?> setMateria(@RequestBody MateriaDTO materiaDTO){
+    public ResponseEntity<?> createdMateria(@RequestBody MateriaDTO materiaDTO){
         MateriaDTO response = materiaService.createdMateria(materiaDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

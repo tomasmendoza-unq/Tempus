@@ -2,7 +2,6 @@ package com.tempus.unit.Controller;
 
 import com.Tempus.Controller.MateriaController;
 import com.Tempus.DTO.MateriaDTO;
-import com.Tempus.Models.Materia;
 import com.Tempus.Services.IMateriaService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,9 +32,9 @@ public class MateriaControllerTest {
 
     @Test
     public void testGetCorrelativas(){
-        when(materiaService.findCorrelativasById(1L)).thenReturn(materiaDTO);
+        when(materiaService.findByIdMateriaDTO(1L)).thenReturn(materiaDTO);
 
-        ResponseEntity<MateriaDTO> response = materiaController.getCorrelativas(1L);
+        ResponseEntity<MateriaDTO> response = materiaController.getMateria(1L);
 
         assertEquals(HttpStatus.FOUND, response.getStatusCode());
         assertEquals(materiaDTO, response.getBody());
@@ -45,7 +44,7 @@ public class MateriaControllerTest {
     public void testSetMateria(){
         when(materiaService.createdMateria(materiaDTO)).thenReturn(materiaDTO1);
 
-        ResponseEntity<?> response = materiaController.setMateria(materiaDTO);
+        ResponseEntity<?> response = materiaController.createdMateria(materiaDTO);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(materiaDTO1, response.getBody());
