@@ -15,4 +15,6 @@ public interface IComisionService {
     public ComisionDTO getComision(Long id);
 
     public ComisionCreatedDTO putComision(Long id, ComisionCreatedDTO comisionCreatedDTO);
+
+    public void deleteComision(Long id);
 }

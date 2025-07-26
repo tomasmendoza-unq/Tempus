@@ -35,4 +35,10 @@ public class ComisionController {
     public ResponseEntity<?> putComision(@PathVariable Long id, @RequestBody ComisionCreatedDTO comisionCreatedDTO){
         return ResponseEntity.status(HttpStatus.OK).body(comisionService.putComision(id, comisionCreatedDTO));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteComision(@PathVariable Long id){
+        comisionService.deleteComision(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Se elimino con exito");
+    }
 }

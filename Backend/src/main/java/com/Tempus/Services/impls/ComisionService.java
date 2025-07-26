@@ -49,6 +49,11 @@ public class ComisionService implements IComisionService {
         return comisionFactory.toCreatedDTO(comisionRepository.save(comision));
     }
 
+    @Override
+    public void deleteComision(Long id) {
+        comisionRepository.delete(findByIdComision(id));
+    }
+
     private Comision findByIdComision(Long id) {
         return comisionRepository
                 .findById(id)
