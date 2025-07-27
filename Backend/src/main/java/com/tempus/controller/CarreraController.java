@@ -20,6 +20,11 @@ public class CarreraController {
         return ResponseEntity.status(HttpStatus.FOUND).body(carreraService.getCarrera(id));
     }
 
+    @GetMapping
+    public ResponseEntity<?> getCarreras(){
+        return ResponseEntity.status(HttpStatus.OK).body(carreraService.getCarreras());
+    }
+
 
     @PostMapping("/crear")
     public ResponseEntity<?> createdCarrera(@RequestBody CarreraPostDTO dto){

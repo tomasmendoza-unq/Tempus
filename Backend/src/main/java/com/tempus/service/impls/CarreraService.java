@@ -11,6 +11,8 @@ import com.tempus.service.ICarreraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CarreraService implements ICarreraService {
 
@@ -28,11 +30,20 @@ public class CarreraService implements ICarreraService {
         Carrera carrera = carreraFactory.toEntity(dto);
         Carrera saved = carreraRepository.save(carrera);
 
-        return carreraFactory.toResponseDTO(saved);
+        return this.toResponseDTO(saved);
     }
 
     @Override
     public CarreraResponseDTO getCarrera(Long id) {
-        return carreraFactory.toResponseDTO(finderCarrera.findById(id));
+        return this.toResponseDTO(finderCarrera.findById(id));
+    }
+
+    @Override
+    public List<CarreraResponseDTO> getCarreras() {
+        return carreraRepository.findAll().stream().map(this::toResponseDTO).toList();
+    }
+
+    private CarreraResponseDTO toResponseDTO(Carrera carrera) {
+        return carreraFactory.toResponseDTO(carrera);
     }
 }

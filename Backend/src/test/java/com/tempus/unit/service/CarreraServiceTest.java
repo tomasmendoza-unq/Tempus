@@ -1,6 +1,8 @@
 package com.tempus.unit.service;
 
 import com.tempus.Factory.impls.CarreraFactory;
+import com.tempus.data.IEntityFinder;
+import com.tempus.data.impls.CarreraFinder;
 import com.tempus.dto.carrera.CarreraPostDTO;
 import com.tempus.dto.carrera.CarreraResponseDTO;
 import com.tempus.models.Carrera;
@@ -11,6 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -36,6 +40,9 @@ public class CarreraServiceTest {
     @Mock
     Carrera carrera;
 
+    @Mock
+    IEntityFinder<Carrera> carreraFinder;
+
     @InjectMocks
     CarreraService carreraService;
 
@@ -50,6 +57,28 @@ public class CarreraServiceTest {
         verify(carreraFactory).toEntity(carreraPostDTO);
         verify(carreraRepository).save(carrera);
         verify(carreraFactory).toResponseDTO(saved);
+    }
+
+    @Test
+    public void testGetCarreraOk(){
+        Long id = 1L;
+        when(carreraFactory.toResponseDTO(carrera)).thenReturn(carreraResponseDTO);
+        when(carreraFinder.findById(id)).thenReturn(carrera);
+
+        carreraService.getCarrera(id);
+
+        verify(carreraFactory).toResponseDTO(carrera);
+        verify(carreraFinder).findById(id);
+    }
+    @Test
+    public void testGetCarrerasOk(){
+        when(carreraFactory.toResponseDTO(carrera)).thenReturn(carreraResponseDTO);
+        when(carreraRepository.findAll()).thenReturn(List.of(carrera));
+
+        carreraService.getCarreras();
+
+        verify(carreraFactory).toResponseDTO(carrera);
+        verify(carreraRepository).findAll();
     }
 
 

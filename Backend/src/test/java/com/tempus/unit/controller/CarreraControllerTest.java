@@ -10,6 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,6 +37,25 @@ public class CarreraControllerTest {
         carreraController.createdCarrera(carreraPostDTO);
 
         verify(carreraService).createdCarrera(carreraPostDTO);
+    }
+    @Test
+    public void testGetCarreraOk(){
+        Long id = 1L;
+
+        when(carreraService.getCarrera(id)).thenReturn(responsePost);
+
+        carreraController.getCarrera(id);
+
+        verify(carreraService).getCarrera(id);
+    }
+
+    @Test
+    public void testGetCarrerasOk(){
+        when(carreraService.getCarreras()).thenReturn(List.of(responsePost));
+
+        carreraController.getCarreras();
+
+        verify(carreraService).getCarreras();
     }
 
 }
