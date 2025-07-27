@@ -13,4 +13,8 @@ public interface ICarreraService {
     public CarreraResponseDTO getCarrera(Long id);
 
     public List<CarreraResponseDTO> getCarreras();
+
+    public CarreraResponseDTO putCarrera(Long id, CarreraPostDTO carreraPostDTO);
+
+    public void deleteCarrera(Long id);
 }

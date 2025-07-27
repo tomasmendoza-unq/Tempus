@@ -70,6 +70,7 @@ public class CarreraServiceTest {
         verify(carreraFactory).toResponseDTO(carrera);
         verify(carreraFinder).findById(id);
     }
+
     @Test
     public void testGetCarrerasOk(){
         when(carreraFactory.toResponseDTO(carrera)).thenReturn(carreraResponseDTO);
@@ -81,5 +82,27 @@ public class CarreraServiceTest {
         verify(carreraRepository).findAll();
     }
 
+    @Test
+    public void testPutCarreraOk(){
+        Long id = 1L;
+        when(carreraFactory.toResponseDTO(saved)).thenReturn(carreraResponseDTO);
+        when(carreraRepository.save(carrera)).thenReturn(saved);
+        when(carreraFinder.findById(id)).thenReturn(carrera);
 
+        carreraService.putCarrera(id, carreraPostDTO);
+
+        verify(carreraFactory).toResponseDTO(saved);
+        verify(carreraRepository).save(carrera);
+        verify(carreraFinder).findById(id);
+    }
+
+    @Test
+    public void testDeleteCarreraOk(){
+        Long id = 1L;
+        when(carreraFinder.findById(id)).thenReturn(carrera);
+
+        carreraService.deleteCarrera(id);
+
+        verify(carreraFinder).findById(id);
+    }
 }

@@ -28,19 +28,41 @@ public class CarreraService implements ICarreraService {
     @Override
     public CarreraResponseDTO createdCarrera(CarreraPostDTO dto) {
         Carrera carrera = carreraFactory.toEntity(dto);
-        Carrera saved = carreraRepository.save(carrera);
+        Carrera saved = this.save(carrera);
 
         return this.toResponseDTO(saved);
     }
 
     @Override
     public CarreraResponseDTO getCarrera(Long id) {
-        return this.toResponseDTO(finderCarrera.findById(id));
+        return this.toResponseDTO(this.findById(id));
     }
 
     @Override
     public List<CarreraResponseDTO> getCarreras() {
         return carreraRepository.findAll().stream().map(this::toResponseDTO).toList();
+    }
+
+    @Override
+    public CarreraResponseDTO putCarrera(Long id, CarreraPostDTO carreraPostDTO) {
+        Carrera carrera = this.findById(id);
+        carreraFactory.updateEntity(carrera, carreraPostDTO);
+        Carrera saved = this.save(carrera);
+
+        return this.toResponseDTO(saved);
+    }
+
+    @Override
+    public void deleteCarrera(Long id) {
+        carreraRepository.delete(this.findById(id));
+    }
+
+    private Carrera findById(Long id) {
+        return finderCarrera.findById(id);
+    }
+
+    private Carrera save(Carrera carrera) {
+        return carreraRepository.save(carrera);
     }
 
     private CarreraResponseDTO toResponseDTO(Carrera carrera) {

@@ -25,6 +25,17 @@ public class CarreraController {
         return ResponseEntity.status(HttpStatus.OK).body(carreraService.getCarreras());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> putCarrera(@PathVariable Long id, @RequestBody CarreraPostDTO carreraPostDTO){
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(carreraService.putCarrera(id, carreraPostDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCarrera(@PathVariable Long id){
+        carreraService.deleteCarrera(id);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Se elimino con exito");
+    }
 
     @PostMapping("/crear")
     public ResponseEntity<?> createdCarrera(@RequestBody CarreraPostDTO dto){
