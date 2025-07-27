@@ -5,11 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarreraPostDTO {
+public class CarreraResponseDTO {
 
     private String nombreCarrera;
 }

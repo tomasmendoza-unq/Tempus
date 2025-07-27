@@ -2,6 +2,7 @@ package com.tempus.controller;
 
 import com.tempus.dto.carrera.CarreraPostDTO;
 import com.tempus.service.ICarreraService;
+import jakarta.persistence.GeneratedValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,12 @@ public class CarreraController {
 
     @Autowired
     private ICarreraService carreraService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCarrera(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.FOUND).body(carreraService.getCarrera(id));
+    }
+
 
     @PostMapping("/crear")
     public ResponseEntity<?> createdCarrera(@RequestBody CarreraPostDTO dto){

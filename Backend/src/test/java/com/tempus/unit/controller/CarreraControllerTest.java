@@ -2,6 +2,7 @@ package com.tempus.unit.controller;
 
 import com.tempus.controller.CarreraController;
 import com.tempus.dto.carrera.CarreraPostDTO;
+import com.tempus.dto.carrera.CarreraResponseDTO;
 import com.tempus.service.ICarreraService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +16,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CarreraControllerTest {
 
-
     @Mock
     private ICarreraService carreraService;
 
@@ -26,10 +26,10 @@ public class CarreraControllerTest {
     private CarreraPostDTO carreraPostDTO;
 
     @Mock
-    private CarreraPostDTO responsePost;
+    private CarreraResponseDTO responsePost;
 
     @Test
-    public void createdCarreraOk(){
+    public void testCreatedCarreraOk(){
         when(carreraService.createdCarrera(carreraPostDTO)).thenReturn(responsePost);
 
         carreraController.createdCarrera(carreraPostDTO);
