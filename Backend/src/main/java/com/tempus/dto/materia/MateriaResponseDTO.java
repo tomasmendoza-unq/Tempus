@@ -1,4 +1,4 @@
-package com.tempus.dto.carrera;
+package com.tempus.dto.materia;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarreraResponseDTO {
+public class MateriaResponseDTO {
 
-    protected String nombreCarrera;
-
-
+    private String nombreMateria;
 }

@@ -25,6 +25,11 @@ public class CarreraController {
         return ResponseEntity.status(HttpStatus.OK).body(carreraService.getCarreras());
     }
 
+    @GetMapping("/{id}/materias")
+    public ResponseEntity<?> getMateriasByCarrera(@PathVariable Long id) {
+        return ResponseEntity.ok(carreraService.getMaterias(id));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> putCarrera(@PathVariable Long id, @RequestBody CarreraPostDTO carreraPostDTO){
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(carreraService.putCarrera(id, carreraPostDTO));

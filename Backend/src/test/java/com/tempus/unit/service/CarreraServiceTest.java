@@ -2,7 +2,6 @@ package com.tempus.unit.service;
 
 import com.tempus.Factory.impls.CarreraFactory;
 import com.tempus.data.IEntityFinder;
-import com.tempus.data.impls.CarreraFinder;
 import com.tempus.dto.carrera.CarreraPostDTO;
 import com.tempus.dto.carrera.CarreraResponseDTO;
 import com.tempus.models.Carrera;

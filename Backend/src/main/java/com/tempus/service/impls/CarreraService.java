@@ -1,17 +1,22 @@
 package com.tempus.service.impls;
 
 import com.tempus.Factory.impls.CarreraFactory;
+import com.tempus.Factory.impls.MateriaFactory;
 import com.tempus.data.IEntityFinder;
-import com.tempus.data.impls.CarreraFinder;
+import com.tempus.data.IMateriaFinder;
 import com.tempus.dto.carrera.CarreraPostDTO;
 import com.tempus.dto.carrera.CarreraResponseDTO;
+import com.tempus.dto.materia.MateriaResponseDTO;
 import com.tempus.models.Carrera;
+import com.tempus.models.Materia;
 import com.tempus.repository.ICarreraRepository;
 import com.tempus.service.ICarreraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CarreraService implements ICarreraService {
@@ -23,7 +28,13 @@ public class CarreraService implements ICarreraService {
     private CarreraFactory carreraFactory;
 
     @Autowired
+    private MateriaFactory materiaFactory;
+
+    @Autowired
     private IEntityFinder<Carrera> finderCarrera;
+
+    @Autowired
+    private IMateriaFinder finderMateria;
 
     @Override
     public CarreraResponseDTO createdCarrera(CarreraPostDTO dto) {
@@ -55,6 +66,18 @@ public class CarreraService implements ICarreraService {
     @Override
     public void deleteCarrera(Long id) {
         carreraRepository.delete(this.findById(id));
+    }
+
+    @Override
+    public List<MateriaResponseDTO> getMaterias(Long id) {
+        return finderMateria.findMateriasByCarreraId(id)
+                .stream()
+                .map(this::toMateriaDTO)
+                .toList();
+    }
+
+    private MateriaResponseDTO toMateriaDTO(Materia materia) {
+        return materiaFactory.toResponseDTO(materia);
     }
 
     private Carrera findById(Long id) {
