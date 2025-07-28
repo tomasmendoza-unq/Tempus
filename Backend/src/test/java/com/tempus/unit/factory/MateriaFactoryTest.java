@@ -1,7 +1,10 @@
 package com.tempus.unit.factory;
 
 import com.tempus.Factory.impls.MateriaFactory;
+import com.tempus.data.IEntityFinder;
+import com.tempus.dto.materia.MateriaPostDTO;
 import com.tempus.dto.materia.MateriaResponseDTO;
+import com.tempus.models.Carrera;
 import com.tempus.models.Materia;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +26,13 @@ public class MateriaFactoryTest {
     MateriaResponseDTO materiaResponseDTO;
 
     @Mock
+    MateriaPostDTO materiaPostDTO;
+
+    @Mock
     ModelMapper modelMapper;
+
+    @Mock
+    IEntityFinder<Carrera> finderCarrera;
 
     @InjectMocks
     MateriaFactory materiaFactory;
@@ -35,5 +44,14 @@ public class MateriaFactoryTest {
         materiaFactory.toResponseDTO(materia);
 
         verify(modelMapper).map(materia, MateriaResponseDTO.class);
+    }
+
+    @Test
+    public void testToEntityOk(){
+        when(modelMapper.map(materiaPostDTO, Materia.class)).thenReturn(materia);
+
+        materiaFactory.toEntity(materiaPostDTO);
+
+        verify(modelMapper).map(materiaPostDTO, Materia.class);
     }
 }

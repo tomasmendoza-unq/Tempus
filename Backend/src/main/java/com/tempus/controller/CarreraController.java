@@ -2,7 +2,6 @@ package com.tempus.controller;
 
 import com.tempus.dto.carrera.CarreraPostDTO;
 import com.tempus.service.ICarreraService;
-import jakarta.persistence.GeneratedValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

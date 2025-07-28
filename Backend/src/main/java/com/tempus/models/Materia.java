@@ -8,7 +8,7 @@ import lombok.Data;
 public class Materia {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idMateria;
 
     private String nombreMateria;

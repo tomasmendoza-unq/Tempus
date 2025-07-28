@@ -15,7 +15,7 @@ import java.util.Set;
 public class Carrera {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idCarrera;
 
     private String nombreCarrera;
