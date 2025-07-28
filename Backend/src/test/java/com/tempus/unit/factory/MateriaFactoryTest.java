@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import java.util.List;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +36,15 @@ public class MateriaFactoryTest {
     @Mock
     IEntityFinder<Carrera> finderCarrera;
 
+    @Mock
+    IEntityFinder<Materia> finderMateria;
+
+    @Mock
+    Carrera carrera;
+
+    @Mock
+    Materia materia2;
+
     @InjectMocks
     MateriaFactory materiaFactory;
 
@@ -48,10 +59,22 @@ public class MateriaFactoryTest {
 
     @Test
     public void testToEntityOk(){
+        List<Long> materias = List.of(2L);
+
         when(modelMapper.map(materiaPostDTO, Materia.class)).thenReturn(materia);
+        when(finderCarrera.findById(1L)).thenReturn(carrera);
+        when(finderMateria.findById(2L)).thenReturn(materia2);
+        when(materiaPostDTO.getIdCarrera()).thenReturn(1L);
+        when(materiaPostDTO.getCorrelativas()).thenReturn(materias);
+
 
         materiaFactory.toEntity(materiaPostDTO);
 
         verify(modelMapper).map(materiaPostDTO, Materia.class);
+        verify(finderCarrera).findById(1L);
+        verify(finderMateria).findById(2L);
+        verify(materiaPostDTO).getIdCarrera();
+        verify(materiaPostDTO).getCorrelativas();
+        verify(materia).addCorrelativa(materia2);
     }
 }
