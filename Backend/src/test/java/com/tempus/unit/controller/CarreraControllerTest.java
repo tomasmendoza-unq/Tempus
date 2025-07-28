@@ -3,6 +3,7 @@ package com.tempus.unit.controller;
 import com.tempus.controller.CarreraController;
 import com.tempus.dto.carrera.CarreraPostDTO;
 import com.tempus.dto.carrera.CarreraResponseDTO;
+import com.tempus.dto.materia.MateriaResponseDTO;
 import com.tempus.service.ICarreraService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +33,9 @@ public class CarreraControllerTest {
 
     @Mock
     private CarreraResponseDTO responsePost;
+
+    @Mock
+    private MateriaResponseDTO materiaResponseDTO;
 
     @Test
     public void testCreatedCarreraOk(){
@@ -66,6 +70,21 @@ public class CarreraControllerTest {
         assertEquals(responseDTOS, response.getBody());
 
         verify(carreraService).getCarreras();
+    }
+
+    @Test
+    public void testGetMateriasByCarreraOk(){
+        Long id = 1L;
+        List<MateriaResponseDTO> materiaResponseDTOS = List.of(materiaResponseDTO);
+
+        when(carreraService.getMaterias(id)).thenReturn(materiaResponseDTOS);
+
+        ResponseEntity<?> response = carreraController.getMateriasByCarrera(id);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(materiaResponseDTOS, response.getBody());
+
+        verify(carreraService).getMaterias(id);
     }
 
     @Test

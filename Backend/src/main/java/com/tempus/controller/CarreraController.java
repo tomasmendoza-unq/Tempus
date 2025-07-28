@@ -27,7 +27,7 @@ public class CarreraController {
 
     @GetMapping("/{id}/materias")
     public ResponseEntity<?> getMateriasByCarrera(@PathVariable Long id) {
-        return ResponseEntity.ok(carreraService.getMaterias(id));
+        return ResponseEntity.status(HttpStatus.OK).body(carreraService.getMaterias(id));
     }
 
     @PutMapping("/{id}")
