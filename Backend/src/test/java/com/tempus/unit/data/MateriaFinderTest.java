@@ -40,6 +40,37 @@ public class MateriaFinderTest {
     }
 
     @Test
+    public void testFindAllOK(){
+        List<Materia> materiaList= List.of(materia);
+
+        when(materiaRepository.findAll()).thenReturn(materiaList);
+
+        materiaFinder.findAll();
+
+        verify(materiaRepository).findAll();
+    }
+
+    @Test
+    public void testFindMateriaWithCorrelativasOk(){
+        when(materiaRepository.findWithCorrelativasById(1L)).thenReturn(Optional.of(materia));
+
+        materiaFinder.findMateriaWithCorrelativas(1L);
+
+        verify(materiaRepository).findWithCorrelativasById(1L);
+
+    }
+
+    @Test
+    public void testFindMateriaWithCorrelativasNotFound(){
+        Long id = 1L;
+        when(materiaRepository.findWithCorrelativasById(id)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFound.class, () -> materiaFinder.findMateriaWithCorrelativas(id));
+
+        verify(materiaRepository).findWithCorrelativasById(id);
+    }
+
+    @Test
     public void testFindMateriasByCarreraIdOk(){
         Long idCarrera = 1L;
         List<Materia> materiaList= List.of(materia);

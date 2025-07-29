@@ -2,8 +2,10 @@ package com.tempus.Factory.impls;
 
 import com.tempus.Factory.AbstractDTOFactory;
 import com.tempus.data.IEntityFinder;
+import com.tempus.data.IMateriaFinder;
 import com.tempus.dto.materia.MateriaPostDTO;
 import com.tempus.dto.materia.MateriaResponseDTO;
+import com.tempus.dto.materia.MateriaSimpleDTO;
 import com.tempus.models.Carrera;
 import com.tempus.models.Materia;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +22,21 @@ public class MateriaFactory extends AbstractDTOFactory {
     @Autowired
     private IEntityFinder<Materia> finderMateria;
 
+    public MateriaSimpleDTO toSimpleDTO(Materia materia){
+        return toDTO(materia, MateriaSimpleDTO.class);
+    }
+
     public MateriaResponseDTO toResponseDTO(Materia materia){
         MateriaResponseDTO materiaResponseDTO = toDTO(materia, MateriaResponseDTO.class);
 
-        /*
-        List<MateriaResponseDTO> correlativasDTOs = materia.getCorrelativas()
+
+        List<MateriaSimpleDTO> correlativasDTOs = materia.getCorrelativas()
                 .stream()
-                .map(this::toResponseDTO)
+                .map(this::toSimpleDTO)
                 .toList();
 
         materiaResponseDTO.setCorrelativas(correlativasDTOs);
-*/
+
         return materiaResponseDTO;
     }
 
@@ -41,6 +47,16 @@ public class MateriaFactory extends AbstractDTOFactory {
         setMaterias(materiaPostDTO, materia);
 
         return materia;
+    }
+
+
+    public void updateEntity(Materia materia, MateriaPostDTO materiaPostDTO){
+        Carrera carrera = finderCarrera.findById(materiaPostDTO.getIdCarrera());
+        materia.setCarrera(carrera);
+        materia.setNombreMateria(materiaPostDTO.getNombreMateria());
+
+        materia.getCorrelativas().clear();
+        setMaterias(materiaPostDTO, materia);
     }
 
     private void setMaterias(MateriaPostDTO materiaPostDTO, Materia materia) {

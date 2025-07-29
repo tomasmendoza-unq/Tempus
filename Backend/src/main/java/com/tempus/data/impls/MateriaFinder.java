@@ -20,6 +20,18 @@ public class MateriaFinder implements IMateriaFinder {
     }
 
     @Override
+    public Materia findMateriaWithCorrelativas(Long id) {
+        return materiaRepository.findWithCorrelativasById(id).orElseThrow(
+                () -> new ResourceNotFound("No se encontro la materia")
+        );
+    }
+
+    @Override
+    public List<Materia> findAll() {
+        return materiaRepository.findAll();
+    }
+
+    @Override
     public Materia findById(Long id) {
         return materiaRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFound("No se encontro la materia")

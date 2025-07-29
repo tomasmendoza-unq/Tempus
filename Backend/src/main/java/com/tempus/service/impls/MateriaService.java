@@ -2,14 +2,18 @@ package com.tempus.service.impls;
 
 import com.tempus.Factory.impls.MateriaFactory;
 import com.tempus.data.IEntityFinder;
+import com.tempus.data.IMateriaFinder;
 import com.tempus.dto.materia.MateriaPostDTO;
 import com.tempus.dto.materia.MateriaResponseDTO;
+import com.tempus.dto.materia.MateriaSimpleDTO;
 import com.tempus.models.Materia;
 import com.tempus.repository.IMateriaRepository;
 import com.tempus.service.IMateriaService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -22,15 +26,19 @@ public class MateriaService implements IMateriaService {
     private MateriaFactory materiaFactory;
 
     @Autowired
-    private IEntityFinder<Materia> finderMateria;
+    private IMateriaFinder finderMateria;
 
     @Override
     public MateriaResponseDTO getMateria(Long id) {
-        return this.toResponseDTO(this.findMateria(id));
+        return this.toResponseDTO(this.findMateriaWithCorrelativas(id));
     }
 
     private MateriaResponseDTO toResponseDTO(Materia materia) {
         return materiaFactory.toResponseDTO(materia);
+    }
+
+    private Materia findMateriaWithCorrelativas(Long id){
+        return finderMateria.findMateriaWithCorrelativas(id);
     }
 
     private Materia findMateria(Long id) {
@@ -38,32 +46,41 @@ public class MateriaService implements IMateriaService {
     }
 
     @Override
-    public List<MateriaResponseDTO> getMaterias() {
-        return materiaRepository.findAll()
+    public List<MateriaSimpleDTO> getMaterias() {
+        return this.findAll()
                 .stream()
-                .map(this::toResponseDTO)
+                .map(this::toSimpleDTO)
                 .toList();
     }
 
+    private List<Materia> findAll() {
+        return finderMateria.findAll();
+    }
+
+    private MateriaSimpleDTO toSimpleDTO(Materia materia) {
+        return materiaFactory.toSimpleDTO(materia);
+    }
+
     @Override
-    public MateriaResponseDTO createdMateria(MateriaPostDTO materiaPostDTO) {
+    public MateriaSimpleDTO createdMateria(MateriaPostDTO materiaPostDTO) {
         Materia materia = materiaFactory.toEntity(materiaPostDTO);
         Materia saved = this.save(materia);
 
-        return this.toResponseDTO(saved);
+        return this.toSimpleDTO(saved);
     }
 
     private Materia save(Materia materia) {
         return materiaRepository.save(materia);
     }
 
+    @Transactional
     @Override
-    public MateriaResponseDTO putMateria(MateriaPostDTO materiaPostDTO, Long id) {
+    public MateriaSimpleDTO putMateria(MateriaPostDTO materiaPostDTO, Long id) {
         Materia materia = this.findMateria(id);
         materiaFactory.updateEntity(materia, materiaPostDTO);
         Materia saved = this.save(materia);
 
-        return this.toResponseDTO(saved);
+        return this.toSimpleDTO(saved);
     }
 
     @Override

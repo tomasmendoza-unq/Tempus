@@ -2,17 +2,18 @@ package com.tempus.service;
 
 import com.tempus.dto.materia.MateriaPostDTO;
 import com.tempus.dto.materia.MateriaResponseDTO;
+import com.tempus.dto.materia.MateriaSimpleDTO;
 
 import java.util.List;
 
 public interface IMateriaService {
     MateriaResponseDTO getMateria(Long id);
 
-    List<MateriaResponseDTO> getMaterias();
+    List<MateriaSimpleDTO> getMaterias();
 
-    MateriaResponseDTO createdMateria(MateriaPostDTO materiaPostDTO);
+    MateriaSimpleDTO createdMateria(MateriaPostDTO materiaPostDTO);
 
-    MateriaResponseDTO putMateria(MateriaPostDTO materiaPostDTO, Long id);
+    MateriaSimpleDTO putMateria(MateriaPostDTO materiaPostDTO, Long id);
 
     void deleteMateria(Long id);
 }

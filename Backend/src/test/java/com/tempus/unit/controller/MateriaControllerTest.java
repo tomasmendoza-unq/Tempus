@@ -3,6 +3,7 @@ package com.tempus.unit.controller;
 import com.tempus.controller.MateriaController;
 import com.tempus.dto.materia.MateriaPostDTO;
 import com.tempus.dto.materia.MateriaResponseDTO;
+import com.tempus.dto.materia.MateriaSimpleDTO;
 import com.tempus.service.IMateriaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,9 @@ public class MateriaControllerTest {
 
     @Mock
     MateriaResponseDTO materiaResponseDTO;
+
+    @Mock
+    MateriaSimpleDTO materiaSimpleDTO;
 
     @Mock
     IMateriaService materiaService;
@@ -55,7 +59,7 @@ public class MateriaControllerTest {
 
     @Test
     public void testGetMateriasOk(){
-        List<MateriaResponseDTO> materias = List.of(materiaResponseDTO);
+        List<MateriaSimpleDTO> materias = List.of(materiaSimpleDTO);
 
         when(materiaService.getMaterias()).thenReturn(materias);
 
@@ -70,24 +74,24 @@ public class MateriaControllerTest {
 
     @Test
     public void testCreatedMateriaOk(){
-        when(materiaService.createdMateria(materiaPostDTO)).thenReturn(materiaResponseDTO);
+        when(materiaService.createdMateria(materiaPostDTO)).thenReturn(materiaSimpleDTO);
 
         ResponseEntity<?> response = materiaController.createdMateria(materiaPostDTO);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(materiaResponseDTO, response.getBody());
+        assertEquals(materiaSimpleDTO, response.getBody());
 
         verify(materiaService).createdMateria(materiaPostDTO);
     }
 
     @Test
     public void testPutMateria(){
-        when(materiaService.putMateria(materiaPostDTO, id)).thenReturn(materiaResponseDTO);
+        when(materiaService.putMateria(materiaPostDTO, id)).thenReturn(materiaSimpleDTO);
 
         ResponseEntity<?> response = materiaController.putMateria(materiaPostDTO, id);
 
         assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
-        assertEquals(materiaResponseDTO, response.getBody());
+        assertEquals(materiaSimpleDTO, response.getBody());
 
         verify(materiaService).putMateria(materiaPostDTO, id);
     }

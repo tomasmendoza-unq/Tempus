@@ -4,6 +4,7 @@ import com.tempus.Factory.impls.MateriaFactory;
 import com.tempus.data.IEntityFinder;
 import com.tempus.dto.materia.MateriaPostDTO;
 import com.tempus.dto.materia.MateriaResponseDTO;
+import com.tempus.dto.materia.MateriaSimpleDTO;
 import com.tempus.models.Carrera;
 import com.tempus.models.Materia;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,9 @@ public class MateriaFactoryTest {
     MateriaResponseDTO materiaResponseDTO;
 
     @Mock
+    MateriaSimpleDTO materiaSimpleDTO;
+
+    @Mock
     MateriaPostDTO materiaPostDTO;
 
     @Mock
@@ -49,12 +53,47 @@ public class MateriaFactoryTest {
     MateriaFactory materiaFactory;
 
     @Test
+    public void testToSimpleDTOOk(){
+        when(modelMapper.map(materia,MateriaSimpleDTO.class)).thenReturn(materiaSimpleDTO);
+
+        materiaFactory.toSimpleDTO(materia);
+
+        verify(modelMapper).map(materia, MateriaSimpleDTO.class);
+    }
+
+    @Test
     public void testToResponseDTOOk(){
+        List<Materia> materias = List.of(materia2);
         when(modelMapper.map(materia, MateriaResponseDTO.class)).thenReturn(materiaResponseDTO);
+        when(materia.getCorrelativas()).thenReturn(materias);
+        when(modelMapper.map(materia2,MateriaSimpleDTO.class)).thenReturn(materiaSimpleDTO);
 
         materiaFactory.toResponseDTO(materia);
 
         verify(modelMapper).map(materia, MateriaResponseDTO.class);
+        verify(materia).getCorrelativas();
+        verify(modelMapper).map(materia2, MateriaSimpleDTO.class);
+    }
+
+    @Test
+    public void testUpdateEntityOK(){
+        List<Long> materias = List.of(2L);
+        when(finderCarrera.findById(1L)).thenReturn(carrera);
+        when(finderMateria.findById(2L)).thenReturn(materia2);
+        when(materiaPostDTO.getIdCarrera()).thenReturn(1L);
+        when(materiaPostDTO.getNombreMateria()).thenReturn("Matematica");
+        when(materiaPostDTO.getCorrelativas()).thenReturn(materias);
+
+
+        materiaFactory.updateEntity(materia, materiaPostDTO);
+
+        verify(finderCarrera).findById(1L);
+        verify(finderMateria).findById(2L);
+        verify(materiaPostDTO).getIdCarrera();
+        verify(materiaPostDTO).getNombreMateria();
+        verify(materiaPostDTO).getCorrelativas();
+        verify(materia).addCorrelativa(materia2);
+
     }
 
     @Test

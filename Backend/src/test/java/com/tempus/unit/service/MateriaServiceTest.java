@@ -2,8 +2,10 @@ package com.tempus.unit.service;
 
 import com.tempus.Factory.impls.MateriaFactory;
 import com.tempus.data.IEntityFinder;
+import com.tempus.data.IMateriaFinder;
 import com.tempus.dto.materia.MateriaPostDTO;
 import com.tempus.dto.materia.MateriaResponseDTO;
+import com.tempus.dto.materia.MateriaSimpleDTO;
 import com.tempus.models.Materia;
 import com.tempus.repository.IMateriaRepository;
 import com.tempus.service.impls.MateriaService;
@@ -33,7 +35,7 @@ public class MateriaServiceTest {
     MateriaFactory materiaFactory;
 
     @Mock
-    IEntityFinder<Materia> finderMateria;
+    IMateriaFinder finderMateria;
 
     @Mock
     Materia materia;
@@ -47,6 +49,9 @@ public class MateriaServiceTest {
     @Mock
     MateriaResponseDTO materiaResponseDTO;
 
+    @Mock
+    MateriaSimpleDTO materiaSimpleDTO;
+
     Long id;
 
     @BeforeEach
@@ -56,37 +61,37 @@ public class MateriaServiceTest {
 
     @Test
     public void testGetMateriaOk(){
-        when(finderMateria.findById(id)).thenReturn(materia);
+        when(finderMateria.findMateriaWithCorrelativas(id)).thenReturn(materia);
         when(materiaFactory.toResponseDTO(materia)).thenReturn(materiaResponseDTO);
 
         materiaService.getMateria(id);
 
         verify(materiaFactory).toResponseDTO(materia);
-        verify(finderMateria).findById(id);
+        verify(finderMateria).findMateriaWithCorrelativas(id);
 
     }
 
     @Test
     public void testGetMateriasOk(){
         List<Materia> materias = List.of(materia);
-        when(materiaRepository.findAll()).thenReturn(materias);
-        when(materiaFactory.toResponseDTO(materia)).thenReturn(materiaResponseDTO);
+        when(finderMateria.findAll()).thenReturn(materias);
+        when(materiaFactory.toSimpleDTO(materia)).thenReturn(materiaSimpleDTO);
 
         materiaService.getMaterias();
 
-        verify(materiaRepository).findAll();
-        verify(materiaFactory).toResponseDTO(materia);
+        verify(finderMateria).findAll();
+        verify(materiaFactory).toSimpleDTO(materia);
     }
 
     @Test
     public void testCreatedMateriaOk(){
         when(materiaRepository.save(materia)).thenReturn(saved);
         when(materiaFactory.toEntity(materiaPostDTO)).thenReturn(materia);
-        when(materiaFactory.toResponseDTO(saved)).thenReturn(materiaResponseDTO);
+        when(materiaFactory.toSimpleDTO(saved)).thenReturn(materiaSimpleDTO);
 
         materiaService.createdMateria(materiaPostDTO);
 
-        verify(materiaFactory).toResponseDTO(saved);
+        verify(materiaFactory).toSimpleDTO(saved);
         verify(materiaFactory).toEntity(materiaPostDTO);
         verify(materiaRepository).save(materia);
     }
@@ -95,11 +100,11 @@ public class MateriaServiceTest {
     public void testPutMateriaOK(){
         when(materiaRepository.save(materia)).thenReturn(saved);
         when(finderMateria.findById(id)).thenReturn(materia);
-        when(materiaFactory.toResponseDTO(saved)).thenReturn(materiaResponseDTO);
+        when(materiaFactory.toSimpleDTO(saved)).thenReturn(materiaSimpleDTO);
 
         materiaService.putMateria(materiaPostDTO, id);
 
-        verify(materiaFactory).toResponseDTO(saved);
+        verify(materiaFactory).toSimpleDTO(saved);
         verify(finderMateria).findById(id);
         verify(materiaRepository).save(materia);
     }
