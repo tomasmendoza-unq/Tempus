@@ -1,13 +1,12 @@
 package com.tempus.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -16,10 +15,12 @@ import lombok.NoArgsConstructor;
 public class Carrera {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idCarrera;
 
     private String nombreCarrera;
 
+    @OneToMany(mappedBy = "carrera")
+    private List<Materia> materias;
 
 }
