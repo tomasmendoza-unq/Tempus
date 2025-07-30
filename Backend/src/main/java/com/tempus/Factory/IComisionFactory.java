@@ -1,0 +1,10 @@
+package com.tempus.Factory;
+
+import com.tempus.dto.comision.ComisionPostDTO;
+import com.tempus.models.Comision;
+
+public interface IComisionFactory {
+    Comision toEntity(ComisionPostDTO comisionPostDTO);
+
+    ComisionPostDTO toPostDTO(Comision saved);
+}
