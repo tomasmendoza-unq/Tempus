@@ -2,7 +2,10 @@ package com.tempus.unit.controller;
 
 import com.tempus.controller.ComisionController;
 import com.tempus.dto.comision.ComisionPostDTO;
+import com.tempus.dto.comision.ComisionResponseDTO;
 import com.tempus.service.IComisionService;
+import org.apache.coyote.Response;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -30,6 +35,15 @@ public class ComisionControllerTest {
     @InjectMocks
     ComisionController comisionController;
 
+    @Mock
+    ComisionResponseDTO comisionResponseDTO;
+
+    Long id;
+
+    @BeforeEach
+    public void setUp(){
+        id = 1L;
+    }
 
     @Test
     public void testCreatedComisionOk(){
@@ -45,4 +59,52 @@ public class ComisionControllerTest {
 
     }
 
+    @Test
+    public void testGetComisionesOk(){
+        List<ComisionResponseDTO> comisionResponseDTOS = List.of(comisionResponseDTO);
+
+        when(comisionService.getComisiones()).thenReturn(comisionResponseDTOS);
+
+        ResponseEntity<?> response = comisionController.getComisiones();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(comisionResponseDTOS, response.getBody());
+
+        verify(comisionService).getComisiones();
+    }
+
+    @Test
+    public void testGetComisionOk(){
+        when(comisionService.getComision(id)).thenReturn(comisionResponseDTO);
+
+        ResponseEntity<?> response = comisionController.getComision(id);
+
+        assertEquals(HttpStatus.FOUND, response.getStatusCode());
+        assertEquals(comisionResponseDTO, response.getBody());
+
+        verify(comisionService).getComision(id);
+    }
+
+    @Test
+    public void testPutComisionOk(){
+        when(comisionService.putComision(comisionPostDTO, id)).thenReturn(comisionResponseDTO);
+
+        ResponseEntity<?> response = comisionController.putComision(comisionPostDTO, id);
+
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+        assertEquals(comisionResponseDTO, response.getBody());
+
+        verify(comisionService).putComision(comisionPostDTO, id);
+    }
+
+
+    @Test
+    public void testDeleteComisionOk(){
+        ResponseEntity<?> response = comisionController.deleteComision(id);
+
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+        assertEquals("Se elimino con exito", response.getBody());
+
+        verify(comisionService).deleteComision(id);
+    }
 }

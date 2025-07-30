@@ -4,6 +4,8 @@ import com.tempus.Factory.AbstractDTOFactory;
 import com.tempus.Factory.IComisionFactory;
 import com.tempus.data.IEntityFinder;
 import com.tempus.dto.comision.ComisionPostDTO;
+import com.tempus.dto.comision.ComisionResponseDTO;
+import com.tempus.dto.materia.MateriaSimpleDTO;
 import com.tempus.models.Comision;
 import com.tempus.models.Materia;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Component;
 public class ComisionFactory extends AbstractDTOFactory implements IComisionFactory {
     @Autowired
     IEntityFinder<Materia> finderMateria;
+
+    @Autowired
+    MateriaFactory materiaFactory;
 
     @Override
     public Comision toEntity(ComisionPostDTO comisionPostDTO) {
@@ -31,6 +36,17 @@ public class ComisionFactory extends AbstractDTOFactory implements IComisionFact
     @Override
     public ComisionPostDTO toPostDTO(Comision comision) {
         return toDTO(comision, ComisionPostDTO.class);
+    }
+
+    @Override
+    public ComisionResponseDTO toResponseDTO(Comision comision) {
+        ComisionResponseDTO comisionResponseDTO = toDTO(comision, ComisionResponseDTO.class);
+        Materia materia = comision.getMateria();
+        MateriaSimpleDTO materiaSimpleDTO = materiaFactory.toSimpleDTO(materia);
+
+        comisionResponseDTO.setMateria(materiaSimpleDTO);
+
+        return comisionResponseDTO;
     }
 
 
