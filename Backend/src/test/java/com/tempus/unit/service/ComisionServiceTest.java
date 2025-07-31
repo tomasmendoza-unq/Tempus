@@ -1,16 +1,21 @@
 package com.tempus.unit.service;
 
 import com.tempus.Factory.impls.ComisionFactory;
+import com.tempus.data.IComisionFinder;
 import com.tempus.data.IEntityFinder;
 import com.tempus.dto.comision.ComisionPostDTO;
+import com.tempus.dto.comision.ComisionResponseDTO;
 import com.tempus.models.Comision;
 import com.tempus.repository.IComisionRepository;
 import com.tempus.service.impls.ComisionService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,6 +28,9 @@ public class ComisionServiceTest {
 
     @InjectMocks
     ComisionService comisionService;
+
+    @Mock
+    IComisionFinder finderComision;
 
     @Mock
     IComisionRepository comisionRepository;
@@ -39,6 +47,16 @@ public class ComisionServiceTest {
     @Mock
     ComisionPostDTO responseSaved;
 
+    @Mock
+    ComisionResponseDTO comisionResponseDTO;
+
+    Long id;
+
+    @BeforeEach
+    public void setUp(){
+        id = 1L;
+    }
+
     @Test
     public void testCreatedComisionOk(){
         when(comisionRepository.save(comision)).thenReturn(saved);
@@ -51,6 +69,31 @@ public class ComisionServiceTest {
         verify(comisionFactory).toEntity(comisionPostDTO);
         verify(comisionFactory).toPostDTO(saved);
 
+
+    }
+
+    @Test
+    public void testGetComisionOk(){
+        when(comisionFactory.toResponseDTO(comision)).thenReturn(comisionResponseDTO);
+        when(finderComision.findComisionWithMateria(id)).thenReturn(comision);
+
+        comisionService.getComision(id);
+
+        verify(comisionFactory).toResponseDTO(comision);
+        verify(finderComision).findComisionWithMateria(id);
+    }
+
+    @Test
+    public void testGetComisionesOk(){
+        List<Comision> comisiones = List.of(comision);
+
+        when(comisionFactory.toResponseDTO(comision)).thenReturn(comisionResponseDTO);
+        when(finderComision.findAll()).thenReturn(comisiones);
+
+        comisionService.getComisiones();
+
+        verify(comisionFactory).toResponseDTO(comision);
+        verify(finderComision).findAll();
 
     }
 

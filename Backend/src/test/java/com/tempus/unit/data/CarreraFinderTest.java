@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -46,5 +47,15 @@ public class CarreraFinderTest {
         assertThrows(ResourceNotFound.class, () -> carreraFinder.findById(id));
 
         verify(carreraRepository).findById(id);
+    }
+
+    @Test
+    public void testFindAllOk(){
+        List<Carrera> carreraList = List.of(carrera);
+        when(carreraRepository.findAll()).thenReturn(carreraList);
+
+        carreraFinder.findAll();
+
+        verify(carreraRepository).findAll();
     }
 }

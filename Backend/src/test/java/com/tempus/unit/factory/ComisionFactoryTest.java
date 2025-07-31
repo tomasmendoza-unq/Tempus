@@ -1,8 +1,11 @@
 package com.tempus.unit.factory;
 
 import com.tempus.Factory.impls.ComisionFactory;
+import com.tempus.Factory.impls.MateriaFactory;
 import com.tempus.data.IEntityFinder;
 import com.tempus.dto.comision.ComisionPostDTO;
+import com.tempus.dto.comision.ComisionResponseDTO;
+import com.tempus.dto.materia.MateriaSimpleDTO;
 import com.tempus.models.Comision;
 import com.tempus.models.Materia;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +39,16 @@ public class ComisionFactoryTest {
     @Mock
     ModelMapper modelMapper;
 
+    @Mock
+    MateriaSimpleDTO materiaSimpleDTO;
+
+    @Mock
+    MateriaFactory materiaFactory;
+
     Long id;
+
+    @Mock
+    ComisionResponseDTO comisionResponseDTO;
 
     @BeforeEach
     public void setUp(){
@@ -63,5 +75,21 @@ public class ComisionFactoryTest {
         comisionFactory.toPostDTO(comision);
 
         verify(modelMapper).map(comision, ComisionPostDTO.class);
+    }
+
+    @Test
+    public void testToResponseDTO(){
+        when(modelMapper.map(comision, ComisionResponseDTO.class)).thenReturn(comisionResponseDTO);
+        when(materiaFactory.toSimpleDTO(materia)).thenReturn(materiaSimpleDTO);
+        when(comision.getMateria()).thenReturn(materia);
+
+        comisionFactory.toResponseDTO(comision);
+
+        verify(modelMapper).map(comision, ComisionResponseDTO.class);
+        verify(materiaFactory).toSimpleDTO(materia);
+        verify(comision).getMateria();
+        verify(comisionResponseDTO).setMateria(materiaSimpleDTO);
+
+
     }
 }
