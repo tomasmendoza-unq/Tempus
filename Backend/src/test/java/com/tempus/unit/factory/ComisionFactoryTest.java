@@ -6,6 +6,7 @@ import com.tempus.data.IEntityFinder;
 import com.tempus.dto.comision.ComisionPostDTO;
 import com.tempus.dto.comision.ComisionResponseDTO;
 import com.tempus.dto.materia.MateriaSimpleDTO;
+import com.tempus.enums.Turno;
 import com.tempus.models.Comision;
 import com.tempus.models.Materia;
 import org.junit.jupiter.api.BeforeEach;
@@ -90,6 +91,23 @@ public class ComisionFactoryTest {
         verify(comision).getMateria();
         verify(comisionResponseDTO).setMateria(materiaSimpleDTO);
 
+
+    }
+
+    @Test
+    public void testUpdateEntityOk(){
+        Turno turno = Turno.MAÑANA;
+        when(finderMateria.findById(id)).thenReturn(materia);
+        when(comisionPostDTO.getTurno()).thenReturn(turno);
+        when(comisionPostDTO.getIdMateria()).thenReturn(id);
+
+        comisionFactory.updateEntity(comision, comisionPostDTO);
+
+        verify(finderMateria).findById(id);
+        verify(comisionPostDTO).getIdMateria();
+        verify(comisionPostDTO).getTurno();
+        verify(comision).setMateria(materia);
+        verify(comision).setTurno(turno);
 
     }
 }

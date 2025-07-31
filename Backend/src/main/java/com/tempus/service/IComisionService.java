@@ -12,7 +12,7 @@ public interface IComisionService {
 
     public ComisionResponseDTO getComision(Long id);
 
-    public ComisionResponseDTO putComision(ComisionPostDTO comisionPostDTO, Long id);
+    public ComisionPostDTO putComision(ComisionPostDTO comisionPostDTO, Long id);
 
     public void deleteComision(Long id);
 }

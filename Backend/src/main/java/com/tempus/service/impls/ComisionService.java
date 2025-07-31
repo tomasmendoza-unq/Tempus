@@ -1,7 +1,6 @@
 package com.tempus.service.impls;
 
 import com.tempus.Factory.IComisionFactory;
-import com.tempus.Factory.impls.ComisionFactory;
 import com.tempus.data.IComisionFinder;
 import com.tempus.dto.comision.ComisionPostDTO;
 import com.tempus.dto.comision.ComisionResponseDTO;
@@ -60,15 +59,17 @@ public class ComisionService implements IComisionService {
     }
 
     @Override
-    public ComisionResponseDTO putComision(ComisionPostDTO comisionPostDTO, Long id) {
-        
+    public ComisionPostDTO putComision(ComisionPostDTO comisionPostDTO, Long id) {
+        Comision comision = this.findComision(id);
+        comisionFactory.updateEntity(comision, comisionPostDTO);
+        Comision saved = this.save(comision);
 
-        return null;
+        return comisionFactory.toPostDTO(saved);
     }
 
     @Override
     public void deleteComision(Long id) {
-
+        comisionRepository.delete(findComision(id));
     }
 
     private Comision save(Comision comision) {

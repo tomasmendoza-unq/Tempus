@@ -87,12 +87,12 @@ public class ComisionControllerTest {
 
     @Test
     public void testPutComisionOk(){
-        when(comisionService.putComision(comisionPostDTO, id)).thenReturn(comisionResponseDTO);
+        when(comisionService.putComision(comisionPostDTO, id)).thenReturn(comisionPostDTO);
 
         ResponseEntity<?> response = comisionController.putComision(comisionPostDTO, id);
 
         assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
-        assertEquals(comisionResponseDTO, response.getBody());
+        assertEquals(comisionPostDTO, response.getBody());
 
         verify(comisionService).putComision(comisionPostDTO, id);
     }

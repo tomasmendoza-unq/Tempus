@@ -97,5 +97,28 @@ public class ComisionServiceTest {
 
     }
 
+    @Test
+    public void testPutComisionOk(){
+        when(finderComision.findById(id)).thenReturn(comision);
+        when(comisionRepository.save(comision)).thenReturn(saved);
+        when(comisionFactory.toPostDTO(saved)).thenReturn(comisionPostDTO);
+
+        comisionService.putComision(comisionPostDTO, id);
+
+        verify(finderComision).findById(id);
+        verify(comisionRepository).save(comision);
+        verify(comisionFactory).toPostDTO(saved);
+
+    }
+
+    @Test
+    public void testDeleteComisionOk(){
+        when(finderComision.findById(id)).thenReturn(comision);
+
+        comisionService.deleteComision(id);
+
+        verify(finderComision).findById(id);
+        verify(comisionRepository).delete(comision);
+    }
 
 }
