@@ -42,7 +42,7 @@ public class MateriaFactory extends AbstractDTOFactory {
 
     public Materia toEntity(MateriaPostDTO materiaPostDTO){
         Materia materia = toEntity(materiaPostDTO, Materia.class);
-        Carrera carrera = finderCarrera.findById(materiaPostDTO.getIdCarrera());
+        Carrera carrera = this.findCarrera(materiaPostDTO);
         materia.setCarrera(carrera);
         setMaterias(materiaPostDTO, materia);
 
@@ -51,7 +51,7 @@ public class MateriaFactory extends AbstractDTOFactory {
 
 
     public void updateEntity(Materia materia, MateriaPostDTO materiaPostDTO){
-        Carrera carrera = finderCarrera.findById(materiaPostDTO.getIdCarrera());
+        Carrera carrera = this.findCarrera(materiaPostDTO);
         materia.setCarrera(carrera);
         materia.setNombreMateria(materiaPostDTO.getNombreMateria());
 
@@ -64,6 +64,10 @@ public class MateriaFactory extends AbstractDTOFactory {
                 .stream()
                 .map(this::findMateria)
                 .forEach(materia::addCorrelativa);
+    }
+
+    private Carrera findCarrera(MateriaPostDTO materiaPostDTO){
+        return finderCarrera.findById(materiaPostDTO.getIdCarrera());
     }
 
     private Materia findMateria(Long id) {
