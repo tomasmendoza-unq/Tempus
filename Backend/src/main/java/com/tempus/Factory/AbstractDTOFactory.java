@@ -16,7 +16,4 @@ public abstract class AbstractDTOFactory {
         return modelMapper.map(source, destinationType);
     }
 
-    public <T, U> void updateEntity(T source, U destination){
-        modelMapper.map(destination, source);
-    }
 }

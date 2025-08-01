@@ -1,5 +1,7 @@
 package com.tempus.service.impls;
 
+import com.tempus.Factory.ICarreraFactory;
+import com.tempus.Factory.IMateriaFactory;
 import com.tempus.Factory.impls.CarreraFactory;
 import com.tempus.Factory.impls.MateriaFactory;
 import com.tempus.data.IEntityFinder;
@@ -25,10 +27,10 @@ public class CarreraService implements ICarreraService {
     private ICarreraRepository carreraRepository;
 
     @Autowired
-    private CarreraFactory carreraFactory;
+    private ICarreraFactory carreraFactory;
 
     @Autowired
-    private MateriaFactory materiaFactory;
+    private IMateriaFactory materiaFactory;
 
     @Autowired
     private IEntityFinder<Carrera> finderCarrera;

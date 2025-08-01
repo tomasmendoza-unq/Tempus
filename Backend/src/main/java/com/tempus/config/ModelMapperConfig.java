@@ -3,7 +3,6 @@ package com.tempus.config;
 import com.tempus.dto.comision.ComisionPostDTO;
 import com.tempus.dto.materia.MateriaPostDTO;
 import com.tempus.dto.materia.MateriaResponseDTO;
-import com.tempus.dto.materia.MateriaSimpleDTO;
 import com.tempus.models.Comision;
 import com.tempus.models.Materia;
 import org.modelmapper.ModelMapper;
