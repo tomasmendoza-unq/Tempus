@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -17,6 +19,8 @@ public class Comision {
     private Long idComision;
 
     private Turno turno;
+
+    private LocalTime horario;
 
     @ManyToOne
     @JoinColumn(name = "materia_id")
