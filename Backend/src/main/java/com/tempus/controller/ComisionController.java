@@ -1,6 +1,7 @@
 package com.tempus.controller;
 
 import com.tempus.dto.comision.ComisionPostDTO;
+import com.tempus.enums.Turno;
 import com.tempus.service.IComisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,11 @@ public class ComisionController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getComision(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.FOUND).body(comisionService.getComision(id));
+    }
+
+    @GetMapping("/horario/{turno}")
+    public ResponseEntity<?> getComisionesPorHorario(@PathVariable Turno turno){
+        return ResponseEntity.status(HttpStatus.OK).body(comisionService.getComisionesPorHorario(turno));
     }
 
     @PutMapping("/{id}")

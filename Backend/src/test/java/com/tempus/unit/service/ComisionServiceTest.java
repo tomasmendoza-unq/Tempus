@@ -1,14 +1,15 @@
 package com.tempus.unit.service;
 
-import com.tempus.Factory.IComisionFactory;
-import com.tempus.Factory.impls.ComisionFactory;
+import com.tempus.Factory.models.IComisionFactory;
+import com.tempus.Factory.strategy.IValidacionHorarioFactory;
 import com.tempus.data.IComisionFinder;
-import com.tempus.data.IEntityFinder;
 import com.tempus.dto.comision.ComisionPostDTO;
 import com.tempus.dto.comision.ComisionResponseDTO;
+import com.tempus.enums.Turno;
 import com.tempus.models.Comision;
 import com.tempus.repository.IComisionRepository;
 import com.tempus.service.impls.ComisionService;
+import com.tempus.strategy.horario.ValidacionHorarioStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,10 +17,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalTime;
 import java.util.List;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ComisionServiceTest {
@@ -38,6 +40,8 @@ public class ComisionServiceTest {
 
     @Mock
     Comision comision;
+    @Mock
+    Comision comision2;
 
     @Mock
     Comision saved;
@@ -50,6 +54,15 @@ public class ComisionServiceTest {
 
     @Mock
     ComisionResponseDTO comisionResponseDTO;
+
+    @Mock
+    ComisionResponseDTO comisionResponseDTO2;
+
+    @Mock
+    IValidacionHorarioFactory validacionHorarioFactory;
+
+    @Mock
+    ValidacionHorarioStrategy validacionHorarioStrategy;
 
     Long id;
 
@@ -122,4 +135,28 @@ public class ComisionServiceTest {
         verify(comisionRepository).delete(comision);
     }
 
+    @Test
+    public void testGetComisionesPorTurnoOk(){
+        List<Comision> comisiones = List.of(comision, comision2);
+        Turno turno = Turno.MAÑANA;
+
+        when(comisionFactory.toResponseDTO(comision)).thenReturn(comisionResponseDTO);;
+        when(finderComision.findAll()).thenReturn(comisiones);
+        when(comision.getHorario()).thenReturn(LocalTime.of(0, 0)); // Hora irrelevante para este test
+        when(comision2.getHorario()).thenReturn(LocalTime.of(1, 1)); // Hora irrelevante para este test
+        when(validacionHorarioFactory.obtenerStrategy(turno.getInicio())).thenReturn(validacionHorarioStrategy);
+        when(validacionHorarioStrategy.aplicaPara(LocalTime.of(0, 0))).thenReturn(true);
+        when(validacionHorarioStrategy.aplicaPara(LocalTime.of(1, 1))).thenReturn(false);
+
+        List<ComisionResponseDTO> comisionResponseDTOS = comisionService.getComisionesPorHorario(turno);
+
+        verify(comisionFactory).toResponseDTO(comision);
+        verify(finderComision).findAll();
+        verify(comision).getHorario();
+        verify(comision2).getHorario();
+        verify(validacionHorarioFactory).obtenerStrategy(turno.getInicio());
+        verify(validacionHorarioStrategy).aplicaPara(LocalTime.of(0, 0));
+        verify(validacionHorarioStrategy).aplicaPara(LocalTime.of(0, 0));
+        verify(comisionFactory, never()).toResponseDTO(comision2);
+    }
 }
