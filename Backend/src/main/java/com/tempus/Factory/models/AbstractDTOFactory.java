@@ -1,4 +1,4 @@
-package com.tempus.Factory;
+package com.tempus.Factory.models;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

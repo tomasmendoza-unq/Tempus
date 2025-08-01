@@ -1,8 +1,8 @@
-package com.tempus.Factory.impls;
+package com.tempus.Factory.models.impls;
 
-import com.tempus.Factory.AbstractDTOFactory;
-import com.tempus.Factory.IComisionFactory;
-import com.tempus.Factory.IMateriaFactory;
+import com.tempus.Factory.models.AbstractDTOFactory;
+import com.tempus.Factory.models.IComisionFactory;
+import com.tempus.Factory.models.IMateriaFactory;
 import com.tempus.data.IEntityFinder;
 import com.tempus.dto.comision.ComisionPostDTO;
 import com.tempus.dto.comision.ComisionResponseDTO;

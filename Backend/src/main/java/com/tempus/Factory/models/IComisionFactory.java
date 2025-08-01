@@ -1,4 +1,4 @@
-package com.tempus.Factory;
+package com.tempus.Factory.models;
 
 import com.tempus.dto.comision.ComisionPostDTO;
 import com.tempus.dto.comision.ComisionResponseDTO;

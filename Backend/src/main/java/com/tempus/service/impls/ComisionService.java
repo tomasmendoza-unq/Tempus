@@ -1,6 +1,6 @@
 package com.tempus.service.impls;
 
-import com.tempus.Factory.IComisionFactory;
+import com.tempus.Factory.models.IComisionFactory;
 import com.tempus.data.IComisionFinder;
 import com.tempus.dto.comision.ComisionPostDTO;
 import com.tempus.dto.comision.ComisionResponseDTO;
