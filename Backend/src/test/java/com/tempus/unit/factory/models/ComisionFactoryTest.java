@@ -17,6 +17,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalTime;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -96,18 +98,16 @@ public class ComisionFactoryTest {
 
     @Test
     public void testUpdateEntityOk(){
-        Turno turno = Turno.MAÑANA;
         when(finderMateria.findById(id)).thenReturn(materia);
-        when(comisionPostDTO.getTurno()).thenReturn(turno);
+        when(comisionPostDTO.getHorario()).thenReturn(LocalTime.of(12, 20));
         when(comisionPostDTO.getIdMateria()).thenReturn(id);
 
         comisionFactory.updateEntity(comision, comisionPostDTO);
 
         verify(finderMateria).findById(id);
         verify(comisionPostDTO).getIdMateria();
-        verify(comisionPostDTO).getTurno();
+        verify(comisionPostDTO).getHorario();
         verify(comision).setMateria(materia);
-        verify(comision).setTurno(turno);
 
     }
 }

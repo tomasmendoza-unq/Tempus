@@ -1,5 +1,6 @@
 package com.tempus.models;
 
+import com.tempus.Factory.strategy.IValidacionHorarioFactory;
 import com.tempus.enums.Turno;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,8 +18,6 @@ public class Comision {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idComision;
-
-    private Turno turno;
 
     private LocalTime horario;
 

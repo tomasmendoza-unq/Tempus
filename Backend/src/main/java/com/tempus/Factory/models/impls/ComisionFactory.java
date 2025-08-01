@@ -54,7 +54,7 @@ public class ComisionFactory extends AbstractDTOFactory implements IComisionFact
     public void updateEntity(Comision comision, ComisionPostDTO comisionPostDTO) {
         Materia materia = findMateria(comisionPostDTO.getIdMateria());
 
-        comision.setTurno(comisionPostDTO.getTurno());
+        comision.setHorario(comisionPostDTO.getHorario());
         comision.setMateria(materia);
     }
 

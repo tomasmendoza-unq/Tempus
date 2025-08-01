@@ -7,6 +7,6 @@ import java.time.LocalTime;
 public class ValidacionTarde extends ValidacionHorarioStrategy {
     @Override
     public boolean aplicaPara(LocalTime hora) {
-        return hora.isAfter(horaTarde()) && hora.isBefore(horaNoche());
+        return !hora.isBefore(horaTarde()) && hora.isBefore(horaNoche());
     }
 }
