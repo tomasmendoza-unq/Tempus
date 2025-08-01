@@ -3,7 +3,6 @@ package com.tempus.unit.controller;
 import com.tempus.controller.ComisionController;
 import com.tempus.dto.comision.ComisionPostDTO;
 import com.tempus.dto.comision.ComisionResponseDTO;
-import com.tempus.enums.Turno;
 import com.tempus.service.IComisionService;
 import org.apache.coyote.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -107,19 +106,5 @@ public class ComisionControllerTest {
         assertEquals("Se elimino con exito", response.getBody());
 
         verify(comisionService).deleteComision(id);
-    }
-
-    @Test
-    public void testGetComisionPorTurnoOk(){
-        List<ComisionResponseDTO> comisionResponseDTOS = List.of(comisionResponseDTO);
-
-        when(comisionService.getComisionesPorHorario(Turno.MAÑANA)).thenReturn(comisionResponseDTOS);
-
-        ResponseEntity<?> response = comisionController.getComisionesPorHorario(Turno.MAÑANA);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(comisionResponseDTOS, response.getBody());
-
-        verify(comisionService).getComisionesPorHorario(Turno.MAÑANA);
     }
 }

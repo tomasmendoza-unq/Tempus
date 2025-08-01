@@ -1,4 +1,4 @@
-package com.tempus.Factory.models;
+package com.tempus.Factory;
 
 import com.tempus.dto.materia.MateriaPostDTO;
 import com.tempus.dto.materia.MateriaResponseDTO;

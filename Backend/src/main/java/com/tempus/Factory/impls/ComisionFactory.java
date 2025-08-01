@@ -1,8 +1,8 @@
-package com.tempus.Factory.models.impls;
+package com.tempus.Factory.impls;
 
-import com.tempus.Factory.models.AbstractDTOFactory;
-import com.tempus.Factory.models.IComisionFactory;
-import com.tempus.Factory.models.IMateriaFactory;
+import com.tempus.Factory.AbstractDTOFactory;
+import com.tempus.Factory.IComisionFactory;
+import com.tempus.Factory.IMateriaFactory;
 import com.tempus.data.IEntityFinder;
 import com.tempus.dto.comision.ComisionPostDTO;
 import com.tempus.dto.comision.ComisionResponseDTO;
@@ -54,7 +54,7 @@ public class ComisionFactory extends AbstractDTOFactory implements IComisionFact
     public void updateEntity(Comision comision, ComisionPostDTO comisionPostDTO) {
         Materia materia = findMateria(comisionPostDTO.getIdMateria());
 
-        comision.setHorario(comisionPostDTO.getHorario());
+        comision.setTurno(comisionPostDTO.getTurno());
         comision.setMateria(materia);
     }
 

@@ -1,7 +1,9 @@
 package com.tempus.service.impls;
 
-import com.tempus.Factory.models.ICarreraFactory;
-import com.tempus.Factory.models.IMateriaFactory;
+import com.tempus.Factory.ICarreraFactory;
+import com.tempus.Factory.IMateriaFactory;
+import com.tempus.Factory.impls.CarreraFactory;
+import com.tempus.Factory.impls.MateriaFactory;
 import com.tempus.data.IEntityFinder;
 import com.tempus.data.IMateriaFinder;
 import com.tempus.dto.carrera.CarreraPostDTO;
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CarreraService implements ICarreraService {

@@ -1,7 +1,7 @@
-package com.tempus.Factory.models.impls;
+package com.tempus.Factory.impls;
 
-import com.tempus.Factory.models.AbstractDTOFactory;
-import com.tempus.Factory.models.IMateriaFactory;
+import com.tempus.Factory.AbstractDTOFactory;
+import com.tempus.Factory.IMateriaFactory;
 import com.tempus.data.IEntityFinder;
 import com.tempus.dto.materia.MateriaPostDTO;
 import com.tempus.dto.materia.MateriaResponseDTO;

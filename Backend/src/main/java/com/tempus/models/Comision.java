@@ -1,13 +1,10 @@
 package com.tempus.models;
 
-import com.tempus.Factory.strategy.IValidacionHorarioFactory;
 import com.tempus.enums.Turno;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalTime;
 
 @Entity
 @Data
@@ -19,7 +16,7 @@ public class Comision {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idComision;
 
-    private LocalTime horario;
+    private Turno turno;
 
     @ManyToOne
     @JoinColumn(name = "materia_id")

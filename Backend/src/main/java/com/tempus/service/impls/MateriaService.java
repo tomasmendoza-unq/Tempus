@@ -1,6 +1,8 @@
 package com.tempus.service.impls;
 
-import com.tempus.Factory.models.IMateriaFactory;
+import com.tempus.Factory.IMateriaFactory;
+import com.tempus.Factory.impls.MateriaFactory;
+import com.tempus.data.IEntityFinder;
 import com.tempus.data.IMateriaFinder;
 import com.tempus.dto.materia.MateriaPostDTO;
 import com.tempus.dto.materia.MateriaResponseDTO;
@@ -12,6 +14,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service

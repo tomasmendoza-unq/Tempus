@@ -1,6 +1,6 @@
-package com.tempus.unit.factory.models;
+package com.tempus.unit.factory;
 
-import com.tempus.Factory.models.impls.CarreraFactory;
+import com.tempus.Factory.impls.CarreraFactory;
 import com.tempus.dto.carrera.CarreraPostDTO;
 import com.tempus.dto.carrera.CarreraResponseDTO;
 import com.tempus.models.Carrera;
