@@ -50,4 +50,14 @@ public class CarreraFactoryTest {
         verify(modelMapper).map(carrera, CarreraResponseDTO.class);
     }
 
+    @Test
+    public void testUpdateEntityOk(){
+        when(carreraPostDTO.getNombreCarrera()).thenReturn("Matematica");
+
+        carreraFactory.updateEntity(carrera,carreraPostDTO);
+
+        verify(carrera).setNombreCarrera("Matematica");
+        verify(carreraPostDTO).getNombreCarrera();
+    }
+
 }

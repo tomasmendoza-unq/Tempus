@@ -1,8 +1,11 @@
 package com.tempus.unit.service;
 
+import com.tempus.Factory.ICarreraFactory;
+import com.tempus.Factory.IMateriaFactory;
 import com.tempus.Factory.impls.CarreraFactory;
 import com.tempus.Factory.impls.MateriaFactory;
 import com.tempus.data.IEntityFinder;
+import com.tempus.data.IMateriaFinder;
 import com.tempus.data.impls.MateriaFinder;
 import com.tempus.dto.carrera.CarreraPostDTO;
 import com.tempus.dto.carrera.CarreraResponseDTO;
@@ -30,7 +33,7 @@ public class CarreraServiceTest {
     CarreraResponseDTO carreraResponseDTO;
 
     @Mock
-    CarreraFactory carreraFactory;
+    ICarreraFactory carreraFactory;
 
     @Mock
     CarreraPostDTO carreraPostDTO;
@@ -51,10 +54,10 @@ public class CarreraServiceTest {
     CarreraService carreraService;
 
     @Mock
-    MateriaFinder materiaFinder;
+    IMateriaFinder materiaFinder;
 
     @Mock
-    MateriaFactory materiaFactory;
+    IMateriaFactory materiaFactory;
 
     @Mock
     Materia materia;

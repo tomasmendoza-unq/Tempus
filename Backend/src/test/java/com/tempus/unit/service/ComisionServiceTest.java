@@ -1,5 +1,6 @@
 package com.tempus.unit.service;
 
+import com.tempus.Factory.IComisionFactory;
 import com.tempus.Factory.impls.ComisionFactory;
 import com.tempus.data.IComisionFinder;
 import com.tempus.data.IEntityFinder;
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.when;
 public class ComisionServiceTest {
 
     @Mock
-    ComisionFactory comisionFactory;
+    IComisionFactory comisionFactory;
 
     @InjectMocks
     ComisionService comisionService;

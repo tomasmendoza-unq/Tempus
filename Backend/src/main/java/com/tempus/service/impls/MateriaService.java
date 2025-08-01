@@ -1,5 +1,6 @@
 package com.tempus.service.impls;
 
+import com.tempus.Factory.IMateriaFactory;
 import com.tempus.Factory.impls.MateriaFactory;
 import com.tempus.data.IEntityFinder;
 import com.tempus.data.IMateriaFinder;
@@ -23,7 +24,7 @@ public class MateriaService implements IMateriaService {
     private IMateriaRepository materiaRepository;
 
     @Autowired
-    private MateriaFactory materiaFactory;
+    private IMateriaFactory materiaFactory;
 
     @Autowired
     private IMateriaFinder finderMateria;

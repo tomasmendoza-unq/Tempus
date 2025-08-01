@@ -2,6 +2,7 @@ package com.tempus.Factory.impls;
 
 import com.tempus.Factory.AbstractDTOFactory;
 import com.tempus.Factory.IComisionFactory;
+import com.tempus.Factory.IMateriaFactory;
 import com.tempus.data.IEntityFinder;
 import com.tempus.dto.comision.ComisionPostDTO;
 import com.tempus.dto.comision.ComisionResponseDTO;
@@ -17,7 +18,7 @@ public class ComisionFactory extends AbstractDTOFactory implements IComisionFact
     IEntityFinder<Materia> finderMateria;
 
     @Autowired
-    MateriaFactory materiaFactory;
+    IMateriaFactory materiaFactory;
 
     @Override
     public Comision toEntity(ComisionPostDTO comisionPostDTO) {

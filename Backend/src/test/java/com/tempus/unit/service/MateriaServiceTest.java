@@ -1,5 +1,6 @@
 package com.tempus.unit.service;
 
+import com.tempus.Factory.IMateriaFactory;
 import com.tempus.Factory.impls.MateriaFactory;
 import com.tempus.data.IEntityFinder;
 import com.tempus.data.IMateriaFinder;
@@ -32,7 +33,7 @@ public class MateriaServiceTest {
     IMateriaRepository materiaRepository;
 
     @Mock
-    MateriaFactory materiaFactory;
+    IMateriaFactory materiaFactory;
 
     @Mock
     IMateriaFinder finderMateria;

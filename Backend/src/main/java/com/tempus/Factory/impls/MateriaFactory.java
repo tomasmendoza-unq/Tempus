@@ -1,8 +1,8 @@
 package com.tempus.Factory.impls;
 
 import com.tempus.Factory.AbstractDTOFactory;
+import com.tempus.Factory.IMateriaFactory;
 import com.tempus.data.IEntityFinder;
-import com.tempus.data.IMateriaFinder;
 import com.tempus.dto.materia.MateriaPostDTO;
 import com.tempus.dto.materia.MateriaResponseDTO;
 import com.tempus.dto.materia.MateriaSimpleDTO;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class MateriaFactory extends AbstractDTOFactory {
+public class MateriaFactory extends AbstractDTOFactory implements IMateriaFactory {
 
     @Autowired
     private IEntityFinder<Carrera> finderCarrera;

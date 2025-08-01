@@ -1,5 +1,7 @@
 package com.tempus.unit.factory;
 
+import com.tempus.Factory.IComisionFactory;
+import com.tempus.Factory.IMateriaFactory;
 import com.tempus.Factory.impls.ComisionFactory;
 import com.tempus.Factory.impls.MateriaFactory;
 import com.tempus.data.IEntityFinder;
@@ -44,7 +46,7 @@ public class ComisionFactoryTest {
     MateriaSimpleDTO materiaSimpleDTO;
 
     @Mock
-    MateriaFactory materiaFactory;
+    IMateriaFactory materiaFactory;
 
     Long id;
 
