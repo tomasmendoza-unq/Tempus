@@ -1,10 +1,10 @@
 # Tempus
 
-Proyecto personal con la finalidad de poner en practica habilidades de un desarrollador backend, 
+Proyecto personal con la finalidad de poner en práctica habilidades de un desarrollador backend, 
 
 ## ¿Que es Tempus?
 
-Tempus es una app (hay que definir si web o escritorio) con el fin de facilitar:  
+Tempus es un producto de software (hay que definir si web o escritorio) para el uso de los estudiantes de la UNQ, siendo un facilitador en los siguientes items:  
     - Gestionar horarios facultativos
     - Gestionar materias
 
