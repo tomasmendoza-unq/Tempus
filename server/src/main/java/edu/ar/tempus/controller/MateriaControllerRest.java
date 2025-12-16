@@ -7,7 +7,7 @@ import edu.ar.tempus.service.MateriaService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/materia")
+@RequestMapping("/api/materia")
 public final class MateriaControllerRest {
 
     private final MateriaService materiaService;
