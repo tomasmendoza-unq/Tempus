@@ -17,7 +17,6 @@ public class MateriaServiceImpl implements MateriaService {
         this.materiaRepository = materiaRepository;
     }
 
-
     @Override
     public Materia guardar(Materia materia) {
         return materiaRepository.save(materia);

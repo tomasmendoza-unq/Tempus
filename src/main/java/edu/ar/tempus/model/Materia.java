@@ -15,4 +15,5 @@ public class Materia {
     private Long materiaId;
 
     private String materiaNombre;
+
 }

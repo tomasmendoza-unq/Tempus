@@ -1,4 +1,4 @@
-package edu.ar.tempus.exceptions;
+package edu.ar.tempus.exceptions.business;
 
 
 final public class EntityNotFoundException extends RuntimeException {

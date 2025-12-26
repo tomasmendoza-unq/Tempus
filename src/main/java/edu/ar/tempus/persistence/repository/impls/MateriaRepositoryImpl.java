@@ -1,6 +1,6 @@
 package edu.ar.tempus.persistence.repository.impls;
 
-import edu.ar.tempus.exceptions.EntityNotFoundException;
+import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.persistence.repository.MateriaRepository;
 import edu.ar.tempus.persistence.sql.MateriaSQLDAO;
