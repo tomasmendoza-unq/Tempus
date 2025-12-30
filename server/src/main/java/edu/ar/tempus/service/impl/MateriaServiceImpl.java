@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class MateriaServiceImpl implements MateriaService {
 
-
     private final MateriaRepository materiaRepository;
 
     public MateriaServiceImpl(MateriaRepository materiaRepository) {
