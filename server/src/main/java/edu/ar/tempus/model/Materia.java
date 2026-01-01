@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,4 +19,16 @@ public class Materia {
 
     private String materiaNombre;
 
+    @Builder.Default
+    private Set<Materia> correlativas= new HashSet<>();;
+
+    public void agregarCorrelativas(Set<Materia> correlativas) {
+        this.correlativas.addAll(correlativas);
+    }
+
+
+    public void agregarCorrelativa(Materia correlativa) {
+        //TODO: VERIFICAR SI NECESITA ALGUNA VALIDACION
+        this.correlativas.add(correlativa);
+    }
 }

@@ -13,6 +13,7 @@
 
         <property name="materiaNombre" column="materiaNombre" not-null="true"/>
 
+
     </class>
 
 </hibernate-mapping>

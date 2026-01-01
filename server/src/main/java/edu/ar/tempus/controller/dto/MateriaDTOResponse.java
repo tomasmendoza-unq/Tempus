@@ -2,20 +2,21 @@ package edu.ar.tempus.controller.dto;
 
 import edu.ar.tempus.model.Materia;
 
-<<<<<<< HEAD
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+
 public record MateriaDTOResponse(
         Long materiaId,
-        String materiaNombre
+        String materiaNombre,
+        Set<MateriaDTOResponse> correlativas
+
 ) {
     public static MateriaDTOResponse desdeModelo(Materia materia) {
-        return new MateriaDTOResponse(materia.getMateriaId(), materia.getMateriaNombre());
-    }
-=======
-public record MateriaDTOResponse(long id, String nombre) {
+        Set<MateriaDTOResponse> correlativas = materia.getCorrelativas().stream().map(MateriaDTOResponse::desdeModelo).collect(Collectors.toSet());
 
-    public static MateriaDTOResponse desdeModelo(Materia materia) {
-        return new MateriaDTOResponse(materia.getMateriaId(), materia.getMateriaNombre());
+        return new MateriaDTOResponse(materia.getMateriaId(), materia.getMateriaNombre(), correlativas);
     }
-
->>>>>>> d436da0357dceec1b1c24eb4af3bd783e8a2bfcb
 }
