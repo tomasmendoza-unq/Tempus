@@ -25,4 +25,13 @@ public class MateriaServiceImpl implements MateriaService {
     public Materia recuperar(Long materiaId) {
         return materiaRepository.getById(materiaId);
     }
+
+    @Override
+    public void asociarMateria(Long materiaOrigenId, Long materiaDestinoId) {
+        Materia materia = recuperar(materiaOrigenId);
+
+        Materia correlativa = recuperar(materiaDestinoId);
+
+        materiaRepository.crearRelacionCorrelativa(materiaOrigenId, materiaDestinoId);
+    }
 }

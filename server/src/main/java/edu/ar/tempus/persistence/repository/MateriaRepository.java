@@ -6,4 +6,6 @@ public interface MateriaRepository {
     Materia save(Materia ingles);
 
     Materia getById(Long materiaId);
+
+    void crearRelacionCorrelativa(Long materiaOrigenId, Long materiaDestinoId);
 }

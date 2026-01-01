@@ -44,4 +44,9 @@ public class MateriaRepositoryImpl implements MateriaRepository {
 
         return materiaMapper.toModel(materia, neo);
     }
+
+    @Override
+    public void crearRelacionCorrelativa(Long materiaOrigenId, Long materiaDestinoId) {
+        materiaNeo4JDAO.crearRelacionCorrelativa(materiaOrigenId, materiaDestinoId);
+    }
 }

@@ -27,4 +27,8 @@ public class Materia {
     }
 
 
+    public void agregarCorrelativa(Materia correlativa) {
+        //TODO: VERIFICAR SI NECESITA ALGUNA VALIDACION
+        this.correlativas.add(correlativa);
+    }
 }
