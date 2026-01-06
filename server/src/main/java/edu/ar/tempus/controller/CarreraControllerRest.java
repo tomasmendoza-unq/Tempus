@@ -22,7 +22,7 @@ public final class CarreraControllerRest {
 
     @GetMapping
     public List<Carrera> obtenerCarreras() {
-        return null;
+        return carreraService.recuperarTodos();
     }
 
     @GetMapping("/{idCarrera}")

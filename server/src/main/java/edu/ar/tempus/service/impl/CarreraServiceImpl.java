@@ -38,4 +38,9 @@ public class CarreraServiceImpl implements CarreraService {
     public Carrera recuperar(Long id) {
         return carreraDAOSQL.findById(id).orElseThrow(() -> new EntityNotFoundException(Carrera.class.getName(), id));
     }
+
+    @Override
+    public List<Carrera> recuperarTodos() {
+        return carreraDAOSQL.findAll();
+    }
 }
