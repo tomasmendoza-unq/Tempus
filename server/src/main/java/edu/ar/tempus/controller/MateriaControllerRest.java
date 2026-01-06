@@ -1,7 +1,7 @@
 package edu.ar.tempus.controller;
 
-import edu.ar.tempus.controller.dto.MateriaDTORequest;
-import edu.ar.tempus.controller.dto.MateriaDTOResponse;
+import edu.ar.tempus.controller.dto.materia.MateriaDTORequest;
+import edu.ar.tempus.controller.dto.materia.MateriaDTOResponse;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.service.MateriaService;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public final class MateriaControllerRest {
 
         Materia materiaGuardada = materiaService.guardar(materia);
 
-        return ResponseEntity.ok(MateriaDTOResponse.desdeModelo(materiaGuardada));
+        return ResponseEntity.status(HttpStatus.CREATED).body(MateriaDTOResponse.desdeModelo(materiaGuardada));
     }
 
     @PostMapping("/asociar/{materiaOrigenId}/{materiaDestinoId}")

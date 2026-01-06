@@ -1,9 +1,7 @@
-package edu.ar.tempus.controller.dto;
+package edu.ar.tempus.controller.dto.materia;
 
 import edu.ar.tempus.model.Materia;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 

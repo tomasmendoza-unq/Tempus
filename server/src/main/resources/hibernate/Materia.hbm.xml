@@ -7,7 +7,7 @@
 
     <class name="Materia" table="materia">
 
-        <id name="materiaId" column="id">
+        <id name="materiaId" column="materiaId">
             <generator class="identity"/>
         </id>
 
