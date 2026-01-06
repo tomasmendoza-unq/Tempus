@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -44,13 +45,12 @@ public class CarreraServiceTest {
 
         carrera = Carrera.builder()
                 .nombreCarrera("Lic. en informatica")
-                .materias(new ArrayList<>(List.of(leaGuardada)))
                 .build();
     }
 
     @Test
     public void crearUnaCarreraYRecuperarla(){
-        Carrera carreraGuardada = carreraService.guardar(carrera);
+        Carrera carreraGuardada = carreraService.guardar(carrera, Set.of(leaGuardada.getMateriaId()));
 
         Carrera carreraRecuperada = carreraService.recuperar(carreraGuardada.getId());
 

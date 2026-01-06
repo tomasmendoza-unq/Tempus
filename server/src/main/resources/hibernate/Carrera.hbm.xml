@@ -13,7 +13,7 @@
 
         <property name="nombreCarrera" column="nombreCarrera" not-null="true"/>
 
-        <list name="materias" table="carrera_materia">
+        <list name="materias" table="carrera_materia" fetch="join" lazy="false">
             <key column="carrera_id"/>
             <list-index column="orden"/>
             <many-to-many class="Materia" column="materia_id"/>

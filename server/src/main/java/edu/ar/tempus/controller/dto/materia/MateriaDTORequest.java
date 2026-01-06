@@ -1,4 +1,4 @@
-package edu.ar.tempus.controller.dto;
+package edu.ar.tempus.controller.dto.materia;
 
 import edu.ar.tempus.model.Materia;
 
