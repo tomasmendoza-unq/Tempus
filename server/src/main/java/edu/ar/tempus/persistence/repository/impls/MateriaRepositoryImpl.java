@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 public class MateriaRepositoryImpl implements MateriaRepository {
 
@@ -29,6 +31,7 @@ public class MateriaRepositoryImpl implements MateriaRepository {
     @Override
     public Materia save(Materia materia) {
         Materia materiaGuardada = materiaSQLDAO.save(materia);
+        materiaSQLDAO.saveAll(materia.getCorrelativas());
         MateriaNeo4J neo = materiaMapper.toNeo4J(materiaGuardada);
         materiaNeo4JDAO.save(neo);
         return materiaGuardada;
@@ -48,5 +51,11 @@ public class MateriaRepositoryImpl implements MateriaRepository {
     @Override
     public void crearRelacionCorrelativa(Long materiaOrigenId, Long materiaDestinoId) {
         materiaNeo4JDAO.crearRelacionCorrelativa(materiaOrigenId, materiaDestinoId);
+    }
+
+    @Override
+    public List<Materia> recuperarTodos() {
+
+        return materiaSQLDAO.findAll();
     }
 }

@@ -14,17 +14,11 @@ import java.util.stream.Collectors;
 public class MateriaMapperImpl implements MateriaMapper {
 
     public MateriaNeo4J toNeo4J(Materia materia) {
-        if (materia == null) {
-            return null;
-        }
-
-        // Map correlativas recursively
         Set<MateriaNeo4J> correlativasNeo4j = new HashSet<>();
         if (materia.getCorrelativas() != null) {
             for (Materia correlativa : materia.getCorrelativas()) {
-                // Only map ID and nombre to avoid infinite recursion
                 MateriaNeo4J corrNeo4j = MateriaNeo4J.builder()
-                        .id(correlativa.getMateriaId())  // Use SQL ID
+                        .id(correlativa.getMateriaId())
                         .nombre(correlativa.getMateriaNombre())
                         .build();
                 correlativasNeo4j.add(corrNeo4j);
@@ -32,19 +26,14 @@ public class MateriaMapperImpl implements MateriaMapper {
         }
 
         return MateriaNeo4J.builder()
-                .id(materia.getMateriaId())  // Use the SQL ID as Neo4j ID
+                .id(materia.getMateriaId())
                 .nombre(materia.getMateriaNombre())
                 .correlativas(correlativasNeo4j)
                 .build();
     }
 
     public Materia toModel(Materia sqlMateria, MateriaNeo4J neo4jMateria) {
-        // Start with SQL data
-        if (sqlMateria == null) {
-            return null;
-        }
 
-        // Add correlativas from Neo4j
         if (neo4jMateria != null && neo4jMateria.getCorrelativas() != null) {
             Set<Materia> correlativas = new HashSet<>();
             for (MateriaNeo4J corrNeo4j : neo4jMateria.getCorrelativas()) {
