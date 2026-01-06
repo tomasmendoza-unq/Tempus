@@ -6,6 +6,8 @@ import edu.ar.tempus.service.MateriaService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class MateriaServiceImpl implements MateriaService {
@@ -33,5 +35,10 @@ public class MateriaServiceImpl implements MateriaService {
         Materia correlativa = recuperar(materiaDestinoId);
 
         materiaRepository.crearRelacionCorrelativa(materiaOrigenId, materiaDestinoId);
+    }
+
+    @Override
+    public List<Materia> recuperarTodos() {
+        return materiaRepository.recuperarTodos();
     }
 }
