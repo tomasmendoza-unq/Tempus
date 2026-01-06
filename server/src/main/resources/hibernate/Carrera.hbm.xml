@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="edu.ar.tempus.model">
+
+    <class name="Carrera" table="carrera">
+
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+
+        <property name="nombreCarrera" column="nombreCarrera" not-null="true"/>
+
+        <list name="materias" table="carrera_materia">
+            <key column="carrera_id"/>
+            <list-index column="orden"/>
+            <many-to-many class="Materia" column="materia_id"/>
+        </list>
+
+    </class>
+
+</hibernate-mapping>
