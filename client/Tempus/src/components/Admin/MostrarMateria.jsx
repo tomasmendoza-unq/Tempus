@@ -11,7 +11,7 @@ export default function MostrarMateria() {
       className="flex bg-white min-h-25 min-w-25  items-center justify-center flex-col gap-3.5 p-6 rounded"
       onSubmit={async (e) => {
         e.preventDefault();
-        const data = await traerMateria(1);
+        const data = await traerMateria(materia.nombre);
         setResponse(data);
       }}
     >
