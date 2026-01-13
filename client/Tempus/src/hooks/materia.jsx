@@ -15,9 +15,6 @@ const crearMateria = async (formData) => {
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${text}`);
     }
-
-    const data = JSON.parse(text);
-    console.log("Creada:", data);
   } catch (error) {
     console.error("Error completo:", error);
   }

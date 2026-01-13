@@ -8,7 +8,6 @@ export default function FormAgregarMateria() {
   });
 
   const handleSubmit = async (e) => {
-    console.log({ formData });
     e.preventDefault();
     crearMateria(formData);
   };
