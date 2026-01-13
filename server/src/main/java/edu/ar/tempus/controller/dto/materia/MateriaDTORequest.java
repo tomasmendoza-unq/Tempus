@@ -9,7 +9,9 @@ public record MateriaDTORequest(
         String materiaNombre,
         Set<MateriaDTORequest> correlativas
 ) {
-
+    public MateriaDTORequest {
+        correlativas = correlativas == null ? Set.of() : correlativas;
+    }
 
     public static Materia aModelo(MateriaDTORequest materiaDTO) {
         Set<Materia> correlativas = materiaDTO.correlativas.stream().map(MateriaDTORequest::aModeloSimple).collect(Collectors.toSet());

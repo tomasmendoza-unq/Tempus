@@ -2,9 +2,13 @@ import { useState } from "react";
 import { crearMateria } from "../../hooks/materia";
 
 export default function FormAgregarMateria() {
-  const [formData, setFormData] = useState({ nombre: "" });
+  const [formData, setFormData] = useState({
+    materiaNombre: "",
+    correlativas: [],
+  });
 
   const handleSubmit = async (e) => {
+    console.log({ formData });
     e.preventDefault();
     crearMateria(formData);
   };
@@ -20,10 +24,10 @@ export default function FormAgregarMateria() {
           className="border border-gray-300 rounded p-2"
           placeholder="Materia"
           type="text"
-          value={formData.nombre}
+          value={formData.materiaNombre}
           onChange={(e) => {
-            console.log("Valor del input:", e.target.value);
-            setFormData({ nombre: e.target.value });
+            const valor = e.target.value;
+            setFormData((prev) => ({ ...prev, materiaNombre: valor }));
           }}
         />
         <button
