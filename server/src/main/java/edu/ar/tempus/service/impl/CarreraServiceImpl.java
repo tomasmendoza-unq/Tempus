@@ -18,7 +18,7 @@ public class CarreraServiceImpl implements CarreraService {
 
     private final CarreraDAOSQL carreraDAOSQL;
 
-    private MateriaSQLDAO materiaSQLDAO;
+    private final MateriaSQLDAO materiaSQLDAO;
 
     public CarreraServiceImpl(CarreraDAOSQL carreraDAOSQL, MateriaSQLDAO materiaSQLDAO) {
         this.carreraDAOSQL = carreraDAOSQL;
