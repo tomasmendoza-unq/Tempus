@@ -14,4 +14,11 @@ Tempus es un producto de software (hay que definir si web o escritorio) para el 
 
 - Backend: Spring boot 
 
-- Bases de datos: postgres y neo4j
+- Bases de datos: postgres y neo4J
+
+
+Minimo: 
+ 
+- Alumno pueda inscribirse a una materia
+- Que pueda generar un horario para el proximo cuatrimestre (Quizas ajustar para que tenga opcion de que sea anual o seminario)
+- Ver correlativas (Aca habria que ver algun algoritmo)
