@@ -25,7 +25,12 @@ export default function MostrarMateria() {
         value={materia ? materia.nombre : ""}
         placeholder="idMateria..."
       />
-      <button type="submit">Buscar Materia</button>
+      <button
+        className="mt-4 bg-red-950 text-white py-2 px-4 rounded"
+        type="submit"
+      >
+        Buscar Materia
+      </button>
     </form>
   );
 }
