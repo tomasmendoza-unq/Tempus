@@ -30,6 +30,7 @@ public class ComisionServiceImpl implements ComisionService {
         Materia materia = materiaSQLDAO.findById(materiaId).orElseThrow(() -> new EntityNotFoundException(Carrera.class.getName(), materiaId));
 
         comision.setMateria(materia);
+        materia.agregarComision(comision);
 
         return comisionDAOSQL.save(comision);
     }
