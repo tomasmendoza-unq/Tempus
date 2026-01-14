@@ -5,16 +5,14 @@ export const crearMateriaService = async (formData) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(formData),
-  });
+  })
 
-  const text = await response.text();
-  console.log("Response status:", response.status);
-  console.log("Response body:", text);
+  const text = await response.text()
 
   if (!response.ok) {
-    throw new Error(`Error ${response.status}: ${text}`);
+    throw new Error(`Error ${response.status}: ${text}`)
   }
-};
+}
 
 export const traerMateriaService = async (idMateria) => {
   const response = await fetch(`api/materia/${idMateria}`, {
@@ -22,9 +20,9 @@ export const traerMateriaService = async (idMateria) => {
     headers: {
       "Content-Type": "application/json",
     },
-  });
-  return response.json();
-};
+  })
+  return response.json()
+}
 
 export const traerTodasMateriasService = async () => {
   const response = await fetch(`api/materia/`, {
@@ -32,6 +30,6 @@ export const traerTodasMateriasService = async () => {
     headers: {
       "Content-Type": "application/json",
     },
-  });
-  return response.json();
-};
+  })
+  return response.json()
+}

@@ -57,6 +57,21 @@ export const materiaReducer = (state, action) => {
           correlativas: action.payload.correlativas,
         },
       }
+    case "CLEAR_FORM_MATERIA":
+      return {
+        ...state,
+        formMateria: {
+          materiaNombre: "",
+          correlativas: [],
+        },
+      }
+    case "MATERIA_CREADA_EXITO":
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      }
+
     default:
       return state
   }
