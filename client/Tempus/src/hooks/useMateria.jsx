@@ -4,6 +4,7 @@ import {
   traerTodasMateriasService,
 } from "../services/materiaService"
 import { useMateriaContext } from "../contexts/MateriaContext"
+import { toast } from "react-toastify"
 
 export function useCrearMateria() {
   const { dispatch, loading, error } = useMateriaContext()
@@ -12,11 +13,12 @@ export function useCrearMateria() {
     dispatch({ type: "FETCH_MATERIA_REQUEST" })
     try {
       await crearMateriaService(formData)
-      const data = await traerTodasMateriasService()
-      dispatch({ type: "FETCH_MATERIAS_SUCCESS", payload: data })
+      toast.success(`Materia ${formData.materiaNombre} creada con éxito`)
+      dispatch({ type: "MATERIA_CREADA_EXITO" })
     } catch (err) {
-      console.error("Error completo:", err)
       dispatch({ type: "FETCH_MATERIA_FAILURE", payload: err })
+      console.error("Error completo:", err)
+      toast.error("Error al crear la materia")
       throw err
     }
   }
