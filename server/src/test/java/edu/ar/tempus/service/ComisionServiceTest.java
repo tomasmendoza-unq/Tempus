@@ -47,7 +47,6 @@ public class ComisionServiceTest {
         comision = Comision.builder()
                     .horarioInicio(horarioInicio)
                     .horarioFin(horarioFin)
-                    .materia(ingles)
                 .build();
     }
 
@@ -55,7 +54,7 @@ public class ComisionServiceTest {
     @Test
     public void crearUnaComisionYRecuperar(){
 
-        Comision comisionGuardada = comisionService.guardar(comision);
+        Comision comisionGuardada = comisionService.guardar(comision, inglesGuardada.getMateriaId());
 
         Comision comisionRecuperada = comisionService.recuperar(comisionGuardada.getComisionId());
 
