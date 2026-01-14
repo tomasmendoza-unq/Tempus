@@ -1,10 +1,8 @@
-import { Link, Route, Routes } from "react-router-dom";
-import "./App.css";
-import FormAgregarMateria from "./components/Admin/FormAgregarMateria";
-import MostrarMateria from "./components/Admin/MostrarMateria";
-import NodoDeMaterias from "./components/Admin/NodoDeMaterias";
-import Home from "./pages/Home";
-import Materias from "./pages/Materias";
+import { Link, Route, Routes } from "react-router-dom"
+import "./App.css"
+import Correlativas from "./pages/Correlativas"
+import Home from "./pages/Home"
+import Materias from "./pages/Materias"
 
 function App() {
   return (
@@ -28,10 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/materias" element={<Materias />} />
-          <Route
-            path="/correlativas"
-            element={<NodoDeMaterias />}
-          />
+          <Route path="/correlativas" element={<Correlativas />} />
           <Route
             path="*"
             element={
@@ -43,7 +38,7 @@ function App() {
         </Routes>
       </main>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

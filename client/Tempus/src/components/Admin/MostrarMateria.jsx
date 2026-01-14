@@ -30,7 +30,7 @@ export default function MostrarMateria() {
           <button
             className="mt-2 bg-red-950 text-white py-2 px-4 rounded disabled:opacity-50"
             type="submit"
-            disabled={loading}
+            disabled={loading || !idBusqueda.trim()}
           >
             {loading ? "Buscando..." : "Buscar Materia"}
           </button>
