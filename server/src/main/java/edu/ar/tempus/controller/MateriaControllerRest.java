@@ -47,7 +47,7 @@ public final class MateriaControllerRest {
 
     @PostMapping("/asociar/{materiaOrigenId}/{materiaDestinoId}")
     public ResponseEntity<Void> asociarMaterias(@PathVariable Long materiaOrigenId,
-                                            @PathVariable Long materiaDestinoId){
+                                                @PathVariable Long materiaDestinoId){
         materiaService.asociarMateria(materiaOrigenId, materiaDestinoId);
         return ResponseEntity.ok().build();
     }
