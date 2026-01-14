@@ -37,4 +37,8 @@ public class Materia {
         //TODO: VERIFICAR SI NECESITA ALGUNA VALIDACION
         this.correlativas.add(correlativa);
     }
+
+    public void agregarComision(Comision comision) {
+        this.comisiones.add(comision);
+    }
 }
