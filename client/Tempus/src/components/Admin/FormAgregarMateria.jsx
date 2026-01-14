@@ -1,14 +1,32 @@
-import { useCrearMateria, useFormMateria } from "../../hooks/materia"
+import { useState } from "react"
+import { useCrearMateria, useFormMateria } from "../../hooks/useMateria"
 
 export default function FormAgregarMateria() {
-  const { crearMateria, loading, error } = useCrearMateria()
+  const { crearMateria, loading } = useCrearMateria()
   const { formMateria, updateFormMateria } = useFormMateria()
 
-  const handleSubmit = async (e) => {
+  // 👇 NUEVO: Estado local para el texto del input
+  const [correlativasTexto, setCorrelativasTexto] = useState("")
+
+  const handleSubmit = (e) => {
     e.preventDefault()
     try {
-      await crearMateria(formMateria)
+      // 👇 Convertir el texto a objetos justo antes de enviar
+      const correlativasObjetos = correlativasTexto
+        ? correlativasTexto.split(",").map((c) => ({
+            materiaNombre: c.trim(),
+            correlativas: [],
+          }))
+        : []
+
+      crearMateria({
+        ...formMateria,
+        correlativas: correlativasObjetos,
+      })
+
+      // Limpiar todo
       updateFormMateria({ materiaNombre: "", correlativas: [] })
+      setCorrelativasTexto("")
     } catch (err) {
       console.error("Error al crear materia:", err)
     }
@@ -22,13 +40,17 @@ export default function FormAgregarMateria() {
     })
   }
 
+  const handleCorrelativasChange = (e) => {
+    // 👇 CAMBIO: Solo actualizar el texto, sin convertir
+    setCorrelativasTexto(e.target.value)
+  }
+
   return (
     <form
       className="flex items-center justify-center pt-10"
       onSubmit={handleSubmit}
     >
       <div className="flex items-center justify-center flex-col gap-3.5 bg-white rounded p-6">
-        <label className="text-black">Nombre materia:</label>
         <input
           className="border border-gray-300 rounded p-2"
           placeholder="Materia"
@@ -37,11 +59,27 @@ export default function FormAgregarMateria() {
           onChange={handleInputChange}
           disabled={loading}
         />
-        {error && <p className="text-red-500 text-sm">{error.message}</p>}
+        <div className="w-full">
+          <label className="block text-sm text-gray-600 mb-1">
+            Correlativas (separadas por comas)
+          </label>
+          <input
+            className="w-full border border-gray-300 rounded p-2"
+            placeholder="Ej: Matemática, Física, Química"
+            type="text"
+            value={correlativasTexto}
+            onChange={handleCorrelativasChange}
+            disabled={loading}
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Ingresa los nombres de las materias separadas por comas
+          </p>
+        </div>
+
         <button
           className="mt-4 bg-red-950 text-white py-2 px-4 rounded disabled:opacity-50"
           type="submit"
-          disabled={loading}
+          disabled={loading || !formMateria.materiaNombre.trim()}
         >
           {loading ? "Cargando..." : "Cargar materia"}
         </button>
