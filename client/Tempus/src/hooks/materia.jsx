@@ -1,33 +1,74 @@
-const crearMateria = async (formData) => {
-  try {
-    const response = await fetch("/api/materia/crear", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+import {
+  crearMateriaService,
+  traerMateriaService,
+  traerTodasMateriasService,
+} from "../services/materiaService"
+import { useMateriaContext } from "../contexts/MateriaContext"
 
-    const text = await response.text();
-    console.log("Response status:", response.status);
-    console.log("Response body:", text);
+export function useCrearMateria() {
+  const { dispatch, loading, error } = useMateriaContext()
 
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${text}`);
+  const crearMateria = async (formData) => {
+    dispatch({ type: "FETCH_MATERIA_REQUEST" })
+    try {
+      await crearMateriaService(formData)
+      const data = await traerTodasMateriasService()
+      dispatch({ type: "FETCH_MATERIAS_SUCCESS", payload: data })
+    } catch (err) {
+      console.error("Error completo:", err)
+      dispatch({ type: "FETCH_MATERIA_FAILURE", payload: err })
+      throw err
     }
-  } catch (error) {
-    console.error("Error completo:", error);
   }
-};
 
-const traerMateria = async (idMateria) => {
-  const response = await fetch(`api/materia/${idMateria}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return response.json();
-};
+  return { crearMateria, loading, error }
+}
 
-export { crearMateria, traerMateria };
+export function useTraerMateria() {
+  const { dispatch, loading, error, materia } = useMateriaContext()
+
+  const traerMateria = async (idMateria) => {
+    dispatch({ type: "FETCH_MATERIA_REQUEST" })
+    try {
+      const data = await traerMateriaService(idMateria)
+      dispatch({ type: "FETCH_MATERIA_SUCCESS", payload: data })
+      console.log({ data })
+      return data
+    } catch (err) {
+      console.error("Error:", err)
+      dispatch({ type: "FETCH_MATERIA_FAILURE", payload: err })
+      throw err
+    }
+  }
+
+  return { traerMateria, loading, error, materia }
+}
+
+export function useTraerTodasMaterias() {
+  const { dispatch, loading, error, materias } = useMateriaContext()
+
+  const traerMaterias = async () => {
+    dispatch({ type: "FETCH_MATERIAS_REQUEST" })
+    try {
+      const data = await traerTodasMateriasService()
+      dispatch({ type: "FETCH_MATERIAS_SUCCESS", payload: data })
+      return data
+    } catch (err) {
+      console.error("Error:", err)
+      dispatch({ type: "FETCH_MATERIAS_FAILURE", payload: err })
+      throw err
+    }
+  }
+
+  return { traerMaterias, loading, error, materias }
+}
+
+export function useFormMateria() {
+  const { dispatch, formMateria } = useMateriaContext()
+
+  const updateFormMateria = (formData) => {
+    dispatch({ type: "UPDATE_FORM_MATERIA", payload: formData })
+  }
+
+  return { formMateria, updateFormMateria }
+}

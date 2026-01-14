@@ -1,5 +1,5 @@
-import FormAgregarMateria from "../components/Admin/FormAgregarMateria";
-import MostrarMateria from "../components/Admin/MostrarMateria";
+import FormAgregarMateria from "../components/Admin/FormAgregarMateria"
+import MostrarMateria from "../components/Admin/MostrarMateria"
 
 export default function Materias() {
   return (
@@ -13,5 +13,5 @@ export default function Materias() {
         <MostrarMateria />
       </div>
     </div>
-  );
+  )
 }

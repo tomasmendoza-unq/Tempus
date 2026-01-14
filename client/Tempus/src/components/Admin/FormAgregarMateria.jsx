@@ -1,16 +1,26 @@
-import { useState } from "react";
-import { crearMateria } from "../../hooks/materia";
+import { useCrearMateria, useFormMateria } from "../../hooks/materia"
 
 export default function FormAgregarMateria() {
-  const [formData, setFormData] = useState({
-    materiaNombre: "",
-    correlativas: [],
-  });
+  const { crearMateria, loading, error } = useCrearMateria()
+  const { formMateria, updateFormMateria } = useFormMateria()
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    crearMateria(formData);
-  };
+    e.preventDefault()
+    try {
+      await crearMateria(formMateria)
+      updateFormMateria({ materiaNombre: "", correlativas: [] })
+    } catch (err) {
+      console.error("Error al crear materia:", err)
+    }
+  }
+
+  const handleInputChange = (e) => {
+    const valor = e.target.value
+    updateFormMateria({
+      materiaNombre: valor,
+      correlativas: formMateria.correlativas,
+    })
+  }
 
   return (
     <form
@@ -23,19 +33,19 @@ export default function FormAgregarMateria() {
           className="border border-gray-300 rounded p-2"
           placeholder="Materia"
           type="text"
-          value={formData.materiaNombre}
-          onChange={(e) => {
-            const valor = e.target.value;
-            setFormData((prev) => ({ ...prev, materiaNombre: valor }));
-          }}
+          value={formMateria.materiaNombre}
+          onChange={handleInputChange}
+          disabled={loading}
         />
+        {error && <p className="text-red-500 text-sm">{error.message}</p>}
         <button
-          className="mt-4 bg-red-950 text-white py-2 px-4 rounded"
+          className="mt-4 bg-red-950 text-white py-2 px-4 rounded disabled:opacity-50"
           type="submit"
+          disabled={loading}
         >
-          Cargar materia
+          {loading ? "Cargando..." : "Cargar materia"}
         </button>
       </div>
     </form>
-  );
+  )
 }
