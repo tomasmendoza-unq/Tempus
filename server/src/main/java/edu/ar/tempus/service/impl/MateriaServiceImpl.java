@@ -41,4 +41,10 @@ public class MateriaServiceImpl implements MateriaService {
     public List<Materia> recuperarTodos() {
         return materiaRepository.recuperarTodos();
     }
+
+    @Override
+    public List<Materia> recuperarMateriasDisponibles(List<Materia> materiasAprobadas) {
+
+        return materiaRepository.recuperarMateriasDisponibles(materiasAprobadas);
+    }
 }

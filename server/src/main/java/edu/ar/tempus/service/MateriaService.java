@@ -12,4 +12,6 @@ public interface MateriaService {
     void asociarMateria(Long materiaId, Long materiaId1);
 
     List<Materia> recuperarTodos();
+
+    List<Materia> recuperarMateriasDisponibles(List<Materia> materiasAprobadas);
 }

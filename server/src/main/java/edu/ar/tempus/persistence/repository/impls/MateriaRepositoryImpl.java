@@ -58,4 +58,13 @@ public class MateriaRepositoryImpl implements MateriaRepository {
 
         return materiaSQLDAO.findAll();
     }
+
+    @Override
+    public List<Materia> recuperarMateriasDisponibles(List<Materia> materiasAprobadas) {
+        List<MateriaNeo4J> materiaNeoDisponibles = materiaNeo4JDAO.recuperarMateriasDisponibles(materiasAprobadas);
+
+        List<Materia> materiasDisponibles =
+
+        return List.of();
+    }
 }
