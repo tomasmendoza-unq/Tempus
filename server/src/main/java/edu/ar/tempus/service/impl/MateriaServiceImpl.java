@@ -47,4 +47,9 @@ public class MateriaServiceImpl implements MateriaService {
 
         return materiaRepository.recuperarMateriasDisponibles(materiasAprobadas);
     }
+
+    @Override
+    public List<Materia> recuperarMateriasPorNombre(String nombreMateria) {
+        return materiaRepository.recuperarMateriasPorNombre(nombreMateria);
+    }
 }

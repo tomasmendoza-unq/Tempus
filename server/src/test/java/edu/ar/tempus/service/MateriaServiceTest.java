@@ -125,6 +125,20 @@ public class MateriaServiceTest {
     }
 
 
+    @Test
+    public void recuperarMateriaPorNombre(){
+
+        List<Materia> materias = materiaService.recuperarMateriasPorNombre("Lea");
+
+        assertTrue(materias.stream().allMatch(m -> m.getMateriaNombre().toLowerCase().contains("lea")));
+        assertEquals(3, materias.size());
+
+        List<Materia> materia = materiaService.recuperarMateriasPorNombre("Lea2");
+
+        assertTrue(materia.stream().allMatch(m -> m.getMateriaNombre().equalsIgnoreCase("lEA2")));
+        assertEquals(1, materia.size());
+    }
+
     @AfterEach
     public void tearDown() {
         resetService.resetAll();

@@ -18,7 +18,7 @@
             <one-to-many class="Comision"/>
         </list>
 
-        <property name="materiaNombre" column="materiaNombre" not-null="true"/>
+        <property name="materiaNombre" column="materiaNombre" not-null="true"  unique="true"/>
 
 
     </class>

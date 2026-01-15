@@ -16,4 +16,6 @@ public interface MateriaSQLDAO extends JpaRepository<Materia,Long> {
         WHERE m.materiaId IN :idsMaterias
     """)
     List<Materia> findAllByIds(@Param("idsMaterias") Set<Long> idsMaterias);
+
+    List<Materia> findAllByMateriaNombreContainsIgnoreCase(String nombreMateria);
 }

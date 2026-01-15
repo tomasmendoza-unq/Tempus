@@ -71,4 +71,9 @@ public class MateriaRepositoryImpl implements MateriaRepository {
 
         return materiaSQLDAO.findAllByIds(idsDisponibles);
     }
+
+    @Override
+    public List<Materia> recuperarMateriasPorNombre(String nombreMateria) {
+        return materiaSQLDAO.findAllByMateriaNombreContainsIgnoreCase(nombreMateria);
+    }
 }
