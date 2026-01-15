@@ -5,13 +5,11 @@ export default function FormAgregarMateria() {
   const { crearMateria, loading } = useCrearMateria()
   const { formMateria, updateFormMateria } = useFormMateria()
 
-  // 👇 NUEVO: Estado local para el texto del input
   const [correlativasTexto, setCorrelativasTexto] = useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault()
     try {
-      // 👇 Convertir el texto a objetos justo antes de enviar
       const correlativasObjetos = correlativasTexto
         ? correlativasTexto.split(",").map((c) => ({
             materiaNombre: c.trim(),
@@ -24,7 +22,6 @@ export default function FormAgregarMateria() {
         correlativas: correlativasObjetos,
       })
 
-      // Limpiar todo
       updateFormMateria({ materiaNombre: "", correlativas: [] })
       setCorrelativasTexto("")
     } catch (err) {
@@ -41,7 +38,6 @@ export default function FormAgregarMateria() {
   }
 
   const handleCorrelativasChange = (e) => {
-    // 👇 CAMBIO: Solo actualizar el texto, sin convertir
     setCorrelativasTexto(e.target.value)
   }
 

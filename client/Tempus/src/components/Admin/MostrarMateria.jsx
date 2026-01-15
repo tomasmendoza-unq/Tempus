@@ -1,15 +1,19 @@
 import { useState } from "react"
 import { useTraerMateria } from "../../hooks/useMateria"
+import NodoDeMaterias from "../NodoDeMaterias/NodoDeMaterias"
+import Modal from "../Ui/Modal"
+import DetalleMateria from "../Materia/DetalleMateria"
 
 export default function MostrarMateria() {
   const { traerMateria, loading, materia } = useTraerMateria()
   const [idBusqueda, setIdBusqueda] = useState("")
+  const [isOpenModal, setIsOpenModal] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (idBusqueda) {
       try {
-        await traerMateria(idBusqueda)
+        console.log(await traerMateria(idBusqueda))
       } catch (err) {
         console.error("Error al buscar materia:", err)
       }
@@ -17,8 +21,8 @@ export default function MostrarMateria() {
   }
 
   return (
-    <div className="flex justify-center pt-10">
-      <div className="flex w-72 flex-col items-center gap-3.5 rounded bg-white p-6 shadow-sm">
+    <div className="flex flex-col items-center justify-center pt-10">
+      <div className="flex w-72 flex-col gap-3.5 rounded bg-white p-6 shadow-sm">
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3.5">
           <input
             className="border border-gray-300 rounded p-2"
@@ -35,13 +39,20 @@ export default function MostrarMateria() {
             {loading ? "Buscando..." : "Buscar Materia"}
           </button>
         </form>
-        {materia && (
-          <div className="mt-2 w-full rounded bg-gray-100 p-4">
-            <h3 className="font-bold">{materia.materiaNombre}</h3>
-            <p className="text-sm">ID: {materia.materiaId}</p>
-          </div>
-        )}
       </div>
+      {materia && (
+        <>
+          <div className="flex items-center justify-center mt-2 w-full p-4">
+            <NodoDeMaterias
+              materia={materia}
+              onClick={() => setIsOpenModal(true)}
+            />
+          </div>
+          <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
+            <DetalleMateria materia={materia} />
+          </Modal>
+        </>
+      )}
     </div>
   )
 }
