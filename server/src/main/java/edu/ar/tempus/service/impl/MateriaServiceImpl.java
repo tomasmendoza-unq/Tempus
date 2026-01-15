@@ -43,7 +43,7 @@ public class MateriaServiceImpl implements MateriaService {
     }
 
     @Override
-    public List<Materia> recuperarMateriasDisponibles(List<Materia> materiasAprobadas) {
+    public List<Materia> recuperarMateriasDisponibles(List<Long> materiasAprobadas) {
 
         return materiaRepository.recuperarMateriasDisponibles(materiasAprobadas);
     }

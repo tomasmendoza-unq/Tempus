@@ -31,11 +31,15 @@ public class MateriaServiceTest {
     
     private Materia lea2;
 
+    private Materia lea3;
+
     private Materia leaGuardada;
 
     private Materia inglesGuardada;
 
     private Materia leaGuardada2;
+
+    private Materia leaGuardada3;
 
     @BeforeEach
     public void setUp() {
@@ -53,6 +57,10 @@ public class MateriaServiceTest {
                 .materiaNombre("ingles")
                 .build();
 
+        lea3 = Materia.builder()
+                .materiaNombre("lea3")
+                .build();
+
         leaGuardada = materiaService.guardar(lea);
 
         Set<Materia> correlativas = new HashSet<>();
@@ -63,6 +71,12 @@ public class MateriaServiceTest {
         inglesGuardada = materiaService.guardar(ingles);
 
         leaGuardada2 = materiaService.guardar(lea2);
+
+        lea3.setCorrelativas(new HashSet<>(Set.of(leaGuardada2)));
+
+        leaGuardada3 = materiaService.guardar(lea3);
+
+
     }
 
     @Test
@@ -94,24 +108,19 @@ public class MateriaServiceTest {
         assertTrue(hasLea, "LEA2 debe tener LEA como correlativa");
     }
 
+    //UNA MATERIA ESTA DISPONIBLE SI SE PUEDE CURSAR EN EL PROXIMO CUATRI
     @Test
     public void  debeRetornarMateriasDisponiblesSegunAprobadas(){
-        List<Materia> materiasAprobadas = new ArrayList<>(List.of(leaGuardada));
+        List<Long> idsAprobadas = new ArrayList<>(List.of(leaGuardada.getMateriaId()));
 
-        List<Materia> materiasPendientes = materiaService.recuperarMateriasDisponibles(materiasAprobadas);
+        List<Materia> materiasPendientes = materiaService.recuperarMateriasDisponibles(idsAprobadas);
 
         Set<Long> idsPendientes = materiasPendientes.stream()
                 .map(Materia::getMateriaId)
                 .collect(Collectors.toSet());
 
-        Set<Long> idsAprobadas = materiasAprobadas.stream()
-                .map(Materia::getMateriaId)
-                .collect(Collectors.toSet());
-
-        // Verificar que leaGuardada NO está en pendientes
         assertFalse(idsPendientes.contains(leaGuardada.getMateriaId()));
 
-        // Verificar que ninguna aprobada está en pendientes
         assertTrue(Collections.disjoint(idsAprobadas, idsPendientes));
     }
 

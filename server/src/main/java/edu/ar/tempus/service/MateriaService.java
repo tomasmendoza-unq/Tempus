@@ -13,5 +13,5 @@ public interface MateriaService {
 
     List<Materia> recuperarTodos();
 
-    List<Materia> recuperarMateriasDisponibles(List<Materia> materiasAprobadas);
+    List<Materia> recuperarMateriasDisponibles(List<Long> materiasAprobadas);
 }

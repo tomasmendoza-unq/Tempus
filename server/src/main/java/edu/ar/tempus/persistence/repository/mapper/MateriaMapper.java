@@ -9,4 +9,5 @@ public interface MateriaMapper {
     MateriaNeo4J toNeo4J(Materia materia);
 
     Materia toModel(Materia materia, MateriaNeo4J materiaNeo4J);
+
 }

@@ -27,7 +27,7 @@ public class MateriaNeo4J {
     private String nombre;
 
     @Builder.Default
-    @Relationship(type = "CORRELATIVA")
+    @Relationship(type = "CORRELATIVA", direction = Relationship.Direction.INCOMING)
     private Set<MateriaNeo4J> correlativas = new HashSet<>();
 
 

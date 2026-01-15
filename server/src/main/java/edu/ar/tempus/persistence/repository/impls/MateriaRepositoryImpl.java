@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class MateriaRepositoryImpl implements MateriaRepository {
@@ -60,11 +61,14 @@ public class MateriaRepositoryImpl implements MateriaRepository {
     }
 
     @Override
-    public List<Materia> recuperarMateriasDisponibles(List<Materia> materiasAprobadas) {
-        List<MateriaNeo4J> materiaNeoDisponibles = materiaNeo4JDAO.recuperarMateriasDisponibles(materiasAprobadas);
+    public List<Materia> recuperarMateriasDisponibles(List<Long> idsAprobadas) {
+        Set<Long> idsDisponibles =
+                materiaNeo4JDAO.recuperarMateriasDisponibles(idsAprobadas);
 
-        List<Materia> materiasDisponibles =
+        if (idsDisponibles.isEmpty()) {
+            return List.of();
+        }
 
-        return List.of();
+        return materiaSQLDAO.findAllByIds(idsDisponibles);
     }
 }
