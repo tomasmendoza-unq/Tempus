@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,29 +27,61 @@ public class MateriaServiceTest {
 
     private Materia lea;
 
+    private Materia ingles;
+    
+    private Materia lea2;
+
+    private Materia lea3;
+
+    private Materia leaGuardada;
+
+    private Materia inglesGuardada;
+
+    private Materia leaGuardada2;
+
+    private Materia leaGuardada3;
+
     @BeforeEach
     public void setUp() {
         lea = Materia.builder()
                 .materiaNombre("LEA")
                 .correlativas(new HashSet<>())
                 .build();
-    }
 
-    @Test
-    public void crearMateriaConCorrelativas(){
-        Materia leaGuardada = materiaService.guardar(lea);
-        assertNotNull(leaGuardada.getMateriaId(), "LEA debe tener ID después de guardar");
+        lea2 = Materia.builder()
+                .materiaNombre("LEA2")
+                .correlativas(new HashSet<>())
+                .build();
+
+        ingles = Materia.builder()
+                .materiaNombre("ingles")
+                .build();
+
+        lea3 = Materia.builder()
+                .materiaNombre("lea3")
+                .build();
+
+        leaGuardada = materiaService.guardar(lea);
 
         Set<Materia> correlativas = new HashSet<>();
         correlativas.add(leaGuardada);
 
-        Materia ingles = Materia.builder()
-                .materiaNombre("ingles")
-                .correlativas(correlativas)
-                .build();
+        ingles.setCorrelativas(correlativas);
 
-        Materia inglesGuardada = materiaService.guardar(ingles);
-        assertNotNull(inglesGuardada.getMateriaId(), "Ingles debe tener ID después de guardar");
+        inglesGuardada = materiaService.guardar(ingles);
+
+        leaGuardada2 = materiaService.guardar(lea2);
+
+        lea3.setCorrelativas(new HashSet<>(Set.of(leaGuardada2)));
+
+        leaGuardada3 = materiaService.guardar(lea3);
+
+
+    }
+
+    @Test
+    public void crearMateriaConCorrelativas(){
+
 
         Materia inglesRecuperada = materiaService.recuperar(inglesGuardada.getMateriaId());
 
@@ -66,19 +98,7 @@ public class MateriaServiceTest {
     @Test
     public void asociarMateriaSimpleConOtra(){
 
-        Materia leaGuardada = materiaService.guardar(lea);
-        assertNotNull(leaGuardada.getMateriaId(), "LEA debe tener ID después de guardar");
-
-        Materia lea2 = Materia.builder()
-                .materiaNombre("LEA2")
-                .correlativas(new HashSet<>())
-                .build();
-
-        Materia leaGuardada2 = materiaService.guardar(lea2);
-        assertNotNull(leaGuardada2.getMateriaId(), "LEA2 debe tener ID después de guardar");
-
         materiaService.asociarMateria(leaGuardada2.getMateriaId(), leaGuardada.getMateriaId());
-
 
         Materia leaRecuperada = materiaService.recuperar(lea.getMateriaId());
         Materia leaRecuperada2 = materiaService.recuperar(lea2.getMateriaId());
@@ -88,6 +108,36 @@ public class MateriaServiceTest {
         assertTrue(hasLea, "LEA2 debe tener LEA como correlativa");
     }
 
+    //UNA MATERIA ESTA DISPONIBLE SI SE PUEDE CURSAR EN EL PROXIMO CUATRI
+    @Test
+    public void  debeRetornarMateriasDisponiblesSegunAprobadas(){
+        List<Long> idsAprobadas = new ArrayList<>(List.of(leaGuardada.getMateriaId()));
+
+        List<Materia> materiasPendientes = materiaService.recuperarMateriasDisponibles(idsAprobadas);
+
+        Set<Long> idsPendientes = materiasPendientes.stream()
+                .map(Materia::getMateriaId)
+                .collect(Collectors.toSet());
+
+        assertFalse(idsPendientes.contains(leaGuardada.getMateriaId()));
+
+        assertTrue(Collections.disjoint(idsAprobadas, idsPendientes));
+    }
+
+
+    @Test
+    public void recuperarMateriaPorNombre(){
+
+        List<Materia> materias = materiaService.recuperarMateriasPorNombre("Lea");
+
+        assertTrue(materias.stream().allMatch(m -> m.getMateriaNombre().toLowerCase().contains("lea")));
+        assertEquals(3, materias.size());
+
+        List<Materia> materia = materiaService.recuperarMateriasPorNombre("Lea2");
+
+        assertTrue(materia.stream().allMatch(m -> m.getMateriaNombre().equalsIgnoreCase("lEA2")));
+        assertEquals(1, materia.size());
+    }
 
     @AfterEach
     public void tearDown() {

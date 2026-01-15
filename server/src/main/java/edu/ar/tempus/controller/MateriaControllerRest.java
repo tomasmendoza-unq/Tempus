@@ -36,6 +36,24 @@ public final class MateriaControllerRest {
         return ResponseEntity.status(HttpStatus.FOUND).body(MateriaDTOResponse.desdeModelo(materia));
     }
 
+    @GetMapping("/disponible")
+    public ResponseEntity<List<MateriaDTOResponseSimple>> getDisponibleMateria(@RequestParam List<Long> idMaterias){
+        List<Materia> materias = materiaService.recuperarMateriasDisponibles(idMaterias);
+
+        List<MateriaDTOResponseSimple> response = materias.stream().map(MateriaDTOResponseSimple::desdeModelo).toList();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/buscar/{nombreMateria}")
+    public ResponseEntity<List<MateriaDTOResponseSimple>> buscarMaterias(@PathVariable String nombreMateria){
+        List<Materia> materias = materiaService.recuperarMateriasPorNombre(nombreMateria);
+
+        List<MateriaDTOResponseSimple> response = materias.stream().map(MateriaDTOResponseSimple::desdeModelo).toList();
+
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/crear")
     public ResponseEntity<MateriaDTOResponse> crearMateria(@RequestBody MateriaDTORequest materiaDTO) {
         Materia materia = MateriaDTORequest.aModelo(materiaDTO);
