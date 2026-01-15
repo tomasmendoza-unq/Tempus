@@ -12,4 +12,8 @@ public interface MateriaService {
     void asociarMateria(Long materiaId, Long materiaId1);
 
     List<Materia> recuperarTodos();
+
+    List<Materia> recuperarMateriasDisponibles(List<Long> materiasAprobadas);
+
+    List<Materia> recuperarMateriasPorNombre(String nombreMateria);
 }

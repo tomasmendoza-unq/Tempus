@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class MateriaRepositoryImpl implements MateriaRepository {
@@ -57,5 +58,22 @@ public class MateriaRepositoryImpl implements MateriaRepository {
     public List<Materia> recuperarTodos() {
 
         return materiaSQLDAO.findAll();
+    }
+
+    @Override
+    public List<Materia> recuperarMateriasDisponibles(List<Long> idsAprobadas) {
+        Set<Long> idsDisponibles =
+                materiaNeo4JDAO.recuperarMateriasDisponibles(idsAprobadas);
+
+        if (idsDisponibles.isEmpty()) {
+            return List.of();
+        }
+
+        return materiaSQLDAO.findAllByIds(idsDisponibles);
+    }
+
+    @Override
+    public List<Materia> recuperarMateriasPorNombre(String nombreMateria) {
+        return materiaSQLDAO.findAllByMateriaNombreContainsIgnoreCase(nombreMateria);
     }
 }
