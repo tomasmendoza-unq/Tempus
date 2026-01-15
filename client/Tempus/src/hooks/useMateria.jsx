@@ -2,6 +2,7 @@ import {
   crearMateriaService,
   traerMateriaService,
   traerTodasMateriasService,
+  buscarMateriaPorNombreService,
 } from "../services/materiaService"
 import { useMateriaContext } from "../contexts/MateriaContext"
 import { toast } from "react-toastify"
@@ -63,6 +64,25 @@ export function useTraerTodasMaterias() {
   }
 
   return { traerMaterias, loading, error, materias }
+}
+
+export function useBuscarMateriaPorNombre() {
+  const { dispatch, loading, error, materias } = useMateriaContext()
+
+  const buscarMateriaPorNombre = async (materiaNombre) => {
+    dispatch({ type: "FETCH_MATERIAS_REQUEST" })
+    try {
+      const data = await buscarMateriaPorNombreService(materiaNombre)
+      dispatch({ type: "FETCH_MATERIAS_SUCCESS", payload: data })
+      return data
+    } catch (err) {
+      console.error("Error:", err)
+      dispatch({ type: "FETCH_MATERIAS_FAILURE", payload: err })
+      throw err
+    }
+  }
+
+  return { buscarMateriaPorNombre, loading, error, materias }
 }
 
 export function useFormMateria() {
