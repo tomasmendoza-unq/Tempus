@@ -45,6 +45,15 @@ public final class MateriaControllerRest {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/buscar/{nombreMateria}")
+    public ResponseEntity<List<MateriaDTOResponseSimple>> buscarMaterias(@PathVariable String nombreMateria){
+        List<Materia> materias = materiaService.recuperarMateriasPorNombre(nombreMateria);
+
+        List<MateriaDTOResponseSimple> response = materias.stream().map(MateriaDTOResponseSimple::desdeModelo).toList();
+
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/crear")
     public ResponseEntity<MateriaDTOResponse> crearMateria(@RequestBody MateriaDTORequest materiaDTO) {
         Materia materia = MateriaDTORequest.aModelo(materiaDTO);
