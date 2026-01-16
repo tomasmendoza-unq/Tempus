@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Transactional("transactionManager")
@@ -55,6 +56,14 @@ public class CarreraServiceTest {
         Carrera carreraRecuperada = carreraService.recuperar(carreraGuardada.getId());
 
         assertEquals(carreraGuardada.getNombreCarrera(), carreraRecuperada.getNombreCarrera());
+    }
+
+    @Test
+    public void recuperarCarreraPorNombre(){
+        List<Carrera> carreras = carreraService.recuperarCarreraPorNombre("Lic");
+
+
+        assertTrue(carreras.stream().allMatch(c -> c.getNombreCarrera().toLowerCase().contains("Lic")));
     }
 
     @AfterEach
