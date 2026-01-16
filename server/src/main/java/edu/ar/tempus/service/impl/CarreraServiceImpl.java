@@ -43,4 +43,9 @@ public class CarreraServiceImpl implements CarreraService {
     public List<Carrera> recuperarTodos() {
         return carreraDAOSQL.findAll();
     }
+
+    @Override
+    public List<Carrera> recuperarCarreraPorNombre(String nombreCarrera) {
+        return carreraDAOSQL.findAllByNombreCarreraContainsIgnoreCase(nombreCarrera);
+    }
 }

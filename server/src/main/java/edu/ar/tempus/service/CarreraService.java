@@ -11,4 +11,6 @@ public interface CarreraService {
     Carrera recuperar(Long id);
 
     List<Carrera> recuperarTodos();
+
+    List<Carrera> recuperarCarreraPorNombre(String lic);
 }
