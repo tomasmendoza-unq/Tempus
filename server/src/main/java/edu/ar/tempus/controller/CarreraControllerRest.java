@@ -27,6 +27,13 @@ public final class CarreraControllerRest {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/buscar/{nombreCarrera}")
+    public ResponseEntity<List<CarreraDTOResponse>> obtenerCarreras(@PathVariable String nombreCarrera) {
+        List<Carrera> carreras = carreraService.recuperarCarreraPorNombre(nombreCarrera);
+        List<CarreraDTOResponse> response = carreras.stream().map(CarreraDTOResponse::desdeModelo).toList();
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/{idCarrera}")
     public ResponseEntity<CarreraDTOResponse>  obtenerCarreraPorIdCarrera(@PathVariable Long idCarrera) {
         Carrera carrera = carreraService.recuperar(idCarrera);
