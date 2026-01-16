@@ -1,5 +1,5 @@
 import { useState } from "react"
-import useOutsideClick from "../../hooks/useOnBlur"
+import useOutsideClick from "../../../hooks/useOnBlur"
 import { ArrowDown, ArrowUp } from "feather-icons-react"
 
 export default function DropDown({
@@ -13,7 +13,6 @@ export default function DropDown({
   const [isOpen, setIsOpen] = useState(false)
   const ref = useOutsideClick(() => setIsOpen(false))
 
-  console.log({ elements })
   let setOfElems = [
     ...new Set(
       elements?.map((elem) => {
@@ -40,7 +39,7 @@ export default function DropDown({
                 <li
                   key={index}
                   className="px-4 py-2 hover:bg-red-800 hover:rounded-md cursor-pointer w-full truncate"
-                  onClick={(e) => {
+                  onClick={() => {
                     callback(elem)
                   }}
                 >

@@ -1,55 +1,22 @@
 import { useState } from "react"
-import {
-  useBuscarMateriaPorNombre,
-  useTraerMateria,
-} from "../../hooks/useMateria"
+import { useTraerMateria } from "../../hooks/useMateria"
 import NodoDeMaterias from "../NodoDeMaterias/NodoDeMaterias"
-import Modal from "../Ui/Modal"
+import Modal from "../Ui/Modal/Modal"
 import DetalleMateria from "../Materia/DetalleMateria"
-import Dropdown from "../Ui/Dropdown"
+import Dropdown from "../Ui/Dropdown/Dropdown"
+import BuscadorDeMaterias from "./BuscadorDeMaterias"
 
 export default function MostrarMateria() {
-  const { buscarMateriaPorNombre, loading, materias } =
-    useBuscarMateriaPorNombre()
-  const { traerMateria, materia } = useTraerMateria()
+  const { traerMateria, materia, materias } = useTraerMateria()
 
-  const [materiaNombre, setMateriaNombre] = useState("")
   const [isOpenModal, setIsOpenModal] = useState(false)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (materiaNombre) {
-      buscarMateriaPorNombre(materiaNombre)
-    }
-  }
-
-  console.log({ materia })
   return (
     <div className="flex flex-col items-center justify-center pt-10">
       <div className="flex w-72 flex-row gap-3.5 rounded bg-white p-6 shadow-sm h-44">
-        <form onSubmit={handleSubmit} className="flex-1 flex flex-col gap-3.5">
-          <input
-            className="border border-gray-300 rounded p-2"
-            onChange={(e) => {
-              setMateriaNombre(e.target.value)
-              console.log(materiaNombre)
-            }}
-            value={materiaNombre}
-            placeholder="Ingresa nombre materia..."
-            disabled={loading}
-          />
-          <button
-            className="h-10 bg-red-950 text-white py-2 px-4 rounded disabled:opacity-50 flex-shrink-0"
-            type="submit"
-            disabled={loading}
-          >
-            {loading ? "Buscando..." : "Buscar Materia"}
-          </button>
-        </form>
+        <BuscadorDeMaterias />
         <div className="flex relative items-center m-7">
-          {materias.length < 1 ? (
-            ""
-          ) : (
+          {materias?.length > 0 && (
             <Dropdown
               tag1={"materiaNombre"}
               tag2={"materiaId"}

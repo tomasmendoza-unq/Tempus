@@ -3,7 +3,7 @@ import "./App.css"
 import Correlativas from "./pages/Correlativas"
 import Home from "./pages/Home"
 import Materias from "./pages/Materias"
-import NavBar from "./components/Ui/NavBar"
+import NavBar from "./components/Ui/NavBar/NavBar"
 
 function App() {
   return (

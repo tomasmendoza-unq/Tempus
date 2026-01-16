@@ -4,93 +4,138 @@ import {
   traerTodasMateriasService,
   buscarMateriaPorNombreService,
 } from "../services/materiaService"
-import { useMateriaContext } from "../contexts/MateriaContext"
+import { useMateriaContext } from "./useMateriaContext"
 import { toast } from "react-toastify"
 
 export function useCrearMateria() {
-  const { dispatch, loading, error } = useMateriaContext()
+  const {
+    cargando,
+    error,
+    fetchMateriaRequest,
+    fetchMateriaFailure,
+    materiaCreadaConExito,
+  } = useMateriaContext()
 
   const crearMateria = async (formData) => {
-    dispatch({ type: "FETCH_MATERIA_REQUEST" })
+    fetchMateriaRequest()
     try {
       await crearMateriaService(formData)
       toast.success(`Materia ${formData.materiaNombre} creada con éxito`)
-      dispatch({ type: "MATERIA_CREADA_EXITO" })
+      materiaCreadaConExito()
     } catch (err) {
-      dispatch({ type: "FETCH_MATERIA_FAILURE", payload: err })
+      fetchMateriaFailure(err)
       console.error("Error completo:", err)
       toast.error("Error al crear la materia")
       throw err
     }
   }
 
-  return { crearMateria, loading, error }
+  return { crearMateria, cargando, error }
 }
 
 export function useTraerMateria() {
-  const { dispatch, loading, error, materia } = useMateriaContext()
+  const {
+    cargando,
+    error,
+    materia,
+    materias,
+    fetchMateriaRequest,
+    fetchMateriaSuccess,
+    fetchMateriaFailure,
+  } = useMateriaContext()
 
   const traerMateria = async (idMateria) => {
-    dispatch({ type: "FETCH_MATERIA_REQUEST" })
+    fetchMateriaRequest()
     try {
       const data = await traerMateriaService(idMateria)
-      dispatch({ type: "FETCH_MATERIA_SUCCESS", payload: data })
-      console.log({ data })
+      fetchMateriaSuccess(data)
       return data
     } catch (err) {
       console.error("Error:", err)
-      dispatch({ type: "FETCH_MATERIA_FAILURE", payload: err })
+      fetchMateriaFailure(err)
       throw err
     }
   }
 
-  return { traerMateria, loading, error, materia }
+  return {
+    traerMateria,
+    cargando,
+    error,
+    materia,
+    materias,
+  }
 }
 
 export function useTraerTodasMaterias() {
-  const { dispatch, loading, error, materias } = useMateriaContext()
+  const {
+    cargando,
+    error,
+    materias,
+    fetchMateriasRequest,
+    fetchMateriasSuccess,
+    fetchMateriasFailure,
+  } = useMateriaContext()
 
   const traerMaterias = async () => {
-    dispatch({ type: "FETCH_MATERIAS_REQUEST" })
+    fetchMateriasRequest()
     try {
       const data = await traerTodasMateriasService()
-      dispatch({ type: "FETCH_MATERIAS_SUCCESS", payload: data })
+      fetchMateriasSuccess(data)
       return data
     } catch (err) {
       console.error("Error:", err)
-      dispatch({ type: "FETCH_MATERIAS_FAILURE", payload: err })
+      fetchMateriasFailure(err)
       throw err
     }
   }
 
-  return { traerMaterias, loading, error, materias }
+  return {
+    traerMaterias,
+    cargando,
+    error,
+    materias,
+  }
 }
 
 export function useBuscarMateriaPorNombre() {
-  const { dispatch, loading, error, materias } = useMateriaContext()
+  const {
+    cargando,
+    error,
+    materias,
+    fetchMateriasRequest,
+    fetchMateriasSuccess,
+    fetchMateriasFailure,
+  } = useMateriaContext()
 
   const buscarMateriaPorNombre = async (materiaNombre) => {
-    dispatch({ type: "FETCH_MATERIAS_REQUEST" })
+    fetchMateriasRequest()
     try {
       const data = await buscarMateriaPorNombreService(materiaNombre)
-      dispatch({ type: "FETCH_MATERIAS_SUCCESS", payload: data })
+      fetchMateriasSuccess(data)
       return data
     } catch (err) {
       console.error("Error:", err)
-      dispatch({ type: "FETCH_MATERIAS_FAILURE", payload: err })
+      fetchMateriasFailure(err)
+      toast.error("Error al buscar la materia")
       throw err
     }
   }
 
-  return { buscarMateriaPorNombre, loading, error, materias }
+  return {
+    buscarMateriaPorNombre,
+    cargando,
+    error,
+    materias,
+  }
 }
 
 export function useFormMateria() {
-  const { dispatch, formMateria } = useMateriaContext()
+  const { formMateria, updateFormMateria, clearFormMateria } =
+    useMateriaContext()
 
-  const updateFormMateria = (formData) => {
-    dispatch({ type: "UPDATE_FORM_MATERIA", payload: formData })
+  return {
+    formMateria,
+    updateFormMateria,
+    clearFormMateria,
   }
-
-  return { formMateria, updateFormMateria }
 }

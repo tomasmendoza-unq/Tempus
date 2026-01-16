@@ -1,74 +1,73 @@
 export const estadoInicialMateria = {
   materias: [],
   materia: null,
-  loading: false,
+  cargando: false,
   error: null,
   formMateria: {
     materiaNombre: "",
-    correlativas: [],
+    correlativas: "",
   },
 }
 
 export const materiaReducer = (state, action) => {
   switch (action.type) {
-    case "FETCH_MATERIAS_REQUEST":
+    case "TRAER_MATERIAS_SOLICITUD":
       return {
         ...state,
-        loading: true,
+        cargando: true,
         error: null,
       }
-    case "FETCH_MATERIAS_SUCCESS":
+    case "TRAER_MATERIAS_EXITO":
       return {
         ...state,
-        loading: false,
+        cargando: false,
         materias: action.payload,
       }
-    case "FETCH_MATERIAS_FAILURE":
+    case "TRAER_MATERIAS_FALLO":
       return {
         ...state,
-        loading: false,
+        cargando: false,
         error: action.payload,
       }
 
-    case "FETCH_MATERIA_REQUEST":
+    case "TRAER_MATERIA_SOLICITUD":
       return {
         ...state,
-        loading: true,
+        cargando: true,
         error: null,
       }
-    case "FETCH_MATERIA_SUCCESS":
+    case "TRAER_MATERIA_EXITO":
       return {
         ...state,
-        loading: false,
+        cargando: false,
         materia: action.payload,
       }
-    case "FETCH_MATERIA_FAILURE":
+    case "TRAER_MATERIA_FALLO":
       return {
         ...state,
-        loading: false,
+        cargando: false,
         error: action.payload,
       }
-    case "UPDATE_FORM_MATERIA":
+    case "ACTUALIZAR_FORM_MATERIA":
       return {
         ...state,
         formMateria: {
           ...state.formMateria,
-          materiaNombre: action.payload.materiaNombre,
-          correlativas: action.payload.correlativas,
+          [action.payload.atributo]: action.payload.valor,
         },
       }
-    case "CLEAR_FORM_MATERIA":
+    case "LIMPIAR_FORM_MATERIA":
       return {
         ...state,
         formMateria: {
           materiaNombre: "",
-          correlativas: [],
+          correlativas: "",
         },
       }
     case "MATERIA_CREADA_EXITO":
       return {
         ...state,
-        loading: false,
+        cargando: false,
         error: null,
       }
 
