@@ -33,3 +33,13 @@ export const traerTodasMateriasService = async () => {
   })
   return response.json()
 }
+
+export const buscarMateriaPorNombreService = async (materiaNombre) => {
+  const response = await fetch(`api/materia/buscar/${materiaNombre}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+  return response.json()
+}

@@ -1,47 +1,47 @@
 import { useState } from "react"
 import { useTraerMateria } from "../../hooks/useMateria"
+import NodoDeMaterias from "../NodoDeMaterias/NodoDeMaterias"
+import Modal from "../Ui/Modal/Modal"
+import DetalleMateria from "../Materia/DetalleMateria"
+import Dropdown from "../Ui/Dropdown/Dropdown"
+import BuscadorDeMaterias from "./BuscadorDeMaterias"
 
 export default function MostrarMateria() {
-  const { traerMateria, loading, materia } = useTraerMateria()
-  const [idBusqueda, setIdBusqueda] = useState("")
+  const { traerMateria, materia, materias } = useTraerMateria()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (idBusqueda) {
-      try {
-        await traerMateria(idBusqueda)
-      } catch (err) {
-        console.error("Error al buscar materia:", err)
-      }
-    }
-  }
+  const [isOpenModal, setIsOpenModal] = useState(false)
 
   return (
-    <div className="flex justify-center pt-10">
-      <div className="flex w-72 flex-col items-center gap-3.5 rounded bg-white p-6 shadow-sm">
-        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3.5">
-          <input
-            className="border border-gray-300 rounded p-2"
-            onChange={(e) => setIdBusqueda(e.target.value)}
-            value={idBusqueda}
-            placeholder="Ingresa ID materia..."
-            disabled={loading}
-          />
-          <button
-            className="mt-2 bg-red-950 text-white py-2 px-4 rounded disabled:opacity-50"
-            type="submit"
-            disabled={loading || !idBusqueda.trim()}
-          >
-            {loading ? "Buscando..." : "Buscar Materia"}
-          </button>
-        </form>
-        {materia && (
-          <div className="mt-2 w-full rounded bg-gray-100 p-4">
-            <h3 className="font-bold">{materia.materiaNombre}</h3>
-            <p className="text-sm">ID: {materia.materiaId}</p>
-          </div>
-        )}
+    <div className="flex flex-col items-center justify-center pt-10">
+      <div className="flex w-72 flex-row gap-3.5 rounded bg-white p-6 shadow-sm h-44">
+        <BuscadorDeMaterias />
+        <div className="flex relative items-center m-7">
+          {materias?.length > 0 && (
+            <Dropdown
+              tag1={"materiaNombre"}
+              tag2={"materiaId"}
+              elements={materias}
+              callback={(elem) => {
+                traerMateria(elem[1])
+              }}
+            />
+          )}
+        </div>
       </div>
+
+      {materia && (
+        <>
+          <div className="flex items-center justify-center mt-2 w-full p-4">
+            <NodoDeMaterias
+              materia={materia}
+              onClick={() => setIsOpenModal(true)}
+            />
+          </div>
+          <Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)}>
+            <DetalleMateria materia={materia} />
+          </Modal>
+        </>
+      )}
     </div>
   )
 }

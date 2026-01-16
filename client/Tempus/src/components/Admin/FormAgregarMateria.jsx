@@ -1,32 +1,29 @@
-import { useState } from "react"
 import { useCrearMateria, useFormMateria } from "../../hooks/useMateria"
 
 export default function FormAgregarMateria() {
-  const { crearMateria, loading } = useCrearMateria()
+  const { crearMateria, cargando } = useCrearMateria()
   const { formMateria, updateFormMateria } = useFormMateria()
 
-  // 👇 NUEVO: Estado local para el texto del input
-  const [correlativasTexto, setCorrelativasTexto] = useState("")
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      // 👇 Convertir el texto a objetos justo antes de enviar
-      const correlativasObjetos = correlativasTexto
-        ? correlativasTexto.split(",").map((c) => ({
+      const correlativasCadena = formMateria.correlativas || ""
+      const correlativasObjetos = correlativasCadena.trim()
+        ? correlativasCadena.split(",").map((c) => ({
             materiaNombre: c.trim(),
             correlativas: [],
           }))
         : []
 
-      crearMateria({
+      const payload = {
         ...formMateria,
         correlativas: correlativasObjetos,
-      })
+      }
 
-      // Limpiar todo
-      updateFormMateria({ materiaNombre: "", correlativas: [] })
-      setCorrelativasTexto("")
+      await crearMateria(payload)
+
+      updateFormMateria("materiaNombre", "")
+      updateFormMateria("correlativas", "")
     } catch (err) {
       console.error("Error al crear materia:", err)
     }
@@ -34,15 +31,12 @@ export default function FormAgregarMateria() {
 
   const handleInputChange = (e) => {
     const valor = e.target.value
-    updateFormMateria({
-      materiaNombre: valor,
-      correlativas: formMateria.correlativas,
-    })
+    updateFormMateria("materiaNombre", valor)
   }
 
   const handleCorrelativasChange = (e) => {
-    // 👇 CAMBIO: Solo actualizar el texto, sin convertir
-    setCorrelativasTexto(e.target.value)
+    const valor = e.target.value
+    updateFormMateria("correlativas", valor)
   }
 
   return (
@@ -57,7 +51,7 @@ export default function FormAgregarMateria() {
           type="text"
           value={formMateria.materiaNombre}
           onChange={handleInputChange}
-          disabled={loading}
+          disabled={cargando}
         />
         <div className="w-full">
           <label className="block text-sm text-gray-600 mb-1">
@@ -67,9 +61,9 @@ export default function FormAgregarMateria() {
             className="w-full border border-gray-300 rounded p-2"
             placeholder="Ej: Matemática, Física, Química"
             type="text"
-            value={correlativasTexto}
+            value={formMateria.correlativas}
             onChange={handleCorrelativasChange}
-            disabled={loading}
+            disabled={cargando}
           />
           <p className="text-xs text-gray-500 mt-1">
             Ingresa los nombres de las materias separadas por comas
@@ -79,9 +73,9 @@ export default function FormAgregarMateria() {
         <button
           className="mt-4 bg-red-950 text-white py-2 px-4 rounded disabled:opacity-50"
           type="submit"
-          disabled={loading || !formMateria.materiaNombre.trim()}
+          disabled={cargando || !formMateria.materiaNombre.trim()}
         >
-          {loading ? "Cargando..." : "Cargar materia"}
+          {cargando ? "Cargando..." : "Cargar materia"}
         </button>
       </div>
     </form>
