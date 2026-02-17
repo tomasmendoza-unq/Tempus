@@ -33,7 +33,7 @@ public final class MateriaControllerRest {
     public ResponseEntity<MateriaDTOResponse> getMateria(@PathVariable Long id) {
         Materia materia = materiaService.recuperar(id);
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(MateriaDTOResponse.desdeModelo(materia));
+        return ResponseEntity.ok(MateriaDTOResponse.desdeModelo(materia));
     }
 
     @GetMapping("/disponible")
