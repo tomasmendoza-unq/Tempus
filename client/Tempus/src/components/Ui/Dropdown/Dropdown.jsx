@@ -41,6 +41,7 @@ export default function DropDown({
                   className="px-4 py-2 hover:bg-red-800 hover:rounded-md cursor-pointer w-full truncate"
                   onClick={() => {
                     callback(elem)
+                    setIsOpen(false)
                   }}
                 >
                   {elem?.[0] || elem}

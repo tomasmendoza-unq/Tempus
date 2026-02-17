@@ -1,45 +1,36 @@
-export const crearMateriaService = async (formData) => {
-  const response = await fetch("/api/materia/crear", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  })
+import { API, API_ROUTES } from "../../constants"
+import { createApi } from "../helpers/apiCRUD"
 
-  const text = await response.text()
+const api = createApi(API.BASE_URL)
 
-  if (!response.ok) {
-    throw new Error(`Error ${response.status}: ${text}`)
-  }
-}
+export const crearMateriaService = (formData) =>
+  api
+    .post(API_ROUTES.CREAR_MATERIA, formData)
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })
 
-export const traerMateriaService = async (idMateria) => {
-  const response = await fetch(`api/materia/${idMateria}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-  return response.json()
-}
+export const traerMateriaService = (id) =>
+  api
+    .get(API_ROUTES.TRAER_MATERIA(id))
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })
 
-export const traerTodasMateriasService = async () => {
-  const response = await fetch(`api/materia/`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-  return response.json()
-}
+export const traerTodasMateriasService = () =>
+  api
+    .get(API_ROUTES.TRAER_TODAS_MATERIAS)
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })
 
-export const buscarMateriaPorNombreService = async (materiaNombre) => {
-  const response = await fetch(`api/materia/buscar/${materiaNombre}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-  return response.json()
-}
+export const buscarMateriaPorNombreService = (materiaNombre) =>
+  api
+    .get(API_ROUTES.BUSCAR_MATERIA_POR_NOMBRE(materiaNombre))
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })

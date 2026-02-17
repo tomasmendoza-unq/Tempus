@@ -1,5 +1,4 @@
 export default function Materia({ materia }) {
-  console.log({ materia })
   return (
     <>
       <div className="flex flex-col items-start justify-center gap-4 p-6">

@@ -4,6 +4,7 @@ import Correlativas from "./pages/Correlativas"
 import Home from "./pages/Home"
 import Materias from "./pages/Materias"
 import NavBar from "./components/Ui/NavBar/NavBar"
+import { ROUTES } from "../constants"
 
 function App() {
   return (
@@ -11,9 +12,9 @@ function App() {
       <NavBar />
       <main className="px-6 py-8">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/materias" element={<Materias />} />
-          <Route path="/correlativas" element={<Correlativas />} />
+          <Route path={ROUTES.HOME} element={<Home />} />
+          <Route path={ROUTES.MATERIAS} element={<Materias />} />
+          <Route path={ROUTES.CORRELATIVAS} element={<Correlativas />} />
           <Route
             path="*"
             element={

@@ -44,10 +44,11 @@ export function useTraerMateria() {
     fetchMateriaFailure,
   } = useMateriaContext()
 
-  const traerMateria = async (idMateria) => {
+  const traerMateria = async (materiaId) => {
     fetchMateriaRequest()
     try {
-      const data = await traerMateriaService(idMateria)
+      const data = await traerMateriaService(materiaId)
+
       fetchMateriaSuccess(data)
       return data
     } catch (err) {

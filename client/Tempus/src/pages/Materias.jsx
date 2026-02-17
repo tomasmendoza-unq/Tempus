@@ -18,7 +18,7 @@ export default function Materias() {
             }}
             className={`px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-200 ${
               isAgregarMateriaOpen
-                ? "bg-blue-500 text-white"
+                ? "bg-red-950 text-white"
                 : "bg-white text-gray-700"
             } border-r border-gray-300`}
           >
@@ -31,7 +31,7 @@ export default function Materias() {
             }}
             className={`px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-200 ${
               !isAgregarMateriaOpen
-                ? "bg-blue-500 text-white"
+                ? "bg-red-950 text-white"
                 : "bg-white text-gray-700"
             }`}
           >

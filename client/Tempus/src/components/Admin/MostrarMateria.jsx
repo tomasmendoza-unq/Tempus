@@ -21,8 +21,8 @@ export default function MostrarMateria() {
               tag1={"materiaNombre"}
               tag2={"materiaId"}
               elements={materias}
-              callback={(elem) => {
-                traerMateria(elem[1])
+              callback={async (elem) => {
+                await traerMateria(elem[1])
               }}
             />
           )}
