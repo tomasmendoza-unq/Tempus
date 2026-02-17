@@ -27,7 +27,7 @@ public class ComisionServiceImpl implements ComisionService {
 
     @Override
     public Comision guardar(Comision comision, Long materiaId) {
-        Materia materia = materiaSQLDAO.findById(materiaId).orElseThrow(() -> new EntityNotFoundException(Carrera.class.getName(), materiaId));
+        Materia materia = materiaSQLDAO.findById(materiaId).orElseThrow(() -> new EntityNotFoundException(Materia.class.getName(), materiaId));
 
         comision.setMateria(materia);
         materia.agregarComision(comision);
