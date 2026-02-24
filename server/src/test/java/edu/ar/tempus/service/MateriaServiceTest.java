@@ -98,7 +98,7 @@ public class MateriaServiceTest {
     @Test
     public void asociarMateriaSimpleConOtra(){
 
-        materiaService.asociarMateria(leaGuardada2.getMateriaId(), leaGuardada.getMateriaId());
+        materiaService.asociarMateria(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId() );
 
         Materia leaRecuperada = materiaService.recuperar(lea.getMateriaId());
         Materia leaRecuperada2 = materiaService.recuperar(lea2.getMateriaId());

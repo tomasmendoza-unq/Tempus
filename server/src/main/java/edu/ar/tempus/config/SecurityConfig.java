@@ -1,8 +1,7 @@
-package com.ecovida.ecommerce_backend.configuration;
+package edu.ar.tempus.config;
 
-import com.ecovida.ecommerce_backend.security.handlers.JwtAccessDeniedHandler;
-import com.ecovida.ecommerce_backend.security.handlers.JwtAuthenticationEntryPoint;
-import com.ecovida.ecommerce_backend.security.jwt.impl.JwtAuthFilter;
+
+import edu.ar.tempus.security.jwt.impl.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

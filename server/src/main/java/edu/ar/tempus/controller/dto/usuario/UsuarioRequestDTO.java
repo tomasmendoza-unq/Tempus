@@ -1,10 +1,9 @@
-package com.ecovida.ecommerce_backend.controller.dto.usuario;
+package edu.ar.tempus.controller.dto.usuario;
 
-import com.ecovida.ecommerce_backend.models.Carrito;
-import com.ecovida.ecommerce_backend.models.Role;
-import com.ecovida.ecommerce_backend.models.Usuario;
+
+import edu.ar.tempus.model.Role;
+import edu.ar.tempus.model.Usuario;
 import jakarta.validation.constraints.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 public record UsuarioRequestDTO(
@@ -24,21 +23,6 @@ public record UsuarioRequestDTO(
         @NotBlank(message = "El apellido es requerido")
         String apellido,
 
-        @NotNull(message = "La provincia no puede ser null")
-        @NotBlank(message = "La provincia es requerida")
-        String provincia,
-
-        @NotNull(message = "La localidad no puede ser null")
-        @NotBlank(message = "La localidad es requerida")
-        String localidad,
-
-        @NotNull(message = "El codigo postal no puede ser null")
-        @NotBlank(message = "El codigo postal es requerido")
-        String codigoPostal,
-
-        @NotNull(message = "El domicilio no puede ser null")
-        @NotBlank(message = "El domicilio es requerido")
-        String domicilio,
 
         @NotBlank(message = "El telefono es requerido")
         String telefono
@@ -50,13 +34,8 @@ public record UsuarioRequestDTO(
                     .password(password)
                     .nombre(this.nombre)
                     .apellido(this.apellido)
-                    .provincia(this.provincia)
-                    .localidad(this.localidad)
-                    .codigoPostal(this.codigoPostal)
-                    .domicilio(this.domicilio)
                     .telefono(this.telefono)
                     .role(Role.USER)
-                    .carrito(new Carrito())
                     .build();
         }
 }

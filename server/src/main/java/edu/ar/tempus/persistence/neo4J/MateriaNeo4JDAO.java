@@ -17,7 +17,6 @@ public interface MateriaNeo4JDAO extends Neo4jRepository<MateriaNeo4J, Long> {
     MATCH (origen:Materia {id: $materiaOrigenId})
     MATCH (destino:Materia {id: $materiaDestinoId})
         MERGE (destino)-[:CORRELATIVA]->(origen)
-    RETURN r
     """)
     void crearRelacionCorrelativa(Long materiaOrigenId, Long materiaDestinoId);
 

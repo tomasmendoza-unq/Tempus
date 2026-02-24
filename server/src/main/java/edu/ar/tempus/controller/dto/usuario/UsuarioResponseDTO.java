@@ -1,17 +1,13 @@
-package com.ecovida.ecommerce_backend.controller.dto.usuario;
+package edu.ar.tempus.controller.dto.usuario;
 
-import com.ecovida.ecommerce_backend.models.Role;
-import com.ecovida.ecommerce_backend.models.Usuario;
+import edu.ar.tempus.model.Role;
+import edu.ar.tempus.model.Usuario;
 
 public record UsuarioResponseDTO(
         Long id,
         String email,
         String nombre,
         String apellido,
-        String provincia,
-        String localidad,
-        String codigoPostal,
-        String domicilio,
         String telefono,
         Role role,
         boolean enabled
@@ -22,10 +18,6 @@ public record UsuarioResponseDTO(
                 usuario.getEmail(),
                 usuario.getNombre(),
                 usuario.getApellido(),
-                usuario.getProvincia(),
-                usuario.getLocalidad(),
-                usuario.getCodigoPostal(),
-                usuario.getDomicilio(),
                 usuario.getTelefono(),
                 usuario.getRole(),
                 usuario.isEnabled()

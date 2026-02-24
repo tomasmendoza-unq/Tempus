@@ -1,6 +1,7 @@
 package edu.ar.tempus.security.jwt.impl;
 
-import com.ecovida.ecommerce_backend.security.jwt.JwtService;
+
+import edu.ar.tempus.security.jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

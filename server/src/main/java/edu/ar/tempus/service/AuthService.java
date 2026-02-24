@@ -1,10 +1,7 @@
-package com.ecovida.ecommerce_backend.services.interfaces;
+package edu.ar.tempus.service;
 
-import com.ecovida.ecommerce_backend.controller.dto.usuario.LoginRequestDTO;
-import com.ecovida.ecommerce_backend.controller.dto.usuario.LoginResponseDTO;
-import com.ecovida.ecommerce_backend.controller.dto.usuario.UsuarioRequestDTO;
-import com.ecovida.ecommerce_backend.controller.dto.usuario.UsuarioResponseDTO;
-import com.ecovida.ecommerce_backend.models.Usuario;
+import edu.ar.tempus.controller.dto.usuario.LoginResponseDTO;
+import edu.ar.tempus.model.Usuario;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 public interface AuthService {

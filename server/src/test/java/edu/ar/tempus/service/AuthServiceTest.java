@@ -1,10 +1,8 @@
-package com.ecovida.ecommerce_backend.services;
+package edu.ar.tempus.service;
 
-import com.ecovida.ecommerce_backend.models.Role;
-import com.ecovida.ecommerce_backend.models.Usuario;
-import com.ecovida.ecommerce_backend.services.interfaces.AuthService;
-import com.ecovida.ecommerce_backend.services.interfaces.ResetService;
-import com.ecovida.ecommerce_backend.services.interfaces.UsuarioService;
+import edu.ar.tempus.exceptions.business.EmailYaExisteException;
+import edu.ar.tempus.model.Role;
+import edu.ar.tempus.model.Usuario;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,10 +39,6 @@ public class AuthServiceTest {
                 .password("password123")
                 .nombre("Juan")
                 .apellido("Pérez")
-                .provincia("Buenos Aires")
-                .localidad("La Plata")
-                .codigoPostal("1900")
-                .domicilio("Calle 50 N° 123")
                 .telefono("221-4567890")
                 .role(Role.USER)
                 .build();
@@ -54,10 +48,6 @@ public class AuthServiceTest {
                 .password("password456")
                 .nombre("María")
                 .apellido("González")
-                .provincia("Córdoba")
-                .localidad("Córdoba Capital")
-                .codigoPostal("5000")
-                .domicilio("Av. Colón 456")
                 .telefono("351-9876543")
                 .role(Role.ADMIN)
                 .build();
@@ -73,10 +63,6 @@ public class AuthServiceTest {
                 .password("password123")
                 .nombre("Test")
                 .apellido("User")
-                .provincia("Buenos Aires")
-                .localidad("CABA")
-                .codigoPostal("1000")
-                .domicilio("Av. Corrientes 123")
                 .telefono("11 5023-4567")
                 .role(Role.USER)
                 .build();
@@ -94,10 +80,6 @@ public class AuthServiceTest {
                 .password("password123")
                 .nombre("Test")
                 .apellido("User")
-                .provincia("Buenos Aires")
-                .localidad("CABA")
-                .codigoPostal("1000")
-                .domicilio("Av. Corrientes 123")
                 .telefono("1150234567")
                 .role(Role.USER)
                 .build();
@@ -115,10 +97,7 @@ public class AuthServiceTest {
                 .password("password123")
                 .nombre("Test")
                 .apellido("User")
-                .provincia("Buenos Aires")
-                .localidad("CABA")
-                .codigoPostal("1000")
-                .domicilio("Av. Corrientes 123")
+
                 .telefono("+54 11 5023-4567")
                 .role(Role.USER)
                 .build();
@@ -136,10 +115,6 @@ public class AuthServiceTest {
                 .password("password123")
                 .nombre("Test")
                 .apellido("User")
-                .provincia("Córdoba")
-                .localidad("Córdoba")
-                .codigoPostal("5000")
-                .domicilio("Av. Colón 456")
                 .telefono("351-5234567")
                 .role(Role.USER)
                 .build();
@@ -157,10 +132,7 @@ public class AuthServiceTest {
                 .password("password123")
                 .nombre("Test")
                 .apellido("User")
-                .provincia("Buenos Aires")
-                .localidad("CABA")
-                .codigoPostal("1000")
-                .domicilio("Av. Corrientes 123")
+
                 .telefono("123")
                 .role(Role.USER)
                 .build();
@@ -180,10 +152,7 @@ public class AuthServiceTest {
                 .password("password123")
                 .nombre("Test")
                 .apellido("User")
-                .provincia("Buenos Aires")
-                .localidad("CABA")
-                .codigoPostal("1000")
-                .domicilio("Av. Corrientes 123")
+
                 .telefono("11abc23456")
                 .role(Role.USER)
                 .build();
@@ -204,10 +173,7 @@ public class AuthServiceTest {
                 .password("password123")
                 .nombre("Test")
                 .apellido("User")
-                .provincia("Buenos Aires")
-                .localidad("CABA")
-                .codigoPostal("1000")
-                .domicilio("Av. Corrientes 123")
+
                 .telefono("111111111111111111111")
                 .role(Role.USER)
                 .build();
@@ -229,10 +195,7 @@ public class AuthServiceTest {
                 .password("password123")
                 .nombre("Test")
                 .apellido("User")
-                .provincia("Buenos Aires")
-                .localidad("CABA")
-                .codigoPostal("1000")
-                .domicilio("Av. Corrientes 123")
+
                 .telefono(null)
                 .role(Role.USER)
                 .build();
@@ -252,10 +215,7 @@ public class AuthServiceTest {
                 .password("password123")
                 .nombre("Test")
                 .apellido("User")
-                .provincia("Buenos Aires")
-                .localidad("CABA")
-                .codigoPostal("1000")
-                .domicilio("Av. Corrientes 123")
+
                 .telefono("   ")
                 .role(Role.USER)
                 .build();

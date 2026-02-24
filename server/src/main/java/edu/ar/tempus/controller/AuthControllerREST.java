@@ -1,15 +1,18 @@
-package com.ecovida.ecommerce_backend.controller;
+package edu.ar.tempus.controller;
 
-import com.ecovida.ecommerce_backend.controller.dto.usuario.*;
-import com.ecovida.ecommerce_backend.models.Usuario;
-import com.ecovida.ecommerce_backend.services.interfaces.AuthService;
+import edu.ar.tempus.controller.dto.usuario.LoginRequestDTO;
+import edu.ar.tempus.controller.dto.usuario.LoginResponseDTO;
+import edu.ar.tempus.controller.dto.usuario.UsuarioRequestDTO;
+import edu.ar.tempus.controller.dto.usuario.UsuarioResponseDTO;
+import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthControllerREST {
+public final class AuthControllerREST {
 
     private final AuthService authService;
 

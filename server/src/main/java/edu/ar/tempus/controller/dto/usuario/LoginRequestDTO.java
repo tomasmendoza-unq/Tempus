@@ -1,4 +1,4 @@
-package com.ecovida.ecommerce_backend.controller.dto.usuario;
+package edu.ar.tempus.controller.dto.usuario;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 

@@ -1,16 +1,15 @@
-package com.ecovida.ecommerce_backend.services.impl;
+package edu.ar.tempus.service.impl;
 
-import com.ecovida.ecommerce_backend.controller.dto.usuario.*;
-import com.ecovida.ecommerce_backend.exceptions.businessException.EmailYaExisteException;
-import com.ecovida.ecommerce_backend.models.Usuario;
-import com.ecovida.ecommerce_backend.security.jwt.JwtService;
-import com.ecovida.ecommerce_backend.security.jwt.impl.JwtServiceImpl;
-import com.ecovida.ecommerce_backend.security.user.UserDetailsImpl;
-import com.ecovida.ecommerce_backend.services.interfaces.AuthService;
-import com.ecovida.ecommerce_backend.services.interfaces.UsuarioService;
+
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+import com.google.i18n.phonenumbers.Phonenumber;
+import edu.ar.tempus.controller.dto.usuario.LoginResponseDTO;
+import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.security.jwt.JwtService;
+import edu.ar.tempus.security.user.UserDetailsImpl;
+import edu.ar.tempus.service.AuthService;
+import edu.ar.tempus.service.UsuarioService;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -74,7 +73,7 @@ public class AuthServiceImpl implements AuthService {
 
     private String validarYFormatearTelefono(String telefono) {
         try {
-            PhoneNumber numeroTelefono = phoneNumberUtil.parse(telefono, "AR");
+            Phonenumber.PhoneNumber numeroTelefono = phoneNumberUtil.parse(telefono, "AR");
             if (!phoneNumberUtil.isValidNumber(numeroTelefono)) {
                 throw new IllegalArgumentException("El número de teléfono no es válido");
             }

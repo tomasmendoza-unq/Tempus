@@ -1,7 +1,8 @@
 package edu.ar.tempus.security.user;
 
-import com.ecovida.ecommerce_backend.models.Usuario;
-import com.ecovida.ecommerce_backend.services.interfaces.UsuarioService;
+
+import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.service.UsuarioService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
