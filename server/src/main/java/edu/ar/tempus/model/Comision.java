@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -14,12 +15,9 @@ import java.time.LocalTime;
 public class Comision {
 
     private Long ComisionId;
-    private LocalTime horarioInicio;
-    private LocalTime horarioFin;
     private Materia materia;
-    private FranjasHorarias franjasHorarias;
+    private List<ClaseHorario> clases;
 
-    public FranjasHorarias getFranja() {
-        return FranjasHorarias.fromHorario(horarioInicio);
-    }
+
 }
+

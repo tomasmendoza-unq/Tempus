@@ -19,10 +19,9 @@ public class ComisionNeo4J {
     private Long id;
 
     private Long comisionId;
-    private int inicio;
-    private int fin;
-    private String dia;
-    private String franja;
+
+    @Relationship(type = "SE_DICTA_EL", direction = Relationship.Direction.OUTGOING)
+    private Set<ClaseHorarioNeo4J> horarios;
 
     @Relationship(type = "PERTENECE_A", direction = Relationship.Direction.OUTGOING)
     private MateriaNeo4J materia;

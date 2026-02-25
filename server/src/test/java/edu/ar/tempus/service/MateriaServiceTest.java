@@ -1,6 +1,8 @@
 package edu.ar.tempus.service;
 
+import edu.ar.tempus.model.ClaseHorario;
 import edu.ar.tempus.model.Comision;
+import edu.ar.tempus.model.DiasSemana;
 import edu.ar.tempus.model.Materia;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -84,12 +86,14 @@ public class MateriaServiceTest {
 
         leaGuardada3 = materiaService.guardar(lea3);
 
-        LocalTime horarioInicio = LocalTime.of(8,0);
-        LocalTime horarioFin = LocalTime.of(10,0);
+        ClaseHorario horarioClase = ClaseHorario.builder()
+                .dia(DiasSemana.LUNES) // Fundamental para Neo4j
+                .inicio(LocalTime.of(8, 0))
+                .fin(LocalTime.of(10, 0))
+                .build();
 
         comision = Comision.builder()
-                .horarioInicio(horarioInicio)
-                .horarioFin(horarioFin)
+                .clases(List.of(horarioClase))
                 .build();
     }
 

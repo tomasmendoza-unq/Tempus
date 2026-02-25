@@ -3,12 +3,13 @@ package edu.ar.tempus.persistence.neo4J;
 import edu.ar.tempus.persistence.neo4J.entity.ComisionNeo4J;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface ComisionNeo4JDAO extends JpaRepository<ComisionNeo4J, Long> {
+public interface ComisionNeo4JDAO extends Neo4jRepository<ComisionNeo4J, Long> {
 /*
     @Query("""
         MATCH (m:Materia) 

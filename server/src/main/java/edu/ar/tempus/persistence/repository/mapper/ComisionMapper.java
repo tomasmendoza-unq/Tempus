@@ -6,6 +6,4 @@ import edu.ar.tempus.persistence.neo4J.entity.MateriaNeo4J;
 
 public interface ComisionMapper {
     ComisionNeo4J toNeo4J(Comision comisionGuardada, MateriaNeo4J materiaNeo);
-
-    Comision toModel(Comision comision, ComisionNeo4J neo);
 }
