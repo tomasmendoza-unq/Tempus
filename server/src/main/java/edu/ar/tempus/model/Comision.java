@@ -17,4 +17,9 @@ public class Comision {
     private LocalTime horarioInicio;
     private LocalTime horarioFin;
     private Materia materia;
+    private FranjasHorarias franjasHorarias;
+
+    public FranjasHorarias getFranja() {
+        return FranjasHorarias.fromHorario(horarioInicio);
+    }
 }
