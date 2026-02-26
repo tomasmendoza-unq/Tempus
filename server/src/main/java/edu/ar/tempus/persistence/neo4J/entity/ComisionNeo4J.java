@@ -15,10 +15,8 @@ import java.util.Set;
 public class ComisionNeo4J {
 
     @Id
-    @GeneratedValue
     private Long id;
 
-    private Long comisionId;
 
     @Relationship(type = "SE_DICTA_EL", direction = Relationship.Direction.OUTGOING)
     private Set<ClaseHorarioNeo4J> horarios;

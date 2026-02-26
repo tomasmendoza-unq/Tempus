@@ -26,6 +26,12 @@ public class HorarioServiceimpl implements HorarioService {
 
     @Override
     public Optional<Horario> generarUnHorarioCon(List<Long> materiasIds) {
-        return null;
+        List<Comision> comisionesCompatibles = comisionService.encontrarIdsUnaCombinacionCompatible(materiasIds);
+
+
+        return Optional.of(Horario
+                .builder()
+                .comisiones(comisionesCompatibles)
+                .build());
     }
 }

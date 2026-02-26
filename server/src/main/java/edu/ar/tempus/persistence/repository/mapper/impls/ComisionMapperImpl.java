@@ -23,7 +23,7 @@ public class ComisionMapperImpl implements ComisionMapper {
                 .collect(Collectors.toSet());
 
         return ComisionNeo4J.builder()
-                .comisionId(comision.getComisionId())
+                .id(comision.getComisionId())
                 .horarios(horariosNeo)
                 .materia(materiaNeo)
                 .build();

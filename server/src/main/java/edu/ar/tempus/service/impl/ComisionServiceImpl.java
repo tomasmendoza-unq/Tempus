@@ -42,4 +42,9 @@ public class ComisionServiceImpl implements ComisionService {
         return comisionRepository.recuperar(comisionId);
     }
 
+    @Override
+    public List<Comision> encontrarIdsUnaCombinacionCompatible(List<Long> materiasIds) {
+        return comisionRepository.encontrarIdsUnaCombinacionCompatible(materiasIds);
+    }
+
 }

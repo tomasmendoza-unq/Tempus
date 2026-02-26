@@ -13,6 +13,8 @@ import edu.ar.tempus.persistence.repository.mapper.ComisionMapper;
 import edu.ar.tempus.persistence.sql.ComisionDAOSQL;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ComisionRepositoryImpl implements ComisionRepository {
     
@@ -31,19 +33,22 @@ public class ComisionRepositoryImpl implements ComisionRepository {
     @Override
     public Comision guardar(Comision comision) {
         Comision comisionGuardada = comisionDAOSQL.save(comision);
-        MateriaNeo4J materiaNeo = materiaNeo4JDAO.findById(comision.getComisionId())
-                .orElseThrow(() -> new EntityNotFoundException(MateriaNeo4J.class.getName(), comision.getComisionId()));
-        
-        ComisionNeo4J neo = comisionMapper.toNeo4J(comisionGuardada, materiaNeo);
 
+        Long materiaId = comision.getMateria().getMateriaId();
+
+        MateriaNeo4J materiaNeo = materiaNeo4JDAO.findById(materiaId)
+                .orElseThrow(() -> new EntityNotFoundException(MateriaNeo4J.class.getName(), materiaId));
+
+        ComisionNeo4J neo = comisionMapper.toNeo4J(comisionGuardada, materiaNeo);
         neo.setMateria(materiaNeo);
 
         ComisionNeo4J neoGuardado = comisionNeo4JDAO.save(neo);
 
-        //comisionNeo4JDAO.vincularCompatibilidadesPorId(neoGuardado.getId());
-        
+
+        comisionNeo4JDAO.vincularCompatibilidadesPorId(neoGuardado.getId());
+
         return comisionGuardada;
-        
+
     }
 
     @Override
@@ -51,5 +56,12 @@ public class ComisionRepositoryImpl implements ComisionRepository {
 
         return comisionDAOSQL.findById(comisionId)
                 .orElseThrow(() -> new EntityNotFoundException(Comision.class.getName(), comisionId));
+    }
+
+    @Override
+    public List<Comision> encontrarIdsUnaCombinacionCompatible(List<Long> materiasIds) {
+        List<Long> idsComisionesCompatibles = comisionNeo4JDAO.encontrarIdsUnaCombinacionCompatible(materiasIds);
+
+        return comisionDAOSQL.findAllById(idsComisionesCompatibles);
     }
 }

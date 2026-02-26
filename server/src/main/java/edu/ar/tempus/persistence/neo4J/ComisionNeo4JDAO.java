@@ -1,9 +1,9 @@
 package edu.ar.tempus.persistence.neo4J;
 
 import edu.ar.tempus.persistence.neo4J.entity.ComisionNeo4J;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -37,14 +37,31 @@ public interface ComisionNeo4JDAO extends Neo4jRepository<ComisionNeo4J, Long> {
         MERGE (a)-[:COMPATIBLE_CON]-(b)
         """)
     void vincularCompatibilidadesTodo();
+*/
 
-    @Query("""
-        MATCH (c:Comision) WHERE id(c) = $id
-        MATCH (otra:Comision)
-        WHERE id(c) <> id(otra)
-          AND NOT (c)-[:PERTENECE_A]->()<-[:PERTENECE_A]-(otra)
-          AND (c.dia <> otra.dia OR (c.fin <= otra.inicio OR otra.fin <= c.inicio))
-        MERGE (c)-[:COMPATIBLE_CON]-(otra)
-        """)
-    void vincularCompatibilidadesPorId(Long id);*/
+    @Query("MATCH (m:Materia) WHERE m.id IN $materiasIds " +
+            "WITH collect(m) AS materiasRequeridas, count(m) AS totalMaterias " +
+            "MATCH (c:Comision)-[:PERTENECE_A]->(m:Materia) " +
+            "WHERE m.id IN $materiasIds " +
+            "WITH c, m, totalMaterias " +
+            "MATCH path = (c)-[:COMPATIBLE_CON*]-(cn:Comision) " +
+            "WHERE size(nodes(path)) = totalMaterias " +
+            "  AND all(n IN nodes(path) WHERE n:Comision) " +
+            "RETURN [n IN nodes(path) | n.id] LIMIT 1")
+    List<Long> encontrarIdsUnaCombinacionCompatible(@Param("materiasIds") List<Long> materiasIds);
+
+    @Query("MATCH (c1:Comision {id: $id}), (c2:Comision) " +
+            "WHERE c1.id <> c2.id " +
+            "OPTIONAL MATCH (c1)-[:SE_DICTA_EL]->(h1:ClaseHorario), " +
+            "               (c2)-[:SE_DICTA_EL]->(h2:ClaseHorario) " +
+            "WHERE h1.dia = h2.dia " +
+            "  AND h1.inicio < h2.fin " +
+            "  AND h1.fin > h2.inicio " +
+            "WITH c1, c2, COUNT(h1) as superposiciones " +
+            "WHERE superposiciones = 0 " +
+            "MERGE (c1)-[:COMPATIBLE_CON]-(c2)")
+    void vincularCompatibilidadesPorId(@Param("id") Long id);
+
+    @Query("MATCH (c:Comision {id: $idA})-[:COMPATIBLE_CON]-(target:Comision {id: $idB}) RETURN count(target) > 0")
+    boolean verificarCompatibilidad(Long idA, Long idB);
 }

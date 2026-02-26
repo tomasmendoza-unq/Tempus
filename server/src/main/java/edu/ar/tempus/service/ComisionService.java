@@ -9,4 +9,5 @@ public interface ComisionService {
 
     Comision recuperar(Long comisionId);
 
+    List<Comision> encontrarIdsUnaCombinacionCompatible(List<Long> materiasIds);
 }
