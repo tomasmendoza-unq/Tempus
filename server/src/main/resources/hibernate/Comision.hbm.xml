@@ -6,17 +6,15 @@
 <hibernate-mapping package="edu.ar.tempus.model">
 
     <class name="Comision" table="comision">
+        <id name="comisionId" column="id"><generator class="identity"/></id>
 
-        <id name="comisionId" column="id">
-            <generator class="identity"/>
-        </id>
+        <list name="clases" cascade="all" fetch="join" lazy="false">
+            <key column="comision_id" not-null="true"/>
+            <list-index column="idx"/>
+            <one-to-many class="ClaseHorario"/>
+        </list>
 
-        <property name="horarioInicio" column="horario_inicio" type="java.time.LocalTime" not-null="true"/>
-
-        <property name="horarioFin" column="horario_fin" type="java.time.LocalTime" not-null="true"/>
-
-        <many-to-one name="materia" class="Materia" column="materia_id" not-null="true" fetch="join" lazy="false"/>
-
+        <many-to-one name="materia" class="Materia" column="materia_id"/>
     </class>
 
 </hibernate-mapping>

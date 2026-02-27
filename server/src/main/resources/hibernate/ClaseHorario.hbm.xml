@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping package="edu.ar.tempus.model">
+    <class name="ClaseHorario" table="clase_horario">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="dia" column="dia" type="edu.ar.tempus.model.DiasSemana"/>
+        <property name="inicio" column="inicio" type="java.time.LocalTime"/>
+        <property name="fin" column="fin" type="java.time.LocalTime"/>
+    </class>
+</hibernate-mapping>

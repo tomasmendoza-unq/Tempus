@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="edu.ar.tempus.model">
+
+    <class name="Horario" table="horario">
+
+        <id name="horarioId" column="id">
+            <generator class="identity"/>
+        </id>
+
+        <list name="comisiones" table="horario_comision" fetch="join" lazy="false">
+            <key column="horario_id"/>
+            <list-index column="idx"/> <many-to-many class="Comision" column="comision_id"/>
+        </list>
+
+    </class>
+
+</hibernate-mapping>

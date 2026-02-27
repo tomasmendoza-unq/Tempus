@@ -1,5 +1,8 @@
 package edu.ar.tempus.service;
 
+import edu.ar.tempus.model.ClaseHorario;
+import edu.ar.tempus.model.Comision;
+import edu.ar.tempus.model.DiasSemana;
 import edu.ar.tempus.model.Materia;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,6 +44,12 @@ public class MateriaServiceTest {
     private Materia leaGuardada2;
 
     private Materia leaGuardada3;
+
+    @Autowired
+    private ComisionService comisionService;
+
+    private Comision comision;
+
 
     @BeforeEach
     public void setUp() {
@@ -76,7 +86,15 @@ public class MateriaServiceTest {
 
         leaGuardada3 = materiaService.guardar(lea3);
 
+        ClaseHorario horarioClase = ClaseHorario.builder()
+                .dia(DiasSemana.LUNES) // Fundamental para Neo4j
+                .inicio(LocalTime.of(8, 0))
+                .fin(LocalTime.of(10, 0))
+                .build();
 
+        comision = Comision.builder()
+                .clases(List.of(horarioClase))
+                .build();
     }
 
     @Test

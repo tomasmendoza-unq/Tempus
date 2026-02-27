@@ -64,18 +64,12 @@ public class SecurityConfig {
                 )
                 //ACA SE REGISTRAN LAS RUTAS QUE NO NECESITAN AUTORIZACION
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/register",
-                                "/auth/login",
-                                "/producto/**",
-                                "/usuario/**",
-                                "/mp/**",
-                                "/ordenes/**"
-                        ).permitAll()
+                        .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
-                )
+                );
                 // ACA SE AGREGAN LOS FILTERS, BASICAMENTE SON LOS QUE VALIDAN QUE LAS REQUEST
                 // CUMPLEN LAS REGLAS DE NEGOCIO
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                //.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
