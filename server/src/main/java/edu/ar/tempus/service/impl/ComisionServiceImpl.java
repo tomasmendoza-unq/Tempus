@@ -46,7 +46,7 @@ public class ComisionServiceImpl implements ComisionService {
 
     @Override
     public List<Comision> encontrarIdsUnaCombinacionCompatible(List<Long> materiasIds) {
-        // 2 queries a Neo4j, resto en memoria
+
         List<ComisionNeo4J> candidatas = comisionRepository.cargarCandidatas(materiasIds);
 
         Map<Long, List<Long>> porMateria = candidatas.stream()

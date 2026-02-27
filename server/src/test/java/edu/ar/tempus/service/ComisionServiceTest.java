@@ -82,7 +82,7 @@ public class ComisionServiceTest {
 
     @Test
     public void crearComisionesYValidarCompatibilidadEnNeo4j() {
-        // 1. Crear Comisión A (Lunes 08:00 a 10:00)
+
         ClaseHorario lunesA = ClaseHorario.builder()
                 .dia(DiasSemana.LUNES)
                 .inicio(LocalTime.of(8, 0))
@@ -93,7 +93,6 @@ public class ComisionServiceTest {
                 .build();
         Comision guardadaA = comisionService.guardar(comisionA, inglesGuardada.getMateriaId());
 
-        // 2. Crear Comisión B (Lunes 10:00 a 12:00) -> COMPATIBLE con A (termina cuando empieza la otra)
         ClaseHorario lunesB = ClaseHorario.builder()
                 .dia(DiasSemana.LUNES)
                 .inicio(LocalTime.of(10, 0))
@@ -104,7 +103,6 @@ public class ComisionServiceTest {
                 .build();
         Comision guardadaB = comisionService.guardar(comisionB, inglesGuardada.getMateriaId());
 
-        // 3. Crear Comisión C (Lunes 09:00 a 11:00) -> NO COMPATIBLE con A (se solapan de 09:00 a 10:00)
         ClaseHorario lunesC = ClaseHorario.builder()
                 .dia(DiasSemana.LUNES)
                 .inicio(LocalTime.of(9, 0))
@@ -115,24 +113,18 @@ public class ComisionServiceTest {
                 .build();
         Comision guardadaC = comisionService.guardar(comisionC, inglesGuardada.getMateriaId());
 
-        // --- VERIFICACIÓN DE NEO4J ---
-        // Usamos la query personalizada que agregaste al DAO para validar directamente en la DB
-
-        // ASSERT 1: La comisión B debe ser compatible con A
         boolean compatibleAB = comisionNeo4JDAO.verificarCompatibilidad(
                 guardadaA.getComisionId(),
                 guardadaB.getComisionId()
         );
         assertEquals(true, compatibleAB, "La Comisión B debería ser compatible con A (no hay solapamiento)");
 
-        // ASSERT 2: La comisión C NO debe ser compatible con A por solapamiento
         boolean compatibleAC = comisionNeo4JDAO.verificarCompatibilidad(
                 guardadaA.getComisionId(),
                 guardadaC.getComisionId()
         );
         assertEquals(false, compatibleAC, "La Comisión C NO debería ser compatible con A (se solapan)");
 
-        // ASSERT 3: La comisión B debe ser compatible con C (se solapan de 10:00 a 11:00) -> DEBE SER FALSE
         boolean compatibleBC = comisionNeo4JDAO.verificarCompatibilidad(
                 guardadaB.getComisionId(),
                 guardadaC.getComisionId()
