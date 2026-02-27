@@ -39,27 +39,34 @@ public interface ComisionNeo4JDAO extends Neo4jRepository<ComisionNeo4J, Long> {
     void vincularCompatibilidadesTodo();
 */
 
-    @Query("MATCH (m:Materia) WHERE m.id IN $materiasIds " +
-            "WITH collect(m) AS materiasRequeridas, count(m) AS totalMaterias " +
-            "MATCH (c:Comision)-[:PERTENECE_A]->(m:Materia) " +
-            "WHERE m.id IN $materiasIds " +
-            "WITH c, m, totalMaterias " +
-            "MATCH path = (c)-[:COMPATIBLE_CON*]-(cn:Comision) " +
-            "WHERE size(nodes(path)) = totalMaterias " +
-            "  AND all(n IN nodes(path) WHERE n:Comision) " +
-            "RETURN [n IN nodes(path) | n.id] LIMIT 1")
-    List<Long> encontrarIdsUnaCombinacionCompatible(@Param("materiasIds") List<Long> materiasIds);
+    @Query("""
+    MATCH (c:Comision)-[r:PERTENECE_A]->(m:Materia)
+    WHERE m.id IN $materiasIds
+    RETURN c, r, m
+    """)
+    List<ComisionNeo4J> cargarCandidatas(@Param("materiasIds") List<Long> materiasIds);
 
-    @Query("MATCH (c1:Comision {id: $id}), (c2:Comision) " +
-            "WHERE c1.id <> c2.id " +
-            "OPTIONAL MATCH (c1)-[:SE_DICTA_EL]->(h1:ClaseHorario), " +
-            "               (c2)-[:SE_DICTA_EL]->(h2:ClaseHorario) " +
-            "WHERE h1.dia = h2.dia " +
-            "  AND h1.inicio < h2.fin " +
-            "  AND h1.fin > h2.inicio " +
-            "WITH c1, c2, COUNT(h1) as superposiciones " +
-            "WHERE superposiciones = 0 " +
-            "MERGE (c1)-[:COMPATIBLE_CON]-(c2)")
+    @Query("""
+    MATCH (c1:Comision)-[:COMPATIBLE_CON]-(c2:Comision)
+    WHERE c1.id IN $ids AND c2.id IN $ids AND c1.id < c2.id
+    RETURN toString(c1.id) + '-' + toString(c2.id)
+    """)
+    List<String> cargarParesCompatibles(@Param("ids") List<Long> ids);
+
+    @Query("""
+            MATCH (c1:Comision {id: $id}), (c2:Comision)
+            WHERE c1.id <> c2.id
+              AND NOT EXISTS {
+                MATCH (c1)-[:SE_DICTA_EL]->(h1:ClaseHorario),
+                      (c2)-[:SE_DICTA_EL]->(h2:ClaseHorario)
+                WHERE h1.dia = h2.dia
+                  AND h1.inicio < h2.fin
+                  AND h1.fin > h2.inicio
+              }
+              AND EXISTS { MATCH (c1)-[:SE_DICTA_EL]->() }
+              AND EXISTS { MATCH (c2)-[:SE_DICTA_EL]->() }
+            MERGE (c1)-[:COMPATIBLE_CON]->(c2)
+            """)
     void vincularCompatibilidadesPorId(@Param("id") Long id);
 
     @Query("MATCH (c:Comision {id: $idA})-[:COMPATIBLE_CON]-(target:Comision {id: $idB}) RETURN count(target) > 0")

@@ -24,6 +24,4 @@ public class ComisionNeo4J {
     @Relationship(type = "PERTENECE_A", direction = Relationship.Direction.OUTGOING)
     private MateriaNeo4J materia;
 
-    @Relationship(type = "COMPATIBLE_CON", direction = Relationship.Direction.OUTGOING)
-    private Set<ComisionNeo4J> comisionesCompatibles;
 }

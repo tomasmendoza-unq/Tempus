@@ -65,13 +65,14 @@ public class HorarioServiceTest {
         assertEquals(3, horario.getComisiones().size());
 
         assertTrue(horario.getComisiones().stream()
-                .anyMatch(c -> c.getClases().get(0).getInicio().equals(LocalTime.of(8, 0))));
+                .anyMatch(c -> c.getClases().stream()
+                        .anyMatch(clase -> clase.getInicio().equals(LocalTime.of(8, 0)))));
 
         assertFalse(horario.getComisiones().stream()
-                .anyMatch(c -> c.getClases().get(0).getInicio().equals(LocalTime.of(14, 0))
-                        && c.getMateria().getMateriaId().equals(lea.getMateriaId())));
+                .anyMatch(c -> c.getMateria().getMateriaId().equals(lea.getMateriaId())
+                        && c.getClases().stream()
+                        .anyMatch(clase -> clase.getInicio().equals(LocalTime.of(14, 0)))));
     }
-
     @AfterEach
     public void tearDown() {
         resetService.resetAll();

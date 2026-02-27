@@ -59,9 +59,17 @@ public class ComisionRepositoryImpl implements ComisionRepository {
     }
 
     @Override
-    public List<Comision> encontrarIdsUnaCombinacionCompatible(List<Long> materiasIds) {
-        List<Long> idsComisionesCompatibles = comisionNeo4JDAO.encontrarIdsUnaCombinacionCompatible(materiasIds);
+    public List<ComisionNeo4J> cargarCandidatas(List<Long> materiasIds) {
+        return comisionNeo4JDAO.cargarCandidatas(materiasIds);
+    }
 
-        return comisionDAOSQL.findAllById(idsComisionesCompatibles);
+    @Override
+    public List<Comision> encontrarPorIds(List<Long> ids) {
+        return comisionDAOSQL.findAllById(ids);
+    }
+
+    @Override
+    public List<String> cargarParesCompatibles(List<Long> todasLasIds) {
+        return comisionNeo4JDAO.cargarParesCompatibles(todasLasIds);
     }
 }

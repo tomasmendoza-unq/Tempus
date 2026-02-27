@@ -92,7 +92,6 @@ public class ResetServiceImpl implements ResetService {
             return tableAnnotation.name();
         }
 
-        // Si no tiene @Table, usar el nombre de la clase
         return entityClass.getSimpleName();
     }
 
