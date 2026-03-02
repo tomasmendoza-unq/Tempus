@@ -10,49 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ComisionNeo4JDAO extends Neo4jRepository<ComisionNeo4J, Long> {
-/*
-    @Query("""
-        MATCH (m:Materia) 
-        WHERE m.materiaId IN $materiasIds
-        WITH collect(m) AS seleccionadas, count(m) AS totalMaterias
-        
-        MATCH (c:Comision)-[:PERTENECE_A]->(m)
-        WHERE m IN seleccionadas
-        
-        WITH totalMaterias, collect(c) AS potenciales
-
-        MATCH p = (c1:Comision)-[:COMPATIBLE_CON*]-(cN:Comision)
-        WHERE all(com in nodes(p) WHERE com IN potenciales)
-          AND size(nodes(p)) = totalMaterias
-          
-        RETURN nodes(p) LIMIT 1
-        """)
-    List<ComisionNeo4J> encontrarHorario(List<Long> materiasIds);
-
-    @Query("""
-        MATCH (a:Comision), (b:Comision)
-        WHERE id(a) < id(b)
-          AND NOT (a)-[:PERTENECE_A]->()<-[:PERTENECE_A]-(b)
-          AND (a.dia <> b.dia OR (a.fin <= b.inicio OR b.fin <= a.inicio))
-        MERGE (a)-[:COMPATIBLE_CON]-(b)
-        """)
-    void vincularCompatibilidadesTodo();
-*/
-
-    @Query("""
-    MATCH (c:Comision)-[r:PERTENECE_A]->(m:Materia)
-    WHERE m.id IN $materiasIds
-    RETURN c, r, m
-    """)
-    List<ComisionNeo4J> cargarCandidatas(@Param("materiasIds") List<Long> materiasIds);
-
-    @Query("""
-    MATCH (c1:Comision)-[:COMPATIBLE_CON]-(c2:Comision)
-    WHERE c1.id IN $ids AND c2.id IN $ids AND c1.id < c2.id
-    RETURN toString(c1.id) + '-' + toString(c2.id)
-    """)
-    List<String> cargarParesCompatibles(@Param("ids") List<Long> ids);
-
     @Query("""
             MATCH (c1:Comision {id: $id}), (c2:Comision)
             WHERE c1.id <> c2.id

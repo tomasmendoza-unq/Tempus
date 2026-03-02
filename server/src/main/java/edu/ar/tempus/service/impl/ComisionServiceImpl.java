@@ -45,46 +45,9 @@ public class ComisionServiceImpl implements ComisionService {
     }
 
     @Override
-    public List<Comision> encontrarIdsUnaCombinacionCompatible(List<Long> materiasIds) {
+    public List<List<Comision>> encontrarIdsNCombinacionCompatible(List<Long> materiasIds, Integer cantidadHorarios) {
 
-        List<ComisionNeo4J> candidatas = comisionRepository.cargarCandidatas(materiasIds);
-
-        Map<Long, List<Long>> porMateria = candidatas.stream()
-                .collect(Collectors.groupingBy(
-                        c -> c.getMateria().getId(),
-                        Collectors.mapping(ComisionNeo4J::getId, Collectors.toList())
-                ));
-
-        List<Long> todasLasIds = candidatas.stream().map(ComisionNeo4J::getId).toList();
-        Set<String> compatibles = new HashSet<>(comisionRepository.cargarParesCompatibles(todasLasIds));
-
-        List<Long> ids = backtrack(new ArrayList<>(porMateria.values()), new ArrayList<>(), compatibles);
-
-        if (ids == null) return List.of();
-        return comisionRepository.encontrarPorIds(ids);
-    }
-
-    private List<Long> backtrack(List<List<Long>> grupos,
-                                 List<Long> seleccion,
-                                 Set<String> compatibles) {
-        if (seleccion.size() == grupos.size()) return new ArrayList<>(seleccion);
-
-        for (Long candidato : grupos.get(seleccion.size())) {
-            boolean esCompatible = seleccion.stream()
-                    .allMatch(ya -> compatibles.contains(clavePareja(ya, candidato)));
-
-            if (esCompatible) {
-                seleccion.add(candidato);
-                List<Long> resultado = backtrack(grupos, seleccion, compatibles);
-                if (resultado != null) return resultado;
-                seleccion.remove(seleccion.size() - 1);
-            }
-        }
-        return null;
-    }
-
-    private String clavePareja(Long a, Long b) {
-        return Math.min(a, b) + "-" + Math.max(a, b);
+        return comisionRepository.encontrarCombinacionCompatible(materiasIds, cantidadHorarios);
     }
 
 }

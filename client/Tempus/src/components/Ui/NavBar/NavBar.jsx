@@ -17,6 +17,9 @@ export default function NavBar() {
         <Link className="hover:text-red-700" to="/correlativas">
           Correlativas
         </Link>
+        <Link className="hover:text-red-700" to="/horario">
+          Horarios
+        </Link>
       </nav>
     </header>
   )

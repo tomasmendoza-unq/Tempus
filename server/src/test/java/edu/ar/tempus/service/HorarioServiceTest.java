@@ -57,10 +57,10 @@ public class HorarioServiceTest {
     public void seGeneraUnSoloHorarioParaLea123() {
         List<Long> materiasIds = List.of(lea.getMateriaId(), lea2.getMateriaId(), lea3.getMateriaId());
 
-        Optional<Horario> horarioOpt = horarioService.generarUnHorarioCon(materiasIds);
+        List<Horario> horarioOpt = horarioService.generarNHorarioCon(materiasIds, 1);
 
-        assertTrue(horarioOpt.isPresent());
-        Horario horario = horarioOpt.get();
+        assertFalse(horarioOpt.isEmpty());
+        Horario horario = horarioOpt.getFirst();
 
         assertEquals(3, horario.getComisiones().size());
 

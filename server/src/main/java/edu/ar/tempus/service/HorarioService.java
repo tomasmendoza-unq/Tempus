@@ -6,7 +6,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface HorarioService {
-    List<Horario> generarHorariosCon(List<Long> materiasIds);
-
-    Optional<Horario> generarUnHorarioCon(List<Long> materiasIds);
+    List<Horario> generarNHorarioCon(List<Long> materiasIds,  Integer cantidadHorarios);
 }

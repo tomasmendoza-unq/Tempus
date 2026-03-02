@@ -1,5 +1,6 @@
 package edu.ar.tempus.controller;
 
+import edu.ar.tempus.controller.dto.horario.HorarioDTORequest;
 import edu.ar.tempus.controller.dto.horario.HorarioDTOResponse;
 import edu.ar.tempus.exceptions.business.BusinessException;
 import edu.ar.tempus.model.Horario;
@@ -7,6 +8,7 @@ import edu.ar.tempus.service.HorarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,10 +22,11 @@ public final class HorarioControllerREST {
     }
 
     @PostMapping("/compatible")
-    public ResponseEntity<HorarioDTOResponse> generarHorarioCompatible(@RequestBody List<Long> materiasIds) {
-        Horario horarioCompatible = horarioService.generarUnHorarioCon(materiasIds)
-                .orElseThrow(() -> new BusinessException("No se encontró una combinación de comisiones compatible para las materias solicitadas"));
+    public ResponseEntity<List<HorarioDTOResponse>> generarHorarioCompatible(@RequestBody HorarioDTORequest request) {
+        List<Horario> horarioCompatible = horarioService.generarNHorarioCon(request.materiasIds(), request.cantidadHorarios());
 
-        return ResponseEntity.ok(HorarioDTOResponse.desdeModelo(horarioCompatible));
+        List<HorarioDTOResponse> response = horarioCompatible.stream().map(HorarioDTOResponse::desdeModelo).toList();
+
+        return ResponseEntity.ok(response);
     }
 }

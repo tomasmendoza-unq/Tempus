@@ -10,9 +10,7 @@ public interface ComisionRepository {
 
     Comision recuperar(Long comisionId);
 
-    List<ComisionNeo4J> cargarCandidatas(List<Long> materiasIds);
+    List<List<Comision>> encontrarCombinacionCompatible(List<Long> materiasIds, Integer cantidadHorarios);
 
-    List<Comision> encontrarPorIds(List<Long> ids);
-
-    List<String> cargarParesCompatibles(List<Long> todasLasIds);
+    List<Comision> findAll(List<Long> comisionesCompatibles);
 }
