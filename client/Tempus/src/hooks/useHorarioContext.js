@@ -9,7 +9,6 @@ export function useHorarioContext() {
 
   const { dispatch, cargando, error, resultados, formHorario } = context
 
-  // --- Acciones para Generar Horarios ---
   const fetchHorarioRequest = () => {
     dispatch({ type: "GENERAR_HORARIO_SOLICITUD" })
   }
@@ -22,7 +21,6 @@ export function useHorarioContext() {
     dispatch({ type: "GENERAR_HORARIO_FALLO", payload: error })
   }
 
-  // --- Acciones para el Formulario del Generador ---
   const updateFormHorario = (atributo, valor) => {
     dispatch({ type: "ACTUALIZAR_FORM_HORARIO", payload: { atributo, valor } })
   }
