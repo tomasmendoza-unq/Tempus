@@ -4,14 +4,20 @@ import { BrowserRouter } from "react-router-dom"
 import "./index.css"
 import App from "./App.jsx"
 import { MateriaProvider } from "./contexts/MateriaContext"
+import { HorarioProvider } from "./contexts/HorarioContext";
+import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { ToastContainer } from "react-toastify"
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <MateriaProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <HorarioProvider>      
+        <AuthProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </AuthProvider>
+      </HorarioProvider>
     </MateriaProvider>
     <ToastContainer position="bottom-right" autoClose={3000} />
   </StrictMode>

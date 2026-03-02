@@ -45,10 +45,9 @@ public class ComisionServiceImpl implements ComisionService {
     }
 
     @Override
-    public List<Comision> encontrarIdsUnaCombinacionCompatible(List<Long> materiasIds) {
-        List<Long> comisionesCompatibles = comisionRepository.encontrarCombinacionCompatible(materiasIds);
+    public List<List<Comision>> encontrarIdsNCombinacionCompatible(List<Long> materiasIds, Integer cantidadHorarios) {
 
-        return comisionRepository.findAll(comisionesCompatibles);
+        return comisionRepository.encontrarCombinacionCompatible(materiasIds, cantidadHorarios);
     }
 
 }

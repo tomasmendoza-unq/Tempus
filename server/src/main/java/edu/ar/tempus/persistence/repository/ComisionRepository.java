@@ -10,7 +10,7 @@ public interface ComisionRepository {
 
     Comision recuperar(Long comisionId);
 
-    List<Long> encontrarCombinacionCompatible(List<Long> materiasIds);
+    List<List<Comision>> encontrarCombinacionCompatible(List<Long> materiasIds, Integer cantidadHorarios);
 
     List<Comision> findAll(List<Long> comisionesCompatibles);
 }

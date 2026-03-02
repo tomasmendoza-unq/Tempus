@@ -20,18 +20,14 @@ public class HorarioServiceimpl implements HorarioService {
     }
 
     @Override
-    public List<Horario> generarHorariosCon(List<Long> materiasIds) {
-        return null;
-    }
-
-    @Override
-    public Optional<Horario> generarUnHorarioCon(List<Long> materiasIds) {
-        List<Comision> comisionesCompatibles = comisionService.encontrarIdsUnaCombinacionCompatible(materiasIds);
+    public List<Horario> generarNHorarioCon(List<Long> materiasIds,  Integer cantidadHorarios) {
+        List<List<Comision>> combinaciones = comisionService.encontrarIdsNCombinacionCompatible(materiasIds,  cantidadHorarios);
 
 
-        return Optional.of(Horario
-                .builder()
-                .comisiones(comisionesCompatibles)
-                .build());
+        return combinaciones.stream()
+                .map(comisiones -> Horario.builder()
+                        .comisiones(comisiones)
+                        .build())
+                .toList();
     }
 }

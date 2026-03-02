@@ -131,7 +131,7 @@ public class MateriaServiceTest {
     public void  debeRetornarMateriasDisponiblesSegunAprobadas(){
         List<Long> idsAprobadas = new ArrayList<>(List.of(leaGuardada.getMateriaId()));
 
-        List<Materia> materiasPendientes = materiaService.recuperarMateriasDisponibles(idsAprobadas);
+        List<Materia> materiasPendientes = materiaService.recuperarMateriasDisponibles(1L);
 
         Set<Long> idsPendientes = materiasPendientes.stream()
                 .map(Materia::getMateriaId)
