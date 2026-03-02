@@ -4,7 +4,9 @@ export const API = {
 export const ROUTES = {
   HOME: "/",
   MATERIAS: "/materias",
-  HORARIOS: "/horario"
+  HORARIOS: "/horario",
+  REGISTER: "/register",
+  LOGIN: "/login"
 }
 
 export const API_ROUTES = {
@@ -13,5 +15,7 @@ export const API_ROUTES = {
   TRAER_TODAS_MATERIAS: "/api/materia",
   BUSCAR_MATERIA_POR_NOMBRE: (materiaNombre) =>
     `/api/materia/buscar/${materiaNombre}`,
-  GENERAR_HORARIO_COMPATIBLE: '/api/horario/compatible'
+  GENERAR_HORARIO_COMPATIBLE: '/api/horario/compatible',
+  REGISTER: "/auth/register",
+  LOGIN: "/auth/login"
 }

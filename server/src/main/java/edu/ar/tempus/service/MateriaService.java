@@ -13,7 +13,7 @@ public interface MateriaService {
 
     List<Materia> recuperarTodos();
 
-    List<Materia> recuperarMateriasDisponibles(List<Long> materiasAprobadas);
+    List<Materia> recuperarMateriasDisponibles(Long alumnoId);
 
     List<Materia> recuperarMateriasPorNombre(String nombreMateria);
 }

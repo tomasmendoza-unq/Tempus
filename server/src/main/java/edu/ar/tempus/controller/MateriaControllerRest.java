@@ -4,9 +4,11 @@ import edu.ar.tempus.controller.dto.materia.MateriaDTORequest;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponse;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponseSimple;
 import edu.ar.tempus.model.Materia;
+import edu.ar.tempus.security.user.UserDetailsImpl;
 import edu.ar.tempus.service.MateriaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,8 +39,13 @@ public final class MateriaControllerRest {
     }
 
     @GetMapping("/disponible")
-    public ResponseEntity<List<MateriaDTOResponseSimple>> getDisponibleMateria(@RequestParam List<Long> idMaterias){
-        List<Materia> materias = materiaService.recuperarMateriasDisponibles(idMaterias);
+    public ResponseEntity<List<MateriaDTOResponseSimple>> getDisponibleMateria(Authentication authentication){
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        Long alumnoId = userDetails.getId();
+
+        List<Materia> materias = materiaService.recuperarMateriasDisponibles(alumnoId);
 
         List<MateriaDTOResponseSimple> response = materias.stream().map(MateriaDTOResponseSimple::desdeModelo).toList();
 

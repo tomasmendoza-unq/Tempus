@@ -1,98 +1,81 @@
 import { getErrorMessage } from "./errorMessages"
 
-export const createApi = (baseURL) => ({
-  get: async (endpoint, headers = {}) => {
-    const res = await fetch(`${baseURL}${endpoint}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        ...headers,
-      },
-    })
+export const createApi = (baseURL) => {
+  const getHeaders = (additionalHeaders = {}) => {
+    const token = localStorage.getItem("token");
+    return {
+      "Content-Type": "application/json",
+      ...(token ? { "Authorization": `Bearer ${token}` } : {}), 
+      ...additionalHeaders,
+    };
+  };
 
-    if (!res.ok) {
-      throw new Error(getErrorMessage(res.status))
-    }
+  return {
+    get: async (endpoint, headers = {}) => {
+      const res = await fetch(`${baseURL}${endpoint}`, {
+        method: "GET",
+        headers: getHeaders(headers),
+      })
 
-    return res.json()
-  },
+      if (!res.ok) {
+        throw new Error(getErrorMessage(res.status))
+      }
 
-  post: async (endpoint, data, headers = {}) => {
-    const res = await fetch(`${baseURL}${endpoint}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...headers,
-      },
-      body: JSON.stringify(data),
-    })
+      return res.json()
+    },
 
-    if (!res.ok) {
-      const errorData = await res.json()
-      const errorMessage =
-        (errorData?.detalles && Object.values(errorData.detalles)[0]) ||
-        errorData?.mensaje ||
-        getErrorMessage(res.status)
-      throw new Error(errorMessage)
-    }
+    post: async (endpoint, data, headers = {}) => {
+      const res = await fetch(`${baseURL}${endpoint}`, {
+        method: "POST",
+        headers: getHeaders(headers),
+        body: JSON.stringify(data),
+      })
 
-    const text = await res.text()
-    try {
-      return JSON.parse(text)
-    } catch {
-      return text
-    }
-  },
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        const errorMessage =
+          (errorData?.detalles && Object.values(errorData.detalles)[0]) ||
+          errorData?.mensaje ||
+          getErrorMessage(res.status)
+        throw new Error(errorMessage)
+      }
 
-  put: async (endpoint, data, headers = {}) => {
-    const res = await fetch(`${baseURL}${endpoint}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        ...headers,
-      },
-      body: JSON.stringify(data),
-    })
+      const text = await res.text()
+      try {
+        return JSON.parse(text)
+      } catch {
+        return text
+      }
+    },
 
-    if (!res.ok) {
-      throw new Error(getErrorMessage(res.status))
-    }
+    put: async (endpoint, data, headers = {}) => {
+      const res = await fetch(`${baseURL}${endpoint}`, {
+        method: "PUT",
+        headers: getHeaders(headers),
+        body: JSON.stringify(data),
+      })
+      if (!res.ok) throw new Error(getErrorMessage(res.status))
+      return res.json()
+    },
 
-    return res.json()
-  },
+    delete: async (endpoint, headers = {}) => {
+      const res = await fetch(`${baseURL}${endpoint}`, {
+        method: "DELETE",
+        headers: getHeaders(headers),
+      })
+      if (!res.ok) throw new Error(getErrorMessage(res.status))
+      const text = await res.text()
+      try { return JSON.parse(text) } catch { return text }
+    },
 
-  delete: async (endpoint, headers = {}) => {
-    const res = await fetch(`${baseURL}${endpoint}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        ...headers,
-      },
-    })
-
-    if (!res.ok) {
-      throw new Error(getErrorMessage(res.status))
-    }
-
-    const text = await res.text()
-    try {
-      return JSON.parse(text)
-    } catch {
-      return text
-    }
-  },
-  patch: async (endpoint, data, headers = {}) => {
-    const res = await fetch(`${baseURL}${endpoint}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        ...headers,
-      },
-      body: JSON.stringify(data),
-    })
-    if (!res.ok) {
-      throw new Error(getErrorMessage(res.status))
-    }
-    return res.json()
-  },
-})
+    patch: async (endpoint, data, headers = {}) => {
+      const res = await fetch(`${baseURL}${endpoint}`, {
+        method: "PATCH",
+        headers: getHeaders(headers),
+        body: JSON.stringify(data),
+      })
+      if (!res.ok) throw new Error(getErrorMessage(res.status))
+      return res.json()
+    },
+  }
+}
