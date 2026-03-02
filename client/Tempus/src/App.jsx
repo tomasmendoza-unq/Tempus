@@ -5,6 +5,7 @@ import Home from "./pages/Home"
 import Materias from "./pages/Materias"
 import NavBar from "./components/Ui/NavBar/NavBar"
 import { ROUTES } from "../constants"
+import GeneradorHorarios from "./pages/Horarios"
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               </p>
             }
           />
+          <Route path={ROUTES.HORARIOS} element={<GeneradorHorarios/>}/>
         </Routes>
       </main>
     </div>

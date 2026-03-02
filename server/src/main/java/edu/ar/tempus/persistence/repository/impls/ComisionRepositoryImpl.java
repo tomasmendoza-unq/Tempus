@@ -14,6 +14,8 @@ import edu.ar.tempus.persistence.sql.ComisionDAOSQL;
 import org.springframework.data.neo4j.core.Neo4jClient;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -63,31 +65,22 @@ public class ComisionRepositoryImpl implements ComisionRepository {
                 .orElseThrow(() -> new EntityNotFoundException(Comision.class.getName(), comisionId));
     }
 
-    @Override
-    public List<ComisionNeo4J> cargarCandidatas(List<Long> materiasIds) {
-        return comisionNeo4JDAO.cargarCandidatas(materiasIds);
-    }
 
     @Override
-    public List<Comision> encontrarPorIds(List<Long> ids) {
-        return comisionDAOSQL.findAllById(ids);
-    }
-
-    @Override
-    public List<String> cargarParesCompatibles(List<Long> materiasIds) {
-        return comisionNeo4JDAO.cargarParesCompatibles(materiasIds);
-    }
-
-    @Override
-    public List<Long> encontrarCombinacionCompatible(List<Long> materiasIds) {
+    public List<List<Comision>> encontrarCombinacionCompatible(List<Long> materiasIds, Integer cantidadHorarios) {
         String query = buildQuery(materiasIds.size());
 
-        return neo4jClient.query(query)
+        Collection<?> result = neo4jClient.query(query)
                 .bind(materiasIds).to("materiasIds")
+                .bind(cantidadHorarios).to("cantidadHorarios")
                 .fetchAs(List.class)
-                .mappedBy((typeSystem, record) -> record.get("combinacion").asList(v -> v.asLong()))
-                .one()
-                .orElse(List.of());
+                .mappedBy((typeSystem, record) -> {
+                    List<Long> ids = record.get("combinacion").asList(v -> v.asLong());
+                    return this.findAll(ids);
+                })
+                .all();
+
+        return new ArrayList<>((Collection<List<Comision>>) result);
     }
 
     @Override
@@ -128,7 +121,7 @@ public class ComisionRepositoryImpl implements ComisionRepository {
 
         sb.append("RETURN [");
         sb.append(IntStream.range(0, n).mapToObj(j -> "c" + j).collect(Collectors.joining(", ")));
-        sb.append("] AS combinacion LIMIT 1");
+        sb.append("] AS combinacion LIMIT $cantidadHorarios");
 
         return sb.toString();
     }
