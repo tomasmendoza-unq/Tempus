@@ -18,12 +18,18 @@ export const materiaReducer = (state, action) => {
         cargando: true,
         error: null,
       }
-    case "TRAER_MATERIAS_EXITO":
+    case "TRAER_MATERIAS_EXITO": {
+      const idsSeleccionadas = new Set(
+        state.materiasSeleccionadas.map((m) => m.materiaId)
+      )
       return {
         ...state,
         cargando: false,
-        materias: action.payload,
+        materias: action.payload.filter(
+          (m) => !idsSeleccionadas.has(m.materiaId)
+        ),
       }
+    }
     case "TRAER_MATERIAS_FALLO":
       return {
         ...state,
