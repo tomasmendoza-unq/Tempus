@@ -1,6 +1,6 @@
 package edu.ar.tempus.service;
 
-import edu.ar.tempus.controller.dto.usuario.LoginResponseDTO;
+import edu.ar.tempus.controller.dto.auth.LoginResponseDTO;
 import edu.ar.tempus.model.Usuario;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
