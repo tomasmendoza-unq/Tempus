@@ -32,12 +32,12 @@ public interface ComisionNeo4JDAO extends Neo4jRepository<ComisionNeo4J, Long> {
     @Query("""
     MATCH (c1:Comision) WHERE c1.id IN $nuevas
     WITH collect(c1) AS nuevas
-    MATCH (c2:Comision) WHERE c2.id IN $anotadas
-    WITH nuevas, collect(c2) AS anotadas
+    MATCH (c2:Comision) WHERE c2.id IN $nuevas + $anotadas
+    WITH nuevas, collect(c2) AS todas
     UNWIND nuevas AS c1
-    UNWIND anotadas AS c2
+    UNWIND todas AS c2
     WITH c1, c2
-    WHERE NOT (c1)-[:COMPATIBLE_CON]-(c2)
+    WHERE c1.id <> c2.id AND NOT (c1)-[:COMPATIBLE_CON]-(c2)
     RETURN COUNT(*) > 0
     """)
     boolean haySuperposicionHoraria(
