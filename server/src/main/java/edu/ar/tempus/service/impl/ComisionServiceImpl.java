@@ -2,6 +2,7 @@ package edu.ar.tempus.service.impl;
 
 import edu.ar.tempus.exceptions.business.AlumnoAnotadoAOtraComisionException;
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
+import edu.ar.tempus.exceptions.business.SuperPosicionDeHorariosException;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.persistence.repository.ComisionRepository;
@@ -54,7 +55,12 @@ public class ComisionServiceImpl implements ComisionService {
 
     @Override
     public void validarSuperPosicion(List<Long> comisionIds, List<Long> comisionesAnotadas) {
-        if(comisionRepository.haySuperposicionHoraria(comisionIds, comisionesAnotadas)) throw new AlumnoAnotadoAOtraComisionException("El alumno ya se encuentra inscripto en una de las comisiones");
+        if(comisionRepository.haySuperposicionHoraria(comisionIds, comisionesAnotadas)) throw new SuperPosicionDeHorariosException("El alumno ya se encuentra inscripto en una de las comisiones");
+    }
+
+    @Override
+    public boolean hayComisionesDeMismaMateriaEnNuevas(List<Long> comisionIds) {
+        return comisionRepository.hayComisionesDeMismaMateriaEnNuevas(comisionIds);
     }
 
 }

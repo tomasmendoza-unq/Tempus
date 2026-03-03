@@ -14,4 +14,6 @@ public interface ComisionService {
     List<Comision> recuperarPorIds(List<Long> comisionIds);
 
     void validarSuperPosicion(List<Long> comisionIds, List<Long> comisionesAnotadas);
+
+    boolean hayComisionesDeMismaMateriaEnNuevas(List<Long> comisionIds);
 }

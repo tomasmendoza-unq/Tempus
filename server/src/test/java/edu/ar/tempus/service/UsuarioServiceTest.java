@@ -2,6 +2,7 @@ package edu.ar.tempus.service;
 
 import edu.ar.tempus.exceptions.business.AlumnoAnotadoAOtraComisionException;
 import edu.ar.tempus.exceptions.business.EmailYaExisteException;
+import edu.ar.tempus.exceptions.business.SuperPosicionDeHorariosException;
 import edu.ar.tempus.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -136,10 +137,16 @@ public class UsuarioServiceTest {
     public void intentaAnotarseAUnaComisionPeroHaySuperposicion(){
         List<Long> comisiones = new ArrayList<>(List.of(leaTarde.getComisionId(), lea2Tarde.getComisionId()));
 
-        assertThrows(AlumnoAnotadoAOtraComisionException.class, () -> usuarioService.anotarseAComision(comisiones, usuario1.getId()));
+        assertThrows(SuperPosicionDeHorariosException.class, () -> usuarioService.anotarseAComision(comisiones, usuario1.getId()));
     }
 
 
+    @Test
+    public void intentaAnotarseAUnaComisionDeUnaMateriaQueYaEstabaAnotado(){
+        List<Long> comisiones = new ArrayList<>(List.of(leaTarde.getComisionId(), leaManana.getComisionId()));
+
+        assertThrows(AlumnoAnotadoAOtraComisionException.class, () -> usuarioService.anotarseAComision(comisiones, usuario1.getId()));
+    }
 
     @AfterEach
     public void tearDown() {

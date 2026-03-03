@@ -93,6 +93,11 @@ public class ComisionRepositoryImpl implements ComisionRepository {
         return comisionNeo4JDAO.haySuperposicionHoraria(comisionIds, comisionesAnotadas);
     }
 
+    @Override
+    public boolean hayComisionesDeMismaMateriaEnNuevas(List<Long> comisionIds) {
+        return comisionDAOSQL.hayComisionesDeMismaMateriaEnNuevas(comisionIds);
+    }
+
     private String buildQuery(int n) {
         StringBuilder sb = new StringBuilder();
         sb.append("""

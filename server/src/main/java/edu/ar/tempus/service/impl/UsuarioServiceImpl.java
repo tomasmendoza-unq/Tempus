@@ -66,6 +66,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private void validarQueNoEstaInscriptoANingunaComision(List<Long> comisionIds, Long alumnoId) {
         if(usuarioDAOSQL.estaInscriptoAComisionDeMismaMateria(alumnoId, comisionIds)) throw new AlumnoAnotadoAOtraComisionException("El alumno ya se encuentra inscripto en una de las comisiones");
+        if(comisionService.hayComisionesDeMismaMateriaEnNuevas(comisionIds)) throw new AlumnoAnotadoAOtraComisionException("El alumno ya se encuentra inscripto en una de las comisiones");
     }
 
 

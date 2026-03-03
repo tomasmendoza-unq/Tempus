@@ -15,4 +15,6 @@ public interface ComisionRepository {
     List<Comision> findAll(List<Long> comisionesCompatibles);
 
     boolean haySuperposicionHoraria(List<Long> comisionIds, List<Long> comisionesAnotadas);
+
+    boolean hayComisionesDeMismaMateriaEnNuevas(List<Long> comisionIds);
 }
