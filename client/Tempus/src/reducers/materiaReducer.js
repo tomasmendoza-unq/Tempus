@@ -7,6 +7,7 @@ export const estadoInicialMateria = {
     materiaNombre: "",
     correlativas: "",
   },
+  materiasSeleccionadas: [],
 }
 
 export const materiaReducer = (state, action) => {
@@ -69,6 +70,29 @@ export const materiaReducer = (state, action) => {
         ...state,
         cargando: false,
         error: null,
+      }
+
+    case "AGREGAR_MATERIA_SELECCIONADA":
+      return {
+        ...state,
+        materiasSeleccionadas: [...state.materiasSeleccionadas, action.payload],
+        materias: state.materias.filter(
+          (m) => m.materiaId !== action.payload.materiaId
+        ),
+      }
+    case "ELIMINAR_MATERIA_SELECCIONADA":
+      return {
+        ...state,
+        materiasSeleccionadas: state.materiasSeleccionadas.filter(
+          (m) => m.materiaId !== action.payload.materiaId
+        ),
+        materias: [...state.materias, action.payload],
+      }
+
+    case "LIMPIAR_MATERIAS_SELECCIONADAS":
+      return {
+        ...state,
+        materiasSeleccionadas: [],
       }
 
     default:

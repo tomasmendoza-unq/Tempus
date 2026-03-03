@@ -19,5 +19,5 @@ export const API_ROUTES = {
   GENERAR_HORARIO_COMPATIBLE: "/api/horario/compatible",
   REGISTER: "/auth/register",
   LOGIN: "/auth/login",
-  CREAR_CARRERA: "/api/carrera/crear",
+  CREAR_CARRERA: "/carrera/crear",
 }
