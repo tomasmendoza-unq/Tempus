@@ -138,6 +138,11 @@ public class UsuarioServiceTest {
         List<Long> comisiones = new ArrayList<>(List.of(leaTarde.getComisionId(), lea2Tarde.getComisionId()));
 
         assertThrows(SuperPosicionDeHorariosException.class, () -> usuarioService.anotarseAComision(comisiones, usuario1.getId()));
+
+        usuarioService.anotarseAComision(List.of(leaTarde.getComisionId()), usuario1.getId());
+
+        assertThrows(SuperPosicionDeHorariosException.class, () -> usuarioService.anotarseAComision(List.of(lea2Tarde.getComisionId()), usuario1.getId()));
+
     }
 
 
@@ -146,6 +151,17 @@ public class UsuarioServiceTest {
         List<Long> comisiones = new ArrayList<>(List.of(leaTarde.getComisionId(), leaManana.getComisionId()));
 
         assertThrows(AlumnoAnotadoAOtraComisionException.class, () -> usuarioService.anotarseAComision(comisiones, usuario1.getId()));
+
+        usuarioService.anotarseAComision(List.of(leaTarde.getComisionId()), usuario1.getId());
+
+        assertThrows(AlumnoAnotadoAOtraComisionException.class, () -> usuarioService.anotarseAComision(List.of(leaManana.getComisionId()), usuario1.getId()));
+
+    }
+
+    @Test
+    public void anotarComoAprobadaUnaComision(){
+
+
     }
 
     @AfterEach

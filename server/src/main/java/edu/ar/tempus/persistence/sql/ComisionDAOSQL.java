@@ -14,8 +14,11 @@ public interface ComisionDAOSQL extends JpaRepository<Comision,Long> {
         SELECT COUNT(c) > 0
         FROM Comision c
         WHERE c.comisionId IN :comisionesIds
-        GROUP BY c.materia
-        HAVING COUNT(c) > 1
+        AND c.materia IN (
+            SELECT c2.materia FROM Comision c2
+            WHERE c2.comisionId IN :comisionesIds
+            AND c2.comisionId <> c.comisionId
+        )
         """)
     boolean hayComisionesDeMismaMateriaEnNuevas(@Param("comisionesIds") List<Long> comisionesIds);
 }
