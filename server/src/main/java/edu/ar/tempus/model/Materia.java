@@ -19,7 +19,6 @@ public class Materia {
 
     private String materiaNombre;
 
-
     @Builder.Default
     private List<Comision> comisiones = new ArrayList<>();
 

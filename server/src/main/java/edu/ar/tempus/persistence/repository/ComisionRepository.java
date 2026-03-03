@@ -13,4 +13,6 @@ public interface ComisionRepository {
     List<List<Comision>> encontrarCombinacionCompatible(List<Long> materiasIds, Integer cantidadHorarios);
 
     List<Comision> findAll(List<Long> comisionesCompatibles);
+
+    boolean haySuperposicionHoraria(List<Long> comisionIds, List<Long> comisionesAnotadas);
 }

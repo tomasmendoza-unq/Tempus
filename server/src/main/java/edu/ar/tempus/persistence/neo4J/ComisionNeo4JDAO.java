@@ -28,4 +28,20 @@ public interface ComisionNeo4JDAO extends Neo4jRepository<ComisionNeo4J, Long> {
 
     @Query("MATCH (c:Comision {id: $idA})-[:COMPATIBLE_CON]-(target:Comision {id: $idB}) RETURN count(target) > 0")
     boolean verificarCompatibilidad(Long idA, Long idB);
+
+    @Query("""
+    MATCH (c1:Comision) WHERE c1.id IN $nuevas
+    WITH collect(c1) AS nuevas
+    MATCH (c2:Comision) WHERE c2.id IN $anotadas
+    WITH nuevas, collect(c2) AS anotadas
+    UNWIND nuevas AS c1
+    UNWIND anotadas AS c2
+    WITH c1, c2
+    WHERE NOT (c1)-[:COMPATIBLE_CON]-(c2)
+    RETURN COUNT(*) > 0
+    """)
+    boolean haySuperposicionHoraria(
+            @Param("nuevas") List<Long> comisionIds,
+            @Param("anotadas") List<Long> comisionesAnotadas
+    );
 }

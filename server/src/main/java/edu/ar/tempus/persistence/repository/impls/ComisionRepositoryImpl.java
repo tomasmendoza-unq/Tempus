@@ -88,6 +88,11 @@ public class ComisionRepositoryImpl implements ComisionRepository {
         return comisionDAOSQL.findAllById(comisionesCompatibles);
     }
 
+    @Override
+    public boolean haySuperposicionHoraria(List<Long> comisionIds, List<Long> comisionesAnotadas) {
+        return comisionNeo4JDAO.haySuperposicionHoraria(comisionIds, comisionesAnotadas);
+    }
+
     private String buildQuery(int n) {
         StringBuilder sb = new StringBuilder();
         sb.append("""

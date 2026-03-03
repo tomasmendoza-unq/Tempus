@@ -10,4 +10,8 @@ public interface ComisionService {
     Comision recuperar(Long comisionId);
 
     List<List<Comision>>  encontrarIdsNCombinacionCompatible(List<Long> materiasIds, Integer cantidadHorarios);
+
+    List<Comision> recuperarPorIds(List<Long> comisionIds);
+
+    void validarSuperPosicion(List<Long> comisionIds, List<Long> comisionesAnotadas);
 }
