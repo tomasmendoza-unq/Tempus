@@ -16,17 +16,32 @@ export default function NavBar() {
         <Link className="hover:text-red-400 transition-colors" to="/">
           Inicio
         </Link>
-        
+
         {isAuthenticated && (
           <>
-            <Link className="hover:text-red-400 transition-colors text-center leading-tight" to="/materias">
+            <Link
+              className="hover:text-red-400 transition-colors text-center leading-tight"
+              to="/materias"
+            >
               Gestion de <br className="md:hidden" /> Materias
             </Link>
-            <Link className="hover:text-red-400 transition-colors" to="/correlativas">
+            <Link
+              className="hover:text-red-400 transition-colors"
+              to="/correlativas"
+            >
               Correlativas
             </Link>
-            <Link className="hover:text-red-400 transition-colors" to="/horario">
+            <Link
+              className="hover:text-red-400 transition-colors"
+              to="/horario"
+            >
               Horarios
+            </Link>
+            <Link
+              className="hover:text-red-400 transition-colors"
+              to="/carreras"
+            >
+              Carreras
             </Link>
           </>
         )}
@@ -43,7 +58,7 @@ export default function NavBar() {
             <span className="text-xs text-red-200 opacity-80 uppercase tracking-tighter">
               {usuario?.nombre}
             </span>
-            <button 
+            <button
               onClick={logout}
               className="text-sm font-bold hover:text-red-400 transition-colors bg-red-900/50 px-2 py-1 rounded"
             >
