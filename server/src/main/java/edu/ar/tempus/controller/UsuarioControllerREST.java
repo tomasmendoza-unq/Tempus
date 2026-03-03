@@ -31,4 +31,10 @@ public final class UsuarioControllerREST {
         return ResponseEntity.ok("Se realizo con exito la operacion");
     }
 
+    @PostMapping("/aprobar/{comisionesId}")
+    public ResponseEntity<String> AprobarAMateria(@PathVariable("comisionesId") List<Long> comisionId, Authentication authentication) {
+        usuarioService.aprobarMaterias(comisionId, authUtils.getAlumnoId(authentication));
+
+        return ResponseEntity.ok("Se realizo con exito la operacion");
+    }
 }

@@ -53,4 +53,6 @@ public class MateriaServiceImpl implements MateriaService {
     public List<Materia> recuperarMateriasPorNombre(String nombreMateria) {
         return materiaRepository.recuperarMateriasPorNombre(nombreMateria);
     }
+
+
 }

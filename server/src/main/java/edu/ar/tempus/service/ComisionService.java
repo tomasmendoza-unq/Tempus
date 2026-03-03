@@ -1,6 +1,7 @@
 package edu.ar.tempus.service;
 
 import edu.ar.tempus.model.Comision;
+import edu.ar.tempus.model.Materia;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface ComisionService {
     void validarSuperPosicion(List<Long> comisionIds, List<Long> comisionesAnotadas);
 
     boolean hayComisionesDeMismaMateriaEnNuevas(List<Long> comisionIds);
+
+    List<Materia> recuperarMateriasPorComision(List<Long> comisionIds);
 }

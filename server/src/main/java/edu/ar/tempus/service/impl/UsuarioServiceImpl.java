@@ -4,7 +4,9 @@ package edu.ar.tempus.service.impl;
 import edu.ar.tempus.exceptions.business.AlumnoAnotadoAOtraComisionException;
 import edu.ar.tempus.exceptions.business.EmailYaExisteException;
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
+import edu.ar.tempus.exceptions.business.MateriaYaAprobadaException;
 import edu.ar.tempus.model.Comision;
+import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.persistence.sql.UsuarioDAOSQL;
 import edu.ar.tempus.service.ComisionService;
@@ -22,12 +24,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioDAOSQL usuarioDAOSQL;
     private final ComisionService comisionService;
-    private final MateriaService materiaService;
 
-    public UsuarioServiceImpl(UsuarioDAOSQL usuarioDAOSQL, ComisionService comisionService, MateriaService materiaService) {
+    public UsuarioServiceImpl(UsuarioDAOSQL usuarioDAOSQL, ComisionService comisionService) {
         this.usuarioDAOSQL = usuarioDAOSQL;
         this.comisionService = comisionService;
-        this.materiaService = materiaService;
     }
 
     @Override
@@ -61,6 +61,19 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         alumno.anotarseAComisiones(comisiones);
 
+        usuarioDAOSQL.save(alumno);
+    }
+
+    @Override
+    public void aprobarMaterias(List<Long> comisionIds, Long alumnoId) {
+        Usuario alumno = recuperarUsuarioPorId(alumnoId);
+
+        if(usuarioDAOSQL.yaAproboAlgunaDeLasMaterias(alumnoId, comisionIds))
+            throw new MateriaYaAprobadaException("El alumno ya aprobó una de las materias");
+
+        List<Materia> materiasAprobadas = comisionService.recuperarMateriasPorComision(comisionIds);
+
+        alumno.aprobarMaterias(materiasAprobadas);
         usuarioDAOSQL.save(alumno);
     }
 

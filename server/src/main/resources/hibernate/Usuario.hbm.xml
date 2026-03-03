@@ -25,5 +25,11 @@
             <many-to-many class="edu.ar.tempus.model.Comision" column="comision_id"/>
         </bag>
 
+        <bag name="materiasAprobadas" table="usuario_materia_aprobada" lazy="false">
+            <key column="usuario_id"/>
+            <many-to-many class="edu.ar.tempus.model.Materia" column="materia_id"/>
+        </bag>
+
+
     </class>
 </hibernate-mapping>

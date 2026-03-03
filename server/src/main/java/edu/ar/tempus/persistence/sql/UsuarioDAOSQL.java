@@ -31,4 +31,17 @@ public interface UsuarioDAOSQL extends JpaRepository<Usuario, Long> {
         WHERE u.id = :alumnoId
     """)
     List<Long> recuperarComisionesIds(@Param("alumnoId") Long alumnoId);
+
+    @Query("""
+    SELECT COUNT(u) > 0
+    FROM Usuario u, IN(u.materiasAprobadas) AS m
+    WHERE u.id = :alumnoId
+    AND m.materiaId IN (
+        SELECT c.materia.materiaId FROM Comision c WHERE c.comisionId IN :comisionIds
+    )
+    """)
+    boolean yaAproboAlgunaDeLasMaterias(
+            @Param("alumnoId") Long alumnoId,
+            @Param("comisionIds") List<Long> comisionIds
+    );
 }

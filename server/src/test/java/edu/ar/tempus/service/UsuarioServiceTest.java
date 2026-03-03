@@ -2,6 +2,7 @@ package edu.ar.tempus.service;
 
 import edu.ar.tempus.exceptions.business.AlumnoAnotadoAOtraComisionException;
 import edu.ar.tempus.exceptions.business.EmailYaExisteException;
+import edu.ar.tempus.exceptions.business.MateriaYaAprobadaException;
 import edu.ar.tempus.exceptions.business.SuperPosicionDeHorariosException;
 import edu.ar.tempus.model.*;
 import org.junit.jupiter.api.AfterEach;
@@ -160,8 +161,22 @@ public class UsuarioServiceTest {
 
     @Test
     public void anotarComoAprobadaUnaComision(){
+        List<Long> comisiones = new ArrayList<>(List.of(leaTarde.getComisionId(), lea3Noche.getComisionId()));
+        usuarioService.anotarseAComision(comisiones, usuario1.getId());
 
+        usuarioService.aprobarMaterias(comisiones, usuario1.getId());
 
+        Usuario usuarioRecuperado = usuarioService.recuperarUsuarioPorId(usuario1.getId());
+
+        List<Long> materiasEsperadas = List.of(lea.getMateriaId(), lea3.getMateriaId());
+
+        assertTrue(materiasEsperadas.stream()
+                .allMatch(materiaId -> usuarioRecuperado.getMateriasAprobadas().stream()
+                        .anyMatch(m -> m.getMateriaId().equals(materiaId))
+                )
+        );
+
+        assertThrows(MateriaYaAprobadaException.class, () -> usuarioService.aprobarMaterias(comisiones, usuario1.getId()));
     }
 
     @AfterEach
