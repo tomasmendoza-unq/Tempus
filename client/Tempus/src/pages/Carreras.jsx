@@ -2,9 +2,15 @@ import CarreraForm from "../components/Carrera/CarreraForm"
 import MateriasSelector from "../components/Materia/MateriasSelector"
 import MateriasSeleccionadas from "../components/Materia/MateriasSeleccionadas"
 import { useMateriaContext } from "../hooks/ContextHooks/useMateriaContext"
+import { useEffect } from "react"
 
 export default function Carreras() {
-  const { agregarMateriaSeleccionada } = useMateriaContext()
+  const { agregarMateriaSeleccionada, limpiarMateriasSeleccionadas } =
+    useMateriaContext()
+
+  useEffect(() => {
+    return () => limpiarMateriasSeleccionadas()
+  }, [])
   return (
     <div className="min-h-screen p-6 flex flex-col">
       <h1 className="text-2xl font-bold mb-6 text-white text-center">
