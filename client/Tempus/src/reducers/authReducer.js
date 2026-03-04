@@ -14,7 +14,7 @@ export function authReducer(state, action) {
         ...state,
         cargando: false,
         isAuthenticated: true,
-        usuario: action.payload,
+        usuario: action.payload, 
         error: null,
       };
     case "FETCH_AUTH_FAILURE":
@@ -26,7 +26,11 @@ export function authReducer(state, action) {
         error: action.payload,
       };
     case "LOGOUT":
-      return { ...initialState, isAuthenticated: false };
+      return { 
+        ...initialState, 
+        isAuthenticated: false, 
+        usuario: null 
+      };
     default:
       return state;
   }

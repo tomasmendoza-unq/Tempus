@@ -9,6 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "materia")
+@EqualsAndHashCode(of = "ComisionId")
 @Data
 public class Comision {
 

@@ -21,12 +21,13 @@ public final class AuthControllerREST {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UsuarioResponseDTO> register(
+    public ResponseEntity<LoginResponseDTO> register(
             @RequestBody @Valid UsuarioRequestDTO usuarioDTO) {
 
         Usuario usuario = authService.registrarUsuario(usuarioDTO.aModelo());
 
-        UsuarioResponseDTO response = UsuarioResponseDTO.desdeModelo(usuario);
+
+        LoginResponseDTO response = authService.generarRespuestaPostRegistro(usuario);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

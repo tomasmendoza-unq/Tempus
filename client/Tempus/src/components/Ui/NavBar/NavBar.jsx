@@ -7,10 +7,8 @@ export default function NavBar() {
 
   return (
     <header className="flex items-center justify-between px-8 py-4 shadow bg-red-950 text-white">
-      {/* Logo */}
       <h1 className="text-2xl font-bold">Tempus</h1>
 
-      {/* Menú hamburguesa */}
       <HamburgerMenu
         isAuthenticated={isAuthenticated}
         usuario={usuario}

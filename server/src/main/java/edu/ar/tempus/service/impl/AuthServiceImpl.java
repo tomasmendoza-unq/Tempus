@@ -71,6 +71,21 @@ public class AuthServiceImpl implements AuthService {
         );
     }
 
+    @Override
+    public LoginResponseDTO generarRespuestaPostRegistro(Usuario usuario) {
+        UserDetails userDetails = new UserDetailsImpl(usuario);
+
+        String jwt = jwtService.generarToken(userDetails);
+
+        return new LoginResponseDTO(
+                jwt,
+                "Bearer",
+                usuario.getId(),
+                usuario.getEmail(),
+                usuario.getRole().name()
+        );
+    }
+
     private String validarYFormatearTelefono(String telefono) {
         try {
             Phonenumber.PhoneNumber numeroTelefono = phoneNumberUtil.parse(telefono, "AR");

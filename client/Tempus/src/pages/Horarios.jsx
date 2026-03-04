@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react"
 import { useGenerarHorario } from "../hooks/useHorario"
-import { useTraerTodasMaterias } from "../hooks/useMateria" 
+import { useTraerMateriasDisponibles } from "../hooks/useMateria" 
 import { MateriaSelector } from "../components/Horario/MateriaSelector"
 import { GeneradorControls } from "../components/Horario/GeneradorControls"
 import { ResultadoList } from "../components/Horario/ResultadoList"
 
 export default function GeneradorHorarios() {
   const { generarHorarios, cargando, resultados } = useGenerarHorario()
-  const { traerMaterias, materias, cargando: cargandoMaterias } = useTraerTodasMaterias()
+  const { traerMateriasDisponibles, materias, cargando: cargandoMaterias } = useTraerMateriasDisponibles()
   
   const [selectedIds, setSelectedIds] = useState([])
   const [cantidad, setCantidad] = useState(3)
 
-  useEffect(() => { traerMaterias() }, [])
+  useEffect(() => { traerMateriasDisponibles() }, [])
 
   const toggleMateria = (id) => {
     setSelectedIds(prev => prev.includes(id) ? prev.filter(mId => mId !== id) : [...prev, id])

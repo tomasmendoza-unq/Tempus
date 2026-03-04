@@ -8,6 +8,7 @@ import edu.ar.tempus.exceptions.business.MateriaYaAprobadaException;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.persistence.repository.MateriaRepository;
 import edu.ar.tempus.persistence.sql.UsuarioDAOSQL;
 import edu.ar.tempus.service.ComisionService;
 import edu.ar.tempus.service.MateriaService;
@@ -24,10 +25,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioDAOSQL usuarioDAOSQL;
     private final ComisionService comisionService;
+    private final MateriaRepository materiaRepository;
 
-    public UsuarioServiceImpl(UsuarioDAOSQL usuarioDAOSQL, ComisionService comisionService) {
+    public UsuarioServiceImpl(UsuarioDAOSQL usuarioDAOSQL, ComisionService comisionService, MateriaRepository materiaRepository) {
         this.usuarioDAOSQL = usuarioDAOSQL;
         this.comisionService = comisionService;
+        this.materiaRepository = materiaRepository;
     }
 
     @Override
@@ -72,14 +75,28 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new MateriaYaAprobadaException("El alumno ya aprobó una de las materias");
 
         List<Materia> materiasAprobadas = comisionService.recuperarMateriasPorComision(comisionIds);
+        List<Comision> comisionesAprobadas = comisionService.recuperarPorIds(comisionIds);
 
         alumno.aprobarMaterias(materiasAprobadas);
+        alumno.desanotarseDeComisiones(comisionesAprobadas);
+
         usuarioDAOSQL.save(alumno);
     }
 
     @Override
     public List<Long> recuperarMateriasAprobadasPorAlumno(Long alumnoId) {
         return usuarioDAOSQL.findMateriasAprobadasById(alumnoId);
+    }
+
+    @Override
+    public void desaprobarMateria(Long materiaId, Long alumnoId) {
+        Usuario alumno = recuperarUsuarioPorId(alumnoId);
+        Materia materia = materiaRepository.getById(materiaId);
+
+
+        alumno.desaprobarMateria(materia);
+        usuarioDAOSQL.save(alumno);
+
     }
 
     private void validarQueNoEstaInscriptoANingunaComision(List<Long> comisionIds, Long alumnoId) {

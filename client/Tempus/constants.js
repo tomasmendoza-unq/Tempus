@@ -8,6 +8,7 @@ export const ROUTES = {
   REGISTER: "/register",
   LOGIN: "/login",
   CARRERAS: "/carreras",
+  PERFIL: "/perfil",
 }
 
 export const API_ROUTES = {
@@ -20,4 +21,9 @@ export const API_ROUTES = {
   REGISTER: "/auth/register",
   LOGIN: "/auth/login",
   CREAR_CARRERA: "/carrera/crear",
+  TRAER_PERFIL: "/api/usuario",
+  ANOTARSE_A_COMISIONES: (comisionesId) => `/api/usuario/anotarse/${comisionesId.join(',')}`,
+  TRAER_MATERIAS_DISPONIBLES: "/api/materia/disponible",
+  APROBAR_CURSADA: (comisionId) => `/api/usuario/aprobar/${comisionId}`,
+  DESAPROBAR_MATERIA: (materiaId) => `/api/usuario/desaprobar/${materiaId}`,
 }

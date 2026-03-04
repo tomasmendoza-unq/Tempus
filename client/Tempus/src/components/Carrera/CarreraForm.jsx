@@ -15,7 +15,7 @@ export default function CarreraForm() {
 
   useEffect(() => {
     if (response) {
-      console.log("Respuesta del servidor:", response)
+
     }
   }, [response])
 

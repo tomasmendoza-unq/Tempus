@@ -6,7 +6,6 @@ const HORAS = [
 
 export function HorarioGrid({ horario }) {
   
-  // Función de búsqueda ultra-flexible
   const getMateriaEnSlot = (dia, hora) => {
     if (!horario?.comisiones) return null;
 
@@ -14,7 +13,6 @@ export function HorarioGrid({ horario }) {
       if (!comision.claseHorario) continue;
 
       for (const clase of comision.claseHorario) {
-        // Normalizamos día: quitamos tildes y pasamos a mayúsculas
         const diaNormalizado = clase.dia
           .toUpperCase()
           .normalize("NFD")
@@ -22,8 +20,6 @@ export function HorarioGrid({ horario }) {
         
         const diaColumna = dia.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-        // Normalizamos hora: verificamos si la hora de la fila está contenida 
-        // en el inicio de la clase (ej: "08:00" está en "08:00:00")
         if (diaNormalizado === diaColumna && clase.inicio.includes(hora)) {
           return comision;
         }
@@ -37,11 +33,11 @@ export function HorarioGrid({ horario }) {
       <table className="min-w-full table-fixed border-collapse">
         <thead>
           <tr>
-            <th className="border-b p-2 bg-gray-100 text-gray-600 text-[10px] font-bold uppercase w-16">
+            <th className="border-b p-3 bg-gray-100 text-gray-700 text-xs font-bold uppercase w-20">
               Hora
             </th>
             {DIAS.map((d) => (
-              <th key={d} className="border-b p-2 bg-gray-100 text-gray-600 text-[10px] font-bold uppercase">
+              <th key={d} className="border-b p-3 bg-gray-100 text-gray-700 text-xs font-bold uppercase">
                 {d}
               </th>
             ))}
@@ -50,7 +46,7 @@ export function HorarioGrid({ horario }) {
         <tbody>
           {HORAS.map((hora) => (
             <tr key={hora} className="hover:bg-gray-50 transition-colors">
-              <td className="border-r border-b p-2 text-[10px] font-mono text-gray-400 text-center bg-gray-50">
+              <td className="border-r border-b p-2 text-sm font-bold font-mono text-gray-600 text-center bg-gray-50">
                 {hora}
               </td>
               {DIAS.map((dia) => {
@@ -59,20 +55,21 @@ export function HorarioGrid({ horario }) {
                 return (
                   <td
                     key={`${dia}-${hora}`}
-                    className={`border-r border-b p-1 h-14 w-28 transition-all ${
+                    className={`border-r border-b p-1.5 h-16 w-32 transition-all ${
                       comision ? "bg-red-50" : "bg-transparent"
                     }`}
                   >
                     {comision && (
-                      <div className="flex flex-col h-full justify-center text-center p-1 rounded border border-red-200 bg-white shadow-sm">
-                        <span className="text-[9px] font-black text-red-950 uppercase leading-tight mb-1">
+                      <div className="flex flex-col h-full justify-center text-center p-2 rounded border border-red-200 bg-white shadow-sm">
+
+                        <span className="text-[10px] font-black text-red-950 uppercase leading-tight mb-1">
                           {comision.materia?.materiaNombre || "Materia"}
                         </span>
-                        <div className="flex justify-between items-center mt-auto px-1">
-                          <span className="text-[8px] text-gray-500 font-bold">
+                        <div className="flex justify-between items-center mt-auto">
+                          <span className="text-[9px] text-gray-500 font-bold">
                             C{comision.comisionId}
                           </span>
-                          <span className="text-[8px] bg-red-100 text-red-700 px-1 rounded">
+                          <span className="text-[9px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">
                             {comision.aula || 'S/A'}
                           </span>
                         </div>

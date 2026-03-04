@@ -41,4 +41,12 @@ public class Usuario {
     public void aprobarMaterias(List<Materia> materiasAprobadas) {
         this.materiasAprobadas.addAll(materiasAprobadas);
     }
+
+    public void desanotarseDeComisiones(List<Comision> comisiones) {
+        this.comisiones.removeAll(comisiones);
+    }
+
+    public void desaprobarMateria(Materia materia) {
+        materiasAprobadas.remove(materia);
+    }
 }
