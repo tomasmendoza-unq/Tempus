@@ -1,6 +1,7 @@
 package edu.ar.tempus.persistence.repository;
 
 import edu.ar.tempus.model.Comision;
+import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.persistence.neo4J.entity.ComisionNeo4J;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface ComisionRepository {
     boolean haySuperposicionHoraria(List<Long> comisionIds, List<Long> comisionesAnotadas);
 
     boolean hayComisionesDeMismaMateriaEnNuevas(List<Long> comisionIds);
+
+    List<Materia> recuperarMateriasPorComision(List<Long> comisionIds);
 }

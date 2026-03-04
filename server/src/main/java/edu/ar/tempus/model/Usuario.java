@@ -31,7 +31,14 @@ public class Usuario {
     @Builder.Default
     private List<Comision> comisiones = new ArrayList<>();
 
+    @Builder.Default
+    private List<Materia> materiasAprobadas = new ArrayList<>();
+
     public void anotarseAComisiones(List<Comision> comisiones) {
         this.comisiones.addAll(comisiones);
+    }
+
+    public void aprobarMaterias(List<Materia> materiasAprobadas) {
+        this.materiasAprobadas.addAll(materiasAprobadas);
     }
 }

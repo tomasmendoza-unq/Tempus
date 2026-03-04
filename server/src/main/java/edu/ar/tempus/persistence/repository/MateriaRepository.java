@@ -16,4 +16,5 @@ public interface MateriaRepository {
     List<Materia> recuperarMateriasDisponibles(List<Long> materiasAprobadas);
 
     List<Materia> recuperarMateriasPorNombre(String nombreMateria);
+
 }

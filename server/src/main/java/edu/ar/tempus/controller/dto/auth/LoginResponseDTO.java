@@ -1,4 +1,4 @@
-package edu.ar.tempus.controller.dto.usuario;
+package edu.ar.tempus.controller.dto.auth;
 
 public record LoginResponseDTO(
         String token,

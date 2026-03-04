@@ -1,7 +1,7 @@
 package edu.ar.tempus.controller;
 
-import edu.ar.tempus.controller.dto.usuario.LoginRequestDTO;
-import edu.ar.tempus.controller.dto.usuario.LoginResponseDTO;
+import edu.ar.tempus.controller.dto.auth.LoginRequestDTO;
+import edu.ar.tempus.controller.dto.auth.LoginResponseDTO;
 import edu.ar.tempus.controller.dto.usuario.UsuarioRequestDTO;
 import edu.ar.tempus.controller.dto.usuario.UsuarioResponseDTO;
 import edu.ar.tempus.model.Usuario;

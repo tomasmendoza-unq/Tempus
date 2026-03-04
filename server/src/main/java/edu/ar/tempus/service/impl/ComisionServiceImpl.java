@@ -63,4 +63,9 @@ public class ComisionServiceImpl implements ComisionService {
         return comisionRepository.hayComisionesDeMismaMateriaEnNuevas(comisionIds);
     }
 
+    @Override
+    public List<Materia> recuperarMateriasPorComision(List<Long> comisionIds) {
+        return comisionRepository.recuperarMateriasPorComision(comisionIds);
+    }
+
 }
