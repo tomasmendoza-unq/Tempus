@@ -4,7 +4,7 @@ import {
   traerTodasMateriasService,
   buscarMateriaPorNombreService,
 } from "../services/materiaService"
-import { useMateriaContext } from "./useMateriaContext"
+import { useMateriaContext } from "./ContextHooks/useMateriaContext"
 import { toast } from "react-toastify"
 
 export function useCrearMateria() {

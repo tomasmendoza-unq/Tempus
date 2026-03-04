@@ -9,6 +9,7 @@ import GeneradorHorarios from "./pages/Horarios"
 import RegisterPage from "./pages/RegisterPage"
 import LoginPage from "./pages/LoginPage"
 import { ProtectedRoute } from "./hooks/ProtectedRoute"
+import Carreras from "./pages/Carreras"
 
 function App() {
   return (
@@ -17,34 +18,41 @@ function App() {
       <main className="px-6 py-8">
         <Routes>
           <Route path={ROUTES.HOME} element={<Home />} />
-          <Route path={ROUTES.REGISTER} element={<RegisterPage />} /> 
-          <Route path={ROUTES.LOGIN} element={<LoginPage />} /> 
+          <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
 
-          <Route 
-            path={ROUTES.MATERIAS} 
+          <Route
+            path={ROUTES.MATERIAS}
             element={
               <ProtectedRoute>
                 <Materias />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path={ROUTES.CORRELATIVAS} 
+          <Route
+            path={ROUTES.CORRELATIVAS}
             element={
               <ProtectedRoute>
                 <Correlativas />
               </ProtectedRoute>
-            } 
+            }
           />
-          <Route 
-            path={ROUTES.HORARIOS} 
+          <Route
+            path={ROUTES.HORARIOS}
             element={
               <ProtectedRoute>
-                <GeneradorHorarios/>
+                <GeneradorHorarios />
               </ProtectedRoute>
             }
           />
-
+          <Route
+            path={ROUTES.CARRERAS}
+            element={
+              <ProtectedRoute>
+                <Carreras />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="*"
             element={

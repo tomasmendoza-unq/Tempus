@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { HorarioContext } from "../contexts/HorarioContext" 
+import { HorarioContext } from "../../contexts/HorarioContext"
 export function useHorarioContext() {
   const context = useContext(HorarioContext)
 

@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { MateriaContext } from "../contexts/MateriaContext"
+import { MateriaContext } from "../../contexts/MateriaContext"
 
 export function useMateriaContext() {
   const context = useContext(MateriaContext)
@@ -8,7 +8,15 @@ export function useMateriaContext() {
     throw new Error("useMateriaContext must be used within MateriaProvider")
   }
 
-  const { dispatch, cargando, error, materias, materia, formMateria } = context
+  const {
+    dispatch,
+    cargando,
+    error,
+    materias,
+    materia,
+    formMateria,
+    materiasSeleccionadas,
+  } = context
 
   const fetchMateriasRequest = () => {
     dispatch({ type: "TRAER_MATERIAS_SOLICITUD" })
@@ -46,12 +54,21 @@ export function useMateriaContext() {
     dispatch({ type: "MATERIA_CREADA_EXITO" })
   }
 
+  const agregarMateriaSeleccionada = (materia) => {
+    dispatch({ type: "AGREGAR_MATERIA_SELECCIONADA", payload: materia })
+  }
+
+  const eliminarMateriaSeleccionada = (materia) => {
+    dispatch({ type: "ELIMINAR_MATERIA_SELECCIONADA", payload: materia })
+  }
+
   return {
     cargando,
     error,
     materias,
     materia,
     formMateria,
+    materiasSeleccionadas,
     fetchMateriasRequest,
     fetchMateriasSuccess,
     fetchMateriasFailure,
@@ -61,5 +78,7 @@ export function useMateriaContext() {
     updateFormMateria,
     clearFormMateria,
     materiaCreadaConExito,
+    agregarMateriaSeleccionada,
+    eliminarMateriaSeleccionada,
   }
 }
