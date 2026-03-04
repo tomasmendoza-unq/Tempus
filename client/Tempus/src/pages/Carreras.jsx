@@ -9,8 +9,8 @@ export default function Carreras() {
         Gestión de Carreras
       </h1>
 
-      <div className="flex-1 flex flex-col gap-6 max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[500px]">
+      <div className="flex flex-col gap-6 max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-fit">
           <div className="h-full">
             <CarreraForm />
           </div>
