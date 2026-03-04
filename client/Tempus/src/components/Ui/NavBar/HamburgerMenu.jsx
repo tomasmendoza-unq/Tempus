@@ -41,11 +41,14 @@ export default function HamburgerMenu({ isAuthenticated, usuario, logout }) {
         </div>
 
         <nav className="flex flex-col px-4 py-4 gap-1">
-          <NavLink to="/" onClick={closeMenu}>Inicio</NavLink>
-          
+          <NavLink to="/" onClick={closeMenu}>
+            Inicio
+          </NavLink>
+
           {isAuthenticated && (
             <>
-              <div className="mt-4 mb-1 px-4 text-[10px] uppercase font-black text-red-400/60 tracking-widest">
+              <hr className="my-3 border-red-900/50" />
+              <div className="mb-1 px-4 text-[10px] uppercase font-black text-red-400/60 tracking-widest">
                 Mi Espacio
               </div>
               <NavLink to="/perfil" onClick={closeMenu}>
@@ -53,14 +56,26 @@ export default function HamburgerMenu({ isAuthenticated, usuario, logout }) {
                   <User size={18} /> Mi Perfil
                 </div>
               </NavLink>
-              <NavLink to="/horario" onClick={closeMenu}>Horarios</NavLink>
+              <NavLink to="/horario" onClick={closeMenu}>
+                Horarios
+              </NavLink>
 
-              <div className="mt-4 mb-1 px-4 text-[10px] uppercase font-black text-red-400/60 tracking-widest">
+              <hr className="my-3 border-red-900/50" />
+              <div className="mb-1 px-4 text-[10px] uppercase font-black text-red-400/60 tracking-widest">
                 Planificación
               </div>
-              <NavLink to="/materias" onClick={closeMenu}>Gestión de Materias</NavLink>
-              <NavLink to="/correlativas" onClick={closeMenu}>Correlativas</NavLink>
-              <NavLink to="/carreras" onClick={closeMenu}>Carreras</NavLink>
+              <NavLink to="/materias" onClick={closeMenu}>
+                Gestión de Materias
+              </NavLink>
+              <NavLink to="/correlativas" onClick={closeMenu}>
+                Correlativas
+              </NavLink>
+              <NavLink to="/carreras" onClick={closeMenu}>
+                Carreras
+              </NavLink>
+              <NavLink to="/comisiones" onClick={closeMenu}>
+                Comisiones
+              </NavLink>
             </>
           )}
         </nav>
