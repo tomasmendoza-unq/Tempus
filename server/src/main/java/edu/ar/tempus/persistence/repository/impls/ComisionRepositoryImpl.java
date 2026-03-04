@@ -3,6 +3,7 @@ package edu.ar.tempus.persistence.repository.impls;
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Comision;
+import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.persistence.neo4J.ComisionNeo4JDAO;
 import edu.ar.tempus.persistence.neo4J.MateriaNeo4JDAO;
 import edu.ar.tempus.persistence.neo4J.entity.ComisionNeo4J;
@@ -86,6 +87,21 @@ public class ComisionRepositoryImpl implements ComisionRepository {
     @Override
     public List<Comision> findAll(List<Long> comisionesCompatibles) {
         return comisionDAOSQL.findAllById(comisionesCompatibles);
+    }
+
+    @Override
+    public boolean haySuperposicionHoraria(List<Long> comisionIds, List<Long> comisionesAnotadas) {
+        return comisionNeo4JDAO.haySuperposicionHoraria(comisionIds, comisionesAnotadas);
+    }
+
+    @Override
+    public boolean hayComisionesDeMismaMateriaEnNuevas(List<Long> comisionIds) {
+        return comisionDAOSQL.hayComisionesDeMismaMateriaEnNuevas(comisionIds);
+    }
+
+    @Override
+    public List<Materia> recuperarMateriasPorComision(List<Long> comisionIds) {
+        return comisionDAOSQL.findAllMateriasByIds(comisionIds);
     }
 
     private String buildQuery(int n) {

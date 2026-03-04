@@ -76,4 +76,6 @@ public class MateriaRepositoryImpl implements MateriaRepository {
     public List<Materia> recuperarMateriasPorNombre(String nombreMateria) {
         return materiaSQLDAO.findAllByMateriaNombreContainsIgnoreCase(nombreMateria);
     }
+
+
 }

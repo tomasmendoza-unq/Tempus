@@ -6,6 +6,8 @@ import edu.ar.tempus.controller.dto.materia.MateriaDTOResponseSimple;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.security.user.UserDetailsImpl;
 import edu.ar.tempus.service.MateriaService;
+import edu.ar.tempus.utils.AuthUtils;
+import edu.ar.tempus.utils.impl.AuthUtilsImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -18,9 +20,11 @@ import java.util.List;
 public final class MateriaControllerRest {
 
     private final MateriaService materiaService;
+    private final AuthUtils authUtils;
 
-    public MateriaControllerRest(MateriaService materiaService) {
+    public MateriaControllerRest(MateriaService materiaService, AuthUtils authUtils) {
         this.materiaService = materiaService;
+        this.authUtils = authUtils;
     }
 
     @GetMapping
@@ -41,9 +45,7 @@ public final class MateriaControllerRest {
     @GetMapping("/disponible")
     public ResponseEntity<List<MateriaDTOResponseSimple>> getDisponibleMateria(Authentication authentication){
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-        Long alumnoId = userDetails.getId();
+        Long alumnoId = authUtils.getAlumnoId(authentication);
 
         List<Materia> materias = materiaService.recuperarMateriasDisponibles(alumnoId);
 

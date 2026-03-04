@@ -1,9 +1,6 @@
 package edu.ar.tempus.service;
 
-import edu.ar.tempus.model.ClaseHorario;
-import edu.ar.tempus.model.Comision;
-import edu.ar.tempus.model.DiasSemana;
-import edu.ar.tempus.model.Materia;
+import edu.ar.tempus.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +22,9 @@ public class MateriaServiceTest {
 
     @Autowired
     private MateriaService materiaService;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Autowired
     private ResetService resetService;
@@ -129,17 +129,29 @@ public class MateriaServiceTest {
     //UNA MATERIA ESTA DISPONIBLE SI SE PUEDE CURSAR EN EL PROXIMO CUATRI
     @Test
     public void  debeRetornarMateriasDisponiblesSegunAprobadas(){
-        List<Long> idsAprobadas = new ArrayList<>(List.of(leaGuardada.getMateriaId()));
+        Usuario usuario = Usuario.builder()
+                .email("maria.gonzalez@mail.com")
+                .password("password123")
+                .nombre("Juan")
+                .apellido("Pérez")
+                .telefono("221-4567890")
+                .role(Role.USER)
+                .build();
 
-        List<Materia> materiasPendientes = materiaService.recuperarMateriasDisponibles(1L);
+        usuario = usuarioService.guardarUsuario(usuario);
+
+        Comision comisionLea = comisionService.guardar(comision, leaGuardada.getMateriaId());
+        usuarioService.anotarseAComision(List.of(comisionLea.getComisionId()), usuario.getId());
+        usuarioService.aprobarMaterias(List.of(comisionLea.getComisionId()), usuario.getId());
+
+        List<Materia> materiasPendientes = materiaService.recuperarMateriasDisponibles(usuario.getId());
 
         Set<Long> idsPendientes = materiasPendientes.stream()
                 .map(Materia::getMateriaId)
                 .collect(Collectors.toSet());
 
         assertFalse(idsPendientes.contains(leaGuardada.getMateriaId()));
-
-        assertTrue(Collections.disjoint(idsAprobadas, idsPendientes));
+        assertTrue(idsPendientes.contains(inglesGuardada.getMateriaId()));
     }
 
 
