@@ -49,4 +49,10 @@ public final class UsuarioControllerREST {
         return ResponseEntity.ok("Se realizo con exito la operacion");
     }
 
+    @PostMapping("/desaprobar/{materiaId}")
+    public ResponseEntity<String> DesaprobarMateria(@PathVariable("materiaId") Long materiaId, Authentication authentication) {
+        usuarioService.desaprobarMateria(materiaId, authUtils.getAlumnoId(authentication));
+
+        return ResponseEntity.ok("Se realizo con exito la operacion");
+    }
 }

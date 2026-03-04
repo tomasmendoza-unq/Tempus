@@ -185,6 +185,32 @@ public class UsuarioServiceTest {
                 usuarioService.aprobarMaterias(List.of(leaTarde.getComisionId()), usuario1.getId()));
     }
 
+    @Test
+    public void desaprobarUnaMateria(){
+        List<Long> comisiones = new ArrayList<>(List.of(leaTarde.getComisionId(), lea3Noche.getComisionId()));
+        usuarioService.anotarseAComision(comisiones, usuario1.getId());
+        usuarioService.aprobarMaterias(List.of(leaTarde.getComisionId()), usuario1.getId());
+        usuarioService.desaprobarMateria(leaTarde.getMateria().getMateriaId(), usuario1.getId());
+
+        Usuario usuarioRecuperado = usuarioService.recuperarUsuarioPorId(usuario1.getId());
+
+        assertFalse(usuarioRecuperado.getMateriasAprobadas().stream()
+                .anyMatch(m -> m.getMateriaId().equals(lea.getMateriaId()))
+        );
+
+        assertFalse(usuarioRecuperado.getComisiones().stream()
+                .anyMatch(c -> c.getComisionId().equals(leaTarde.getComisionId()))
+        );
+
+        assertTrue(usuarioRecuperado.getComisiones().stream()
+                .anyMatch(c -> c.getComisionId().equals(lea3Noche.getComisionId()))
+        );
+
+        assertDoesNotThrow(() ->
+                usuarioService.aprobarMaterias(List.of(leaTarde.getComisionId()), usuario1.getId()));
+    }
+
+
     @AfterEach
     public void tearDown() {
         resetService.resetAll();

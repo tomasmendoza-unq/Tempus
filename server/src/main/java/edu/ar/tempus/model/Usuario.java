@@ -43,9 +43,10 @@ public class Usuario {
     }
 
     public void desanotarseDeComisiones(List<Comision> comisiones) {
-        System.out.println("Comisiones del alumno: " + this.comisiones.stream().map(Comision::getComisionId).toList());
-        System.out.println("Comisiones a remover: " + comisiones.stream().map(Comision::getComisionId).toList());
         this.comisiones.removeAll(comisiones);
-        System.out.println("Comisiones después: " + this.comisiones.stream().map(Comision::getComisionId).toList());
+    }
+
+    public void desaprobarMateria(Materia materia) {
+        materiasAprobadas.remove(materia);
     }
 }

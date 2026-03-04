@@ -11,6 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "materia")
+@EqualsAndHashCode(of = "materiaId")
 @Data
 public class Materia {
 
