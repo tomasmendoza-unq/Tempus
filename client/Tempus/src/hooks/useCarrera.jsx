@@ -5,7 +5,7 @@ const useCarrera = () => {
   const crearCarrera = async (formData) => {
     try {
       const response = await crearCarreraService(formData)
-      console.log({ response })
+
       toast.success(response.message || "Carrera creada con éxito")
       return response
     } catch (error) {

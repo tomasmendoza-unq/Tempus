@@ -9,7 +9,6 @@ export default function MateriasSelector() {
   const { traerMaterias, materias, cargando } = useTraerTodasMaterias()
   const { agregarMateriaSeleccionada } = useMateriaContext()
 
-  console.log(materias)
   useEffect(() => {
     traerMaterias()
   }, [])

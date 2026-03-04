@@ -5,7 +5,13 @@ import { ListaCursadas } from "../components/Perfil/ListaCursadas";
 import { ListaFinales } from "../components/Perfil/ListaFinales";
 
 export default function PerfilPage() {
-  const { perfil, cargando, obtenerPerfil, aprobarCursada } = useUser();
+  const { 
+    perfil, 
+    cargando, 
+    obtenerPerfil, 
+    aprobarCursada, 
+    desaprobarMateria 
+  } = useUser();
 
   useEffect(() => {
     obtenerPerfil();
@@ -32,7 +38,6 @@ export default function PerfilPage() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
           <ListaCursadas 
             comisiones={perfil.comisiones} 
             onAprobar={aprobarCursada} 
@@ -40,6 +45,7 @@ export default function PerfilPage() {
           
           <ListaFinales 
             materias={perfil.materiaDTOResponseSimples} 
+            onDesaprobar={desaprobarMateria}
           />
         </div>
         

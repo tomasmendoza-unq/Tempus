@@ -26,3 +26,11 @@ export const aprobarCursadaService = (comisionId) =>
     .catch((error) => {
       throw error;
     });
+
+export const desaprobarMateriaService = (materiaId) =>
+  api
+    .post(API_ROUTES.DESAPROBAR_MATERIA(materiaId))
+    .then((res) => res)
+    .catch((error) => {
+      throw error;
+    });

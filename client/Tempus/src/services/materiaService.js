@@ -42,3 +42,4 @@ export const traerMateriasDisponiblesService = () =>
     .catch((error) => {
       throw error
     })
+

@@ -1,4 +1,4 @@
-import { traerPerfilService, aprobarCursadaService } from "../services/userService";
+import { traerPerfilService, aprobarCursadaService, desaprobarMateriaService } from "../services/userService";
 import { useUserContext } from "../contexts/UserContext";
 import { toast } from "react-toastify";
 
@@ -36,5 +36,18 @@ export function useUser() {
     }
   };
 
-  return { perfil, cargando, obtenerPerfil, aprobarCursada };
+  const desaprobarMateria = async (materiaId) => {
+    fetchUserRequest();
+    try {
+      await desaprobarMateriaService(materiaId);
+      toast.success("Materia quitada de aprobadas");
+      await obtenerPerfil();
+    } catch (err) {
+      fetchUserFailure(err.message || "Error al desaprobar materia");
+      toast.error("No se pudo realizar la operación");
+    }
+  };
+
+
+  return { perfil, cargando, obtenerPerfil, aprobarCursada, desaprobarMateria };
 }

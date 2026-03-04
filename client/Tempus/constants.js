@@ -25,4 +25,5 @@ export const API_ROUTES = {
   ANOTARSE_A_COMISIONES: (comisionesId) => `/api/usuario/anotarse/${comisionesId.join(',')}`,
   TRAER_MATERIAS_DISPONIBLES: "/api/materia/disponible",
   APROBAR_CURSADA: (comisionId) => `/api/usuario/aprobar/${comisionId}`,
+  DESAPROBAR_MATERIA: (materiaId) => `/api/usuario/desaprobar/${materiaId}`,
 }
