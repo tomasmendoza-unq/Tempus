@@ -25,10 +25,9 @@ export function useAuth() {
       fetchAuthSuccess(data.usuario); 
       
       toast.success("¡Bienvenido!");
-      navigate("/horario");
+      navigate("/perfil");
     } catch (err) {
       fetchAuthFailure(err.message || "Error al iniciar sesión"); 
-      console.error(err);
       toast.error(err.message || "Error al iniciar sesión");
     }
   };
@@ -36,16 +35,18 @@ export function useAuth() {
   const registrar = async (usuarioData) => {
     fetchAuthRequest();
     try {
-      await registrarUsuarioService(usuarioData);
+
+      const data = await registrarUsuarioService(usuarioData);
       
 
-      fetchAuthSuccess(null); 
+      localStorage.setItem("token", data.token);
       
-      toast.success("Registro exitoso, ahora podés loguearte");
-      navigate("/login");
+      fetchAuthSuccess(data.usuario); 
+      
+      toast.success("¡Cuenta creada y sesión iniciada!");
+      navigate("/perfil");
     } catch (err) {
       fetchAuthFailure(err.message || "Error en el registro");
-      console.error(err);
       toast.error(err.message || "Error en el registro");
     }
   };

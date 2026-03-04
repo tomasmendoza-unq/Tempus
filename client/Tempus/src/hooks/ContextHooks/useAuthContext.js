@@ -2,7 +2,7 @@ import { createContext, useContext, useReducer, useEffect } from "react";
 
 const AuthContext = createContext();
 
-// 1. Estado Inicial
+
 const initialState = {
   usuario: null,
   token: localStorage.getItem("token") || null,
@@ -11,7 +11,7 @@ const initialState = {
   error: null,
 };
 
-// 2. Reducer para gestionar los estados de Auth
+
 function authReducer(state, action) {
   switch (action.type) {
     case "FETCH_AUTH_REQUEST":

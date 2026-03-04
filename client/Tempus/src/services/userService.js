@@ -13,7 +13,7 @@ export const traerPerfilService = () =>
 
 export const anotarseAComisionesService = (comisionesId) =>
   api
-    .post(`/api/usuario/anotarse/${comisionesId.join(',')}`)
+    .post(API_ROUTES.ANOTARSE_A_COMISIONES(comisionesId))
     .then((res) => res)
     .catch((error) => {
       throw error

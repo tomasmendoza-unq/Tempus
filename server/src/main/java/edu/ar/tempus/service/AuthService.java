@@ -8,4 +8,6 @@ public interface AuthService {
     Usuario registrarUsuario(Usuario usuario);
 
     LoginResponseDTO autenticarUsuario(UsernamePasswordAuthenticationToken loginRequest);
+
+    LoginResponseDTO generarRespuestaPostRegistro(Usuario usuario);
 }
