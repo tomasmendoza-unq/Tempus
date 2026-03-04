@@ -3,6 +3,7 @@ package edu.ar.tempus.service.impl;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.persistence.repository.MateriaRepository;
 import edu.ar.tempus.service.MateriaService;
+import edu.ar.tempus.service.UsuarioService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,11 @@ public class MateriaServiceImpl implements MateriaService {
 
     private final MateriaRepository materiaRepository;
 
-    public MateriaServiceImpl(MateriaRepository materiaRepository) {
+    private final UsuarioService usuarioService;
+
+    public MateriaServiceImpl(MateriaRepository materiaRepository, UsuarioService usuarioService) {
         this.materiaRepository = materiaRepository;
+        this.usuarioService = usuarioService;
     }
 
     @Override
@@ -44,9 +48,9 @@ public class MateriaServiceImpl implements MateriaService {
 
     @Override
     public List<Materia> recuperarMateriasDisponibles(Long alumnoId) {
-        //traer las materias que aprobo
+        List<Long> materiasAprobadas = usuarioService.recuperarMateriasAprobadasPorAlumno(alumnoId);
 
-        return null; //materiaRepository.recuperarMateriasDisponibles(materiasAprobadas);
+        return materiaRepository.recuperarMateriasDisponibles(materiasAprobadas);
     }
 
     @Override
