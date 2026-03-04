@@ -62,6 +62,10 @@ export function useMateriaContext() {
     dispatch({ type: "ELIMINAR_MATERIA_SELECCIONADA", payload: materia })
   }
 
+  const limpiarMateriasSeleccionadas = () => {
+    dispatch({ type: "LIMPIAR_MATERIAS_SELECCIONADAS" })
+  }
+
   return {
     cargando,
     error,
@@ -80,5 +84,6 @@ export function useMateriaContext() {
     materiaCreadaConExito,
     agregarMateriaSeleccionada,
     eliminarMateriaSeleccionada,
+    limpiarMateriasSeleccionadas,
   }
 }
