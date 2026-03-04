@@ -11,6 +11,7 @@ import LoginPage from "./pages/LoginPage"
 import { ProtectedRoute } from "./hooks/ProtectedRoute"
 import Carreras from "./pages/Carreras"
 import PerfilPage from "./pages/PerfilPage"
+import Comision from "./pages/Comision"
 
 function App() {
   return (
@@ -59,6 +60,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Carreras />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={ROUTES.COMISIONES}
+            element={
+              <ProtectedRoute>
+                <Comision />
               </ProtectedRoute>
             }
           />

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import useCarrera from "../../hooks/useCarrera"
 import { useMateriaContext } from "../../contexts/MateriaContext"
 
@@ -11,22 +11,13 @@ export default function CarreraForm() {
     idsMaterias: [],
   })
 
-  const [response, setResponse] = useState(null)
-
-  useEffect(() => {
-    if (response) {
-
-    }
-  }, [response])
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     const ids = materiasSeleccionadas.map((m) => m.materiaId)
-    const carreraResponse = await crearCarrera({
+    await crearCarrera({
       nombreCarrera: formData.nombreCarrera,
       idsMaterias: ids,
     })
-    setResponse(carreraResponse)
   }
 
   return (
