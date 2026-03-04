@@ -18,3 +18,11 @@ export const anotarseAComisionesService = (comisionesId) =>
     .catch((error) => {
       throw error
     })
+
+export const aprobarCursadaService = (comisionId) =>
+  api
+    .post(API_ROUTES.APROBAR_CURSADA(comisionId))
+    .then((res) => res)
+    .catch((error) => {
+      throw error;
+    });

@@ -1,7 +1,10 @@
-export function CursadaItem({ comision }) {
+import { CheckCircle } from "feather-icons-react"; 
+
+export function CursadaItem({ comision, onAprobar }) {
   return (
-    <div className="p-4 hover:bg-gray-50 transition-colors flex flex-col md:flex-row md:justify-between md:items-center gap-3">
-      <div className="space-y-1">
+    <div className="p-4 hover:bg-gray-50 transition-colors flex justify-between items-start gap-4 group">
+
+      <div className="flex-1 space-y-2">
         <div className="flex items-center gap-2">
           <p className="font-bold text-gray-800 leading-tight">
             {comision.materia?.materiaNombre}
@@ -11,21 +14,27 @@ export function CursadaItem({ comision }) {
           </span>
         </div>
         
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-col gap-1">
           {comision.claseHorario?.map((clase, idx) => (
-            <span key={idx} className="text-[10px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded font-medium">
+            <span key={idx} className="text-[10px] text-gray-500 font-medium uppercase tracking-tighter">
               {clase.dia}: {clase.inicio.slice(0, 5)} - {clase.fin.slice(0, 5)}hs
             </span>
           ))}
         </div>
       </div>
 
-      <div className="flex items-center gap-3 self-end md:self-center">
-        <div className="text-right">
-          <span className="text-[10px] bg-gray-800 text-white px-2 py-1 rounded font-bold tracking-wider">
-            AULA: {comision.aula || 'S/A'}
-          </span>
+      <div className="flex flex-col items-end gap-3 min-w-[100px]">
+        <div className="bg-gray-800 text-white text-[9px] px-2 py-1 rounded font-black tracking-widest flex items-center justify-center whitespace-nowrap">
+          AULA: {comision.aula || 'S/A'}
         </div>
+        
+        <button
+          onClick={() => onAprobar(comision.comisionId)}
+          className="p-1.5 text-green-600 hover:bg-green-50 rounded-full transition-all hover:scale-110 active:scale-90"
+          title="Marcar como aprobada"
+        >
+          <CheckCircle size={22} />
+        </button>
       </div>
     </div>
   );

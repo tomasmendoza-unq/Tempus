@@ -23,4 +23,6 @@ export const API_ROUTES = {
   CREAR_CARRERA: "/carrera/crear",
   TRAER_PERFIL: "/api/usuario",
   ANOTARSE_A_COMISIONES: (comisionesId) => `/api/usuario/anotarse/${comisionesId.join(',')}`,
+  TRAER_MATERIAS_DISPONIBLES: "/api/materia/disponible",
+  APROBAR_CURSADA: (comisionId) => `/api/usuario/aprobar/${comisionId}`,
 }

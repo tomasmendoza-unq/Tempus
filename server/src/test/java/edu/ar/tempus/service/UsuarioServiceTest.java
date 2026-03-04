@@ -164,19 +164,25 @@ public class UsuarioServiceTest {
         List<Long> comisiones = new ArrayList<>(List.of(leaTarde.getComisionId(), lea3Noche.getComisionId()));
         usuarioService.anotarseAComision(comisiones, usuario1.getId());
 
-        usuarioService.aprobarMaterias(comisiones, usuario1.getId());
+        usuarioService.aprobarMaterias(List.of(leaTarde.getComisionId()), usuario1.getId());
 
         Usuario usuarioRecuperado = usuarioService.recuperarUsuarioPorId(usuario1.getId());
 
-        List<Long> materiasEsperadas = List.of(lea.getMateriaId(), lea3.getMateriaId());
-
-        assertTrue(materiasEsperadas.stream()
-                .allMatch(materiaId -> usuarioRecuperado.getMateriasAprobadas().stream()
-                        .anyMatch(m -> m.getMateriaId().equals(materiaId))
-                )
+        assertTrue(usuarioRecuperado.getMateriasAprobadas().stream()
+                .anyMatch(m -> m.getMateriaId().equals(lea.getMateriaId()))
         );
 
-        assertThrows(MateriaYaAprobadaException.class, () -> usuarioService.aprobarMaterias(comisiones, usuario1.getId()));
+
+        assertFalse(usuarioRecuperado.getComisiones().stream()
+                .anyMatch(c -> c.getComisionId().equals(leaTarde.getComisionId()))
+        );
+
+        assertTrue(usuarioRecuperado.getComisiones().stream()
+                .anyMatch(c -> c.getComisionId().equals(lea3Noche.getComisionId()))
+        );
+
+        assertThrows(MateriaYaAprobadaException.class, () ->
+                usuarioService.aprobarMaterias(List.of(leaTarde.getComisionId()), usuario1.getId()));
     }
 
     @AfterEach

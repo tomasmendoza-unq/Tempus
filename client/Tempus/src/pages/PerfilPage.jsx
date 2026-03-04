@@ -5,13 +5,13 @@ import { ListaCursadas } from "../components/Perfil/ListaCursadas";
 import { ListaFinales } from "../components/Perfil/ListaFinales";
 
 export default function PerfilPage() {
-  const { perfil, cargando, obtenerPerfil } = useUser();
+  const { perfil, cargando, obtenerPerfil, aprobarCursada } = useUser();
 
   useEffect(() => {
     obtenerPerfil();
   }, []);
 
-  if (cargando) {
+  if (cargando && !perfil) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-950"></div>
@@ -32,8 +32,15 @@ export default function PerfilPage() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <ListaCursadas comisiones={perfil.comisiones} />
-          <ListaFinales materias={perfil.materiaDTOResponseSimples} />
+
+          <ListaCursadas 
+            comisiones={perfil.comisiones} 
+            onAprobar={aprobarCursada} 
+          />
+          
+          <ListaFinales 
+            materias={perfil.materiaDTOResponseSimples} 
+          />
         </div>
         
       </div>

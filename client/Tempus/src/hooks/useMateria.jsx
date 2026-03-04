@@ -3,6 +3,7 @@ import {
   traerMateriaService,
   traerTodasMateriasService,
   buscarMateriaPorNombreService,
+  traerMateriasDisponiblesService,
 } from "../services/materiaService"
 import { useMateriaContext } from "./ContextHooks/useMateriaContext"
 import { toast } from "react-toastify"
@@ -139,4 +140,35 @@ export function useFormMateria() {
     updateFormMateria,
     clearFormMateria,
   }
+}
+
+export function useTraerMateriasDisponibles() {
+  const {
+    cargando,
+    error,
+    materias,
+    fetchMateriasRequest,
+    fetchMateriasSuccess,
+    fetchMateriasFailure,
+  } = useMateriaContext();
+
+  const traerMateriasDisponibles = async () => {
+    fetchMateriasRequest();
+    try {
+      const data = await traerMateriasDisponiblesService();
+      fetchMateriasSuccess(data);
+      return data;
+    } catch (err) {
+      console.error("Error:", err);
+      fetchMateriasFailure(err);
+      throw err;
+    }
+  };
+
+  return {
+    traerMateriasDisponibles,
+    cargando,
+    error,
+    materias,
+  };
 }

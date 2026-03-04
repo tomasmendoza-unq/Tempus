@@ -27,8 +27,8 @@ export function useAuth() {
       toast.success("¡Bienvenido!");
       navigate("/perfil");
     } catch (err) {
-      fetchAuthFailure(err.message || "Error al iniciar sesión"); 
-      toast.error(err.message || "Error al iniciar sesión");
+      fetchAuthFailure(err.error || "Error al iniciar sesión"); 
+      toast.error(err.error || "Error al iniciar sesión");
     }
   };
 
@@ -46,8 +46,8 @@ export function useAuth() {
       toast.success("¡Cuenta creada y sesión iniciada!");
       navigate("/perfil");
     } catch (err) {
-      fetchAuthFailure(err.message || "Error en el registro");
-      toast.error(err.message || "Error en el registro");
+      fetchAuthFailure(err.error || "Error en el registro");
+      toast.error(err.error || "Error en el registro");
     }
   };
 

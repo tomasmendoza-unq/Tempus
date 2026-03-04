@@ -72,8 +72,11 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new MateriaYaAprobadaException("El alumno ya aprobó una de las materias");
 
         List<Materia> materiasAprobadas = comisionService.recuperarMateriasPorComision(comisionIds);
+        List<Comision> comisionesAprobadas = comisionService.recuperarPorIds(comisionIds);
 
         alumno.aprobarMaterias(materiasAprobadas);
+        alumno.desanotarseDeComisiones(comisionesAprobadas);
+
         usuarioDAOSQL.save(alumno);
     }
 

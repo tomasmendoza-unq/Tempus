@@ -34,3 +34,11 @@ export const buscarMateriaPorNombreService = (materiaNombre) =>
     .catch((error) => {
       throw error
     })
+
+export const traerMateriasDisponiblesService = () =>
+  api
+    .get(API_ROUTES.TRAER_MATERIAS_DISPONIBLES)
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })

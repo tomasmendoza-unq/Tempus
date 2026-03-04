@@ -4,7 +4,7 @@ import { HeaderCursadas } from "./HeaderCursadas";
 import { CursadaItem } from "./CursadaItem";
 import { HorarioModalContent } from "../Horario/HorarioModalContent";
 
-export function ListaCursadas({ comisiones }) {
+export function ListaCursadas({ comisiones, onAprobar }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const horarioData = { comisiones: comisiones || [] };
 
@@ -16,7 +16,11 @@ export function ListaCursadas({ comisiones }) {
         {comisiones?.length > 0 ? (
           <div className="divide-y divide-gray-50">
             {comisiones.map((com) => (
-              <CursadaItem key={com.comisionId} comision={com} />
+              <CursadaItem 
+                key={com.comisionId} 
+                comision={com} 
+                onAprobar={onAprobar} 
+              />
             ))}
           </div>
         ) : (
