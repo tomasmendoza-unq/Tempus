@@ -8,6 +8,7 @@ export const ROUTES = {
   REGISTER: "/register",
   LOGIN: "/login",
   CARRERAS: "/carreras",
+  PERFIL: "/perfil",
 }
 
 export const API_ROUTES = {
@@ -20,4 +21,5 @@ export const API_ROUTES = {
   REGISTER: "/auth/register",
   LOGIN: "/auth/login",
   CREAR_CARRERA: "/carrera/crear",
+  TRAER_PERFIL: "/api/usuario",
 }

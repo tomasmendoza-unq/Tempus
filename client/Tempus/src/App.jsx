@@ -10,6 +10,7 @@ import RegisterPage from "./pages/RegisterPage"
 import LoginPage from "./pages/LoginPage"
 import { ProtectedRoute } from "./hooks/ProtectedRoute"
 import Carreras from "./pages/Carreras"
+import PerfilPage from "./pages/PerfilPage"
 
 function App() {
   return (
@@ -21,6 +22,14 @@ function App() {
           <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
           <Route path={ROUTES.LOGIN} element={<LoginPage />} />
 
+          <Route
+            path={ROUTES.PERFIL}
+            element={
+              <ProtectedRoute>
+                <PerfilPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path={ROUTES.MATERIAS}
             element={
