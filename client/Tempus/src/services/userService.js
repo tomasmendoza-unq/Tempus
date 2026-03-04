@@ -10,3 +10,11 @@ export const traerPerfilService = () =>
         .catch((error) => {
             throw error
     })
+
+export const anotarseAComisionesService = (comisionesId) =>
+  api
+    .post(`/api/usuario/anotarse/${comisionesId.join(',')}`)
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })

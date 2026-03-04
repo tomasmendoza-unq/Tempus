@@ -19,7 +19,6 @@ export function useGenerarHorario() {
         cantidadHorarios: cantidad,
       });
       fetchHorarioSuccess(data);
-      console.log("DATA DESDE EL BACKEND:", data);
       toast.success("Horarios generados");
     } catch (err) {
       fetchHorarioFailure(err);

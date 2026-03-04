@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Menu, X } from "feather-icons-react"
+import { Menu, X, User } from "feather-icons-react"
 
 export default function HamburgerMenu({ isAuthenticated, usuario, logout }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -41,24 +41,26 @@ export default function HamburgerMenu({ isAuthenticated, usuario, logout }) {
         </div>
 
         <nav className="flex flex-col px-4 py-4 gap-1">
-          <NavLink to="/" onClick={closeMenu}>
-            Inicio
-          </NavLink>
-
+          <NavLink to="/" onClick={closeMenu}>Inicio</NavLink>
+          
           {isAuthenticated && (
             <>
-              <NavLink to="/materias" onClick={closeMenu}>
-                Gestión de Materias
+              <div className="mt-4 mb-1 px-4 text-[10px] uppercase font-black text-red-400/60 tracking-widest">
+                Mi Espacio
+              </div>
+              <NavLink to="/perfil" onClick={closeMenu}>
+                <div className="flex items-center gap-2">
+                  <User size={18} /> Mi Perfil
+                </div>
               </NavLink>
-              <NavLink to="/correlativas" onClick={closeMenu}>
-                Correlativas
-              </NavLink>
-              <NavLink to="/horario" onClick={closeMenu}>
-                Horarios
-              </NavLink>
-              <NavLink to="/carreras" onClick={closeMenu}>
-                Carreras
-              </NavLink>
+              <NavLink to="/horario" onClick={closeMenu}>Horarios</NavLink>
+
+              <div className="mt-4 mb-1 px-4 text-[10px] uppercase font-black text-red-400/60 tracking-widest">
+                Planificación
+              </div>
+              <NavLink to="/materias" onClick={closeMenu}>Gestión de Materias</NavLink>
+              <NavLink to="/correlativas" onClick={closeMenu}>Correlativas</NavLink>
+              <NavLink to="/carreras" onClick={closeMenu}>Carreras</NavLink>
             </>
           )}
         </nav>
