@@ -9,6 +9,7 @@ export const ROUTES = {
   LOGIN: "/login",
   CARRERAS: "/carreras",
   PERFIL: "/perfil",
+  COMISIONES: "/comisiones",
 }
 
 export const API_ROUTES = {
@@ -22,8 +23,11 @@ export const API_ROUTES = {
   LOGIN: "/auth/login",
   CREAR_CARRERA: "/carrera/crear",
   TRAER_PERFIL: "/api/usuario",
-  ANOTARSE_A_COMISIONES: (comisionesId) => `/api/usuario/anotarse/${comisionesId.join(',')}`,
+  ANOTARSE_A_COMISIONES: (comisionesId) =>
+    `/api/usuario/anotarse/${comisionesId.join(",")}`,
   TRAER_MATERIAS_DISPONIBLES: "/api/materia/disponible",
   APROBAR_CURSADA: (comisionId) => `/api/usuario/aprobar/${comisionId}`,
   DESAPROBAR_MATERIA: (materiaId) => `/api/usuario/desaprobar/${materiaId}`,
+  OBTENER_COMISION: (comisionId) => `/comision/${comisionId}`,
+  CREAR_COMISION: "/comision/crear",
 }
