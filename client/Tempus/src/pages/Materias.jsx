@@ -8,48 +8,38 @@ export default function Materias() {
 
   const [isAgregarMateriaOpen, setIsAgregarMateriaOpen] = useState(true)
   return (
-    <div className="flex flex-col p-4 space-y-4">
+    <div className="flex flex-col p-6 gap-6 max-w-2xl mx-auto w-full">
       <div className="flex justify-center">
-        <div className="inline-flex rounded-lg border border-gray-300 bg-white shadow-sm overflow-hidden">
+        <div className="inline-flex rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
           <button
             onClick={() => {
               setIsAgregarMateriaOpen(true)
               clearFormMateria()
             }}
-            className={`px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-200 ${
+            className={`px-6 py-2.5 text-sm font-medium transition focus:outline-none ${
               isAgregarMateriaOpen
                 ? "bg-red-950 text-white"
-                : "bg-white text-gray-700"
-            } border-r border-gray-300`}
+                : "bg-white text-gray-600 hover:bg-gray-50"
+            } border-r border-gray-200`}
           >
-            Agregar Materia
+            Agregar materia
           </button>
           <button
             onClick={() => {
               setIsAgregarMateriaOpen(false)
               clearFormMateria()
             }}
-            className={`px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-200 ${
+            className={`px-6 py-2.5 text-sm font-medium transition focus:outline-none ${
               !isAgregarMateriaOpen
                 ? "bg-red-950 text-white"
-                : "bg-white text-gray-700"
+                : "bg-white text-gray-600 hover:bg-gray-50"
             }`}
           >
-            Mostrar Materia
+            Buscar materia
           </button>
         </div>
       </div>
-      {isAgregarMateriaOpen ? (
-        <div className="space-y-2">
-          <h2 className="text-xl font-semibold">Cargar materia</h2>
-          <FormAgregarMateria />
-        </div>
-      ) : (
-        <div className="space-y-2">
-          <h2 className="text-xl font-semibold">Buscar materia</h2>
-          <MostrarMateria />
-        </div>
-      )}
+      {isAgregarMateriaOpen ? <FormAgregarMateria /> : <MostrarMateria />}
     </div>
   )
 }
