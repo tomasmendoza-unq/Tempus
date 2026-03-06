@@ -30,4 +30,6 @@ export const API_ROUTES = {
   DESAPROBAR_MATERIA: (materiaId) => `/api/usuario/desaprobar/${materiaId}`,
   OBTENER_COMISION: (comisionId) => `/comision/${comisionId}`,
   CREAR_COMISION: "/comision/crear",
+  ASOCIAR_MATERIA: (materiaOrigen, materiaDestino) =>
+    `/api/materia/asociar/${materiaOrigen}/${materiaDestino}`,
 }
