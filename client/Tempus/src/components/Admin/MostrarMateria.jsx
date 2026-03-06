@@ -12,11 +12,14 @@ export default function MostrarMateria() {
   const [isOpenModal, setIsOpenModal] = useState(false)
 
   return (
-    <div className="flex flex-col items-center justify-center pt-10">
-      <div className="flex w-72 flex-row gap-3.5 rounded bg-white p-6 shadow-sm h-44">
+    <div className="flex flex-col items-center pt-6 w-full">
+      <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-8 w-full max-w-md flex flex-col gap-4">
         <BuscadorDeMaterias />
-        <div className="flex relative items-center m-7">
-          {materias?.length > 0 && (
+        {materias?.length > 0 && (
+          <div className="border-t border-gray-100 pt-4">
+            <label className="text-sm font-medium text-gray-700 block mb-2">
+              Resultados
+            </label>
             <Dropdown
               tag1={"materiaNombre"}
               tag2={"materiaId"}
@@ -25,13 +28,13 @@ export default function MostrarMateria() {
                 await traerMateria(elem[1])
               }}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {materia && (
         <>
-          <div className="flex items-center justify-center mt-2 w-full p-4">
+          <div className="flex items-center justify-center mt-6 w-full">
             <NodoDeMaterias
               materia={materia}
               onClick={() => setIsOpenModal(true)}
