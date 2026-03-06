@@ -5,6 +5,7 @@ import Modal from "../Ui/Modal/Modal"
 import DetalleMateria from "../Materia/DetalleMateria"
 import Dropdown from "../Ui/Dropdown/Dropdown"
 import BuscadorDeMaterias from "./BuscadorDeMaterias"
+import Titulo from "../Ui/Titulo/Titulo"
 
 export default function MostrarMateria() {
   const { traerMateria, materia, materias } = useTraerMateria()
@@ -12,7 +13,8 @@ export default function MostrarMateria() {
   const [isOpenModal, setIsOpenModal] = useState(false)
 
   return (
-    <div className="flex flex-col items-center pt-6 w-full">
+    <div className="flex flex-col items-center w-full">
+      <Titulo texto="Buscar materias" />
       <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-8 w-full max-w-md flex flex-col gap-4">
         <BuscadorDeMaterias />
         {materias?.length > 0 && (

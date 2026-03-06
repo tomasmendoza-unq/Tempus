@@ -2,22 +2,23 @@ import { useState } from "react"
 import FormAgregarMateria from "../components/Admin/FormAgregarMateria"
 import MostrarMateria from "../components/Admin/MostrarMateria"
 import { useFormMateria } from "../hooks/useMateria"
+import CorrelativasForm from "../components/Correlativas/CorrelativasForm"
 
 export default function Materias() {
   const { clearFormMateria } = useFormMateria()
 
-  const [isAgregarMateriaOpen, setIsAgregarMateriaOpen] = useState(true)
+  const [currentTab, setCurrentTab] = useState(0)
   return (
     <div className="flex flex-col p-6 gap-6 max-w-2xl mx-auto w-full">
       <div className="flex justify-center">
         <div className="inline-flex rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
           <button
             onClick={() => {
-              setIsAgregarMateriaOpen(true)
+              setCurrentTab(0)
               clearFormMateria()
             }}
             className={`px-6 py-2.5 text-sm font-medium transition focus:outline-none ${
-              isAgregarMateriaOpen
+              currentTab === 0
                 ? "bg-red-950 text-white"
                 : "bg-white text-gray-600 hover:bg-gray-50"
             } border-r border-gray-200`}
@@ -26,20 +27,35 @@ export default function Materias() {
           </button>
           <button
             onClick={() => {
-              setIsAgregarMateriaOpen(false)
+              setCurrentTab(1)
               clearFormMateria()
             }}
             className={`px-6 py-2.5 text-sm font-medium transition focus:outline-none ${
-              !isAgregarMateriaOpen
+              currentTab === 1
                 ? "bg-red-950 text-white"
                 : "bg-white text-gray-600 hover:bg-gray-50"
             }`}
           >
             Buscar materia
           </button>
+          <button
+            onClick={() => {
+              setCurrentTab(2)
+              clearFormMateria()
+            }}
+            className={`px-6 py-2.5 text-sm font-medium transition focus:outline-none ${
+              currentTab === 2
+                ? "bg-red-950 text-white"
+                : "bg-white text-gray-600 hover:bg-gray-50"
+            }`}
+          >
+            Correlativas
+          </button>
         </div>
       </div>
-      {isAgregarMateriaOpen ? <FormAgregarMateria /> : <MostrarMateria />}
+      {currentTab === 0 && <FormAgregarMateria />}
+      {currentTab === 1 && <MostrarMateria />}
+      {currentTab === 2 && <CorrelativasForm />}
     </div>
   )
 }
