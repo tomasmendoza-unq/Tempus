@@ -13,7 +13,7 @@ export default function Materia({ materia }) {
             <strong>Id:</strong> {materia.materiaId}
           </div>
           <strong>Correlativas:</strong>
-          <li>
+          <div>
             {materia.correlativas && materia.correlativas.length > 0 ? (
               <ul>
                 {materia.correlativas.map((correlativa) => (
@@ -25,13 +25,13 @@ export default function Materia({ materia }) {
             ) : (
               <p>No tiene correlativas.</p>
             )}
-          </li>
+          </div>
           <strong>Comisiones:</strong>
-          <li>
+          <div>
             {materia.comisiones && materia.comisiones.length > 0
               ? materia.comisiones.map((c) => c.materiaNombre).join(", ")
               : "No tiene comisiones disponibles."}
-          </li>
+          </div>
         </div>
       </div>
     </>

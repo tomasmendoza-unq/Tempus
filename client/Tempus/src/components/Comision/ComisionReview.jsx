@@ -1,4 +1,8 @@
 import TarjetaMateria from "../Materia/TarjetaMateria"
+import Modal from "../Ui/Modal/Modal"
+import DetalleMateria from "../Materia/DetalleMateria"
+import { List } from "feather-icons-react"
+import { useState } from "react"
 
 const DIAS_LABELS = {
   LUNES: "Lunes",
@@ -12,6 +16,7 @@ const DIAS_LABELS = {
 export default function ComisionReview({ comision }) {
   const { materiaSeleccionada } = comision
   const { horarios } = comision.comision
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   return (
     <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
@@ -24,7 +29,18 @@ export default function ComisionReview({ comision }) {
           Materia
         </h3>
         {materiaSeleccionada ? (
-          <TarjetaMateria materia={materiaSeleccionada} />
+          <TarjetaMateria materia={materiaSeleccionada}>
+            <button
+              className="mt-2 text-green-500 hover:text-green-700 flex items-center gap-1"
+              onClick={() => setIsModalOpen(true)}
+            >
+              <List size={16} />
+              <span>Ver detalles</span>
+            </button>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+              <DetalleMateria materia={materiaSeleccionada} />
+            </Modal>
+          </TarjetaMateria>
         ) : (
           <p className="text-red-400 text-sm">No se seleccionó una materia.</p>
         )}
