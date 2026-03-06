@@ -47,12 +47,21 @@ export default function Comision() {
           fin: h.horaFin,
         })),
       }
-      await crearComisionService(payload)
+      const a = await crearComisionService(payload)
+      console.log({ a })
       toast.success("Comisión creada exitosamente.")
     } catch (error) {
       toast.error("Error al crear la comisión. Intentá de nuevo.")
     } finally {
       setEnviando(false)
+      setComision({
+        comision: {
+          materiaId: null,
+          horarios: [],
+        },
+        step: 0,
+        materiaSeleccionada: null,
+      })
     }
   }
 
