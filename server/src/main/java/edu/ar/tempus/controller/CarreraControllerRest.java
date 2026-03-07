@@ -24,14 +24,14 @@ public final class CarreraControllerRest {
     public ResponseEntity<List<CarreraDTOResponse>> obtenerCarreras() {
         List<Carrera> carreras = carreraService.recuperarTodos();
         List<CarreraDTOResponse> response = carreras.stream().map(CarreraDTOResponse::desdeModelo).toList();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.FOUND).body(response);
     }
 
     @GetMapping("/buscar/{nombreCarrera}")
     public ResponseEntity<List<CarreraDTOResponse>> obtenerCarreras(@PathVariable String nombreCarrera) {
         List<Carrera> carreras = carreraService.recuperarCarreraPorNombre(nombreCarrera);
         List<CarreraDTOResponse> response = carreras.stream().map(CarreraDTOResponse::desdeModelo).toList();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.FOUND).body(response);
     }
 
     @GetMapping("/{idCarrera}")

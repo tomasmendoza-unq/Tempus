@@ -222,7 +222,7 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void suscribirseAUnaMateria(){
+    public void suscribirseAUnaCarrera(){
         usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId());
 
         Usuario usuarioRecuperado = usuarioService.recuperarUsuarioPorId(usuario1.getId());
@@ -231,7 +231,7 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void intentaSuscribirseALaMistaMateria(){
+    public void intentaSuscribirseALaCarrera(){
         usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId());
         assertThrows(YaSeEncuentraSuscritoALaCarrera.class, () -> usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId()));
     }
