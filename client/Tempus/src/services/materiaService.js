@@ -43,3 +43,10 @@ export const traerMateriasDisponiblesService = () =>
       throw error
     })
 
+export const asociarMateriaService = (materiaOrigen, materiaDestino) =>
+  api
+    .post(API_ROUTES.ASOCIAR_MATERIA(materiaOrigen, materiaDestino))
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })

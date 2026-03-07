@@ -32,24 +32,22 @@ export default function DropDown({
         {<>{isOpen ? selected : unSelected}</>}
       </button>
       {isOpen && (
-        <div className="absolute right-0 mt-1 w-full">
-          <ul className="flex bg-red-950 shadow-md rounded-md mt-1 absolute flex-col overflow-y-auto max-h-60 text-white">
-            {setOfElems.map((elem, index) => {
-              return (
-                <li
-                  key={index}
-                  className="px-4 py-2 hover:bg-red-800 hover:rounded-md cursor-pointer w-full truncate"
-                  onClick={() => {
-                    callback(elem)
-                    setIsOpen(false)
-                  }}
-                >
-                  {elem?.[0] || elem}
-                </li>
-              )
-            })}
-          </ul>
-        </div>
+        <ul className="absolute left-0 mt-1 z-50 flex bg-red-950 shadow-md rounded-md flex-col overflow-y-auto max-h-60 text-white min-w-max">
+          {setOfElems.map((elem, index) => {
+            return (
+              <li
+                key={index}
+                className="px-4 py-2 hover:bg-red-800 hover:rounded-md cursor-pointer"
+                onClick={() => {
+                  callback(elem)
+                  setIsOpen(false)
+                }}
+              >
+                {elem?.[0] || elem}
+              </li>
+            )
+          })}
+        </ul>
       )}
     </div>
   )

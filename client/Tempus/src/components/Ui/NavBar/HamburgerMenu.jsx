@@ -67,9 +67,6 @@ export default function HamburgerMenu({ isAuthenticated, usuario, logout }) {
               <NavLink to="/materias" onClick={closeMenu}>
                 Gestión de Materias
               </NavLink>
-              <NavLink to="/correlativas" onClick={closeMenu}>
-                Correlativas
-              </NavLink>
               <NavLink to="/carreras" onClick={closeMenu}>
                 Carreras
               </NavLink>
