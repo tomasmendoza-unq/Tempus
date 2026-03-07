@@ -1,9 +1,6 @@
 package edu.ar.tempus.service;
 
-import edu.ar.tempus.exceptions.business.AlumnoAnotadoAOtraComisionException;
-import edu.ar.tempus.exceptions.business.EmailYaExisteException;
-import edu.ar.tempus.exceptions.business.MateriaYaAprobadaException;
-import edu.ar.tempus.exceptions.business.SuperPosicionDeHorariosException;
+import edu.ar.tempus.exceptions.business.*;
 import edu.ar.tempus.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,13 +22,20 @@ public class UsuarioServiceTest {
 
     @Autowired
     private HorarioService horarioService;
+
     @Autowired
     private MateriaService materiaService;
+
     @Autowired
     private ComisionService comisionService;
 
+    @Autowired
+    private CarreraService carreraService;
+
     private Materia lea, lea2, lea3;
     private Comision leaManana, lea2Tarde, lea3Noche, leaTarde;
+
+    private Carrera informatica;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -93,6 +97,13 @@ public class UsuarioServiceTest {
         leaTarde = comisionService.guardar(Comision.builder()
                 .clases(List.of(ClaseHorario.builder().dia(DiasSemana.LUNES).inicio(LocalTime.of(14, 0)).fin(LocalTime.of(16, 0)).build()))
                 .build(), lea.getMateriaId());
+
+        informatica = Carrera.builder()
+                .nombreCarrera("Lic. en informatica")
+                .build();
+
+        Carrera carreraGuardada = carreraService.guardar(informatica, Set.of(lea.getMateriaId(), lea2.getMateriaId(), lea3.getMateriaId()));
+
     }
 
 
@@ -210,6 +221,20 @@ public class UsuarioServiceTest {
                 usuarioService.aprobarMaterias(List.of(leaTarde.getComisionId()), usuario1.getId()));
     }
 
+    @Test
+    public void suscribirseAUnaMateria(){
+        usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId());
+
+        Usuario usuarioRecuperado = usuarioService.recuperarUsuarioPorId(usuario1.getId());
+
+        assertTrue(usuarioRecuperado.getCarreras().stream().anyMatch(c -> c.getId().equals(informatica.getId())));
+    }
+
+    @Test
+    public void intentaSuscribirseALaMistaMateria(){
+        usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId());
+        assertThrows(YaSeEncuentraSuscritoALaCarrera.class, () -> usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId()));
+    }
 
     @AfterEach
     public void tearDown() {

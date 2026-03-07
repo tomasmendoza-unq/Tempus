@@ -30,6 +30,10 @@
             <many-to-many class="edu.ar.tempus.model.Materia" column="materia_id"/>
         </bag>
 
+        <bag name="carreras" table="usuario_carrera" lazy="false">
+            <key column="usuario_id"/>
+            <many-to-many class="edu.ar.tempus.model.Carrera" column="carrera_id"/>
+        </bag>
 
     </class>
 </hibernate-mapping>

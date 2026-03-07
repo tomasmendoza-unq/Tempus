@@ -19,4 +19,6 @@ public interface UsuarioService {
     List<Long> recuperarMateriasAprobadasPorAlumno(Long alumnoId);
 
     public void desaprobarMateria(Long materiaId, Long alumnoId); //SE PUEDE MEJORAR, HACIENDO QUE VUELVA LA MATERIA A LA COMISION QUE ESTABA ANOTADO
+
+    void suscribirseACarrera(Long carreraId, Long alumnoId);
 }
