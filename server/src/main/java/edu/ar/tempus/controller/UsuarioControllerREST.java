@@ -2,6 +2,7 @@ package edu.ar.tempus.controller;
 
 import edu.ar.tempus.controller.dto.usuario.UsuarioResponseDTO;
 import edu.ar.tempus.controller.dto.usuario.UsuarioResponseDetallesDTO;
+import edu.ar.tempus.controller.dto.usuario.UsuarioResponseSimpleDTO;
 import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.service.UsuarioService;
 import edu.ar.tempus.utils.AuthUtils;
@@ -61,5 +62,16 @@ public final class UsuarioControllerREST {
         usuarioService.suscribirseACarrera(carreraId, authUtils.getAlumnoId(authentication));
 
         return ResponseEntity.ok("Se realizó con éxito la operación");
+    }
+
+    @GetMapping("/perfil")
+    public ResponseEntity<UsuarioResponseSimpleDTO>  obtenerPerfil(Authentication authentication) {
+        Long alumnoId = authUtils.getAlumnoId(authentication);
+
+        Usuario usuario = usuarioService.recuperarUsuarioPorId(alumnoId);
+
+        UsuarioResponseSimpleDTO response = UsuarioResponseSimpleDTO.desdeModelo(usuario);
+
+        return ResponseEntity.ok(response);
     }
 }

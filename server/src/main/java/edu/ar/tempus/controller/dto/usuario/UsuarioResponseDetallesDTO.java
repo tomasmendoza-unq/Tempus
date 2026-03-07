@@ -1,5 +1,6 @@
 package edu.ar.tempus.controller.dto.usuario;
 
+import edu.ar.tempus.controller.dto.carrera.CarreraDTOResponse;
 import edu.ar.tempus.controller.dto.comision.ComisionDTOResponseSimple;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponseSimple;
 import edu.ar.tempus.model.Role;
@@ -14,7 +15,8 @@ public record UsuarioResponseDetallesDTO(
         String apellido,
         String telefono,
         List<ComisionDTOResponseSimple> comisiones,
-        List<MateriaDTOResponseSimple> materiaDTOResponseSimples
+        List<MateriaDTOResponseSimple> materiaDTOResponseSimples,
+        List<CarreraDTOResponse> carreras
 ) {
     public static UsuarioResponseDetallesDTO desdeModelo(Usuario usuario) {
         return new UsuarioResponseDetallesDTO(
@@ -24,7 +26,8 @@ public record UsuarioResponseDetallesDTO(
                 usuario.getApellido(),
                 usuario.getTelefono(),
                 usuario.getComisiones().stream().map(ComisionDTOResponseSimple::desdeModelo).toList(),
-                usuario.getMateriasAprobadas().stream().map(MateriaDTOResponseSimple::desdeModelo).toList()
+                usuario.getMateriasAprobadas().stream().map(MateriaDTOResponseSimple::desdeModelo).toList(),
+                usuario.getCarreras().stream().map(CarreraDTOResponse::desdeModelo).toList()
         );
     }
 }
