@@ -57,7 +57,7 @@ public final class CarreraControllerRest {
 
         List<CarreraDTOResponseSimple> response = carreras.stream().map(CarreraDTOResponseSimple::desdeModelo).toList();
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(response);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/crear")

@@ -21,8 +21,6 @@ export function useUser() {
     setCarreraActiva
   } = useUserContext();
 
-  const [carrerasDisponibles, setCarrerasDisponibles] = useState([]);
-
   const obtenerPerfil = async () => {
     fetchUserRequest();
     try {
@@ -36,8 +34,7 @@ export function useUser() {
 
   const obtenerCarrerasDisponibles = async () => {
     try {
-      const data = await obtenerCarrerasDisponiblesService();
-      setCarrerasDisponibles(data);
+      return await obtenerCarrerasDisponiblesService();
     } catch (err) {
       toast.error("Error al cargar carreras disponibles");
       console.log(err)
@@ -104,7 +101,6 @@ export function useUser() {
   return { 
     perfil, 
     carreraActiva,
-    carrerasDisponibles,
     cargando, 
     seleccionarCarrera,
     obtenerPerfil, 

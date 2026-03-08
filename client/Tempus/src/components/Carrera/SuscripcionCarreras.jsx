@@ -3,14 +3,20 @@ import { Book, Plus, Trash2 } from "feather-icons-react";
 import Modal from "../Ui/Modal/Modal"; 
 import { CarreraModalContent } from "./CarreraModalContent";
 
-export function SuscripcionCarreras({ carrerasUsuario, onDesuscribir, onSuscribir, carrerasDisponibles }) {
+export function SuscripcionCarreras({ carrerasUsuario, onDesuscribir, onSuscribir, onObtenerCarreras }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [carrerasDisponibles, setCarrerasDisponibles] = useState([]);
 
-  const handleSeleccion = (idCarrera) => {
-    onSuscribir?.(idCarrera);
-    setIsModalOpen(false);
+  const handleAbrirModal = async () => {
+    const data = await onObtenerCarreras();
+    setCarrerasDisponibles(data || []);
+    setIsModalOpen(true);
   };
 
+  const handleSeleccion = async (idCarrera) => {
+    await onSuscribir?.(idCarrera);
+    setCarrerasDisponibles(prev => prev.filter(c => c.idCarrera !== idCarrera));
+  };
   return (
     <section className="space-y-4">
       <div className="flex items-center justify-between">
@@ -19,7 +25,7 @@ export function SuscripcionCarreras({ carrerasUsuario, onDesuscribir, onSuscribi
           <h3 className="text-lg font-bold">Mis Carreras</h3>
         </div>
         <button 
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleAbrirModal}
           className="flex items-center gap-1 text-sm bg-red-950 text-white px-3 py-1.5 rounded-lg hover:bg-red-800 transition-colors shadow-sm"
         >
           <Plus className="w-4 h-4" />
@@ -29,7 +35,7 @@ export function SuscripcionCarreras({ carrerasUsuario, onDesuscribir, onSuscribi
 
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         {carrerasUsuario?.length > 0 ? (
-          <div className="divide-y divide-gray-50">
+          <div className="bg-white rounded-xl border border-gray-100 shadow-sm max-h-64 overflow-y-auto custom-scrollbar">
             {carrerasUsuario.map((carrera) => (
               <div 
                 key={carrera.idCarrera} 

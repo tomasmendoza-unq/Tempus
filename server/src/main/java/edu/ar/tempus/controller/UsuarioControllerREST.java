@@ -57,7 +57,7 @@ public final class UsuarioControllerREST {
         return ResponseEntity.ok("Se realizo con exito la operacion");
     }
 
-    @PostMapping("/suscribirse/carrera/{carreraId}")
+    @PostMapping("/suscribir/carrera/{carreraId}")
     public ResponseEntity<String> suscribirseACarrera(@PathVariable("carreraId") Long carreraId, Authentication authentication) {
         usuarioService.suscribirseACarrera(carreraId, authUtils.getAlumnoId(authentication));
 

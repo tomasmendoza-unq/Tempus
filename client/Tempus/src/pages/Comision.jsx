@@ -48,7 +48,7 @@ export default function Comision() {
         })),
       }
       const a = await crearComisionService(payload)
-      console.log({ a })
+
       toast.success("Comisión creada exitosamente.")
     } catch (error) {
       toast.error("Error al crear la comisión. Intentá de nuevo.")

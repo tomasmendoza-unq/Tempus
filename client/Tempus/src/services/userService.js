@@ -48,7 +48,7 @@ export const obtenerCarrerasDisponiblesService = () =>
     .get(API_ROUTES.TRAER_CARRERAS_DISPONIBLES)
     .then((res) => res)
     .catch((error) => {
-      console.log(error)
+
       throw error;
     });
 
