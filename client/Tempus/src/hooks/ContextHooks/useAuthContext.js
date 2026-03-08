@@ -43,11 +43,10 @@ function authReducer(state, action) {
   }
 }
 
-// 3. Provider
+
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // Funciones que disparan las acciones (usadas por useAuth.jsx)
   const fetchAuthRequest = () => dispatch({ type: "FETCH_AUTH_REQUEST" });
   
   const fetchAuthSuccess = (usuario) => 
@@ -76,7 +75,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// 4. Hook personalizado para consumir el contexto
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {

@@ -4,10 +4,10 @@ import edu.ar.tempus.controller.dto.materia.MateriaDTORequest;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponse;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponseSimple;
 import edu.ar.tempus.model.Materia;
-import edu.ar.tempus.security.user.UserDetailsImpl;
+
 import edu.ar.tempus.service.MateriaService;
 import edu.ar.tempus.utils.AuthUtils;
-import edu.ar.tempus.utils.impl.AuthUtilsImpl;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

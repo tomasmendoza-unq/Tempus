@@ -34,3 +34,28 @@ export const desaprobarMateriaService = (materiaId) =>
     .catch((error) => {
       throw error;
     });
+
+export const obtenerDatosBasicos = () =>
+  api
+    .get(API_ROUTES.OBTENER_DATOS_BASICOS())
+    .then((res) => res)
+    .catch((error) => {
+      throw error;
+    });
+
+export const obtenerCarrerasDisponiblesService = () =>
+  api
+    .get(API_ROUTES.TRAER_CARRERAS_DISPONIBLES)
+    .then((res) => res)
+    .catch((error) => {
+
+      throw error;
+    });
+
+export const suscribirCarreraService = (carreraId) =>
+  api
+    .post(API_ROUTES.SUSCRIBIR_CARRERA(carreraId))
+    .then((res) => res)
+    .catch((error) => {
+      throw error;
+    });

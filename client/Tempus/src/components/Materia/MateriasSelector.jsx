@@ -21,7 +21,7 @@ export default function MateriasSelector({
     traerMaterias()
   }, [])
 
-  console.log({ materias })
+
   if (cargando) return <p>Cargando materias...</p>
 
   return (

@@ -10,8 +10,21 @@ export const UserProvider = ({ children }) => {
   const fetchUserSuccess = (perfil) => dispatch({ type: "FETCH_USER_SUCCESS", payload: perfil });
   const fetchUserFailure = (error) => dispatch({ type: "FETCH_USER_FAILURE", payload: error });
 
+  const setCarreraActiva = (carrera) => dispatch({ type: "SET_CARRERA_ACTIVA", payload: carrera });
+  const clearUser = () => dispatch({ type: "CLEAR_USER" });
+
+
   return (
-    <UserContext.Provider value={{ ...state, fetchUserRequest, fetchUserSuccess, fetchUserFailure }}>
+    <UserContext.Provider 
+      value={{ 
+        ...state, 
+        fetchUserRequest, 
+        fetchUserSuccess, 
+        fetchUserFailure,
+        setCarreraActiva, 
+        clearUser        
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
