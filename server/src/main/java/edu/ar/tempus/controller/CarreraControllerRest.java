@@ -49,7 +49,7 @@ public final class CarreraControllerRest {
         return ResponseEntity.status(HttpStatus.FOUND).body(CarreraDTOResponse.desdeModelo(carrera));
     }
 
-    @GetMapping("/disponibles/")
+    @GetMapping("/disponibles")
     public ResponseEntity<List<CarreraDTOResponseSimple>> obtenerCarrerasDisponibles(Authentication authentication) {
         Long alumnoId = authUtils.getAlumnoId(authentication);
 

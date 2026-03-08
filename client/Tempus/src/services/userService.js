@@ -45,9 +45,10 @@ export const obtenerDatosBasicos = () =>
 
 export const obtenerCarrerasDisponiblesService = () =>
   api
-    .get(API_ROUTES.CARRERAS_DISPONIBLES)
+    .get(API_ROUTES.TRAER_CARRERAS_DISPONIBLES)
     .then((res) => res)
     .catch((error) => {
+      console.log(error)
       throw error;
     });
 

@@ -55,9 +55,8 @@ public class CarreraServiceImpl implements CarreraService {
 
     @Override
     public List<Carrera> recuperarCarrerasPorAlumno(Long alumnoId) {
-        List<Carrera> carrerasDisponibles = carreraDAOSQL.recuperarCarerrasPorAlumno(alumnoId);
 
 
-        return null;
+        return carreraDAOSQL.recuperarCarerrasPorAlumno(alumnoId);
     }
 }

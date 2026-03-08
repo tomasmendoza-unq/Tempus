@@ -11,12 +11,15 @@ export default function PerfilPage() {
     cargando, 
     obtenerPerfil, 
     aprobarCursada, 
-    desaprobarMateria//,
-    //suscribirCarrera 
+    desaprobarMateria,
+    suscribirCarrera,           
+    carrerasDisponibles,       
+    obtenerCarrerasDisponibles  
   } = useUser();
 
   useEffect(() => {
     obtenerPerfil();
+    obtenerCarrerasDisponibles(); 
   }, []);
 
   if (cargando && !perfil) {
@@ -41,7 +44,8 @@ export default function PerfilPage() {
 
         <SuscripcionCarreras 
           carrerasUsuario={perfil.carreras} 
-          // onSuscribir={suscribirCarrera}
+          onSuscribir={suscribirCarrera}      
+          carrerasDisponibles={carrerasDisponibles} 
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

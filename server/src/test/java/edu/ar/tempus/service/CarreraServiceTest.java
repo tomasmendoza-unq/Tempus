@@ -2,6 +2,8 @@ package edu.ar.tempus.service;
 
 import edu.ar.tempus.model.Carrera;
 import edu.ar.tempus.model.Materia;
+import edu.ar.tempus.model.Role;
+import edu.ar.tempus.model.Usuario;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional("transactionManager")
@@ -35,6 +36,12 @@ public class CarreraServiceTest {
 
     private Carrera carrera;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
+    private Usuario usuario;
+
+
     @BeforeEach
     public void setUp() {
         lea = Materia.builder()
@@ -47,6 +54,17 @@ public class CarreraServiceTest {
         carrera = Carrera.builder()
                 .nombreCarrera("Lic. en informatica")
                 .build();
+
+        usuario = Usuario.builder()
+                .email("juan.perez@mail.com")
+                .password("password123")
+                .nombre("Juan")
+                .apellido("Pérez")
+                .telefono("221-4567890")
+                .role(Role.USER)
+                .build();
+
+        usuario = usuarioService.guardarUsuario(usuario);
     }
 
     @Test
@@ -64,6 +82,29 @@ public class CarreraServiceTest {
 
 
         assertTrue(carreras.stream().allMatch(c -> c.getNombreCarrera().toLowerCase().contains("Lic")));
+    }
+
+    @Test
+    public void recuperarCarrerasPorAlumno() {
+        Carrera carreraGuardada = carreraService.guardar(carrera, Set.of(leaGuardada.getMateriaId()));
+
+        Carrera otraCarrera = carreraService.guardar(
+                Carrera.builder().nombreCarrera("Lic. en sistemas").build(),
+                Set.of(leaGuardada.getMateriaId())
+        );
+
+
+        usuarioService.suscribirseACarrera(carreraGuardada.getId(), usuario.getId());
+
+        List<Carrera> carrerasNoSuscripto = carreraService.recuperarCarrerasPorAlumno(usuario.getId());
+
+        assertFalse(carrerasNoSuscripto.stream()
+                .anyMatch(c -> c.getId().equals(carreraGuardada.getId()))
+        );
+
+        assertTrue(carrerasNoSuscripto.stream()
+                .anyMatch(c -> c.getId().equals(otraCarrera.getId()))
+        );
     }
 
     @AfterEach

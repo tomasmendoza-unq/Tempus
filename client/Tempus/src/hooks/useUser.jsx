@@ -40,6 +40,23 @@ export function useUser() {
       setCarrerasDisponibles(data);
     } catch (err) {
       toast.error("Error al cargar carreras disponibles");
+      console.log(err)
+    }
+  };
+
+  const cargarDatosBasicos = async () => {
+    fetchUserRequest();
+    try {
+      const data = await obtenerDatosBasicos();
+      fetchUserSuccess(data);
+
+      if (data.carreras?.length > 0 && !carreraActiva) {
+        const lastId = localStorage.getItem("tempus_carrera_id");
+        const guardada = data.carreras.find(c => c.idCarrera == lastId);
+        setCarreraActiva(guardada || data.carreras[0]);
+      }
+    } catch (err) {
+      fetchUserFailure(err.message || "Error al traer los datos basicos del usuario");
     }
   };
 
@@ -94,6 +111,7 @@ export function useUser() {
     obtenerCarrerasDisponibles,
     aprobarCursada, 
     desaprobarMateria, 
-    suscribirCarrera 
+    suscribirCarrera,
+    cargarDatosBasicos
   };
 }

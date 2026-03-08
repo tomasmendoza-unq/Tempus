@@ -33,6 +33,6 @@ export const API_ROUTES = {
   ASOCIAR_MATERIA: (materiaOrigen, materiaDestino) =>
     `/api/materia/asociar/${materiaOrigen}/${materiaDestino}`,
   OBTENER_DATOS_BASICOS: () => '/api/usuario/perfil',
-  TRAER_CARRERAS_DISPONIBLES: "/api/carrera/disponibles",
+  TRAER_CARRERAS_DISPONIBLES: "/carrera/disponibles",
   SUSCRIBIR_CARRERA: (carreraId) => `/api/usuario/suscribir/${carreraId}`,
 }

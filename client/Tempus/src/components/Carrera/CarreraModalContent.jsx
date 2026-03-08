@@ -1,55 +1,50 @@
-import { Book, Plus, Trash2 } from "feather-icons-react";
+import { BookOpen } from "feather-icons-react";
 
-export function SuscripcionCarreras({ carrerasUsuario, onDesuscribir, onSuscribir }) {
+export function CarreraModalContent({ carrerasDisponibles, onSeleccionar }) {
   return (
-    <section className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-red-950">
-          <Book className="w-5 h-5" />
-          <h3 className="text-lg font-bold">Mis Carreras</h3>
-        </div>
-        <button 
-          onClick={onSuscribir}
-          className="flex items-center gap-1 text-sm bg-red-950 text-white px-3 py-1.5 rounded-lg hover:bg-red-800 transition-colors shadow-sm"
-        >
-          <Plus className="w-4 h-4" />
-          Nueva Carrera
-        </button>
+    <div className="w-full max-w-2xl min-w-[500px] mt-4">
+      <div className="mb-6 border-b pb-4">
+        <h2 className="text-2xl font-extrabold text-red-950 italic">Oferta Académica</h2>
+        <p className="text-gray-500 text-xs uppercase tracking-widest font-bold">
+          Tempus - Inscripción Ciclo 2026
+        </p>
       </div>
-
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-        {carrerasUsuario?.length > 0 ? (
-          <div className="divide-y divide-gray-50">
-            {carrerasUsuario.map((carrera) => (
-              <div 
-                key={carrera.idCarrera} 
-                className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
-              >
+      
+      <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+        {carrerasDisponibles?.length > 0 ? (
+          carrerasDisponibles.map((carrera) => (
+            <div 
+              key={carrera.id} 
+              className="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-100 hover:border-red-200 hover:shadow-md transition-all group"
+            >
+              <div className="flex items-center gap-4">
+                <div className="p-2 bg-red-50 rounded-lg text-red-950 group-hover:bg-red-950 group-hover:text-white transition-colors">
+                  <BookOpen className="w-5 h-5" />
+                </div>
                 <div className="flex flex-col">
-                  <span className="font-semibold text-gray-800">
+                  <span className="font-bold text-gray-800 group-hover:text-red-950 transition-colors">
                     {carrera.nombreCarrera}
                   </span>
-                  <span className="text-xs text-gray-500 uppercase tracking-wider">
-                    Código: {carrera.idCarrera}
+                  <span className="text-[10px] text-gray-400 uppercase font-semibold">
+                    UNQ - Código {carrera.id}
                   </span>
                 </div>
-                
-                <button
-                  onClick={() => onDesuscribir?.(carrera.idCarrera)}
-                  className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all"
-                  title="Dar de baja carrera"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
               </div>
-            ))}
-          </div>
+
+              <button
+                onClick={() => onSeleccionar(carrera.id)}
+                className="bg-red-950 text-white px-5 py-2 rounded-lg text-xs font-black uppercase tracking-tight hover:bg-red-800 transition-colors shadow-sm active:scale-95"
+              >
+                Inscribirme
+              </button>
+            </div>
+          ))
         ) : (
-          <div className="py-10 text-center text-gray-400 italic text-sm">
-            Aún no estás suscripto a ninguna carrera.
+          <div className="py-12 text-center">
+            <p className="text-gray-400 italic text-sm">No hay más carreras disponibles para tu legajo.</p>
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 }
