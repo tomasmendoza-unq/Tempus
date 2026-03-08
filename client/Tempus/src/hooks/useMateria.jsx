@@ -185,14 +185,12 @@ export function useAsociarMateria() {
 
   const asociarMateria = async (materiaOrigenId, materiaDestinoId) => {
     fetchMateriaRequest()
-    console.log(materiaOrigenId, materiaDestinoId)
     try {
       await asociarMateriaService(materiaOrigenId, materiaDestinoId)
       toast.success("Correlativa vinculada con éxito")
       materiaCreadaConExito()
     } catch (err) {
       fetchMateriaFailure(err)
-      console.log({ err })
       toast.error("Error al vincular las materias")
       throw err
     }

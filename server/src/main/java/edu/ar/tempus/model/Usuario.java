@@ -1,5 +1,6 @@
 package edu.ar.tempus.model;
 
+import edu.ar.tempus.exceptions.business.YaSeEncuentraSuscritoALaCarrera;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,6 +35,9 @@ public class Usuario {
     @Builder.Default
     private List<Materia> materiasAprobadas = new ArrayList<>();
 
+    @Builder.Default
+    private List<Carrera> carreras = new ArrayList<>();
+
     public void anotarseAComisiones(List<Comision> comisiones) {
         this.comisiones.addAll(comisiones);
     }
@@ -48,5 +52,10 @@ public class Usuario {
 
     public void desaprobarMateria(Materia materia) {
         materiasAprobadas.remove(materia);
+    }
+
+    public void suscribirseACarrera(Carrera carrera) {
+        if(carreras.contains(carrera)) throw new YaSeEncuentraSuscritoALaCarrera("El alumno ya se encuentra suscripto a la carrera");
+        carreras.add(carrera);
     }
 }

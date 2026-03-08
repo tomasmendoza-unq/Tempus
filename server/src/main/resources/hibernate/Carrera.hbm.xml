@@ -11,7 +11,7 @@
             <generator class="identity"/>
         </id>
 
-        <property name="nombreCarrera" column="nombreCarrera" not-null="true" unique="true"/>
+        <property name="nombreCarrera" column="nombre_carrera" not-null="true" unique="true"/>
 
         <list name="materias" table="carrera_materia" fetch="join" lazy="false">
             <key column="carrera_id"/>
