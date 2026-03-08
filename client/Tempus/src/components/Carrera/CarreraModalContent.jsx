@@ -1,16 +1,6 @@
-import { useState } from "react";
 import { Book, Plus, Trash2 } from "feather-icons-react";
-import Modal from "../Ui/Modal/Modal"; 
-import { CarreraModalContent } from "./CarreraModalContent";
 
-export function SuscripcionCarreras({ carrerasUsuario, onDesuscribir, onSuscribir, carrerasDisponibles }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleSeleccion = (idCarrera) => {
-    onSuscribir?.(idCarrera);
-    setIsModalOpen(false);
-  };
-
+export function SuscripcionCarreras({ carrerasUsuario, onDesuscribir, onSuscribir }) {
   return (
     <section className="space-y-4">
       <div className="flex items-center justify-between">
@@ -19,7 +9,7 @@ export function SuscripcionCarreras({ carrerasUsuario, onDesuscribir, onSuscribi
           <h3 className="text-lg font-bold">Mis Carreras</h3>
         </div>
         <button 
-          onClick={() => setIsModalOpen(true)}
+          onClick={onSuscribir}
           className="flex items-center gap-1 text-sm bg-red-950 text-white px-3 py-1.5 rounded-lg hover:bg-red-800 transition-colors shadow-sm"
         >
           <Plus className="w-4 h-4" />
@@ -60,13 +50,6 @@ export function SuscripcionCarreras({ carrerasUsuario, onDesuscribir, onSuscribi
           </div>
         )}
       </div>
-
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <CarreraModalContent 
-          carrerasDisponibles={carrerasDisponibles} 
-          onSeleccionar={handleSeleccion} 
-        />
-      </Modal>
     </section>
   );
 }

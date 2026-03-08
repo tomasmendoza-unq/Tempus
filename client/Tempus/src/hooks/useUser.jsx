@@ -1,4 +1,12 @@
-import { traerPerfilService, aprobarCursadaService, desaprobarMateriaService, obtenerDatosBasicos } from "../services/userService";
+import { useState } from "react";
+import { 
+  traerPerfilService, 
+  aprobarCursadaService, 
+  desaprobarMateriaService, 
+  obtenerDatosBasicos,
+  suscribirCarreraService,
+  obtenerCarrerasDisponiblesService
+} from "../services/userService";
 import { useUserContext } from "../contexts/UserContext";
 import { toast } from "react-toastify";
 
@@ -10,14 +18,10 @@ export function useUser() {
     fetchUserRequest, 
     fetchUserSuccess, 
     fetchUserFailure,
-    setCarreraActiva  
+    setCarreraActiva
   } = useUserContext();
 
-
-  const seleccionarCarrera = (carrera) => {
-    setCarreraActiva(carrera);
-    localStorage.setItem("tempus_carrera_id", carrera.idCarrera);
-  };
+  const [carrerasDisponibles, setCarrerasDisponibles] = useState([]);
 
   const obtenerPerfil = async () => {
     fetchUserRequest();
@@ -30,20 +34,30 @@ export function useUser() {
     }
   };
 
-  const cargarDatosBasicos = async () => {
+  const obtenerCarrerasDisponibles = async () => {
+    try {
+      const data = await obtenerCarrerasDisponiblesService();
+      setCarrerasDisponibles(data);
+    } catch (err) {
+      toast.error("Error al cargar carreras disponibles");
+    }
+  };
+
+  const suscribirCarrera = async (carreraId) => {
     fetchUserRequest();
     try {
-      const data = await obtenerDatosBasicos();
-      fetchUserSuccess(data);
-
-      if (data.carreras?.length > 0 && !carreraActiva) {
-        const lastId = localStorage.getItem("tempus_carrera_id");
-        const guardada = data.carreras.find(c => c.idCarrera == lastId);
-        setCarreraActiva(guardada || data.carreras[0]);
-      }
+      await suscribirCarreraService(carreraId);
+      toast.success("¡Inscripción exitosa!");
+      await obtenerPerfil();
     } catch (err) {
-      fetchUserFailure(err.message || "Error al traer los datos basicos del usuario");
+      fetchUserFailure(err.message || "Error al suscribir carrera");
+      toast.error("No se pudo realizar la inscripción");
     }
+  };
+
+  const seleccionarCarrera = (carrera) => {
+    setCarreraActiva(carrera);
+    localStorage.setItem("tempus_carrera_id", carrera.idCarrera);
   };
 
   const aprobarCursada = async (comisionId) => {
@@ -73,11 +87,13 @@ export function useUser() {
   return { 
     perfil, 
     carreraActiva,
+    carrerasDisponibles,
     cargando, 
     seleccionarCarrera,
     obtenerPerfil, 
+    obtenerCarrerasDisponibles,
     aprobarCursada, 
     desaprobarMateria, 
-    cargarDatosBasicos 
+    suscribirCarrera 
   };
 }

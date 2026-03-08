@@ -5,6 +5,7 @@ import edu.ar.tempus.model.Carrera;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.persistence.sql.CarreraDAOSQL;
 import edu.ar.tempus.persistence.sql.MateriaSQLDAO;
+import edu.ar.tempus.persistence.sql.UsuarioDAOSQL;
 import edu.ar.tempus.service.CarreraService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,12 @@ public class CarreraServiceImpl implements CarreraService {
 
     private final MateriaSQLDAO materiaSQLDAO;
 
-    public CarreraServiceImpl(CarreraDAOSQL carreraDAOSQL, MateriaSQLDAO materiaSQLDAO) {
+    private final UsuarioDAOSQL usuarioDAO;
+
+    public CarreraServiceImpl(CarreraDAOSQL carreraDAOSQL, MateriaSQLDAO materiaSQLDAO, UsuarioDAOSQL usuarioDAO) {
         this.carreraDAOSQL = carreraDAOSQL;
         this.materiaSQLDAO = materiaSQLDAO;
+        this.usuarioDAO = usuarioDAO;
     }
 
     @Override
@@ -47,5 +51,13 @@ public class CarreraServiceImpl implements CarreraService {
     @Override
     public List<Carrera> recuperarCarreraPorNombre(String nombreCarrera) {
         return carreraDAOSQL.findAllByNombreCarreraContainsIgnoreCase(nombreCarrera);
+    }
+
+    @Override
+    public List<Carrera> recuperarCarrerasPorAlumno(Long alumnoId) {
+        List<Carrera> carrerasDisponibles = carreraDAOSQL.recuperarCarerrasPorAlumno(alumnoId);
+
+
+        return null;
     }
 }

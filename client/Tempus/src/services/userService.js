@@ -43,3 +43,18 @@ export const obtenerDatosBasicos = () =>
       throw error;
     });
 
+export const obtenerCarrerasDisponiblesService = () =>
+  api
+    .get(API_ROUTES.CARRERAS_DISPONIBLES)
+    .then((res) => res)
+    .catch((error) => {
+      throw error;
+    });
+
+export const suscribirCarreraService = (carreraId) =>
+  api
+    .post(API_ROUTES.SUSCRIBIR_CARRERA(carreraId))
+    .then((res) => res)
+    .catch((error) => {
+      throw error;
+    });
