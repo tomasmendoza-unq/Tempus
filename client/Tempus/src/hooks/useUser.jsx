@@ -1,15 +1,23 @@
-import { traerPerfilService, aprobarCursadaService, desaprobarMateriaService } from "../services/userService";
+import { traerPerfilService, aprobarCursadaService, desaprobarMateriaService, obtenerDatosBasicos } from "../services/userService";
 import { useUserContext } from "../contexts/UserContext";
 import { toast } from "react-toastify";
 
 export function useUser() {
   const { 
     perfil, 
+    carreraActiva,   
     cargando, 
     fetchUserRequest, 
     fetchUserSuccess, 
-    fetchUserFailure 
+    fetchUserFailure,
+    setCarreraActiva  
   } = useUserContext();
+
+
+  const seleccionarCarrera = (carrera) => {
+    setCarreraActiva(carrera);
+    localStorage.setItem("tempus_carrera_id", carrera.idCarrera);
+  };
 
   const obtenerPerfil = async () => {
     fetchUserRequest();
@@ -22,13 +30,27 @@ export function useUser() {
     }
   };
 
+  const cargarDatosBasicos = async () => {
+    fetchUserRequest();
+    try {
+      const data = await obtenerDatosBasicos();
+      fetchUserSuccess(data);
+
+      if (data.carreras?.length > 0 && !carreraActiva) {
+        const lastId = localStorage.getItem("tempus_carrera_id");
+        const guardada = data.carreras.find(c => c.idCarrera == lastId);
+        setCarreraActiva(guardada || data.carreras[0]);
+      }
+    } catch (err) {
+      fetchUserFailure(err.message || "Error al traer los datos basicos del usuario");
+    }
+  };
+
   const aprobarCursada = async (comisionId) => {
     fetchUserRequest(); 
     try {
       await aprobarCursadaService(comisionId);
       toast.success("¡Materia aprobada!");
-      
-
       await obtenerPerfil(); 
     } catch (err) {
       fetchUserFailure(err.message || "Error al aprobar cursada");
@@ -48,6 +70,14 @@ export function useUser() {
     }
   };
 
-
-  return { perfil, cargando, obtenerPerfil, aprobarCursada, desaprobarMateria };
+  return { 
+    perfil, 
+    carreraActiva,
+    cargando, 
+    seleccionarCarrera,
+    obtenerPerfil, 
+    aprobarCursada, 
+    desaprobarMateria, 
+    cargarDatosBasicos 
+  };
 }

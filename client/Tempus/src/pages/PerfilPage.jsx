@@ -3,6 +3,7 @@ import { useUser } from "../hooks/useUser";
 import { InfoPersonal } from "../components/Perfil/InfoPersonal";
 import { ListaCursadas } from "../components/Perfil/ListaCursadas";
 import { ListaFinales } from "../components/Perfil/ListaFinales";
+import { SuscripcionCarreras } from "../components/Carrera/SuscripcionCarreras";
 
 export default function PerfilPage() {
   const { 
@@ -10,7 +11,8 @@ export default function PerfilPage() {
     cargando, 
     obtenerPerfil, 
     aprobarCursada, 
-    desaprobarMateria 
+    desaprobarMateria//,
+    //suscribirCarrera 
   } = useUser();
 
   useEffect(() => {
@@ -35,6 +37,11 @@ export default function PerfilPage() {
           nombre={perfil.nombre} 
           apellido={perfil.apellido} 
           email={perfil.email} 
+        />
+
+        <SuscripcionCarreras 
+          carrerasUsuario={perfil.carreras} 
+          // onSuscribir={suscribirCarrera}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

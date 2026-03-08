@@ -34,3 +34,12 @@ export const desaprobarMateriaService = (materiaId) =>
     .catch((error) => {
       throw error;
     });
+
+export const obtenerDatosBasicos = () =>
+  api
+    .get(API_ROUTES.OBTENER_DATOS_BASICOS())
+    .then((res) => res)
+    .catch((error) => {
+      throw error;
+    });
+
