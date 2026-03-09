@@ -11,6 +11,7 @@ export default function CorrelativasSelector({
   setMateria,
   titulo,
   excludedId,
+  multiple = false,
 }) {
   const { buscarMateriaPorNombre } = useBuscarMateriaPorNombre()
   const { traerMaterias } = useTraerTodasMaterias()
@@ -69,9 +70,25 @@ export default function CorrelativasSelector({
         </div>
       </div>
       <CorrelativasDisplayMaterias
-        onClick={(materiaSeleccionada) => setMateria(materiaSeleccionada)}
+        onClick={(materiaSeleccionada) => {
+          if (multiple) {
+            setMateria((prev) => {
+              const exists = prev.some(
+                (m) => m.materiaId === materiaSeleccionada.materiaId
+              )
+              return exists
+                ? prev.filter(
+                    (m) => m.materiaId !== materiaSeleccionada.materiaId
+                  )
+                : [...prev, materiaSeleccionada]
+            })
+          } else {
+            setMateria(materiaSeleccionada)
+          }
+        }}
         materias={materias}
-        selectedId={materia?.materiaId}
+        selectedId={!multiple ? materia?.materiaId : undefined}
+        selectedIds={multiple ? materia.map((m) => m.materiaId) : undefined}
         excludedId={excludedId}
       />
     </div>

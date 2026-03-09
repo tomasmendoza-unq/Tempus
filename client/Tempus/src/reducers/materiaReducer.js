@@ -101,6 +101,13 @@ export const materiaReducer = (state, action) => {
         materiasSeleccionadas: [],
       }
 
+    case "LIMPIAR_MATERIAS":
+      return {
+        ...state,
+        materias: [],
+        materia: null,
+      }
+
     default:
       return state
   }

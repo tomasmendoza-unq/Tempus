@@ -66,6 +66,10 @@ export function useMateriaContext() {
     dispatch({ type: "LIMPIAR_MATERIAS_SELECCIONADAS" })
   }
 
+  const limpiarMaterias = () => {
+    dispatch({ type: "LIMPIAR_MATERIAS" })
+  }
+
   return {
     cargando,
     error,
@@ -85,5 +89,6 @@ export function useMateriaContext() {
     agregarMateriaSeleccionada,
     eliminarMateriaSeleccionada,
     limpiarMateriasSeleccionadas,
+    limpiarMaterias,
   }
 }
