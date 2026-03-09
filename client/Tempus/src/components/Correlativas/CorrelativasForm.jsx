@@ -41,7 +41,7 @@ export default function CorrelativasForm() {
           )}
           <button
             type="submit"
-            className={`flex bg-red-950 text-white px-4 py-2 rounded-lg hover:bg-red-900 transition disabled:opacity-50 disabled:cursor-not-allowed`}
+            className={`flex bg-red-950 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-red-900 transition disabled:opacity-50 disabled:cursor-not-allowed`}
             disabled={!materiaOrigen || !materiaDestino}
           >
             Asociar
