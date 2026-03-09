@@ -1,6 +1,7 @@
 import TarjetaMateria from "../Materia/TarjetaMateria"
 import Modal from "../Ui/Modal/Modal"
 import DetalleMateria from "../Materia/DetalleMateria"
+import { useTraerMateria } from "../../hooks/useMateria"
 import { List } from "feather-icons-react"
 import { useState } from "react"
 
@@ -17,6 +18,7 @@ export default function ComisionReview({ comision }) {
   const { materiaSeleccionada } = comision
   const { horarios } = comision.comision
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { traerMateria, materia } = useTraerMateria()
 
   return (
     <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
@@ -32,13 +34,16 @@ export default function ComisionReview({ comision }) {
           <TarjetaMateria materia={materiaSeleccionada}>
             <button
               className="mt-2 text-green-500 hover:text-green-700 flex items-center gap-1"
-              onClick={() => setIsModalOpen(true)}
+              onClick={async () => {
+                await traerMateria(materiaSeleccionada.materiaId)
+                setIsModalOpen(true)
+              }}
             >
               <List size={16} />
               <span>Ver detalles</span>
             </button>
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-              <DetalleMateria materia={materiaSeleccionada} />
+              <DetalleMateria materia={materia} />
             </Modal>
           </TarjetaMateria>
         ) : (

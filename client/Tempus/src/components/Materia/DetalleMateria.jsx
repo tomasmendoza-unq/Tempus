@@ -39,7 +39,7 @@ export default function Materia({ materia }) {
           </p>
           <p className="text-gray-800 text-sm">
             {materia.comisiones && materia.comisiones.length > 0
-              ? materia.comisiones.map((c) => c.materiaNombre).join(", ")
+              ? materia.comisiones.map((c) => c.comisionId).join(", ")
               : "No tiene comisiones disponibles."}
           </p>
         </div>

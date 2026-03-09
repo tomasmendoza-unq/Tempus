@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { useTraerTodasMaterias } from "../../hooks/useMateria"
+import { useTraerMateria } from "../../hooks/useMateria"
 import TarjetaMateria from "./TarjetaMateria"
 import { Plus, List } from "feather-icons-react"
 import BuscadorDeMaterias from "./BuscadorDeMaterias"
@@ -15,12 +16,12 @@ export default function MateriasSelector({
   selectedId,
 }) {
   const { traerMaterias, materias, cargando } = useTraerTodasMaterias()
+  const { traerMateria, materia } = useTraerMateria()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     traerMaterias()
   }, [])
-
 
   if (cargando) return <p>Cargando materias...</p>
 
@@ -52,14 +53,17 @@ export default function MateriasSelector({
                 </button>
                 <button
                   className="mt-2 text-green-500 hover:text-green-700 flex items-center gap-1"
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={async () => {
+                    await traerMateria(m.materiaId)
+                    setIsModalOpen(true)
+                  }}
                 >
                   <List size={16} />
                   <span>Ver detalles</span>
                 </button>
               </TarjetaMateria>
               <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <DetalleMateria materia={m} />
+                <DetalleMateria materia={materia} />
               </Modal>
             </li>
           )
