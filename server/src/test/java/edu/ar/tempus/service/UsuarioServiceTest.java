@@ -231,7 +231,18 @@ public class UsuarioServiceTest {
 
         assertTrue(usuarioRecuperado.getCarreras().stream().anyMatch(c -> c.getId().equals(informatica.getId())));
     }
+/*
+    @Test
+    public void intentaAnotarseAComisionPeroNoTieneLasCorrelativas() {
 
+        List<Long> comisiones = List.of(lea3Noche.getComisionId());
+
+        assertThrows(
+                AlumnoNoCuentaConLasCorrelativasException.class,
+                () -> usuarioService.anotarseAComision(comisiones, usuario1.getId())
+        );
+    }
+*/
     @Test
     public void intentaSuscribirseALaCarrera(){
         usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId());

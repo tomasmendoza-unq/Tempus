@@ -4,6 +4,7 @@ import edu.ar.tempus.exceptions.business.DependenciaCircularException;
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.exceptions.business.RelacionCorrelativaYaExisteException;
 import edu.ar.tempus.model.Materia;
+import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.persistence.neo4J.MateriaNeo4JDAO;
 import edu.ar.tempus.persistence.neo4J.entity.MateriaNeo4J;
 import edu.ar.tempus.persistence.repository.MateriaRepository;
@@ -87,6 +88,16 @@ public class MateriaRepositoryImpl implements MateriaRepository {
     @Override
     public boolean existeDependenciaCircular(Long materiaOrigenId, Long materiaDestinoId) {
         return !materiaNeo4JDAO.existeDependenciaCircular(materiaOrigenId, List.of(materiaDestinoId)).isEmpty();
+    }
+
+    @Override
+    public boolean validarSiCuentaConLasCorrelativas(Usuario alumno, List<Long> comisionIds) {
+        List<Long> materiasAprobadasIds = alumno.getMateriasAprobadas()
+                .stream()
+                .map(Materia::getMateriaId)
+                .toList();
+
+        return materiaNeo4JDAO.cuentaConLasCorrelativas(materiasAprobadasIds, comisionIds);
     }
 
     @Override

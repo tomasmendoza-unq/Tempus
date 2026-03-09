@@ -1,6 +1,7 @@
 package edu.ar.tempus.persistence.repository;
 
 import edu.ar.tempus.model.Materia;
+import edu.ar.tempus.model.Usuario;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface MateriaRepository {
     boolean existeRelacionCorrelativa(Long materiaOrigenId, Long materiaDestinoId);
 
     boolean existeDependenciaCircular(Long materiaOrigenId, Long materiaDestinoId);
+
+    boolean validarSiCuentaConLasCorrelativas(Usuario alumno, List<Long> comisionIds);
 }

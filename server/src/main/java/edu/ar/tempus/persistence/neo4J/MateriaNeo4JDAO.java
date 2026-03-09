@@ -53,4 +53,12 @@ public interface MateriaNeo4JDAO extends Neo4jRepository<MateriaNeo4J, Long> {
     """)
     List<Long> existeDependenciaCircular(@Param("materiaOrigenId") Long materiaOrigenId,
                                          @Param("materiaDestinoIds") List<Long> materiaDestinoIds);
+
+    @Query("""
+        MATCH (m:Materia)<-[:CORRELATIVA_DE]-(req:Materia)
+                WHERE m.id IN $materiasDeComisiones
+                AND NOT req.id IN $materiasAprobadas
+        RETURN m
+    """)
+    boolean cuentaConLasCorrelativas(List<Long> materiasAprobadasIds, List<Long> comisionIds);
 }
