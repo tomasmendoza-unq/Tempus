@@ -5,6 +5,7 @@ import {
   buscarMateriaPorNombreService,
   traerMateriasDisponiblesService,
   asociarMateriaService,
+  asociarMateriasService,
 } from "../services/materiaService"
 import { useMateriaContext } from "./ContextHooks/useMateriaContext"
 import { toast } from "react-toastify"
@@ -197,4 +198,29 @@ export function useAsociarMateria() {
   }
 
   return { asociarMateria, cargando, error }
+}
+
+export function useAsociarMaterias() {
+  const {
+    cargando,
+    error,
+    fetchMateriaRequest,
+    fetchMateriaFailure,
+    materiaCreadaConExito,
+  } = useMateriaContext()
+
+  const asociarMaterias = async (materias) => {
+    fetchMateriaRequest()
+    try {
+      await asociarMateriasService(materias)
+      toast.success("Correlativas vinculadas con éxito")
+      materiaCreadaConExito()
+    } catch (err) {
+      fetchMateriaFailure(err)
+      toast.error("Error al vincular las materias")
+      throw err
+    }
+  }
+
+  return { asociarMaterias, cargando, error }
 }

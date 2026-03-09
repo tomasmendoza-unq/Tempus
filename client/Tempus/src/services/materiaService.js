@@ -50,3 +50,11 @@ export const asociarMateriaService = (materiaOrigen, materiaDestino) =>
     .catch((error) => {
       throw error
     })
+
+export const asociarMateriasService = (materias) =>
+  api
+    .post(API_ROUTES.ASOCIAR_MATERIAS, materias)
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })
