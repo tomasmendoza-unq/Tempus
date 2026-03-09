@@ -1,5 +1,7 @@
 package edu.ar.tempus.service.impl;
 
+import edu.ar.tempus.exceptions.business.DependenciaCircularException;
+import edu.ar.tempus.exceptions.business.RelacionCorrelativaYaExisteException;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.persistence.repository.MateriaRepository;
 import edu.ar.tempus.service.MateriaService;
@@ -34,11 +36,19 @@ public class MateriaServiceImpl implements MateriaService {
 
     @Override
     public void asociarMateria(Long materiaOrigenId, Long materiaDestinoId) {
-        Materia materia = recuperar(materiaOrigenId);
-
-        Materia correlativa = recuperar(materiaDestinoId);
+        if (materiaRepository.existeRelacionCorrelativa(materiaOrigenId, materiaDestinoId)) {
+            throw new RelacionCorrelativaYaExisteException(materiaOrigenId, materiaDestinoId);
+        }
+        if (materiaRepository.existeDependenciaCircular(materiaOrigenId, materiaDestinoId)) {
+            throw new DependenciaCircularException(materiaOrigenId, materiaDestinoId);
+        }
 
         materiaRepository.crearRelacionCorrelativa(materiaOrigenId, materiaDestinoId);
+    }
+
+    @Override
+    public void asociarMaterias(Long materiaId, List<Long> materiaIds) {
+        materiaRepository.crearRelacionesCorrelativas(materiaId, materiaIds);
     }
 
     @Override

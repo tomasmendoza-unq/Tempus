@@ -14,14 +14,6 @@ import java.util.Set;
 public interface MateriaNeo4JDAO extends Neo4jRepository<MateriaNeo4J, Long> {
 
     @Query("""
-    MATCH (origen:Materia {id: $materiaOrigenId})
-    MATCH (destino:Materia {id: $materiaDestinoId})
-        MERGE (destino)-[:CORRELATIVA]->(origen)
-    """)
-    void crearRelacionCorrelativa(Long materiaOrigenId, Long materiaDestinoId);
-
-
-    @Query("""
     MATCH (m:Materia)
     WHERE NOT m.id IN $idsAprobadas
       AND NOT EXISTS {
@@ -31,4 +23,42 @@ public interface MateriaNeo4JDAO extends Neo4jRepository<MateriaNeo4J, Long> {
     RETURN m.id
     """)
     Set<Long> recuperarMateriasDisponibles(@Param("idsAprobadas") List<Long> materiasAprobadas);
+
+    @Query("""
+    MATCH (materia:Materia {id: $materiaDestinoId})
+    MATCH (correlativa:Materia  {id: $materiaOrigenId})
+        MERGE (correlativa)-[:CORRELATIVA]->(materia)
+    """)
+    void crearRelacionCorrelativa(Long materiaOrigenId, Long materiaDestinoId);
+
+    @Query("""
+    MATCH (materia:Materia {id: $materiaId}), (correlativa:Materia)
+    WHERE correlativa.id IN $correlativaIds
+        MERGE (correlativa)-[:CORRELATIVA]->(materia)
+    """)
+    void crearRelacionesCorrelativas(@Param("materiaId") Long materiaId,
+                                     @Param("correlativaIds") List<Long> correlativaIds);
+    @Query("""
+    UNWIND $materiaDestinoIds AS destinoId
+        MATCH (correlativa:Materia {id: $materiaOrigenId})-[:CORRELATIVA]->(materia:Materia {id: destinoId})
+    RETURN collect(destinoId)
+    """)
+    List<Long> existeRelacionCorrelativa(@Param("materiaOrigenId") Long materiaOrigenId,
+                                         @Param("materiaDestinoIds") List<Long> materiaDestinoIds);
+
+    @Query("""
+    UNWIND $materiaDestinoIds AS destinoId
+    MATCH path = (destino:Materia {id: destinoId})-[:CORRELATIVA*]->(origen:Materia {id: $materiaOrigenId})
+    RETURN collect(DISTINCT destinoId)
+    """)
+    List<Long> existeDependenciaCircular(@Param("materiaOrigenId") Long materiaOrigenId,
+                                         @Param("materiaDestinoIds") List<Long> materiaDestinoIds);
+
+    @Query("""
+        MATCH (m:Materia)<-[:CORRELATIVA_DE]-(req:Materia)
+                WHERE m.id IN $materiasDeComisiones
+                AND NOT req.id IN $materiasAprobadas
+        RETURN m
+    """)
+    boolean cuentaConLasCorrelativas(List<Long> materiasAprobadasIds, List<Long> comisionIds);
 }

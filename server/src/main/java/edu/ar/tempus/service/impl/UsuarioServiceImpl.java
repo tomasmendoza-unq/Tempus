@@ -1,10 +1,8 @@
 package edu.ar.tempus.service.impl;
 
 
-import edu.ar.tempus.exceptions.business.AlumnoAnotadoAOtraComisionException;
-import edu.ar.tempus.exceptions.business.EmailYaExisteException;
+import edu.ar.tempus.exceptions.business.*;
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
-import edu.ar.tempus.exceptions.business.MateriaYaAprobadaException;
 import edu.ar.tempus.model.Carrera;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
@@ -61,9 +59,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void anotarseAComision(List<Long> comisionIds, Long alumnoId) {
         Usuario alumno = recuperarUsuarioPorId(alumnoId);
+        //validarQueTieneLasMaterias(alumno, comisionIds);
         validarQueNoEstaInscriptoANingunaComision(comisionIds, alumnoId);
         List<Long> comisionesAnotadas = usuarioDAOSQL.recuperarComisionesIds(alumnoId);
-        //agregar la validacion de que tiene las materias necesarias para anotarse
         comisionService.validarSuperPosicion(comisionIds, comisionesAnotadas);
         List<Comision> comisiones = comisionService.recuperarPorIds(comisionIds);
 
@@ -72,9 +70,15 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioDAOSQL.save(alumno);
     }
 
+    private void validarQueTieneLasMaterias(Usuario alumno, List<Long> comisionIds) {
+        if (materiaRepository.validarSiCuentaConLasCorrelativas(alumno, comisionIds)) throw new AlumnoNoCuentaConLasCorrelativasException("El alumno no cuenta con las correlativas para anotarse");
+    }
+
     @Override
     public void aprobarMaterias(List<Long> comisionIds, Long alumnoId) {
-        Usuario alumno = recuperarUsuarioPorId(alumnoId);//refactor aca para comprobar directamente que no se aprobo dos veces la misma materia
+        Usuario alumno = recuperarUsuarioPorId(alumnoId);
+        //refactor aca para comprobar directamente que no se aprobo dos veces la misma materia
+
 
         if(usuarioDAOSQL.yaAproboAlgunaDeLasMaterias(alumnoId, comisionIds))
             throw new MateriaYaAprobadaException("El alumno ya aprobó una de las materias");

@@ -1,5 +1,6 @@
 package edu.ar.tempus.controller;
 
+import edu.ar.tempus.controller.dto.materia.AsociarMateriaDTORequest;
 import edu.ar.tempus.controller.dto.materia.MateriaDTORequest;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponse;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponseSimple;
@@ -8,6 +9,7 @@ import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.service.MateriaService;
 import edu.ar.tempus.utils.AuthUtils;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -72,11 +74,19 @@ public final class MateriaControllerRest {
         return ResponseEntity.status(HttpStatus.CREATED).body(MateriaDTOResponse.desdeModelo(materiaGuardada));
     }
 
+
     @PostMapping("/asociar/{materiaOrigenId}/{materiaDestinoId}")
-    public ResponseEntity<Void> asociarMaterias(@PathVariable Long materiaOrigenId,
-                                                @PathVariable Long materiaDestinoId){
+    public ResponseEntity<String> asociarMateria(@PathVariable("materiaOrigenId") Long materiaOrigenId,
+                                               @PathVariable("materiaDestinoId") Long materiaDestinoId) {
         materiaService.asociarMateria(materiaOrigenId, materiaDestinoId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Asociado correctamente");
+    }
+
+
+    @PostMapping("/asociar")
+    public ResponseEntity<String> asociarMaterias(@RequestBody AsociarMateriaDTORequest asocMateriaDtoRequest){
+        materiaService.asociarMaterias(asocMateriaDtoRequest.materiaOrigenId(), asocMateriaDtoRequest.materiasDestinoIds());
+        return ResponseEntity.ok("Asociado correctamente");
     }
 
 }
