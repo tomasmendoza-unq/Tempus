@@ -3,9 +3,11 @@ import FormAgregarMateria from "../components/Admin/FormAgregarMateria"
 import MostrarMateria from "../components/Admin/MostrarMateria"
 import { useFormMateria } from "../hooks/useMateria"
 import CorrelativasForm from "../components/Correlativas/CorrelativasForm"
+import { useMateriaContext } from "../hooks/ContextHooks/useMateriaContext"
 
 export default function Materias() {
   const { clearFormMateria } = useFormMateria()
+  const { limpiarMaterias } = useMateriaContext()
 
   const [currentTab, setCurrentTab] = useState(0)
   return (
@@ -16,6 +18,7 @@ export default function Materias() {
             onClick={() => {
               setCurrentTab(0)
               clearFormMateria()
+              limpiarMaterias()
             }}
             className={`px-6 py-2.5 text-sm font-medium transition focus:outline-none ${
               currentTab === 0
@@ -29,6 +32,7 @@ export default function Materias() {
             onClick={() => {
               setCurrentTab(1)
               clearFormMateria()
+              limpiarMaterias()
             }}
             className={`px-6 py-2.5 text-sm font-medium transition focus:outline-none ${
               currentTab === 1
@@ -42,6 +46,7 @@ export default function Materias() {
             onClick={() => {
               setCurrentTab(2)
               clearFormMateria()
+              limpiarMaterias()
             }}
             className={`px-6 py-2.5 text-sm font-medium transition focus:outline-none ${
               currentTab === 2
