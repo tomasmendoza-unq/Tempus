@@ -14,14 +14,6 @@ import java.util.Set;
 public interface MateriaNeo4JDAO extends Neo4jRepository<MateriaNeo4J, Long> {
 
     @Query("""
-    MATCH (origen:Materia {id: $materiaOrigenId})
-    MATCH (destino:Materia {id: $materiaDestinoId})
-        MERGE (destino)-[:CORRELATIVA]->(origen)
-    """)
-    void crearRelacionCorrelativa(Long materiaOrigenId, Long materiaDestinoId);
-
-
-    @Query("""
     MATCH (m:Materia)
     WHERE NOT m.id IN $idsAprobadas
       AND NOT EXISTS {
@@ -31,4 +23,19 @@ public interface MateriaNeo4JDAO extends Neo4jRepository<MateriaNeo4J, Long> {
     RETURN m.id
     """)
     Set<Long> recuperarMateriasDisponibles(@Param("idsAprobadas") List<Long> materiasAprobadas);
+
+    @Query("""
+    MATCH (materia:Materia {id: $materiaDestinoId})
+    MATCH (prereq:Materia  {id: $materiaOrigenId})
+    MERGE (materia)-[:CORRELATIVA]->(prereq)
+    """)
+    void crearRelacionCorrelativa(Long materiaOrigenId, Long materiaDestinoId);
+
+    @Query("""
+    MATCH (materia:Materia {id: $materiaId}), (prereq:Materia)
+    WHERE prereq.id IN $prerequisitoIds
+    MERGE (materia)-[:CORRELATIVA]->(prereq)
+    """)
+    void crearRelacionesCorrelativas(@Param("materiaId") Long materiaId,
+                                     @Param("prerequisitoIds") List<Long> prerequisitoIds);
 }

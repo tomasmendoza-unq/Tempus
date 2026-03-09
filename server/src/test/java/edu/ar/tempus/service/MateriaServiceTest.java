@@ -31,21 +31,9 @@ public class MateriaServiceTest {
     @Autowired
     private ResetService resetService;
 
-    private Materia lea;
+    private Materia lea, lea2, lea3, ingles;
 
-    private Materia ingles;
-    
-    private Materia lea2;
-
-    private Materia lea3;
-
-    private Materia leaGuardada;
-
-    private Materia inglesGuardada;
-
-    private Materia leaGuardada2;
-
-    private Materia leaGuardada3;
+    private Materia leaGuardada, leaGuardada2, leaGuardada3, inglesGuardada;
 
     @Autowired
     private ComisionService comisionService;
@@ -113,6 +101,30 @@ public class MateriaServiceTest {
         boolean hasLea = inglesRecuperada.getCorrelativas().stream()
                 .anyMatch(m -> m.getMateriaId().equals(leaGuardada.getMateriaId()));
         assertTrue(hasLea, "Ingles debe tener LEA como correlativa");
+    }
+
+    @Test
+    public void asociarMateriaConVariasCorrelativas(){
+
+        materiaService.asociarMaterias(
+                leaGuardada3.getMateriaId(),
+                List.of(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId())
+        );
+
+        Materia lea3Recuperada = materiaService.recuperar(leaGuardada3.getMateriaId());
+
+        assertNotNull(lea3Recuperada.getCorrelativas());
+        assertFalse(lea3Recuperada.getCorrelativas().isEmpty(), "LEA3 debe tener correlativas");
+
+        Set<Long> idsCorrelativas = lea3Recuperada.getCorrelativas().stream()
+                .map(Materia::getMateriaId)
+                .collect(Collectors.toSet());
+
+        assertTrue(idsCorrelativas.contains(leaGuardada.getMateriaId()),
+                "LEA3 debe tener LEA como correlativa");
+        assertTrue(idsCorrelativas.contains(leaGuardada2.getMateriaId()),
+                "LEA3 debe tener LEA2 como correlativa");
+        assertEquals(2, idsCorrelativas.size());
     }
 
     @Test

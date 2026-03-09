@@ -42,6 +42,11 @@ public class MateriaServiceImpl implements MateriaService {
     }
 
     @Override
+    public void asociarMaterias(Long materiaId, List<Long> materiaIds) {
+        materiaRepository.crearRelacionesCorrelativas(materiaId, materiaIds);
+    }
+
+    @Override
     public List<Materia> recuperarTodos() {
         return materiaRepository.recuperarTodos();
     }

@@ -17,4 +17,5 @@ public interface MateriaRepository {
 
     List<Materia> recuperarMateriasPorNombre(String nombreMateria);
 
+    void crearRelacionesCorrelativas(Long materiaId, List<Long> materiaIds);
 }

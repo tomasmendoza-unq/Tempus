@@ -77,5 +77,11 @@ public class MateriaRepositoryImpl implements MateriaRepository {
         return materiaSQLDAO.findAllByMateriaNombreContainsIgnoreCase(nombreMateria);
     }
 
+    @Override
+    public void crearRelacionesCorrelativas(Long materiaId, List<Long> materiaIds) {
+
+        materiaNeo4JDAO.crearRelacionesCorrelativas(materiaId, materiaIds);
+    }
+
 
 }
