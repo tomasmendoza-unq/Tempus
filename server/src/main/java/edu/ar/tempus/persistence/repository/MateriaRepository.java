@@ -18,4 +18,8 @@ public interface MateriaRepository {
     List<Materia> recuperarMateriasPorNombre(String nombreMateria);
 
     void crearRelacionesCorrelativas(Long materiaId, List<Long> materiaIds);
+
+    boolean existeRelacionCorrelativa(Long materiaOrigenId, Long materiaDestinoId);
+
+    boolean existeDependenciaCircular(Long materiaOrigenId, Long materiaDestinoId);
 }

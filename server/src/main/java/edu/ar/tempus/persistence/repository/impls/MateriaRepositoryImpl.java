@@ -1,6 +1,8 @@
 package edu.ar.tempus.persistence.repository.impls;
 
+import edu.ar.tempus.exceptions.business.DependenciaCircularException;
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
+import edu.ar.tempus.exceptions.business.RelacionCorrelativaYaExisteException;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.persistence.neo4J.MateriaNeo4JDAO;
 import edu.ar.tempus.persistence.neo4J.entity.MateriaNeo4J;
@@ -78,7 +80,26 @@ public class MateriaRepositoryImpl implements MateriaRepository {
     }
 
     @Override
+    public boolean existeRelacionCorrelativa(Long materiaOrigenId, Long materiaDestinoId) {
+        return !materiaNeo4JDAO.existeRelacionCorrelativa(materiaOrigenId, List.of(materiaDestinoId)).isEmpty();
+    }
+
+    @Override
+    public boolean existeDependenciaCircular(Long materiaOrigenId, Long materiaDestinoId) {
+        return !materiaNeo4JDAO.existeDependenciaCircular(materiaOrigenId, List.of(materiaDestinoId)).isEmpty();
+    }
+
+    @Override
     public void crearRelacionesCorrelativas(Long materiaId, List<Long> materiaIds) {
+        List<Long> duplicadas = materiaNeo4JDAO.existeRelacionCorrelativa(materiaId, materiaIds);
+        if (!duplicadas.isEmpty()) {
+            throw new RelacionCorrelativaYaExisteException(materiaId, duplicadas);
+        }
+
+        List<Long> circulares = materiaNeo4JDAO.existeDependenciaCircular(materiaId, materiaIds);
+        if (!circulares.isEmpty()) {
+            throw new DependenciaCircularException(materiaId, circulares);
+        }
 
         materiaNeo4JDAO.crearRelacionesCorrelativas(materiaId, materiaIds);
     }

@@ -61,9 +61,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void anotarseAComision(List<Long> comisionIds, Long alumnoId) {
         Usuario alumno = recuperarUsuarioPorId(alumnoId);
+        
         validarQueNoEstaInscriptoANingunaComision(comisionIds, alumnoId);
         List<Long> comisionesAnotadas = usuarioDAOSQL.recuperarComisionesIds(alumnoId);
         //agregar la validacion de que tiene las materias necesarias para anotarse
+        //VALIDAR QUE PUEDE ANOTAR CORRELATIVA
         comisionService.validarSuperPosicion(comisionIds, comisionesAnotadas);
         List<Comision> comisiones = comisionService.recuperarPorIds(comisionIds);
 
@@ -74,7 +76,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void aprobarMaterias(List<Long> comisionIds, Long alumnoId) {
-        Usuario alumno = recuperarUsuarioPorId(alumnoId);//refactor aca para comprobar directamente que no se aprobo dos veces la misma materia
+        Usuario alumno = recuperarUsuarioPorId(alumnoId);
+        //refactor aca para comprobar directamente que no se aprobo dos veces la misma materia
+
 
         if(usuarioDAOSQL.yaAproboAlgunaDeLasMaterias(alumnoId, comisionIds))
             throw new MateriaYaAprobadaException("El alumno ya aprobó una de las materias");

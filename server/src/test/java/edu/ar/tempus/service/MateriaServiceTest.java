@@ -1,5 +1,7 @@
 package edu.ar.tempus.service;
 
+import edu.ar.tempus.exceptions.business.DependenciaCircularException;
+import edu.ar.tempus.exceptions.business.RelacionCorrelativaYaExisteException;
 import edu.ar.tempus.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,7 +79,7 @@ public class MateriaServiceTest {
         leaGuardada3 = materiaService.guardar(lea3);
 
         ClaseHorario horarioClase = ClaseHorario.builder()
-                .dia(DiasSemana.LUNES) // Fundamental para Neo4j
+                .dia(DiasSemana.LUNES)
                 .inicio(LocalTime.of(8, 0))
                 .fin(LocalTime.of(10, 0))
                 .build();
@@ -108,7 +110,7 @@ public class MateriaServiceTest {
 
         materiaService.asociarMaterias(
                 leaGuardada3.getMateriaId(),
-                List.of(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId())
+                List.of(leaGuardada.getMateriaId())
         );
 
         Materia lea3Recuperada = materiaService.recuperar(leaGuardada3.getMateriaId());
@@ -129,8 +131,7 @@ public class MateriaServiceTest {
 
     @Test
     public void asociarMateriaSimpleConOtra(){
-
-        materiaService.asociarMateria(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId() );
+        materiaService.asociarMateria(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId());
 
         Materia leaRecuperada = materiaService.recuperar(lea.getMateriaId());
         Materia leaRecuperada2 = materiaService.recuperar(lea2.getMateriaId());
@@ -138,6 +139,63 @@ public class MateriaServiceTest {
         boolean hasLea = leaRecuperada2.getCorrelativas().stream()
                 .anyMatch(m -> m.getMateriaId().equals(leaRecuperada.getMateriaId()));
         assertTrue(hasLea, "LEA2 debe tener LEA como correlativa");
+    }
+
+    @Test
+    public void asociarMateriaSimple_debeFallarSiRelacionYaExiste(){
+        materiaService.asociarMateria(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId());
+
+        assertThrows(RelacionCorrelativaYaExisteException.class, () ->
+                materiaService.asociarMateria(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId())
+        );
+    }
+
+    @Test
+    public void asociarMaterias_debeFallarSiAlgunaRelacionYaExiste(){
+        materiaService.asociarMateria(leaGuardada3.getMateriaId(), leaGuardada.getMateriaId());
+
+        assertThrows(RelacionCorrelativaYaExisteException.class, () ->
+                materiaService.asociarMaterias(
+                        leaGuardada3.getMateriaId(),
+                        List.of(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId())
+                )
+        );
+    }
+
+    @Test
+    public void asociarMateria_debeFallarSiHayDependenciaCircularSimple(){
+        materiaService.asociarMateria(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId());
+
+        assertThrows(DependenciaCircularException.class, () ->
+                materiaService.asociarMateria(leaGuardada2.getMateriaId(), leaGuardada.getMateriaId())
+        );
+    }
+
+    @Test
+    public void asociarMateria_debeFallarSiHayDependenciaCircularEncadenada(){
+        Materia fisica = materiaService.guardar(
+                Materia.builder()
+                        .materiaNombre("fisica")
+                        .correlativas(new HashSet<>())
+                        .build()
+        );
+
+        materiaService.asociarMateria(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId());
+        materiaService.asociarMateria(leaGuardada2.getMateriaId(), fisica.getMateriaId());
+
+        assertThrows(DependenciaCircularException.class, () ->
+                materiaService.asociarMateria(fisica.getMateriaId(), leaGuardada.getMateriaId())
+        );
+    }
+    @Test
+    public void asociarMaterias_debeFallarSiAlgunaGeneraDependenciaCircular(){
+        assertThrows(DependenciaCircularException.class, () ->
+                materiaService.asociarMaterias(
+                        leaGuardada3.getMateriaId(),
+                        List.of(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId())
+                )
+        );
+
     }
 
     //UNA MATERIA ESTA DISPONIBLE SI SE PUEDE CURSAR EN EL PROXIMO CUATRI

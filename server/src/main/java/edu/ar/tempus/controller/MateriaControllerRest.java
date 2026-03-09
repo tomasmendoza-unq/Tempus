@@ -74,7 +74,7 @@ public final class MateriaControllerRest {
         return ResponseEntity.status(HttpStatus.CREATED).body(MateriaDTOResponse.desdeModelo(materiaGuardada));
     }
 
-    //MODIFICAR ESTE PARA QUE TOME UNA LISTA DE MATERIAS IDS (OSEA PONERLO EN UN DTO)
+
     @PostMapping("/asociar/{materiaOrigenId}/{materiaDestinoId}")
     public ResponseEntity<String> asociarMateria(@PathVariable("materiaOrigenId") Long materiaOrigenId,
                                                @PathVariable("materiaDestinoId") Long materiaDestinoId) {

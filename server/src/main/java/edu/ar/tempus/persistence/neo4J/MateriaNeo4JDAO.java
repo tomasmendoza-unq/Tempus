@@ -26,16 +26,31 @@ public interface MateriaNeo4JDAO extends Neo4jRepository<MateriaNeo4J, Long> {
 
     @Query("""
     MATCH (materia:Materia {id: $materiaDestinoId})
-    MATCH (prereq:Materia  {id: $materiaOrigenId})
-    MERGE (materia)-[:CORRELATIVA]->(prereq)
+    MATCH (correlativa:Materia  {id: $materiaOrigenId})
+        MERGE (correlativa)-[:CORRELATIVA]->(materia)
     """)
     void crearRelacionCorrelativa(Long materiaOrigenId, Long materiaDestinoId);
 
     @Query("""
-    MATCH (materia:Materia {id: $materiaId}), (prereq:Materia)
-    WHERE prereq.id IN $prerequisitoIds
-    MERGE (materia)-[:CORRELATIVA]->(prereq)
+    MATCH (materia:Materia {id: $materiaId}), (correlativa:Materia)
+    WHERE correlativa.id IN $correlativaIds
+        MERGE (correlativa)-[:CORRELATIVA]->(materia)
     """)
     void crearRelacionesCorrelativas(@Param("materiaId") Long materiaId,
-                                     @Param("prerequisitoIds") List<Long> prerequisitoIds);
+                                     @Param("correlativaIds") List<Long> correlativaIds);
+    @Query("""
+    UNWIND $materiaDestinoIds AS destinoId
+        MATCH (correlativa:Materia {id: $materiaOrigenId})-[:CORRELATIVA]->(materia:Materia {id: destinoId})
+    RETURN collect(destinoId)
+    """)
+    List<Long> existeRelacionCorrelativa(@Param("materiaOrigenId") Long materiaOrigenId,
+                                         @Param("materiaDestinoIds") List<Long> materiaDestinoIds);
+
+    @Query("""
+    UNWIND $materiaDestinoIds AS destinoId
+    MATCH path = (destino:Materia {id: destinoId})-[:CORRELATIVA*]->(origen:Materia {id: $materiaOrigenId})
+    RETURN collect(DISTINCT destinoId)
+    """)
+    List<Long> existeDependenciaCircular(@Param("materiaOrigenId") Long materiaOrigenId,
+                                         @Param("materiaDestinoIds") List<Long> materiaDestinoIds);
 }
