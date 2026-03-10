@@ -37,7 +37,7 @@ public class UsuarioServiceTest {
     private Materia lea, lea2, lea3;
     private Comision leaManana, lea2Tarde, lea3Noche, leaTarde;
 
-    private Carrera informatica;
+    private Carrera informatica, sistemas;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -105,6 +105,15 @@ public class UsuarioServiceTest {
                 .build();
 
         Carrera carreraGuardada = carreraService.guardar(informatica, Set.of(lea.getMateriaId(), lea2.getMateriaId(), lea3.getMateriaId()));
+
+        sistemas = Carrera.builder()
+                .nombreCarrera("Lic. en sistemas")
+                .build();
+
+        sistemas = carreraService.guardar(
+                sistemas,
+                Set.of(lea.getMateriaId())
+        );
 
     }
 
@@ -247,6 +256,31 @@ public class UsuarioServiceTest {
     public void intentaSuscribirseALaCarrera(){
         usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId());
         assertThrows(YaSeEncuentraSuscritoALaCarrera.class, () -> usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId()));
+    }
+
+    @Test
+    public void cambiarCarreraActiva(){
+        usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId());
+        usuarioService.suscribirseACarrera(sistemas.getId(), usuario1.getId());
+
+        usuarioService.seleccionarCarreraActiva(sistemas.getId(), usuario1.getId());
+
+        Usuario usuarioRecuperado = usuarioService.recuperarUsuarioPorId(usuario1.getId());
+
+        assertEquals(
+                sistemas.getId(),
+                usuarioRecuperado.getCarreraActiva().getId()
+        );
+    }
+
+    @Test
+    public void intentaSeleccionarCarreraQueNoLePertenece(){
+        usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId());
+
+        assertThrows(
+                UsuarioNoPerteneceALaCarreraException.class,
+                () -> usuarioService.seleccionarCarreraActiva(sistemas.getId(), usuario1.getId())
+        );
     }
 
     @AfterEach

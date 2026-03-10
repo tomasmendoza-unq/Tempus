@@ -26,7 +26,7 @@ public final class UsuarioControllerREST {
     }
 
     @GetMapping
-    public ResponseEntity<UsuarioResponseDetallesDTO> obtenerTodosUsuarios(Authentication authentication) {
+    public ResponseEntity<UsuarioResponseDetallesDTO> obtenerDetallesCompletos(Authentication authentication) {
         Long alumnoId = authUtils.getAlumnoId(authentication);
 
         Usuario usuario = usuarioService.recuperarUsuarioPorId(alumnoId);
@@ -65,7 +65,7 @@ public final class UsuarioControllerREST {
     }
 
     @GetMapping("/perfil")
-    public ResponseEntity<UsuarioResponseSimpleDTO>  obtenerPerfil(Authentication authentication) {
+    public ResponseEntity<UsuarioResponseSimpleDTO>  obtenerDetallesSimple(Authentication authentication) {
         Long alumnoId = authUtils.getAlumnoId(authentication);
 
         Usuario usuario = usuarioService.recuperarUsuarioPorId(alumnoId);
@@ -73,5 +73,15 @@ public final class UsuarioControllerREST {
         UsuarioResponseSimpleDTO response = UsuarioResponseSimpleDTO.desdeModelo(usuario);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/carreras/{carreraId}/activar")
+    public ResponseEntity<Void> seleccionarCarrera(@PathVariable Long carreraId, Authentication authentication) {
+        usuarioService.seleccionarCarreraActiva(
+                carreraId,
+                authUtils.getAlumnoId(authentication)
+        );
+
+        return ResponseEntity.noContent().build();
     }
 }

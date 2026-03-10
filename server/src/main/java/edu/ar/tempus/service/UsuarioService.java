@@ -21,4 +21,6 @@ public interface UsuarioService {
     public void desaprobarMateria(Long materiaId, Long alumnoId); //SE PUEDE MEJORAR, HACIENDO QUE VUELVA LA MATERIA A LA COMISION QUE ESTABA ANOTADO
 
     void suscribirseACarrera(Long carreraId, Long alumnoId);
+
+    void seleccionarCarreraActiva(Long carreraId, Long alumnoId);
 }

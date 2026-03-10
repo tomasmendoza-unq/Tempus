@@ -119,6 +119,17 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioDAOSQL.save(alumno);
     }
 
+    @Override
+    public void seleccionarCarreraActiva(Long carreraId, Long alumnoId) {
+        Carrera carrera = carreraDAOSQL.findById(carreraId).orElseThrow(() -> new EntityNotFoundException(Carrera.class.getName(), carreraId));
+
+        Usuario alumno = recuperarUsuarioPorId(alumnoId);
+
+        alumno.seleccionarCarreraActiva(carrera);
+
+        usuarioDAOSQL.save(alumno);
+    }
+
     private void validarQueNoEstaInscriptoANingunaComision(List<Long> comisionIds, Long alumnoId) {
         if(usuarioDAOSQL.estaInscriptoAComisionDeMismaMateria(alumnoId, comisionIds)) throw new AlumnoAnotadoAOtraComisionException("El alumno ya se encuentra inscripto en una de las comisiones");
         if(comisionService.hayComisionesDeMismaMateriaEnNuevas(comisionIds)) throw new AlumnoAnotadoAOtraComisionException("El alumno ya se encuentra inscripto en una de las comisiones");
