@@ -3,10 +3,9 @@ import { useRegistrarUsuario } from "../hooks/useAuth";
 import { Link } from "react-router-dom";
 import useCarrera from "../hooks/useCarrera";
 import SelectField from "../components/Ui/Select/SelectField";
-
-import AuthLayout from "../components/auth/AuthLayout";
-import AuthInput from "../components/auth/AuthInput";
-import AuthButton from "../components/auth/AuthButton";
+import AuthLayout from "../components/Auth/AuthLayout";
+import AuthInput from "../components/Auth/AuthInput";
+import AuthButton from "../components/Auth/AuthButton";
 
 export default function RegisterPage() {
   const { registrar, cargando } = useRegistrarUsuario();
