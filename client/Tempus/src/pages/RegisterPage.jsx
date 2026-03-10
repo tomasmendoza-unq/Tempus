@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRegistrarUsuario } from "../hooks/useAuth";
 import { Link } from "react-router-dom";
 import useCarrera from "../hooks/useCarrera";
-import DropDown from "../components/Ui/Dropdown/Dropdown";
+import SelectField from "../components/Ui/Select/SelectField";
 
 import AuthLayout from "../components/auth/AuthLayout";
 import AuthInput from "../components/auth/AuthInput";
@@ -53,23 +53,19 @@ export default function RegisterPage() {
         <AuthInput name="telefono" placeholder="Teléfono" onChange={handleChange} />
         <AuthInput name="password" type="password" placeholder="Contraseña" onChange={handleChange} />
 
-        <div className="flex flex-col gap-1">
-          <select
-            value={carreraSeleccionada?.idCarrera || ""}
-            onChange={(e) => {
-              const carrera = carreras.find((c) => c.idCarrera == e.target.value)
-              setCarreraSeleccionada(carrera || null)
-            }}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-900 bg-white"
-          >
-            <option value="">Seleccioná una carrera</option>
-            {carreras.map((c) => (
-              <option key={c.idCarrera} value={c.idCarrera}>
-                {c.nombreCarrera}
-              </option>
-            ))}
-          </select>
-        </div>
+        <SelectField
+          label="Carrera"
+          value={carreraSeleccionada?.idCarrera || ""}
+          placeholder="Seleccioná una carrera"
+          options={carreras.map(c => ({ 
+            value: c.idCarrera, 
+            label: c.nombreCarrera 
+          }))}
+          onChange={(value) => {
+            const carrera = carreras.find((c) => c.idCarrera == value);
+            setCarreraSeleccionada(carrera || null);
+          }}
+        />
 
         <AuthButton loading={cargando} text="Registrarse" loadingText="Registrando..." />
 
