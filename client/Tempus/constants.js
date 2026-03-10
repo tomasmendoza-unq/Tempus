@@ -4,7 +4,12 @@ export const API = {
 export const ROUTES = {
   HOME: "/",
   MATERIAS: "/materias",
-  HORARIOS: "/horario"
+  HORARIOS: "/horario",
+  REGISTER: "/register",
+  LOGIN: "/login",
+  CARRERAS: "/carreras",
+  PERFIL: "/perfil",
+  COMISIONES: "/comisiones",
 }
 
 export const API_ROUTES = {
@@ -13,5 +18,23 @@ export const API_ROUTES = {
   TRAER_TODAS_MATERIAS: "/api/materia",
   BUSCAR_MATERIA_POR_NOMBRE: (materiaNombre) =>
     `/api/materia/buscar/${materiaNombre}`,
-  GENERAR_HORARIO_COMPATIBLE: '/api/horario/compatible'
+  GENERAR_HORARIO_COMPATIBLE: "/api/horario/compatible",
+  REGISTER: "/auth/register",
+  LOGIN: "/auth/login",
+  CREAR_CARRERA: "/carrera/crear",
+  TRAER_PERFIL: "/api/usuario",
+  ANOTARSE_A_COMISIONES: (comisionesId) =>
+    `/api/usuario/anotarse/${comisionesId.join(",")}`,
+  TRAER_MATERIAS_DISPONIBLES: "/api/materia/disponible",
+  APROBAR_CURSADA: (comisionId) => `/api/usuario/aprobar/${comisionId}`,
+  DESAPROBAR_MATERIA: (materiaId) => `/api/usuario/desaprobar/${materiaId}`,
+  OBTENER_COMISION: (comisionId) => `/comision/${comisionId}`,
+  CREAR_COMISION: "/comision/crear",
+  ASOCIAR_MATERIA: (materiaOrigen, materiaDestino) =>
+    `/api/materia/asociar/${materiaOrigen}/${materiaDestino}`,
+  OBTENER_DATOS_BASICOS: () => "/api/usuario/perfil",
+  TRAER_CARRERAS_DISPONIBLES: "/carrera/disponibles",
+  SUSCRIBIR_CARRERA: (carreraId) =>
+    `/api/usuario/suscribir/carrera/${carreraId}`,
+  ASOCIAR_MATERIAS: "/api/materia/asociar",
 }

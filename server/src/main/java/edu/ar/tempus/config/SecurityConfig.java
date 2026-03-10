@@ -40,7 +40,7 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of("http://localhost:5173", "https://www.mercadopago.com"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(false);
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
@@ -64,13 +64,11 @@ public class SecurityConfig {
                 )
                 //ACA SE REGISTRAN LAS RUTAS QUE NO NECESITAN AUTORIZACION
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated()
-                );
-                // ACA SE AGREGAN LOS FILTERS, BASICAMENTE SON LOS QUE VALIDAN QUE LAS REQUEST
-                // CUMPLEN LAS REGLAS DE NEGOCIO
-                //.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
+                )
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

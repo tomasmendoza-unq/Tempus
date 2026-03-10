@@ -3,8 +3,11 @@ import {
   traerMateriaService,
   traerTodasMateriasService,
   buscarMateriaPorNombreService,
+  traerMateriasDisponiblesService,
+  asociarMateriaService,
+  asociarMateriasService,
 } from "../services/materiaService"
-import { useMateriaContext } from "./useMateriaContext"
+import { useMateriaContext } from "./ContextHooks/useMateriaContext"
 import { toast } from "react-toastify"
 
 export function useCrearMateria() {
@@ -139,4 +142,85 @@ export function useFormMateria() {
     updateFormMateria,
     clearFormMateria,
   }
+}
+
+export function useTraerMateriasDisponibles() {
+  const {
+    cargando,
+    error,
+    materias,
+    fetchMateriasRequest,
+    fetchMateriasSuccess,
+    fetchMateriasFailure,
+  } = useMateriaContext()
+
+  const traerMateriasDisponibles = async () => {
+    fetchMateriasRequest()
+    try {
+      const data = await traerMateriasDisponiblesService()
+      fetchMateriasSuccess(data)
+      return data
+    } catch (err) {
+      console.error("Error:", err)
+      fetchMateriasFailure(err)
+      throw err
+    }
+  }
+
+  return {
+    traerMateriasDisponibles,
+    cargando,
+    error,
+    materias,
+  }
+}
+
+export function useAsociarMateria() {
+  const {
+    cargando,
+    error,
+    fetchMateriaRequest,
+    fetchMateriaFailure,
+    materiaCreadaConExito,
+  } = useMateriaContext()
+
+  const asociarMateria = async (materiaOrigenId, materiaDestinoId) => {
+    fetchMateriaRequest()
+    try {
+      await asociarMateriaService(materiaOrigenId, materiaDestinoId)
+      toast.success("Correlativa vinculada con éxito")
+      materiaCreadaConExito()
+    } catch (err) {
+      fetchMateriaFailure(err)
+      toast.error("Error al vincular las materias")
+      throw err
+    }
+  }
+
+  return { asociarMateria, cargando, error }
+}
+
+export function useAsociarMaterias() {
+  const {
+    cargando,
+    error,
+    fetchMateriaRequest,
+    fetchMateriaFailure,
+    materiaCreadaConExito,
+  } = useMateriaContext()
+
+  const asociarMaterias = async (materias) => {
+    fetchMateriaRequest()
+    try {
+      await asociarMateriasService(materias)
+      toast.success("Correlativas vinculadas con éxito")
+      materiaCreadaConExito()
+    } catch (err) {
+      fetchMateriaFailure(err)
+      toast.error("Error al vincular las materias")
+      throw err
+    }
+  }
+
+  return { asociarMaterias, cargando, error }
 }

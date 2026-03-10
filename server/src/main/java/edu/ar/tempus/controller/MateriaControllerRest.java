@@ -1,12 +1,18 @@
 package edu.ar.tempus.controller;
 
+import edu.ar.tempus.controller.dto.materia.AsociarMateriaDTORequest;
 import edu.ar.tempus.controller.dto.materia.MateriaDTORequest;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponse;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponseSimple;
 import edu.ar.tempus.model.Materia;
+
 import edu.ar.tempus.service.MateriaService;
+import edu.ar.tempus.utils.AuthUtils;
+
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,9 +22,11 @@ import java.util.List;
 public final class MateriaControllerRest {
 
     private final MateriaService materiaService;
+    private final AuthUtils authUtils;
 
-    public MateriaControllerRest(MateriaService materiaService) {
+    public MateriaControllerRest(MateriaService materiaService, AuthUtils authUtils) {
         this.materiaService = materiaService;
+        this.authUtils = authUtils;
     }
 
     @GetMapping
@@ -37,8 +45,11 @@ public final class MateriaControllerRest {
     }
 
     @GetMapping("/disponible")
-    public ResponseEntity<List<MateriaDTOResponseSimple>> getDisponibleMateria(@RequestParam List<Long> idMaterias){
-        List<Materia> materias = materiaService.recuperarMateriasDisponibles(idMaterias);
+    public ResponseEntity<List<MateriaDTOResponseSimple>> getDisponibleMateria(Authentication authentication){
+
+        Long alumnoId = authUtils.getAlumnoId(authentication);
+
+        List<Materia> materias = materiaService.recuperarMateriasDisponibles(alumnoId);
 
         List<MateriaDTOResponseSimple> response = materias.stream().map(MateriaDTOResponseSimple::desdeModelo).toList();
 
@@ -63,11 +74,19 @@ public final class MateriaControllerRest {
         return ResponseEntity.status(HttpStatus.CREATED).body(MateriaDTOResponse.desdeModelo(materiaGuardada));
     }
 
+
     @PostMapping("/asociar/{materiaOrigenId}/{materiaDestinoId}")
-    public ResponseEntity<Void> asociarMaterias(@PathVariable Long materiaOrigenId,
-                                                @PathVariable Long materiaDestinoId){
+    public ResponseEntity<String> asociarMateria(@PathVariable("materiaOrigenId") Long materiaOrigenId,
+                                               @PathVariable("materiaDestinoId") Long materiaDestinoId) {
         materiaService.asociarMateria(materiaOrigenId, materiaDestinoId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Asociado correctamente");
+    }
+
+
+    @PostMapping("/asociar")
+    public ResponseEntity<String> asociarMaterias(@RequestBody AsociarMateriaDTORequest asocMateriaDtoRequest){
+        materiaService.asociarMaterias(asocMateriaDtoRequest.materiaOrigenId(), asocMateriaDtoRequest.materiasDestinoIds());
+        return ResponseEntity.ok("Asociado correctamente");
     }
 
 }

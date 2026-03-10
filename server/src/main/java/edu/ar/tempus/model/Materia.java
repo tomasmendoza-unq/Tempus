@@ -11,6 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "materia")
+@EqualsAndHashCode(of = "materiaId")
 @Data
 public class Materia {
 
@@ -18,7 +19,6 @@ public class Materia {
     private Long materiaId;
 
     private String materiaNombre;
-
 
     @Builder.Default
     private List<Comision> comisiones = new ArrayList<>();

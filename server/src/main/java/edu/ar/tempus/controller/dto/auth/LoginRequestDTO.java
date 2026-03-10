@@ -1,4 +1,4 @@
-package edu.ar.tempus.controller.dto.usuario;
+package edu.ar.tempus.controller.dto.auth;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 

@@ -1,6 +1,8 @@
 package edu.ar.tempus.persistence.sql;
 
+import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
+import edu.ar.tempus.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,4 +20,5 @@ public interface MateriaSQLDAO extends JpaRepository<Materia,Long> {
     List<Materia> findAllByIds(@Param("idsMaterias") Set<Long> idsMaterias);
 
     List<Materia> findAllByMateriaNombreContainsIgnoreCase(String nombreMateria);
+
 }

@@ -1,15 +1,15 @@
 package edu.ar.tempus.service;
 
-import edu.ar.tempus.model.ClaseHorario;
-import edu.ar.tempus.model.Comision;
-import edu.ar.tempus.model.DiasSemana;
-import edu.ar.tempus.model.Materia;
+import edu.ar.tempus.exceptions.business.DependenciaCircularException;
+import edu.ar.tempus.exceptions.business.RelacionCorrelativaYaExisteException;
+import edu.ar.tempus.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional("transactionManager")
+@ActiveProfiles("test")
 @Rollback
 public class MateriaServiceTest {
 
@@ -27,23 +28,14 @@ public class MateriaServiceTest {
     private MateriaService materiaService;
 
     @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
     private ResetService resetService;
 
-    private Materia lea;
+    private Materia lea, lea2, lea3, ingles;
 
-    private Materia ingles;
-    
-    private Materia lea2;
-
-    private Materia lea3;
-
-    private Materia leaGuardada;
-
-    private Materia inglesGuardada;
-
-    private Materia leaGuardada2;
-
-    private Materia leaGuardada3;
+    private Materia leaGuardada, leaGuardada2, leaGuardada3, inglesGuardada;
 
     @Autowired
     private ComisionService comisionService;
@@ -87,7 +79,7 @@ public class MateriaServiceTest {
         leaGuardada3 = materiaService.guardar(lea3);
 
         ClaseHorario horarioClase = ClaseHorario.builder()
-                .dia(DiasSemana.LUNES) // Fundamental para Neo4j
+                .dia(DiasSemana.LUNES)
                 .inicio(LocalTime.of(8, 0))
                 .fin(LocalTime.of(10, 0))
                 .build();
@@ -114,9 +106,32 @@ public class MateriaServiceTest {
     }
 
     @Test
-    public void asociarMateriaSimpleConOtra(){
+    public void asociarMateriaConVariasCorrelativas(){
 
-        materiaService.asociarMateria(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId() );
+        materiaService.asociarMaterias(
+                leaGuardada3.getMateriaId(),
+                List.of(leaGuardada.getMateriaId())
+        );
+
+        Materia lea3Recuperada = materiaService.recuperar(leaGuardada3.getMateriaId());
+
+        assertNotNull(lea3Recuperada.getCorrelativas());
+        assertFalse(lea3Recuperada.getCorrelativas().isEmpty(), "LEA3 debe tener correlativas");
+
+        Set<Long> idsCorrelativas = lea3Recuperada.getCorrelativas().stream()
+                .map(Materia::getMateriaId)
+                .collect(Collectors.toSet());
+
+        assertTrue(idsCorrelativas.contains(leaGuardada.getMateriaId()),
+                "LEA3 debe tener LEA como correlativa");
+        assertTrue(idsCorrelativas.contains(leaGuardada2.getMateriaId()),
+                "LEA3 debe tener LEA2 como correlativa");
+        assertEquals(2, idsCorrelativas.size());
+    }
+
+    @Test
+    public void asociarMateriaSimpleConOtra(){
+        materiaService.asociarMateria(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId());
 
         Materia leaRecuperada = materiaService.recuperar(lea.getMateriaId());
         Materia leaRecuperada2 = materiaService.recuperar(lea2.getMateriaId());
@@ -126,20 +141,89 @@ public class MateriaServiceTest {
         assertTrue(hasLea, "LEA2 debe tener LEA como correlativa");
     }
 
+    @Test
+    public void asociarMateriaSimple_debeFallarSiRelacionYaExiste(){
+        materiaService.asociarMateria(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId());
+
+        assertThrows(RelacionCorrelativaYaExisteException.class, () ->
+                materiaService.asociarMateria(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId())
+        );
+    }
+
+    @Test
+    public void asociarMaterias_debeFallarSiAlgunaRelacionYaExiste(){
+        materiaService.asociarMateria(leaGuardada3.getMateriaId(), leaGuardada.getMateriaId());
+
+        assertThrows(RelacionCorrelativaYaExisteException.class, () ->
+                materiaService.asociarMaterias(
+                        leaGuardada3.getMateriaId(),
+                        List.of(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId())
+                )
+        );
+    }
+
+    @Test
+    public void asociarMateria_debeFallarSiHayDependenciaCircularSimple(){
+        materiaService.asociarMateria(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId());
+
+        assertThrows(DependenciaCircularException.class, () ->
+                materiaService.asociarMateria(leaGuardada2.getMateriaId(), leaGuardada.getMateriaId())
+        );
+    }
+
+    @Test
+    public void asociarMateria_debeFallarSiHayDependenciaCircularEncadenada(){
+        Materia fisica = materiaService.guardar(
+                Materia.builder()
+                        .materiaNombre("fisica")
+                        .correlativas(new HashSet<>())
+                        .build()
+        );
+
+        materiaService.asociarMateria(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId());
+        materiaService.asociarMateria(leaGuardada2.getMateriaId(), fisica.getMateriaId());
+
+        assertThrows(DependenciaCircularException.class, () ->
+                materiaService.asociarMateria(fisica.getMateriaId(), leaGuardada.getMateriaId())
+        );
+    }
+    @Test
+    public void asociarMaterias_debeFallarSiAlgunaGeneraDependenciaCircular(){
+        assertThrows(DependenciaCircularException.class, () ->
+                materiaService.asociarMaterias(
+                        leaGuardada3.getMateriaId(),
+                        List.of(leaGuardada.getMateriaId(), leaGuardada2.getMateriaId())
+                )
+        );
+
+    }
+
     //UNA MATERIA ESTA DISPONIBLE SI SE PUEDE CURSAR EN EL PROXIMO CUATRI
     @Test
     public void  debeRetornarMateriasDisponiblesSegunAprobadas(){
-        List<Long> idsAprobadas = new ArrayList<>(List.of(leaGuardada.getMateriaId()));
+        Usuario usuario = Usuario.builder()
+                .email("maria.gonzalez@mail.com")
+                .password("password123")
+                .nombre("Juan")
+                .apellido("Pérez")
+                .telefono("221-4567890")
+                .role(Role.USER)
+                .build();
 
-        List<Materia> materiasPendientes = materiaService.recuperarMateriasDisponibles(idsAprobadas);
+        usuario = usuarioService.guardarUsuario(usuario);
+
+        Comision comisionLea = comisionService.guardar(comision, leaGuardada.getMateriaId());
+        usuarioService.anotarseAComision(List.of(comisionLea.getComisionId()), usuario.getId());
+        usuarioService.aprobarMaterias(List.of(comisionLea.getComisionId()), usuario.getId());
+
+        List<Materia> materiasPendientes = materiaService.recuperarMateriasDisponibles(usuario.getId());
 
         Set<Long> idsPendientes = materiasPendientes.stream()
                 .map(Materia::getMateriaId)
                 .collect(Collectors.toSet());
 
         assertFalse(idsPendientes.contains(leaGuardada.getMateriaId()));
-
-        assertTrue(Collections.disjoint(idsAprobadas, idsPendientes));
+        assertTrue(idsPendientes.contains(inglesGuardada.getMateriaId()));
     }
 
 

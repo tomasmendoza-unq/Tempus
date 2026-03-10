@@ -7,7 +7,7 @@
 
     <class name="Materia" table="materia">
 
-        <id name="materiaId" column="materiaId">
+        <id name="materiaId" column="materia_id">
             <generator class="identity"/>
         </id>
 
@@ -18,7 +18,7 @@
             <one-to-many class="Comision"/>
         </list>
 
-        <property name="materiaNombre" column="materiaNombre" not-null="true"  unique="true"/>
+        <property name="materiaNombre" column="materia_nombre" not-null="true"  unique="true"/>
 
 
     </class>

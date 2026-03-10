@@ -34,3 +34,27 @@ export const buscarMateriaPorNombreService = (materiaNombre) =>
     .catch((error) => {
       throw error
     })
+
+export const traerMateriasDisponiblesService = () =>
+  api
+    .get(API_ROUTES.TRAER_MATERIAS_DISPONIBLES)
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })
+
+export const asociarMateriaService = (materiaOrigen, materiaDestino) =>
+  api
+    .post(API_ROUTES.ASOCIAR_MATERIA(materiaOrigen, materiaDestino))
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })
+
+export const asociarMateriasService = (materias) =>
+  api
+    .post(API_ROUTES.ASOCIAR_MATERIAS, materias)
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })

@@ -4,7 +4,7 @@ package edu.ar.tempus.service.impl;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
-import edu.ar.tempus.controller.dto.usuario.LoginResponseDTO;
+import edu.ar.tempus.controller.dto.auth.LoginResponseDTO;
 import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.security.jwt.JwtService;
 import edu.ar.tempus.security.user.UserDetailsImpl;
@@ -58,6 +58,21 @@ public class AuthServiceImpl implements AuthService {
 
         authenticationManager.authenticate(token);
 
+        UserDetails userDetails = new UserDetailsImpl(usuario);
+
+        String jwt = jwtService.generarToken(userDetails);
+
+        return new LoginResponseDTO(
+                jwt,
+                "Bearer",
+                usuario.getId(),
+                usuario.getEmail(),
+                usuario.getRole().name()
+        );
+    }
+
+    @Override
+    public LoginResponseDTO generarRespuestaPostRegistro(Usuario usuario) {
         UserDetails userDetails = new UserDetailsImpl(usuario);
 
         String jwt = jwtService.generarToken(userDetails);

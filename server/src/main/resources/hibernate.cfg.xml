@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/tempus</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">jamaica09</property>
+
+        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+
+        <mapping resource="hibernate/Materia.hbm.xml"/>
+        <mapping resource="hibernate/Carrera.hbm.xml"/>
+        <mapping resource="hibernate/Comision.hbm.xml"/>
+        <mapping resource="hibernate/Usuario.hbm.xml"/>
+        <mapping resource="hibernate/Horario.hbm.xml"/>
+        <mapping resource="hibernate/ClaseHorario.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>
