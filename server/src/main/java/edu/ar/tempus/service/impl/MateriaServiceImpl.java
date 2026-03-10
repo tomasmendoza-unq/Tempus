@@ -59,11 +59,13 @@ public class MateriaServiceImpl implements MateriaService {
 
     @Override
     public List<Materia> recuperarMateriasDisponibles(Long alumnoId) {
-        List<Long> materiasAprobadas = usuarioService.recuperarMateriasAprobadasPorAlumno(alumnoId);
         Usuario alumno = usuarioService.recuperarUsuarioPorId(alumnoId);
-        List<Long> materiasPorCarreraActiva = materiaRepository.recuperarMateriasPorCarrera(materiasAprobadas, alumno.getCarreraActiva().getId());
+        List<Long> materiasAprobadas = usuarioService.recuperarMateriasAprobadasPorAlumno(alumnoId);
 
-        return materiaRepository.recuperarMateriasDisponibles(materiasPorCarreraActiva);
+        return materiaRepository.recuperarMateriasDisponibles(
+                materiasAprobadas,
+                alumno.getCarreraActiva().getId()
+        );
     }
 
     @Override

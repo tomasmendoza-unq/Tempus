@@ -14,7 +14,7 @@ public interface MateriaRepository {
 
     List<Materia> recuperarTodos();
 
-    List<Materia> recuperarMateriasDisponibles(List<Long> materiasAprobadas);
+    List<Materia> recuperarMateriasDisponibles(List<Long> materiasAprobadas, Long id);
 
     List<Materia> recuperarMateriasPorNombre(String nombreMateria);
 
@@ -26,5 +26,4 @@ public interface MateriaRepository {
 
     boolean validarSiCuentaConLasCorrelativas(Usuario alumno, List<Long> comisionIds);
 
-    List<Long> recuperarMateriasPorCarrera(List<Long> materiasAprobadas, Long id);
 }
