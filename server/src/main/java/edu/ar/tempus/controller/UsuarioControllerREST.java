@@ -76,12 +76,12 @@ public final class UsuarioControllerREST {
     }
 
     @PutMapping("/carreras/{carreraId}/activar")
-    public ResponseEntity<Void> seleccionarCarrera(@PathVariable Long carreraId, Authentication authentication) {
+    public ResponseEntity<String> seleccionarCarrera(@PathVariable Long carreraId, Authentication authentication) {
         usuarioService.seleccionarCarreraActiva(
                 carreraId,
                 authUtils.getAlumnoId(authentication)
         );
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Carrera actualizada");
     }
 }

@@ -38,4 +38,6 @@ export const API_ROUTES = {
   SUSCRIBIR_CARRERA: (carreraId) =>
     `/api/usuario/suscribir/carrera/${carreraId}`,
   ASOCIAR_MATERIAS: "/api/materia/asociar",
+  SELECCIONAR_CARRERA_ACTIVA: (carreraId) =>
+    `/api/usuario/carreras/${carreraId}/activar`,
 }

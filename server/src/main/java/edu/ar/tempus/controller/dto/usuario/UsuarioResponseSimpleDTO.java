@@ -8,6 +8,7 @@ import java.util.List;
 public record UsuarioResponseSimpleDTO(
         String email,
         String nombre,
+        CarreraDTOResponseSimple carreraActiva,
         List<CarreraDTOResponseSimple> carreras
 ) {
 
@@ -15,6 +16,9 @@ public record UsuarioResponseSimpleDTO(
         return new UsuarioResponseSimpleDTO(
                 usuario.getEmail(),
                 usuario.getNombre(),
+                usuario.getCarreraActiva() != null
+                        ? CarreraDTOResponseSimple.desdeModelo(usuario.getCarreraActiva())
+                        : null,
                 usuario.getCarreras().stream().map(CarreraDTOResponseSimple::desdeModelo).toList()
         );
     }
