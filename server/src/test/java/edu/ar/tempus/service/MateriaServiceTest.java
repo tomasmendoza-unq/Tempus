@@ -31,11 +31,16 @@ public class MateriaServiceTest {
     private UsuarioService usuarioService;
 
     @Autowired
+    private CarreraService carreraService;
+
+    @Autowired
     private ResetService resetService;
 
     private Materia lea, lea2, lea3, ingles;
 
     private Materia leaGuardada, leaGuardada2, leaGuardada3, inglesGuardada;
+
+    private Carrera sistemas;
 
     @Autowired
     private ComisionService comisionService;
@@ -87,6 +92,15 @@ public class MateriaServiceTest {
         comision = Comision.builder()
                 .clases(List.of(horarioClase))
                 .build();
+
+        sistemas = Carrera.builder()
+                .nombreCarrera("Lic. en sistemas")
+                .build();
+
+        sistemas = carreraService.guardar(
+                sistemas,
+                Set.of(lea.getMateriaId())
+        );
     }
 
     @Test
@@ -210,7 +224,15 @@ public class MateriaServiceTest {
                 .role(Role.USER)
                 .build();
 
-        usuario = usuarioService.guardarUsuario(usuario);
+        usuario = usuarioService.guardarUsuario(usuario, sistemas.getId());
+
+        Carrera carrera = carreraService.guardar(
+                Carrera.builder().nombreCarrera("Ingeniería de Software").build(),
+                Set.of(leaGuardada.getMateriaId(), inglesGuardada.getMateriaId())
+        );
+
+        usuarioService.suscribirseACarrera(carrera.getId(), usuario.getId());
+
 
         Comision comisionLea = comisionService.guardar(comision, leaGuardada.getMateriaId());
         usuarioService.anotarseAComision(List.of(comisionLea.getComisionId()), usuario.getId());

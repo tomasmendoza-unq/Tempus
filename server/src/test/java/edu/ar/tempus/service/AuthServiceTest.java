@@ -1,6 +1,7 @@
 package edu.ar.tempus.service;
 
-import edu.ar.tempus.exceptions.business.EmailYaExisteException;
+import edu.ar.tempus.model.Carrera;
+import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.model.Role;
 import edu.ar.tempus.model.Usuario;
 import org.junit.jupiter.api.AfterEach;
@@ -11,6 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -18,23 +22,36 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AuthServiceTest {
 
     @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
     private AuthService authService;
 
     @Autowired
     private ResetService resetService;
 
+    @Autowired
+    private CarreraService carreraService;
+
+    @Autowired
+    private MateriaService materiaService;
+
     private String email;
+    private Long carreraId;
 
     private Usuario usuario1;
     private Usuario usuario2;
 
     @BeforeEach
     public void setUp() {
-
         email = "juan.perez@mail.com";
+
+        Materia ingles = materiaService.guardar(Materia.builder()
+                .materiaNombre("Ingles I").correlativas(new HashSet<>()).build());
+
+        Carrera carrera = carreraService.guardar(
+                Carrera.builder().nombreCarrera("Ingeniería en Sistemas").build(),
+                Set.of(ingles.getMateriaId())
+        );
+
+        carreraId = carrera.getId();
 
         usuario1 = Usuario.builder()
                 .email(email)
@@ -54,22 +71,18 @@ public class AuthServiceTest {
                 .role(Role.ADMIN)
                 .build();
 
-        usuario1 = authService.registrarUsuario(usuario1);
-        usuario2 = authService.registrarUsuario(usuario2);
+        usuario1 = authService.registrarUsuario(usuario1, carreraId);
+        usuario2 = authService.registrarUsuario(usuario2, carreraId);
     }
 
     @Test
     public void testRegistrarUsuarioConTelefonoValidoFormateaCorrectamente() {
         Usuario nuevoUsuario = Usuario.builder()
-                .email("test@mail.com")
-                .password("password123")
-                .nombre("Test")
-                .apellido("User")
-                .telefono("11 5023-4567")
-                .role(Role.USER)
-                .build();
+                .email("test@mail.com").password("password123")
+                .nombre("Test").apellido("User")
+                .telefono("11 5023-4567").role(Role.USER).build();
 
-        Usuario usuarioGuardado = authService.registrarUsuario(nuevoUsuario);
+        Usuario usuarioGuardado = authService.registrarUsuario(nuevoUsuario, carreraId);
 
         assertNotNull(usuarioGuardado);
         assertEquals("+541150234567", usuarioGuardado.getTelefono());
@@ -78,15 +91,11 @@ public class AuthServiceTest {
     @Test
     public void testRegistrarUsuarioConTelefonoSinCodigoAreaSeAsume11() {
         Usuario nuevoUsuario = Usuario.builder()
-                .email("test2@mail.com")
-                .password("password123")
-                .nombre("Test")
-                .apellido("User")
-                .telefono("1150234567")
-                .role(Role.USER)
-                .build();
+                .email("test2@mail.com").password("password123")
+                .nombre("Test").apellido("User")
+                .telefono("1150234567").role(Role.USER).build();
 
-        Usuario usuarioGuardado = authService.registrarUsuario(nuevoUsuario);
+        Usuario usuarioGuardado = authService.registrarUsuario(nuevoUsuario, carreraId);
 
         assertNotNull(usuarioGuardado);
         assertEquals("+541150234567", usuarioGuardado.getTelefono());
@@ -95,16 +104,11 @@ public class AuthServiceTest {
     @Test
     public void testRegistrarUsuarioConTelefonoConCodigoPais() {
         Usuario nuevoUsuario = Usuario.builder()
-                .email("test3@mail.com")
-                .password("password123")
-                .nombre("Test")
-                .apellido("User")
+                .email("test3@mail.com").password("password123")
+                .nombre("Test").apellido("User")
+                .telefono("+54 11 5023-4567").role(Role.USER).build();
 
-                .telefono("+54 11 5023-4567")
-                .role(Role.USER)
-                .build();
-
-        Usuario usuarioGuardado = authService.registrarUsuario(nuevoUsuario);
+        Usuario usuarioGuardado = authService.registrarUsuario(nuevoUsuario, carreraId);
 
         assertNotNull(usuarioGuardado);
         assertEquals("+541150234567", usuarioGuardado.getTelefono());
@@ -113,15 +117,11 @@ public class AuthServiceTest {
     @Test
     public void testRegistrarUsuarioConTelefonoDeCordova() {
         Usuario nuevoUsuario = Usuario.builder()
-                .email("test4@mail.com")
-                .password("password123")
-                .nombre("Test")
-                .apellido("User")
-                .telefono("351-5234567")
-                .role(Role.USER)
-                .build();
+                .email("test4@mail.com").password("password123")
+                .nombre("Test").apellido("User")
+                .telefono("351-5234567").role(Role.USER).build();
 
-        Usuario usuarioGuardado = authService.registrarUsuario(nuevoUsuario);
+        Usuario usuarioGuardado = authService.registrarUsuario(nuevoUsuario, carreraId);
 
         assertNotNull(usuarioGuardado);
         assertEquals("+543515234567", usuarioGuardado.getTelefono());
@@ -130,18 +130,13 @@ public class AuthServiceTest {
     @Test
     public void testRegistrarUsuarioConTelefonoInvalidoLanzaExcepcion() {
         Usuario nuevoUsuario = Usuario.builder()
-                .email("test5@mail.com")
-                .password("password123")
-                .nombre("Test")
-                .apellido("User")
-
-                .telefono("123")
-                .role(Role.USER)
-                .build();
+                .email("test5@mail.com").password("password123")
+                .nombre("Test").apellido("User")
+                .telefono("123").role(Role.USER).build();
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> authService.registrarUsuario(nuevoUsuario)
+                () -> authService.registrarUsuario(nuevoUsuario, carreraId)
         );
 
         assertTrue(exception.getMessage().contains("teléfono"));
@@ -150,18 +145,13 @@ public class AuthServiceTest {
     @Test
     public void testRegistrarUsuarioConTelefonoConLetrasLanzaExcepcion() {
         Usuario nuevoUsuario = Usuario.builder()
-                .email("test6@mail.com")
-                .password("password123")
-                .nombre("Test")
-                .apellido("User")
-
-                .telefono("11abc23456")
-                .role(Role.USER)
-                .build();
+                .email("test6@mail.com").password("password123")
+                .nombre("Test").apellido("User")
+                .telefono("11abc23456").role(Role.USER).build();
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> authService.registrarUsuario(nuevoUsuario)
+                () -> authService.registrarUsuario(nuevoUsuario, carreraId)
         );
 
         assertTrue(exception.getMessage().contains("formato") ||
@@ -171,19 +161,13 @@ public class AuthServiceTest {
     @Test
     public void testRegistrarUsuarioConTelefonoMuyLargoLanzaExcepcion() {
         Usuario nuevoUsuario = Usuario.builder()
-                .email("test7@mail.com")
-                .password("password123")
-                .nombre("Test")
-                .apellido("User")
-
-                .telefono("111111111111111111111")
-                .role(Role.USER)
-                .build();
-
+                .email("test7@mail.com").password("password123")
+                .nombre("Test").apellido("User")
+                .telefono("111111111111111111111").role(Role.USER).build();
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> authService.registrarUsuario(nuevoUsuario)
+                () -> authService.registrarUsuario(nuevoUsuario, carreraId)
         );
 
         assertTrue(exception.getMessage().contains("teléfono") ||
@@ -193,37 +177,24 @@ public class AuthServiceTest {
     @Test
     public void testRegistrarUsuarioSinTelefonoNoLanzaExcepcion() {
         Usuario nuevoUsuario = Usuario.builder()
-                .email("test8@mail.com")
-                .password("password123")
-                .nombre("Test")
-                .apellido("User")
-
-                .telefono(null)
-                .role(Role.USER)
-                .build();
-
+                .email("test8@mail.com").password("password123")
+                .nombre("Test").apellido("User")
+                .telefono(null).role(Role.USER).build();
 
         assertThrows(
                 DataIntegrityViolationException.class,
-                () -> authService.registrarUsuario(nuevoUsuario)
+                () -> authService.registrarUsuario(nuevoUsuario, carreraId)
         );
-
     }
 
     @Test
     public void testRegistrarUsuarioConTelefonoVacioNoLanzaExcepcion() {
         Usuario nuevoUsuario = Usuario.builder()
-                .email("test9@mail.com")
-                .password("password123")
-                .nombre("Test")
-                .apellido("User")
+                .email("test9@mail.com").password("password123")
+                .nombre("Test").apellido("User")
+                .telefono("   ").role(Role.USER).build();
 
-                .telefono("   ")
-                .role(Role.USER)
-                .build();
-
-
-        Usuario usuarioGuardado = authService.registrarUsuario(nuevoUsuario);
+        Usuario usuarioGuardado = authService.registrarUsuario(nuevoUsuario, carreraId);
 
         assertNotNull(usuarioGuardado);
         assertEquals("   ", usuarioGuardado.getTelefono());

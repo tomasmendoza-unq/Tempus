@@ -10,7 +10,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "materia")
+@ToString(exclude = {"carreras", "comisiones", "correlativas"})
 @EqualsAndHashCode(of = "materiaId")
 @Data
 public class Materia {
@@ -19,6 +19,9 @@ public class Materia {
     private Long materiaId;
 
     private String materiaNombre;
+
+    @Builder.Default
+    private Set<Carrera> carreras = new HashSet<>();
 
     @Builder.Default
     private List<Comision> comisiones = new ArrayList<>();

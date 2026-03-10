@@ -5,7 +5,7 @@ import edu.ar.tempus.model.Usuario;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 public interface AuthService {
-    Usuario registrarUsuario(Usuario usuario);
+    Usuario registrarUsuario(Usuario usuario, Long carreraId);
 
     LoginResponseDTO autenticarUsuario(UsernamePasswordAuthenticationToken loginRequest);
 

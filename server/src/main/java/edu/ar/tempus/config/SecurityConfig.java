@@ -65,6 +65,7 @@ public class SecurityConfig {
                 //ACA SE REGISTRAN LAS RUTAS QUE NO NECESITAN AUTORIZACION
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/carrera/public").permitAll()
                         .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated()
                 )

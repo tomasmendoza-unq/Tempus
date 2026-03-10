@@ -25,4 +25,6 @@ public interface MateriaRepository {
     boolean existeDependenciaCircular(Long materiaOrigenId, Long materiaDestinoId);
 
     boolean validarSiCuentaConLasCorrelativas(Usuario alumno, List<Long> comisionIds);
+
+    List<Long> recuperarMateriasPorCarrera(List<Long> materiasAprobadas, Long id);
 }

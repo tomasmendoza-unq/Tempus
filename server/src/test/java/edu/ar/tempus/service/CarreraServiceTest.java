@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +35,7 @@ public class CarreraServiceTest {
     private Materia lea;
     private Materia leaGuardada;
 
-    private Carrera carrera;
+    private Carrera carrera, carrera2;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -57,6 +56,10 @@ public class CarreraServiceTest {
                 .nombreCarrera("Lic. en informatica")
                 .build();
 
+        carrera2 = Carrera.builder()
+                .nombreCarrera("informatica46")
+                .build();
+
         usuario = Usuario.builder()
                 .email("juan.perez@mail.com")
                 .password("password123")
@@ -66,7 +69,10 @@ public class CarreraServiceTest {
                 .role(Role.USER)
                 .build();
 
-        usuario = usuarioService.guardarUsuario(usuario);
+
+        Carrera carreraGuardada = carreraService.guardar(carrera2, Set.of(leaGuardada.getMateriaId()));
+
+        usuario = usuarioService.guardarUsuario(usuario, carreraGuardada.getId());
     }
 
     @Test

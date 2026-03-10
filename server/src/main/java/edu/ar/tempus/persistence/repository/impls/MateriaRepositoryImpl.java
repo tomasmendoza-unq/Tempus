@@ -101,6 +101,11 @@ public class MateriaRepositoryImpl implements MateriaRepository {
     }
 
     @Override
+    public List<Long> recuperarMateriasPorCarrera(List<Long> materiasAprobadas, Long idCarrera) {
+        return materiaSQLDAO.recuperarMateriasPorCarrera(materiasAprobadas, idCarrera);
+    }
+
+    @Override
     public void crearRelacionesCorrelativas(Long materiaId, List<Long> materiaIds) {
         List<Long> duplicadas = materiaNeo4JDAO.existeRelacionCorrelativa(materiaId, materiaIds);
         if (!duplicadas.isEmpty()) {

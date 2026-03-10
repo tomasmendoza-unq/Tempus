@@ -24,7 +24,7 @@ public final class AuthControllerREST {
     public ResponseEntity<LoginResponseDTO> register(
             @RequestBody @Valid UsuarioRequestDTO usuarioDTO) {
 
-        Usuario usuario = authService.registrarUsuario(usuarioDTO.aModelo());
+        Usuario usuario = authService.registrarUsuario(usuarioDTO.aModelo(), usuarioDTO.carreraId());
 
 
         LoginResponseDTO response = authService.generarRespuestaPostRegistro(usuario);

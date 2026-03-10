@@ -40,4 +40,5 @@ export const API_ROUTES = {
   ASOCIAR_MATERIAS: "/api/materia/asociar",
   SELECCIONAR_CARRERA_ACTIVA: (carreraId) =>
     `/api/usuario/carreras/${carreraId}/activar`,
+  RECUPERAR_CARRERAS: `/carrera/public`
 }

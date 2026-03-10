@@ -1,5 +1,6 @@
 package edu.ar.tempus.model;
 
+import edu.ar.tempus.exceptions.business.SinCarreraActivaException;
 import edu.ar.tempus.exceptions.business.UsuarioNoPerteneceALaCarreraException;
 import edu.ar.tempus.exceptions.business.YaSeEncuentraSuscritoALaCarrera;
 import lombok.AllArgsConstructor;
@@ -63,6 +64,13 @@ public class Usuario {
         carreras.add(carrera);
 
         seleccionarCarreraActiva(carrera);
+    }
+
+    public Carrera getCarreraActiva() {
+        if (carreraActiva == null) {
+            throw new SinCarreraActivaException("El alumno no está inscripto a ninguna carrera");
+        }
+        return carreraActiva;
     }
 
     public void seleccionarCarreraActiva(Carrera carrera){

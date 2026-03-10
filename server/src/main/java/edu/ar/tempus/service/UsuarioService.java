@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface UsuarioService {
     Usuario recuperarUsuarioPorId(Long id);
 
-    Usuario guardarUsuario(Usuario usuario);
+    Usuario guardarUsuario(Usuario usuario, Long carreraId);
 
     Optional<Usuario> recuperarUsuarioPorEmail(String email);
 
