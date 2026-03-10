@@ -1,8 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRegistrarUsuario } from "../hooks/useAuth";
+import { Link } from "react-router-dom";
+import useCarrera from "../hooks/useCarrera";
+import SelectField from "../components/Ui/Select/SelectField";
+import AuthLayout from "../components/Auth/AuthLayout";
+import AuthInput from "../components/Auth/AuthInput";
+import AuthButton from "../components/Auth/AuthButton";
 
 export default function RegisterPage() {
   const { registrar, cargando } = useRegistrarUsuario();
+  const { recuperarCarreras } = useCarrera();
+
+  const [carreras, setCarreras] = useState([]);
+  const [carreraSeleccionada, setCarreraSeleccionada] = useState(null);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -11,41 +22,60 @@ export default function RegisterPage() {
     telefono: ""
   });
 
+  useEffect(() => {
+    recuperarCarreras().then(setCarreras);
+  }, []);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleCarreraSeleccion = ([nombreCarrera, idCarrera]) => {
+    setCarreraSeleccionada({ nombreCarrera, idCarrera });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await registrar(formData);
+    await registrar({ ...formData, carreraId: carreraSeleccionada?.idCarrera });
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md space-y-4 border border-gray-100">
-        <h2 className="text-2xl font-bold text-red-950 text-center">Crear Cuenta Tempus</h2>
-        
+    <AuthLayout title="Crear Cuenta Tempus">
+      <form onSubmit={handleSubmit} className="space-y-4">
+
         <div className="grid grid-cols-2 gap-4">
-          <input name="nombre" placeholder="Nombre" onChange={handleChange} required
-            className="border p-2 rounded focus:ring-2 focus:ring-red-900 outline-none" />
-          <input name="apellido" placeholder="Apellido" onChange={handleChange} required
-            className="border p-2 rounded focus:ring-2 focus:ring-red-900 outline-none" />
+          <AuthInput name="nombre" placeholder="Nombre" onChange={handleChange} />
+          <AuthInput name="apellido" placeholder="Apellido" onChange={handleChange} />
         </div>
 
-        <input name="email" type="email" placeholder="Email institucional" onChange={handleChange} required
-          className="w-full border p-2 rounded focus:ring-2 focus:ring-red-900 outline-none" />
-        
-        <input name="telefono" type="text" placeholder="Teléfono" onChange={handleChange} required
-          className="w-full border p-2 rounded focus:ring-2 focus:ring-red-900 outline-none" />
+        <AuthInput name="email" type="email" placeholder="Email institucional" onChange={handleChange} />
+        <AuthInput name="telefono" placeholder="Teléfono" onChange={handleChange} />
+        <AuthInput name="password" type="password" placeholder="Contraseña" onChange={handleChange} />
 
-        <input name="password" type="password" placeholder="Contraseña" onChange={handleChange} required
-          className="w-full border p-2 rounded focus:ring-2 focus:ring-red-900 outline-none" />
+        <SelectField
+          label="Carrera"
+          value={carreraSeleccionada?.idCarrera || ""}
+          placeholder="Seleccioná una carrera"
+          options={carreras.map(c => ({ 
+            value: c.idCarrera, 
+            label: c.nombreCarrera 
+          }))}
+          onChange={(value) => {
+            const carrera = carreras.find((c) => c.idCarrera == value);
+            setCarreraSeleccionada(carrera || null);
+          }}
+        />
 
-        <button type="submit" disabled={cargando}
-          className="w-full bg-red-950 text-white py-2 rounded font-bold hover:bg-red-900 disabled:bg-gray-400 transition-all">
-          {cargando ? "Registrando..." : "Registrarse"}
-        </button>
+        <AuthButton loading={cargando} text="Registrarse" loadingText="Registrando..." />
+
+        <p className="text-center text-sm text-gray-600 pt-2">
+          ¿Ya tenés cuenta?{" "}
+          <Link to="/login" className="text-red-900 font-bold hover:underline">
+            Iniciá sesión
+          </Link>
+        </p>
+
       </form>
-    </div>
+    </AuthLayout>
   );
 }

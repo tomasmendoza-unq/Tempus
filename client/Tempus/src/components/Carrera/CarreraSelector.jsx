@@ -1,27 +1,14 @@
-import { useEffect } from "react";
-import { useUser } from "../../hooks/useUser"; 
+import { useUser } from "../../hooks/useUser";
 import DropDown from "../Ui/Dropdown/Dropdown";
 
 export default function CarreraSelector() {
   const { perfil, carreraActiva, seleccionarCarrera } = useUser();
 
-  useEffect(() => {
-    if (!carreraActiva && perfil?.carreras?.length > 0) {
-      const lastId = localStorage.getItem("tempus_carrera_id");
-      const guardada = perfil.carreras.find(c => c.idCarrera == lastId);
-      seleccionarCarrera(guardada || perfil.carreras[0]);
-    }
-  }, [perfil, carreraActiva]);
+  if (!perfil?.carreras?.length) return null;
 
-  if (!perfil?.carreras || perfil.carreras.length === 0) return null;
-
-  const handleSeleccion = (seleccion) => {
-    const carreraEncontrada = perfil.carreras.find(
-      (c) => c.idCarrera === seleccion[1]
-    );
-    if (carreraEncontrada) {
-      seleccionarCarrera(carreraEncontrada);
-    }
+  const handleSeleccion = ([, idCarrera]) => {
+    const carrera = perfil.carreras.find((c) => c.idCarrera == idCarrera);
+    if (carrera) seleccionarCarrera(carrera);
   };
 
   return (
@@ -34,7 +21,6 @@ export default function CarreraSelector() {
           {carreraActiva?.nombreCarrera || "Cargando..."}
         </span>
       </div>
-
       <DropDown
         elements={perfil.carreras}
         tag1="nombreCarrera"

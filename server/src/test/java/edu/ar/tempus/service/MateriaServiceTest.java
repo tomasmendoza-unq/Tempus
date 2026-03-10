@@ -31,11 +31,16 @@ public class MateriaServiceTest {
     private UsuarioService usuarioService;
 
     @Autowired
+    private CarreraService carreraService;
+
+    @Autowired
     private ResetService resetService;
 
     private Materia lea, lea2, lea3, ingles;
 
     private Materia leaGuardada, leaGuardada2, leaGuardada3, inglesGuardada;
+
+    private Carrera sistemas;
 
     @Autowired
     private ComisionService comisionService;
@@ -87,6 +92,15 @@ public class MateriaServiceTest {
         comision = Comision.builder()
                 .clases(List.of(horarioClase))
                 .build();
+
+        sistemas = Carrera.builder()
+                .nombreCarrera("Lic. en sistemas")
+                .build();
+
+        sistemas = carreraService.guardar(
+                sistemas,
+                Set.of(lea.getMateriaId())
+        );
     }
 
     @Test
@@ -200,32 +214,45 @@ public class MateriaServiceTest {
 
     //UNA MATERIA ESTA DISPONIBLE SI SE PUEDE CURSAR EN EL PROXIMO CUATRI
     @Test
-    public void  debeRetornarMateriasDisponiblesSegunAprobadas(){
-        Usuario usuario = Usuario.builder()
-                .email("maria.gonzalez@mail.com")
-                .password("password123")
-                .nombre("Juan")
-                .apellido("Pérez")
-                .telefono("221-4567890")
-                .role(Role.USER)
-                .build();
+    public void recuperarMateriasDisponibles_NoDebeRetornarMateriasDeOtrasCarreras() {
+        Usuario usuario = usuarioService.guardarUsuario(
+                Usuario.builder()
+                        .email("test.aislamiento@mail.com")
+                        .password("123456")
+                        .nombre("Test")
+                        .apellido("Aislamiento")
+                        .telefono("351-9876543")
+                        .role(Role.USER)
+                        .build(),
+                sistemas.getId()
+        );
 
-        usuario = usuarioService.guardarUsuario(usuario);
+        Materia anatomia = materiaService.guardar(Materia.builder()
+                .materiaNombre("Anatomía")
+                .build());
 
-        Comision comisionLea = comisionService.guardar(comision, leaGuardada.getMateriaId());
-        usuarioService.anotarseAComision(List.of(comisionLea.getComisionId()), usuario.getId());
-        usuarioService.aprobarMaterias(List.of(comisionLea.getComisionId()), usuario.getId());
+        Carrera medicina = carreraService.guardar(
+                Carrera.builder().nombreCarrera("Medicina").build(),
+                Set.of(anatomia.getMateriaId())
+        );
 
-        List<Materia> materiasPendientes = materiaService.recuperarMateriasDisponibles(usuario.getId());
 
-        Set<Long> idsPendientes = materiasPendientes.stream()
+        List<Materia> materiasDisponibles = materiaService.recuperarMateriasDisponibles(usuario.getId());
+
+        Set<Long> idsDisponibles = materiasDisponibles.stream()
                 .map(Materia::getMateriaId)
                 .collect(Collectors.toSet());
 
-        assertFalse(idsPendientes.contains(leaGuardada.getMateriaId()));
-        assertTrue(idsPendientes.contains(inglesGuardada.getMateriaId()));
-    }
 
+        assertTrue(idsDisponibles.contains(leaGuardada.getMateriaId()),
+                "Debe incluir materias de la carrera del usuario");
+
+        assertFalse(idsDisponibles.contains(anatomia.getMateriaId()),
+                "No debe incluir materias de carreras a las que el usuario no pertenece");
+
+        assertEquals(1, materiasDisponibles.size(),
+                "El usuario solo debería ver 1 materia disponible de su carrera actual");
+    }
 
     @Test
     public void recuperarMateriaPorNombre(){

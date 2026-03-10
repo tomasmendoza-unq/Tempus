@@ -11,8 +11,6 @@ import edu.ar.tempus.persistence.repository.MateriaRepository;
 import edu.ar.tempus.persistence.repository.mapper.MateriaMapper;
 import edu.ar.tempus.persistence.sql.MateriaSQLDAO;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -64,15 +62,14 @@ public class MateriaRepositoryImpl implements MateriaRepository {
     }
 
     @Override
-    public List<Materia> recuperarMateriasDisponibles(List<Long> idsAprobadas) {
-        Set<Long> idsDisponibles =
-                materiaNeo4JDAO.recuperarMateriasDisponibles(idsAprobadas);
+    public List<Materia> recuperarMateriasDisponibles(List<Long> idsAprobadas, Long idCarrera) {
+        Set<Long> idsHabilitados = materiaNeo4JDAO.recuperarMateriasDisponibles(idsAprobadas);
 
-        if (idsDisponibles.isEmpty()) {
+        if (idsHabilitados.isEmpty()) {
             return List.of();
         }
 
-        return materiaSQLDAO.findAllByIds(idsDisponibles);
+        return materiaSQLDAO.recuperarMateriasPorCarrera(idsHabilitados, idCarrera);
     }
 
     @Override

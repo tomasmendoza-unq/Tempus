@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
         this.phoneNumberUtil = PhoneNumberUtil.getInstance();
     }
 
-    public Usuario registrarUsuario(Usuario usuario) {
+    public Usuario registrarUsuario(Usuario usuario, Long carreraId) {
         // Validar y formatear teléfono
         if (usuario.getTelefono() != null && !usuario.getTelefono().isBlank()) {
             String telefonoFormateado = validarYFormatearTelefono(usuario.getTelefono());
@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        return usuarioService.guardarUsuario(usuario);
+        return usuarioService.guardarUsuario(usuario, carreraId);
     }
 
     public LoginResponseDTO autenticarUsuario(UsernamePasswordAuthenticationToken token) {

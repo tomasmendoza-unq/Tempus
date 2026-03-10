@@ -5,10 +5,15 @@ export const createApi = (baseURL) => {
     const token = localStorage.getItem("token");
     return {
       "Content-Type": "application/json",
-      ...(token ? { "Authorization": `Bearer ${token}` } : {}), 
+      ...(token ? { "Authorization": `Bearer ${token}` } : {}),
       ...additionalHeaders,
     };
   };
+
+  const parseResponse = async (res) => {
+    const text = await res.text()
+    try { return JSON.parse(text) } catch { return text }
+  }
 
   return {
     get: async (endpoint, headers = {}) => {
@@ -16,12 +21,8 @@ export const createApi = (baseURL) => {
         method: "GET",
         headers: getHeaders(headers),
       })
-
-      if (!res.ok) {
-        throw new Error(getErrorMessage(res.status))
-      }
-
-      return res.json()
+      if (!res.ok) throw new Error(getErrorMessage(res.status))
+      return parseResponse(res)
     },
 
     post: async (endpoint, data, headers = {}) => {
@@ -30,7 +31,6 @@ export const createApi = (baseURL) => {
         headers: getHeaders(headers),
         body: JSON.stringify(data),
       })
-
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
         const errorMessage =
@@ -39,13 +39,7 @@ export const createApi = (baseURL) => {
           getErrorMessage(res.status)
         throw new Error(errorMessage)
       }
-
-      const text = await res.text()
-      try {
-        return JSON.parse(text)
-      } catch {
-        return text
-      }
+      return parseResponse(res)
     },
 
     put: async (endpoint, data, headers = {}) => {
@@ -55,7 +49,7 @@ export const createApi = (baseURL) => {
         body: JSON.stringify(data),
       })
       if (!res.ok) throw new Error(getErrorMessage(res.status))
-      return res.json()
+      return parseResponse(res)
     },
 
     delete: async (endpoint, headers = {}) => {
@@ -64,8 +58,7 @@ export const createApi = (baseURL) => {
         headers: getHeaders(headers),
       })
       if (!res.ok) throw new Error(getErrorMessage(res.status))
-      const text = await res.text()
-      try { return JSON.parse(text) } catch { return text }
+      return parseResponse(res)
     },
 
     patch: async (endpoint, data, headers = {}) => {
@@ -75,7 +68,7 @@ export const createApi = (baseURL) => {
         body: JSON.stringify(data),
       })
       if (!res.ok) throw new Error(getErrorMessage(res.status))
-      return res.json()
+      return parseResponse(res)
     },
   }
 }

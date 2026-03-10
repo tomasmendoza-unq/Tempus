@@ -21,12 +21,10 @@ public class CarreraServiceImpl implements CarreraService {
 
     private final MateriaSQLDAO materiaSQLDAO;
 
-    private final UsuarioDAOSQL usuarioDAO;
 
-    public CarreraServiceImpl(CarreraDAOSQL carreraDAOSQL, MateriaSQLDAO materiaSQLDAO, UsuarioDAOSQL usuarioDAO) {
+    public CarreraServiceImpl(CarreraDAOSQL carreraDAOSQL, MateriaSQLDAO materiaSQLDAO) {
         this.carreraDAOSQL = carreraDAOSQL;
         this.materiaSQLDAO = materiaSQLDAO;
-        this.usuarioDAO = usuarioDAO;
     }
 
     @Override

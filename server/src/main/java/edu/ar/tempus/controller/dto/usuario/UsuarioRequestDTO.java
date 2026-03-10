@@ -25,7 +25,9 @@ public record UsuarioRequestDTO(
 
 
         @NotBlank(message = "El telefono es requerido")
-        String telefono
+        String telefono,
+
+        Long carreraId
 
     ){
         public Usuario aModelo() {

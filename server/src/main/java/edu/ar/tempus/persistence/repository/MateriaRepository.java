@@ -14,7 +14,7 @@ public interface MateriaRepository {
 
     List<Materia> recuperarTodos();
 
-    List<Materia> recuperarMateriasDisponibles(List<Long> materiasAprobadas);
+    List<Materia> recuperarMateriasDisponibles(List<Long> materiasAprobadas, Long id);
 
     List<Materia> recuperarMateriasPorNombre(String nombreMateria);
 
@@ -25,4 +25,5 @@ public interface MateriaRepository {
     boolean existeDependenciaCircular(Long materiaOrigenId, Long materiaDestinoId);
 
     boolean validarSiCuentaConLasCorrelativas(Usuario alumno, List<Long> comisionIds);
+
 }

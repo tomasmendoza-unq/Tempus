@@ -37,7 +37,7 @@ public class UsuarioServiceTest {
     private Materia lea, lea2, lea3;
     private Comision leaManana, lea2Tarde, lea3Noche, leaTarde;
 
-    private Carrera informatica;
+    private Carrera informatica, sistemas, sistemas2;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -73,9 +73,7 @@ public class UsuarioServiceTest {
                 .role(Role.ADMIN)
                 .build();
 
-        usuario1 = usuarioService.guardarUsuario(usuario1);
 
-        usuario2 = usuarioService.guardarUsuario(usuario2);
 
         lea = materiaService.guardar(Materia.builder().materiaNombre("LEA").correlativas(new HashSet<>()).build());
         lea2 = materiaService.guardar(Materia.builder().materiaNombre("LEA2").correlativas(new HashSet<>()).build());
@@ -106,6 +104,27 @@ public class UsuarioServiceTest {
 
         Carrera carreraGuardada = carreraService.guardar(informatica, Set.of(lea.getMateriaId(), lea2.getMateriaId(), lea3.getMateriaId()));
 
+        sistemas = Carrera.builder()
+                .nombreCarrera("Lic. en sistemas")
+                .build();
+
+        sistemas = carreraService.guardar(
+                sistemas,
+                Set.of(lea.getMateriaId())
+        );
+
+        sistemas2 = Carrera.builder()
+                .nombreCarrera("Lic. en sistemas1234")
+                .build();
+
+        sistemas2 = carreraService.guardar(
+                sistemas2,
+                Set.of(lea.getMateriaId())
+        );
+
+        usuario1 = usuarioService.guardarUsuario(usuario1, sistemas2.getId());
+
+        usuario2 = usuarioService.guardarUsuario(usuario2, sistemas2.getId());
     }
 
 
@@ -129,7 +148,7 @@ public class UsuarioServiceTest {
                 .role(Role.USER)
                 .build();
 
-        assertThrows(EmailYaExisteException.class, () -> usuarioService.guardarUsuario(usuarioError));
+        assertThrows(EmailYaExisteException.class, () -> usuarioService.guardarUsuario(usuarioError, sistemas2.getId()));
 
     }
 
@@ -247,6 +266,31 @@ public class UsuarioServiceTest {
     public void intentaSuscribirseALaCarrera(){
         usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId());
         assertThrows(YaSeEncuentraSuscritoALaCarrera.class, () -> usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId()));
+    }
+
+    @Test
+    public void cambiarCarreraActiva(){
+        usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId());
+        usuarioService.suscribirseACarrera(sistemas.getId(), usuario1.getId());
+
+        usuarioService.seleccionarCarreraActiva(sistemas.getId(), usuario1.getId());
+
+        Usuario usuarioRecuperado = usuarioService.recuperarUsuarioPorId(usuario1.getId());
+
+        assertEquals(
+                sistemas.getId(),
+                usuarioRecuperado.getCarreraActiva().getId()
+        );
+    }
+
+    @Test
+    public void intentaSeleccionarCarreraQueNoLePertenece(){
+        usuarioService.suscribirseACarrera(informatica.getId(), usuario1.getId());
+
+        assertThrows(
+                UsuarioNoPerteneceALaCarreraException.class,
+                () -> usuarioService.seleccionarCarreraActiva(sistemas.getId(), usuario1.getId())
+        );
     }
 
     @AfterEach

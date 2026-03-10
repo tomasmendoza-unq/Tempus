@@ -1,5 +1,7 @@
 package edu.ar.tempus.model;
 
+import edu.ar.tempus.exceptions.business.SinCarreraActivaException;
+import edu.ar.tempus.exceptions.business.UsuarioNoPerteneceALaCarreraException;
 import edu.ar.tempus.exceptions.business.YaSeEncuentraSuscritoALaCarrera;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,6 +40,8 @@ public class Usuario {
     @Builder.Default
     private List<Carrera> carreras = new ArrayList<>();
 
+    private Carrera carreraActiva;
+
     public void anotarseAComisiones(List<Comision> comisiones) {
         this.comisiones.addAll(comisiones);
     }
@@ -56,6 +60,23 @@ public class Usuario {
 
     public void suscribirseACarrera(Carrera carrera) {
         if(carreras.contains(carrera)) throw new YaSeEncuentraSuscritoALaCarrera("El alumno ya se encuentra suscripto a la carrera");
+
         carreras.add(carrera);
+
+        seleccionarCarreraActiva(carrera);
+    }
+
+    public Carrera getCarreraActiva() {
+        if (carreraActiva == null) {
+            throw new SinCarreraActivaException("El alumno no está inscripto a ninguna carrera");
+        }
+        return carreraActiva;
+    }
+
+    public void seleccionarCarreraActiva(Carrera carrera){
+        if(!carreras.contains(carrera))
+            throw new UsuarioNoPerteneceALaCarreraException("El usuario no pertenece a esta carrera");
+
+        this.carreraActiva = carrera;
     }
 }
