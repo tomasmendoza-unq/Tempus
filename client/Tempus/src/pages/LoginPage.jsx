@@ -2,9 +2,24 @@ import { useState } from "react";
 import { useLogin } from "../hooks/useAuth";
 import { Link } from "react-router-dom";
 
+import AuthLayout from "../components/auth/AuthLayout";
+import AuthInput from "../components/auth/AuthInput";
+import AuthButton from "../components/auth/AuthButton";
+
 export default function LoginPage() {
   const { login, cargando } = useLogin();
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
+
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: ""
+  });
+
+  const handleChange = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -12,41 +27,44 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm space-y-6 border border-gray-100">
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-red-950">Tempus</h2>
-          <p className="text-gray-500 text-sm mt-1">Ingresá a tu panel de horarios</p>
-        </div>
+    <AuthLayout title="Tempus">
+      <p className="text-center text-gray-500 text-sm -mt-2">
+        Ingresá a tu panel de horarios
+      </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input 
-            type="email" 
-            placeholder="Email" 
-            className="w-full border p-3 rounded-lg outline-none focus:ring-2 focus:ring-red-900"
-            onChange={(e) => setCredentials({...credentials, email: e.target.value})}
-            required 
-          />
-          <input 
-            type="password" 
-            placeholder="Contraseña" 
-            className="w-full border p-3 rounded-lg outline-none focus:ring-2 focus:ring-red-900"
-            onChange={(e) => setCredentials({...credentials, password: e.target.value})}
-            required 
-          />
-          <button 
-            type="submit" 
-            disabled={cargando}
-            className="w-full bg-red-950 text-white py-3 rounded-lg font-bold hover:bg-red-900 disabled:bg-gray-400 shadow-md transition-all"
+      <form onSubmit={handleSubmit} className="space-y-4">
+
+        <AuthInput
+          name="email"
+          type="email"
+          placeholder="Email"
+          onChange={handleChange}
+        />
+
+        <AuthInput
+          name="password"
+          type="password"
+          placeholder="Contraseña"
+          onChange={handleChange}
+        />
+
+        <AuthButton
+          loading={cargando}
+          text="Iniciar Sesión"
+          loadingText="Validando..."
+        />
+
+        <p className="text-center text-sm text-gray-600 pt-2">
+          ¿No tenés cuenta?{" "}
+          <Link
+            to="/register"
+            className="text-red-900 font-bold hover:underline"
           >
-            {cargando ? "Validando..." : "Iniciar Sesión"}
-          </button>
-        </form>
-
-        <p className="text-center text-sm text-gray-600">
-          ¿No tenés cuenta? <Link to="/register" className="text-red-900 font-bold hover:underline">Registrate acá</Link>
+            Registrate
+          </Link>
         </p>
-      </div>
-    </div>
+
+      </form>
+    </AuthLayout>
   );
 }
