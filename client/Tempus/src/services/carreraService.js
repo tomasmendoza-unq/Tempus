@@ -10,3 +10,12 @@ export const crearCarreraService = (formData) =>
     .catch((error) => {
       throw error
     })
+
+export const recuperarCarrerasService = () =>
+  api
+    .get(API_ROUTES.RECUPERAR_CARRERAS)
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+
+    })

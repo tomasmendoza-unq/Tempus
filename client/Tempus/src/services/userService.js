@@ -59,3 +59,11 @@ export const suscribirCarreraService = (carreraId) =>
     .catch((error) => {
       throw error;
     });
+
+export const seleccionarCarreraActivaService = (carreraId) =>
+  api
+    .put(API_ROUTES.SELECCIONAR_CARRERA_ACTIVA(carreraId))
+    .then((res) => res)
+    .catch((error) => {
+      throw error;
+    });

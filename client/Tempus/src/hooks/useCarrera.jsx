@@ -1,5 +1,5 @@
 import { toast } from "react-toastify"
-import { crearCarreraService } from "../services/carreraService"
+import { crearCarreraService, recuperarCarrerasService } from "../services/carreraService"
 
 const useCarrera = () => {
   const crearCarrera = async (formData) => {
@@ -10,10 +10,19 @@ const useCarrera = () => {
       return response
     } catch (error) {
       toast.error(error.message || "Error al crear la carrera")
-      console.error("Error al crear la carrera:", error)
     }
   }
 
-  return { crearCarrera }
+  const recuperarCarreras = async () => {
+    try {
+      const response = await recuperarCarrerasService()
+
+      return response
+    } catch (error) {
+      toast.error(error.message || "Error al recuperar las carreras")
+    }
+  }
+
+  return { crearCarrera, recuperarCarreras }
 }
 export default useCarrera

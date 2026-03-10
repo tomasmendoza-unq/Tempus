@@ -10,9 +10,7 @@ import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.persistence.repository.MateriaRepository;
 import edu.ar.tempus.persistence.sql.CarreraDAOSQL;
 import edu.ar.tempus.persistence.sql.UsuarioDAOSQL;
-import edu.ar.tempus.service.CarreraService;
 import edu.ar.tempus.service.ComisionService;
-import edu.ar.tempus.service.MateriaService;
 import edu.ar.tempus.service.UsuarioService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -42,12 +40,15 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario guardarUsuario(Usuario usuario) {
+    public Usuario guardarUsuario(Usuario usuario, Long carreraId) {
+        Carrera carrera = carreraDAOSQL.findById(carreraId).orElseThrow(() -> new EntityNotFoundException(Carrera.class.getName(), carreraId));
         if (this.recuperarUsuarioPorEmail(usuario.getEmail()).isPresent()) {
             throw new EmailYaExisteException(
                     "El email ya está registrado"
             );
         }
+        usuario.suscribirseACarrera(carrera);
+
         return usuarioDAOSQL.save(usuario);
     }
 
@@ -115,6 +116,17 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario alumno = recuperarUsuarioPorId(alumnoId);
 
         alumno.suscribirseACarrera(carrera);
+
+        usuarioDAOSQL.save(alumno);
+    }
+
+    @Override
+    public void seleccionarCarreraActiva(Long carreraId, Long alumnoId) {
+        Carrera carrera = carreraDAOSQL.findById(carreraId).orElseThrow(() -> new EntityNotFoundException(Carrera.class.getName(), carreraId));
+
+        Usuario alumno = recuperarUsuarioPorId(alumnoId);
+
+        alumno.seleccionarCarreraActiva(carrera);
 
         usuarioDAOSQL.save(alumno);
     }

@@ -6,6 +6,7 @@ import {
   obtenerDatosBasicos,
   suscribirCarreraService,
   obtenerCarrerasDisponiblesService,
+  seleccionarCarreraActivaService,
 } from "../services/userService"
 import { useUserContext } from "../contexts/UserContext"
 import { toast } from "react-toastify"
@@ -70,11 +71,19 @@ export function useUser() {
     }
   }
 
-  const seleccionarCarrera = (carrera) => {
-    setCarreraActiva(carrera)
-    localStorage.setItem("tempus_carrera_id", carrera.idCarrera)
+  const seleccionarCarrera = async (carrera) => {
+    fetchUserRequest()
+    try {
+      await seleccionarCarreraActivaService(carrera.idCarrera)
+      setCarreraActiva(carrera)
+      localStorage.setItem("tempus_carrera_id", carrera.idCarrera)
+    } catch (err) {
+      fetchUserFailure(err.message || "Error al seleccionar carrera")
+      console.log(err)
+      toast.error("No se pudo seleccionar la carrera")
+    }
   }
-
+  
   const aprobarCursada = async (comisionId) => {
     fetchUserRequest()
     try {

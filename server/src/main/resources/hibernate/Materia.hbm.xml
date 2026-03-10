@@ -21,6 +21,11 @@
         <property name="materiaNombre" column="materia_nombre" not-null="true"  unique="true"/>
 
 
+        <set name="carreras" table="carrera_materia" fetch="join" lazy="false">
+            <key column="materia_id"/>
+            <many-to-many class="Carrera" column="carrera_id"/>
+        </set>
+
     </class>
 
 </hibernate-mapping>

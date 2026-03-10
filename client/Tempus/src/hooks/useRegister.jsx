@@ -1,5 +1,5 @@
 import { registrarUsuarioService } from "../services/authService"
-import { useAuthContext } from "./useAuthContext" // Asumiendo que tenés un AuthContext
+import { useAuthContext } from "./useAuthContext" 
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 
@@ -18,7 +18,6 @@ export function useRegistrarUsuario() {
     try {
       const data = await registrarUsuarioService(usuarioData)
       
-      // Si tu context maneja el estado del usuario creado:
       fetchAuthSuccess(data) 
       
       toast.success("Usuario registrado con éxito. Ya podés iniciar sesión.")

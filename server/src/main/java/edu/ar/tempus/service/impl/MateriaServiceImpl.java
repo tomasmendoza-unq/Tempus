@@ -3,6 +3,7 @@ package edu.ar.tempus.service.impl;
 import edu.ar.tempus.exceptions.business.DependenciaCircularException;
 import edu.ar.tempus.exceptions.business.RelacionCorrelativaYaExisteException;
 import edu.ar.tempus.model.Materia;
+import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.persistence.repository.MateriaRepository;
 import edu.ar.tempus.service.MateriaService;
 import edu.ar.tempus.service.UsuarioService;
@@ -58,9 +59,13 @@ public class MateriaServiceImpl implements MateriaService {
 
     @Override
     public List<Materia> recuperarMateriasDisponibles(Long alumnoId) {
+        Usuario alumno = usuarioService.recuperarUsuarioPorId(alumnoId);
         List<Long> materiasAprobadas = usuarioService.recuperarMateriasAprobadasPorAlumno(alumnoId);
 
-        return materiaRepository.recuperarMateriasDisponibles(materiasAprobadas);
+        return materiaRepository.recuperarMateriasDisponibles(
+                materiasAprobadas,
+                alumno.getCarreraActiva().getId()
+        );
     }
 
     @Override

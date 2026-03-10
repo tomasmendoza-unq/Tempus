@@ -29,11 +29,11 @@ public final class CarreraControllerRest {
         this.authUtils = authUtils;
     }
 
-    @GetMapping
+    @GetMapping("/public")
     public ResponseEntity<List<CarreraDTOResponse>> obtenerCarreras() {
         List<Carrera> carreras = carreraService.recuperarTodos();
         List<CarreraDTOResponse> response = carreras.stream().map(CarreraDTOResponse::desdeModelo).toList();
-        return ResponseEntity.status(HttpStatus.FOUND).body(response);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/buscar/{nombreCarrera}")

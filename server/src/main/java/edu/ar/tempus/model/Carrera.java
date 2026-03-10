@@ -7,6 +7,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "materias")
 @EqualsAndHashCode(of = "id")
 @Data
 public class Carrera {
