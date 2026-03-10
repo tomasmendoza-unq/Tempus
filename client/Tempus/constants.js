@@ -1,6 +1,7 @@
 export const API = {
-  BASE_URL: "http://localhost:8080",
+  BASE_URL: import.meta.env.VITE_API_URL || "http://localhost:8080",
 }
+
 export const ROUTES = {
   HOME: "/",
   MATERIAS: "/materias",
