@@ -10,7 +10,7 @@ public class AppConfiguration implements WebMvcConfigurer {
 
 
 
-
+/*
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -19,6 +19,6 @@ public class AppConfiguration implements WebMvcConfigurer {
                 .allowedHeaders("*") // Permite todos los headers
                 .allowCredentials(false); // No necesitamos credenciales para este caso
     }
-
+*/
 
 }
