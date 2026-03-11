@@ -28,7 +28,7 @@ public final class ImportacionControllerREST {
     @PostMapping("/preview")
     public ResponseEntity<Page<MateriaDTOResponse>> preview(
             @RequestParam("pdf") MultipartFile pdf,
-            @PageableDefault(size = 10) Pageable pageable) {
+            @PageableDefault(size = 200) Pageable pageable) {
 
         Page<Materia> preview = importacionService.preview(pdf, pageable);
 

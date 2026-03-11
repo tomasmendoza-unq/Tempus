@@ -67,7 +67,7 @@ export function HorarioGrid({ horario }) {
                         </span>
                         <div className="flex justify-between items-center mt-auto">
                           <span className="text-[9px] text-gray-500 font-bold">
-                            C{comision.comisionId}
+                            C{comision.comisionNombre}
                           </span>
                           <span className="text-[9px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">
                             {comision.aula || 'S/A'}

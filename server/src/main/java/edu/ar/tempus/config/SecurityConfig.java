@@ -69,6 +69,7 @@ public class SecurityConfig {
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/imports/preview").permitAll()
                         .requestMatchers("/imports/load").permitAll()
+                        .requestMatchers("/carrera/load").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
