@@ -11,7 +11,10 @@ import LoginPage from "./pages/LoginPage"
 import { ProtectedRoute } from "./hooks/ProtectedRoute"
 import Carreras from "./pages/Carreras"
 import PerfilPage from "./pages/PerfilPage"
-import Comision from "./pages/Comision"
+import ComisionAgregar from "./pages/Comision/ComisionAgregar"
+import ComisionMostrar from "./pages/Comision/ComisionMostrar"
+import ComisionEditar from "./pages/Comision/ComisionEditar"
+import ComisionEliminar from "./pages/Comision/ComisionEliminar"
 
 function App() {
   return (
@@ -64,10 +67,34 @@ function App() {
             }
           />
           <Route
-            path={ROUTES.COMISIONES}
+            path={ROUTES.COMISION_AGREGAR}
             element={
               <ProtectedRoute>
-                <Comision />
+                <ComisionAgregar />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={ROUTES.COMISION_MOSTRAR}
+            element={
+              <ProtectedRoute>
+                <ComisionMostrar />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={ROUTES.COMISION_EDITAR}
+            element={
+              <ProtectedRoute>
+                <ComisionEditar />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={ROUTES.COMISION_ELIMINAR}
+            element={
+              <ProtectedRoute>
+                <ComisionEliminar />
               </ProtectedRoute>
             }
           />
