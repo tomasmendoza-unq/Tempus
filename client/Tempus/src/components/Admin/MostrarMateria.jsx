@@ -23,6 +23,9 @@ export default function MostrarMateria() {
               Resultados
             </label>
             <Dropdown
+              customClass={
+                "border border-0.5 bg-red-950 text-white rounded hover:shadow-md hover:shadow-red-700 hover:bg-red-900 transition-all duration-200"
+              }
               tag1={"materiaNombre"}
               tag2={"materiaId"}
               elements={materias}

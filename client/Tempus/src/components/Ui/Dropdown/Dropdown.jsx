@@ -3,6 +3,7 @@ import useOutsideClick from "../../../hooks/useOnBlur"
 import { ArrowDown, ArrowUp } from "feather-icons-react"
 
 export default function DropDown({
+  customClass,
   elements,
   tag1,
   tag2,
@@ -24,6 +25,7 @@ export default function DropDown({
   return (
     <div ref={ref} className="z-50 relative">
       <button
+        className={`${customClass || "border border-0.5 bg-red-900/30 text-white rounded hover:shadow-md hover:shadow-red-700 hover:bg-red-800 transition-all duration-200"}  `}
         onClick={(e) => {
           e.stopPropagation()
           setIsOpen((prevIsOpen) => !prevIsOpen)
