@@ -23,22 +23,17 @@ public class FilaCompletaStrategy implements LineaStrategy {
 
     @Override
     public void ejecutar(String linea, ParserContext ctx) {
-
         Matcher m = PATRON.matcher(linea);
-
         if (!m.matches()) return;
 
         String nombre = m.group(1).trim();
         String codigo = m.group(2).trim();
+        String horarioExtra = m.group(3).trim();
 
         if (nombre.equalsIgnoreCase("Actividad")) return;
+        if (ctx.getNombrePendiente() != null) nombre = ctx.getNombrePendiente() + " " + nombre;
 
-        if (ctx.getNombrePendiente() != null) {
-            nombre = ctx.getNombrePendiente() + " " + nombre;
-        }
-
-        ctx.agregarComision(nombre, codigo);
-
+        ctx.agregarComision(nombre, codigo, horarioExtra);
         ctx.setNombrePendiente(null);
         ctx.setCodigoPendiente(null);
     }

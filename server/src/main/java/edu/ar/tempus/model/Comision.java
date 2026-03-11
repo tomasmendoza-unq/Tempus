@@ -9,12 +9,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "materia")
-@EqualsAndHashCode(of = "ComisionId")
+@EqualsAndHashCode(of = "comisionId")
 @Data
 public class Comision {
 
-    private Long ComisionId;
+    private Long comisionId;
     private Materia materia;
+    private String comisionNombre;
     private List<ClaseHorario> clases;
 
 

@@ -44,21 +44,34 @@ public class ImportacionServiceTest {
         List<Materia> materias = materiaService.recuperarTodos();
 
         assertFalse(materias.isEmpty());
-
-        boolean tieneBasesDeDatos = materias.stream()
-                .anyMatch(m -> m.getMateriaNombre().equalsIgnoreCase("Bases de Datos"));
-        boolean tieneMatematica = materias.stream()
-                .anyMatch(m -> m.getMateriaNombre().equalsIgnoreCase("Matemática I"));
-
-        assertTrue(tieneBasesDeDatos);
-        assertTrue(tieneMatematica);
+        assertTrue(materias.stream().anyMatch(m -> m.getMateriaNombre().equalsIgnoreCase("Bases de Datos")));
+        assertTrue(materias.stream().anyMatch(m -> m.getMateriaNombre().equalsIgnoreCase("Matemática I")));
 
         Materia bd = materias.stream()
                 .filter(m -> m.getMateriaNombre().equalsIgnoreCase("Bases de Datos"))
                 .findFirst()
                 .orElseThrow();
 
-        assertTrue(bd.getComisiones().size() >= 6 );
+        assertFalse(bd.getComisiones().isEmpty(), "La materia Bases de Datos debería tener comisiones");
+        assertTrue(bd.getComisiones().size() >= 6);
+
+
+        Materia objetos3 = materias.stream()
+                .filter(m -> m.getMateriaNombre().contains("Objetos III"))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("No se encontró la materia Programación con Objetos III"));
+
+        boolean tieneComisionCritica = objetos3.getComisiones().stream()
+                .anyMatch(c -> c.getComisionNombre().contains("1051-1-G14"));
+
+        assertTrue(tieneComisionCritica, "Debería haber parseado la comisión 1051-1-G14 a pesar del horario 9:00");
+
+        var comisionObjetos = objetos3.getComisiones().stream()
+                .filter(c -> c.getComisionNombre().contains("1051-1-G14"))
+                .findFirst()
+                .get();
+
+        assertFalse(comisionObjetos.getClases().isEmpty(), "La comisión debería tener horarios asociados");
     }
 
     @AfterEach

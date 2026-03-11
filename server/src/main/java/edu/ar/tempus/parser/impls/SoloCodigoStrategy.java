@@ -32,7 +32,7 @@ public class SoloCodigoStrategy implements LineaStrategy {
 
         if (ctx.getNombrePendiente() != null) {
 
-            ctx.agregarComision(ctx.getNombrePendiente(), codigo);
+            ctx.agregarComision(ctx.getNombrePendiente(), codigo, null);
             ctx.setNombrePendiente( null);
 
         } else {

@@ -7,6 +7,9 @@
         <id name="comisionId" column="id">
             <generator class="identity"/>
         </id>
+
+        <property name="comisionNombre" column="comision_nombre" type="string" />
+
         <list name="clases" cascade="all" fetch="join" lazy="false">
             <key column="comision_id" not-null="true"/>
             <list-index column="idx"/>

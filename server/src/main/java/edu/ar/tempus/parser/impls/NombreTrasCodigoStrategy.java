@@ -23,14 +23,12 @@ public class NombreTrasCodigoStrategy implements LineaStrategy {
 
     @Override
     public void ejecutar(String linea, ParserContext ctx) {
-
         Matcher m = PATRON.matcher(linea);
-
         if (!m.matches()) return;
 
         String nombre = m.group(1).trim();
 
-        ctx.agregarComision(nombre, ctx.getCodigoPendiente());
+        ctx.agregarComision(nombre, ctx.getCodigoPendiente(), null);
 
         ctx.setCodigoPendiente(null);
         ctx.setNombrePendiente(null);

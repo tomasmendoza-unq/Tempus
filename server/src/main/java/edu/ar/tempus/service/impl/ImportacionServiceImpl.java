@@ -5,7 +5,11 @@ import edu.ar.tempus.service.ImportacionService;
 import edu.ar.tempus.service.MateriaService;
 import edu.ar.tempus.parser.OfertaParserService;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.util.List;
@@ -30,5 +34,19 @@ public class ImportacionServiceImpl implements ImportacionService {
 
         materiaService.guardarMaterias(materias);
 
+    }
+
+    @Override
+    public Page<Materia> preview(MultipartFile pdf, Pageable pageable) {
+        try {
+            List<Materia> materias = ofertaParserService.parsear(pdf.getInputStream());
+
+            int start = (int) pageable.getOffset();
+            int end = Math.min(start + pageable.getPageSize(), materias.size());
+
+            return new PageImpl<>(materias.subList(start, end), pageable, materias.size());
+        } catch (Exception e) {
+            throw new RuntimeException("Error leyendo el PDF", e);
+        }
     }
 }

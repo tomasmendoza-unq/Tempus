@@ -52,24 +52,29 @@ public class DataSedeerImpl implements DataSedeer {
 
         // --- 3. COMISIONES PARA INGLES ---
         comisionService.guardar(Comision.builder()
+                        .comisionNombre("90000-1-G14 (Virtual)") 
                         .clases(List.of(crearClase(DiasSemana.LUNES, 8, 10))).build(),
                 ingles.getMateriaId());
 
         comisionService.guardar(Comision.builder()
+                        .comisionNombre("90000-2-G14 (Virtual)") 
                         .clases(List.of(crearClase(DiasSemana.LUNES, 14, 16))).build(),
                 ingles.getMateriaId());
 
         // --- 4. COMISIONES PARA MATEMATICA ---
         comisionService.guardar(Comision.builder()
+                        .comisionNombre("1033-1-G14 (Presencial)") 
                         .clases(List.of(crearClase(DiasSemana.LUNES, 9, 11))).build(),
                 matematica.getMateriaId());
 
         comisionService.guardar(Comision.builder()
+                        .comisionNombre("1033-2-G14 (Presencial)") 
                         .clases(List.of(crearClase(DiasSemana.MIERCOLES, 18, 20))).build(),
                 matematica.getMateriaId());
 
         // --- 5. COMISIONES PARA PROGRAMACION ---
         comisionService.guardar(Comision.builder()
+                        .comisionNombre("487-1-G14 (Presencial)") 
                         .clases(List.of(
                                 crearClase(DiasSemana.MARTES, 8, 10),
                                 crearClase(DiasSemana.JUEVES, 8, 10)
