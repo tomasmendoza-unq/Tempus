@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class MateriaRepositoryImpl implements MateriaRepository {
@@ -95,6 +96,17 @@ public class MateriaRepositoryImpl implements MateriaRepository {
                 .toList();
 
         return materiaNeo4JDAO.cuentaConLasCorrelativas(materiasAprobadasIds, comisionIds);
+    }
+
+    @Override
+    public List<Materia> saveAll(List<Materia> materias) {
+        List<Materia> materiasSaved = materiaSQLDAO.saveAll(materias);
+
+        List<MateriaNeo4J> neo4JS = materiasSaved.stream().map(materiaMapper::toNeo4J).toList();
+
+        materiaNeo4JDAO.saveAll(neo4JS);
+
+        return materiasSaved;
     }
 
     @Override

@@ -19,4 +19,5 @@ public interface MateriaService {
 
     List<Materia> recuperarMateriasPorNombre(String nombreMateria);
 
+    List<Materia> guardarMaterias(List<Materia> materias);
 }

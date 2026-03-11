@@ -1,0 +1,34 @@
+package edu.ar.tempus.service.impl;
+
+import edu.ar.tempus.model.Materia;
+import edu.ar.tempus.service.ImportacionService;
+import edu.ar.tempus.service.MateriaService;
+import edu.ar.tempus.parser.OfertaParserService;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.io.InputStream;
+import java.util.List;
+
+@Service
+@Transactional
+public class ImportacionServiceImpl implements ImportacionService {
+
+    private final OfertaParserService ofertaParserService;
+
+    private final MateriaService materiaService;
+
+    public ImportacionServiceImpl(OfertaParserService ofertaParserService, MateriaService materiaService) {
+        this.ofertaParserService = ofertaParserService;
+        this.materiaService = materiaService;
+    }
+
+    @Override
+    public void cargarOfertaAcademica(InputStream pdfInputStream) {
+
+        List<Materia> materias = ofertaParserService.parsear(pdfInputStream);
+
+        materiaService.guardarMaterias(materias);
+
+    }
+}
