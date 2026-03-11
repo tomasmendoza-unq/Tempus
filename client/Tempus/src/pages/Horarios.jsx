@@ -33,8 +33,9 @@ export default function GeneradorHorarios() {
 
   return (
     <div className="flex flex-col p-6 space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800 text-center">Configurar Horario</h2>
-      
+      <h2 className="text-2xl font-bold text-white text-center">
+        Gestion Horarios
+      </h2>
       <MateriaSelector 
         materias={materias} 
         selectedIds={selectedIds} 
