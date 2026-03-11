@@ -18,3 +18,11 @@ export const obtenerComisionService = (comisionId) =>
     .catch((error) => {
       throw error
     })
+
+export const obtenerTodasComisionesService = () =>
+  api
+    .get(API_ROUTES.OBTENER_TODAS_COMISIONES)
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })
