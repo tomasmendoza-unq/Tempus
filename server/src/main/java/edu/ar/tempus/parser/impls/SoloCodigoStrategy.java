@@ -23,20 +23,23 @@ public class SoloCodigoStrategy implements LineaStrategy {
 
     @Override
     public void ejecutar(String linea, ParserContext ctx) {
-
         Matcher m = PATRON.matcher(linea);
-
         if (!m.matches()) return;
 
         String codigo = m.group(1).trim();
+        String horarioExtra = m.group(2).trim();
 
         if (ctx.getNombrePendiente() != null) {
+            String horarioCompleto = horarioExtra;
+            if (ctx.getHorarioPendiente() != null && !ctx.getHorarioPendiente().isEmpty()) {
+                horarioCompleto = ctx.getHorarioPendiente() + " " + horarioExtra;
+                ctx.setHorarioPendiente(null);
+            }
 
-            ctx.agregarComision(ctx.getNombrePendiente(), codigo, null);
-            ctx.setNombrePendiente( null);
+            ctx.agregarComision(ctx.getNombrePendiente(), codigo, horarioCompleto);
 
+            ctx.setNombrePendiente(null);
         } else {
-
             ctx.setCodigoPendiente(codigo);
         }
     }

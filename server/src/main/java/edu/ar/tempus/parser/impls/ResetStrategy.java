@@ -7,13 +7,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.regex.Pattern;
 
-@Order(6)
+@Order(7)
 @Component
 public class ResetStrategy implements LineaStrategy {
 
-    private static final Pattern PATRON_HORARIO = Pattern.compile(
-            "^(?:Lun|Mar|Mie|Mié|Jue|Vie|Sab|Sáb)\\b.*"
-    );
+    private static final Pattern PATRON_CONTINUACION_HORA =
+            Pattern.compile("^\\d{1,2}:\\d{2}.*");
 
     @Override
     public boolean matches(String linea, ParserContext ctx) {
@@ -22,14 +21,21 @@ public class ResetStrategy implements LineaStrategy {
 
     @Override
     public void ejecutar(String linea, ParserContext ctx) {
-        if (PATRON_HORARIO.matcher(linea).matches()) {
-            String actual = ctx.getHorarioPendiente();
-            ctx.setHorarioPendiente(actual != null ? actual + " " + linea : linea);
-        } else {
-            if (ctx.getCodigoPendiente() == null) {
-                ctx.setNombrePendiente(null);
-            }
-            ctx.setHorarioPendiente(null);
+
+        if (ctx.getHorarioPendiente() != null &&
+                PATRON_CONTINUACION_HORA.matcher(linea).matches()) {
+
+            ctx.setHorarioPendiente(
+                    ctx.getHorarioPendiente() + " " + linea
+            );
+
+            return;
         }
+
+        if (ctx.getCodigoPendiente() == null) {
+            ctx.setNombrePendiente(null);
+        }
+
+        ctx.setHorarioPendiente(null);
     }
 }

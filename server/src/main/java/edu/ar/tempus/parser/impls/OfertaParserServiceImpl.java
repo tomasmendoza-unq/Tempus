@@ -45,7 +45,16 @@ public class OfertaParserServiceImpl implements OfertaParserService {
 
                 for (LineaStrategy strategy : strategies) {
                     if (strategy.matches(linea, ctx)) {
+                        System.out.println("LINEA: [" + linea + "]");
+                        System.out.println("STRATEGY: " + strategy.getClass().getSimpleName());
+
                         strategy.ejecutar(linea, ctx);
+
+                        System.out.println("CTX nombrePendiente: " + ctx.getNombrePendiente());
+                        System.out.println("CTX codigoPendiente: " + ctx.getCodigoPendiente());
+                        System.out.println("CTX horarioPendiente: " + ctx.getHorarioPendiente());
+                        System.out.println("------------------------------------------------");
+
                         break;
                     }
                 }

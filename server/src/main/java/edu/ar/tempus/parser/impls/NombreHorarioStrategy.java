@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Order(4)
+@Order(5)
 @Component
 public class NombreHorarioStrategy implements LineaStrategy {
 
@@ -25,9 +25,15 @@ public class NombreHorarioStrategy implements LineaStrategy {
 
     @Override
     public void ejecutar(String linea, ParserContext ctx) {
+
         Matcher m = PATRON.matcher(linea);
         if (!m.matches()) return;
-        ctx.setNombrePendiente(m.group(1).trim());
+
+        String nombre = m.group(1).trim();
+        String horario = linea.substring(m.end(1)).trim();
+
+        ctx.setNombrePendiente(nombre);
+        ctx.setHorarioPendiente(horario);
     }
 
     private boolean esPosibleNombre(String s) {

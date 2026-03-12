@@ -16,11 +16,12 @@ public record ComisionDTOResponseSimple(
 ) {
 
     public static ComisionDTOResponseSimple desdeModelo(Comision comision) {
+        MateriaDTOResponseSimple materia = comision.getMateria() == null ?  null : MateriaDTOResponseSimple.desdeModelo(comision.getMateria());
         return new ComisionDTOResponseSimple(
                 comision.getComisionId(),
                 comision.getComisionNombre(),
                 comision.getClases().stream().map(ClaseHorarioDTOResponse::desdeModelo).toList(),
-                MateriaDTOResponseSimple.desdeModelo(comision.getMateria())
+                materia
         );
     }
 }

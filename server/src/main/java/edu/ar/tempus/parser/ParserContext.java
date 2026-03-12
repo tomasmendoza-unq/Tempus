@@ -22,9 +22,20 @@ public class ParserContext {
                 nombre -> Materia.builder().materiaNombre(nombre).build()
         );
 
-        String horarioCompleto = (horarioPendiente != null ? horarioPendiente + " " : "")
-                + (horarioExtra != null ? horarioExtra : "");
+        String horarioCompleto = "";
 
+        if (horarioPendiente != null) {
+            horarioCompleto = horarioPendiente;
+        }
+
+        if (horarioExtra != null && !horarioExtra.isBlank()) {
+
+            if (horarioCompleto.endsWith("a")) {
+                horarioCompleto = horarioCompleto + " " + horarioExtra;
+            } else {
+                horarioCompleto = horarioCompleto + " " + horarioExtra;
+            }
+        }
         List<ClaseHorario> clases = ClaseHorarioParser.parsear(horarioCompleto.trim());
 
         Comision comision = new Comision();

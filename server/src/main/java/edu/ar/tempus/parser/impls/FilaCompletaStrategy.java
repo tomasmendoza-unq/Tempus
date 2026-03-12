@@ -31,9 +31,18 @@ public class FilaCompletaStrategy implements LineaStrategy {
         String horarioExtra = m.group(3).trim();
 
         if (nombre.equalsIgnoreCase("Actividad")) return;
-        if (ctx.getNombrePendiente() != null) nombre = ctx.getNombrePendiente() + " " + nombre;
+
+        if (ctx.getNombrePendiente() != null) {
+            nombre = ctx.getNombrePendiente() + " " + nombre;
+        }
+
+        if (ctx.getHorarioPendiente() != null) {
+            horarioExtra = ctx.getHorarioPendiente() + " " + horarioExtra;
+            ctx.setHorarioPendiente(null);
+        }
 
         ctx.agregarComision(nombre, codigo, horarioExtra);
+
         ctx.setNombrePendiente(null);
         ctx.setCodigoPendiente(null);
     }

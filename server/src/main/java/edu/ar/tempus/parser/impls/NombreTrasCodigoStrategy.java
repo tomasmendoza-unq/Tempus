@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Order(3)
+@Order(4)
 @Component
 public class NombreTrasCodigoStrategy implements LineaStrategy {
 
