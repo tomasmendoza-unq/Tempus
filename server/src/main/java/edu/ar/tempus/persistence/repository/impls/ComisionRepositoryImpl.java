@@ -12,6 +12,8 @@ import edu.ar.tempus.persistence.neo4J.entity.MateriaNeo4J;
 import edu.ar.tempus.persistence.repository.ComisionRepository;
 import edu.ar.tempus.persistence.repository.mapper.ComisionMapper;
 import edu.ar.tempus.persistence.sql.ComisionDAOSQL;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.neo4j.core.Neo4jClient;
 import org.springframework.stereotype.Component;
 
@@ -102,6 +104,11 @@ public class ComisionRepositoryImpl implements ComisionRepository {
     @Override
     public List<Materia> recuperarMateriasPorComision(List<Long> comisionIds) {
         return comisionDAOSQL.findAllMateriasByIds(comisionIds);
+    }
+
+    @Override
+    public Page<Comision> recuperarComisiones(Pageable pageable) {
+        return comisionDAOSQL.findAll(pageable);
     }
 
     private String buildQuery(int n) {

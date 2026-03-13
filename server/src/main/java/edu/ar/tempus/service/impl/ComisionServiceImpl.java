@@ -9,6 +9,9 @@ import edu.ar.tempus.persistence.repository.ComisionRepository;
 import edu.ar.tempus.persistence.sql.MateriaSQLDAO;
 import edu.ar.tempus.service.ComisionService;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -66,6 +69,12 @@ public class ComisionServiceImpl implements ComisionService {
     @Override
     public List<Materia> recuperarMateriasPorComision(List<Long> comisionIds) {
         return comisionRepository.recuperarMateriasPorComision(comisionIds);
+    }
+
+    @Override
+    public Page<Comision> recuperarComisiones(int page) {
+        Pageable pageable = PageRequest.of(page, 9);
+        return comisionRepository.recuperarComisiones(pageable);
     }
 
 }

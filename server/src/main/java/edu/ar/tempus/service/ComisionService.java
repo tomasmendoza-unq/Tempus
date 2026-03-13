@@ -2,7 +2,7 @@ package edu.ar.tempus.service;
 
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
-
+import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface ComisionService {
@@ -19,4 +19,6 @@ public interface ComisionService {
     boolean hayComisionesDeMismaMateriaEnNuevas(List<Long> comisionIds);
 
     List<Materia> recuperarMateriasPorComision(List<Long> comisionIds);
+
+    Page<Comision> recuperarComisiones(int page);
 }

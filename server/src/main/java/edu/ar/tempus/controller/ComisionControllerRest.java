@@ -5,10 +5,12 @@ import edu.ar.tempus.controller.dto.comision.ComisionDTOResponse;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.service.ComisionService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/comision")
@@ -19,6 +21,17 @@ public final class ComisionControllerRest {
     public ComisionControllerRest(ComisionService comisionService) {
         this.comisionService = comisionService;
     }
+
+    @GetMapping
+    public ResponseEntity<Page<ComisionDTOResponse>> obtenerComisiones(
+            @RequestParam(defaultValue = "0") int page
+    ){
+        Page<Comision> comisiones = comisionService.recuperarComisiones(page);
+        Page<ComisionDTOResponse> response = comisiones.map(ComisionDTOResponse::desdeModelo);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 
     @GetMapping("/{comisionId}")
     public ResponseEntity<ComisionDTOResponse> obtenerComision(@PathVariable("comisionId") Long comisionId){
