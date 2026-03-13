@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -80,6 +81,31 @@ public class ComisionServiceTest {
         assertEquals(LocalTime.of(8, 0), comisionRecuperada.getClases().getFirst().getInicio());
 
         assertEquals(inglesGuardada.getMateriaId(), comisionRecuperada.getMateria().getMateriaId());
+    }
+    @Test
+    public void recuperarComisionesPaginadas() {
+        ClaseHorario lunes = ClaseHorario.builder()
+                .dia(DiasSemana.LUNES)
+                .inicio(LocalTime.of(8, 0))
+                .fin(LocalTime.of(10, 0))
+                .build();
+        
+        for (int i = 0; i < 12; i++) {
+            Comision comision = Comision.builder()
+                    .clases(List.of(lunes))
+                    .build();
+            comisionService.guardar(comision, inglesGuardada.getMateriaId());
+        }
+
+        Page<Comision> primeraPagina = comisionService.recuperarComisiones(0);
+        Page<Comision> segundaPagina = comisionService.recuperarComisiones(1);
+
+        assertEquals(9, primeraPagina.getContent().size(), "La primera página debería tener 9 comisiones");
+        assertEquals(3, segundaPagina.getContent().size(), "La segunda página debería tener 3 comisiones");
+        assertEquals(12, primeraPagina.getTotalElements(), "El total de comisiones debería ser 12");
+        assertEquals(2, primeraPagina.getTotalPages(), "Debería haber 2 páginas en total");
+        assertTrue(primeraPagina.hasNext(), "La primera página debería tener una siguiente");
+        assertFalse(segundaPagina.hasNext(), "La segunda página no debería tener una siguiente");
     }
 
     @Test
