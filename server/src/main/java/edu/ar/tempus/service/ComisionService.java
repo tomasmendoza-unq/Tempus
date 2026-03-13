@@ -1,7 +1,9 @@
 package edu.ar.tempus.service;
 
+import edu.ar.tempus.controller.dto.comision.UpdateComisionDTORequest;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import java.util.List;
 
@@ -21,4 +23,6 @@ public interface ComisionService {
     List<Materia> recuperarMateriasPorComision(List<Long> comisionIds);
 
     Page<Comision> recuperarComisiones(int page, Long alumnoId);
+
+    Comision actualizar(Long idComision, UpdateComisionDTORequest updateComision);
 }

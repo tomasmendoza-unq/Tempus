@@ -2,11 +2,10 @@ package edu.ar.tempus.service;
 
 import edu.ar.tempus.controller.dto.claseHorario.UpdateClaseHorarioDTORequest;
 import edu.ar.tempus.model.ClaseHorario;
-import edu.ar.tempus.model.Horario;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
-public interface HorarioService {
-    List<Horario> generarNHorarioCon(List<Long> materiasIds,  Integer cantidadHorarios);
-
+public interface ClaseHorarioService {
+    List<ClaseHorario> actualizar(@Valid List<UpdateClaseHorarioDTORequest> request);
 }

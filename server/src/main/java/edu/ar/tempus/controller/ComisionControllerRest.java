@@ -2,6 +2,7 @@ package edu.ar.tempus.controller;
 
 import edu.ar.tempus.controller.dto.comision.ComisionDTORequest;
 import edu.ar.tempus.controller.dto.comision.ComisionDTOResponse;
+import edu.ar.tempus.controller.dto.comision.UpdateComisionDTORequest;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.service.ComisionService;
 import edu.ar.tempus.utils.AuthUtils;
@@ -38,7 +39,6 @@ public final class ComisionControllerRest {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
     @GetMapping("/{comisionId}")
     public ResponseEntity<ComisionDTOResponse> obtenerComision(@PathVariable("comisionId") Long comisionId){
         Comision comision = comisionService.recuperar(comisionId);
@@ -55,5 +55,16 @@ public final class ComisionControllerRest {
         return ResponseEntity.status(HttpStatus.CREATED).body(ComisionDTOResponse.desdeModelo(comisionGuardada));
     }
 
+    @PutMapping("/{idComision}")
+    public ResponseEntity<ComisionDTOResponse> actualizarComision(
+            @Valid @RequestBody UpdateComisionDTORequest request,
+            @PathVariable("idComision") Long idComision){
+
+        Comision comision = comisionService.actualizar(idComision, request);
+
+        ComisionDTOResponse response = ComisionDTOResponse.desdeModelo(comision);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
 }
