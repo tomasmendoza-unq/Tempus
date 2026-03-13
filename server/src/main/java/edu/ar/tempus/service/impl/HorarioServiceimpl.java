@@ -34,8 +34,4 @@ public class HorarioServiceimpl implements HorarioService {
                 .toList();
     }
 
-    @Override
-    public List<ClaseHorario> actualizar(List<UpdateClaseHorarioDTORequest> request) {
-        return List.of();
-    }
 }

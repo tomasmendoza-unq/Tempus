@@ -32,12 +32,5 @@ public final class HorarioControllerREST {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/actualizar")
-    public ResponseEntity<List<ClaseHorarioDTOResponse>> actualizar(@Valid @RequestBody List<UpdateClaseHorarioDTORequest> request) {
-        List<ClaseHorario> claseHorarios = horarioService.actualizar(request);
 
-        List<ClaseHorarioDTOResponse> horarioDTOResponses = claseHorarios.stream().map(ClaseHorarioDTOResponse::desdeModelo).toList();
-
-        return ResponseEntity.ok(horarioDTOResponses);
-    }
 }
