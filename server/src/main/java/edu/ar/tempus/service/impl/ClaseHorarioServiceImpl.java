@@ -41,7 +41,7 @@ public class ClaseHorarioServiceImpl implements ClaseHorarioService {
                 .toList();
     }
 
-    private ClaseHorario findClaseHorario(Long id) {
+    public ClaseHorario findClaseHorario(Long id) {
         return claseHorarioSQLDAO.findById(id).orElseThrow(() -> new EntityNotFoundException(ClaseHorario.class.getName(), id));
 
     }

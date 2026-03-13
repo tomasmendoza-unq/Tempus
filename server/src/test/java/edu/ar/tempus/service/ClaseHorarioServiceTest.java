@@ -1,6 +1,7 @@
 package edu.ar.tempus.service;
 
 import edu.ar.tempus.controller.dto.claseHorario.UpdateClaseHorarioDTORequest;
+import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +34,8 @@ public class ClaseHorarioServiceTest {
 
     private Comision comision;
 
+    private ClaseHorario clase;
+
     @BeforeEach
     public void setUp() {
 
@@ -60,6 +63,7 @@ public class ClaseHorarioServiceTest {
                         .build(),
                 materia.getMateriaId()
         );
+        clase = comision.getClases().getFirst();
     }
 
     @Test
@@ -137,6 +141,13 @@ public class ClaseHorarioServiceTest {
         assertThrows(Exception.class, () ->
                 claseHorarioService.actualizar(List.of(dto))
         );
+    }
+
+    @Test
+    public void eliminarUnaClaseHorario() {
+        claseHorarioService.delete(clase.getId());
+
+        assertThrows(EntityNotFoundException.class, () -> claseHorarioService.findClaseHorario(clase.getId()));
     }
 
     @AfterEach
