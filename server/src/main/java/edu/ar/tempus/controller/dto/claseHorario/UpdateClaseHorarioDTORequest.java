@@ -8,7 +8,6 @@ import java.time.LocalTime;
 
 public record UpdateClaseHorarioDTORequest(
         Long id,
-        Long idComision,
         DiasSemana dia,
         LocalTime inicio,
         LocalTime fin
