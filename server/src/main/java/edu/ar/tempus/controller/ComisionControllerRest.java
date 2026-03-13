@@ -67,4 +67,11 @@ public final class ComisionControllerRest {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @DeleteMapping("/{idComision}")
+    public ResponseEntity<String> eliminarComision(@PathVariable("idComision") Long idComision){
+        comisionService.eliminarComision(idComision);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Comision eliminado");
+    }
+
 }

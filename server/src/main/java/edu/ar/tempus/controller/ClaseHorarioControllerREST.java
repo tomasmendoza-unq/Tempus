@@ -5,17 +5,15 @@ import edu.ar.tempus.controller.dto.claseHorario.UpdateClaseHorarioDTORequest;
 import edu.ar.tempus.model.ClaseHorario;
 import edu.ar.tempus.service.ClaseHorarioService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/claseHorario")
-public class ClaseHorarioControllerREST {
+public final class ClaseHorarioControllerREST {
 
     private final ClaseHorarioService claseHorarioService;
 
@@ -30,5 +28,12 @@ public class ClaseHorarioControllerREST {
         List<ClaseHorarioDTOResponse> horarioDTOResponses = claseHorarios.stream().map(ClaseHorarioDTOResponse::desdeModelo).toList();
 
         return ResponseEntity.ok(horarioDTOResponses);
+    }
+
+    @DeleteMapping("/{idClaseHorario}")
+    public ResponseEntity<String> eliminarHorario(@PathVariable("idClaseHorario") Long idClaseHorario) {
+        claseHorarioService.delete(idClaseHorario);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Clase horario eliminado");
     }
 }

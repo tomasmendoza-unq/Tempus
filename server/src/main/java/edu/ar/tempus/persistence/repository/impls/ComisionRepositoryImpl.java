@@ -109,6 +109,15 @@ public class ComisionRepositoryImpl implements ComisionRepository {
         return comisionDAOSQL.findAll(pageable, carreraId);
     }
 
+    @Override
+    public void delete(Long idComision) {
+        Comision comision = comisionDAOSQL.findById(idComision).orElseThrow(() -> new EntityNotFoundException(Comision.class.getName(), idComision));
+        ComisionNeo4J comisionNeo4J = comisionNeo4JDAO.findById(idComision).orElseThrow(() -> new EntityNotFoundException(Comision.class.getName(), idComision));
+
+        comisionNeo4JDAO.delete(comisionNeo4J);
+        comisionDAOSQL.delete(comision);
+    }
+
     private String buildQuery(int n) {
         StringBuilder sb = new StringBuilder();
         sb.append("""

@@ -8,12 +8,15 @@ import edu.ar.tempus.persistence.repository.ComisionRepository;
 import edu.ar.tempus.persistence.sql.ClaseHorarioSQLDAO;
 import edu.ar.tempus.service.ClaseHorarioService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Service
 @Transactional
+@Validated
 public class ClaseHorarioServiceImpl implements ClaseHorarioService {
 
     private final ClaseHorarioSQLDAO claseHorarioSQLDAO;
@@ -24,18 +27,27 @@ public class ClaseHorarioServiceImpl implements ClaseHorarioService {
     }
 
     @Override
-    public List<ClaseHorario> actualizar(List<UpdateClaseHorarioDTORequest> request) {
+    public List<ClaseHorario> actualizar(@Valid List<UpdateClaseHorarioDTORequest> request) {
         //TODO: SOLUCIONAR ESTE PROBLEMA DE N+1
         return request.stream()
                 .map(dto -> {
 
-                    ClaseHorario clase = claseHorarioSQLDAO.findById(dto.id()).orElseThrow(() -> new EntityNotFoundException(ClaseHorario.class.getName(), dto.id()));;
-
+                    ClaseHorario clase = findClaseHorario(dto.id());
                     dto.aplicar(clase);
 
                     return claseHorarioSQLDAO.save(clase);
 
                 })
                 .toList();
+    }
+
+    public ClaseHorario findClaseHorario(Long id) {
+        return claseHorarioSQLDAO.findById(id).orElseThrow(() -> new EntityNotFoundException(ClaseHorario.class.getName(), id));
+
+    }
+
+    @Override
+    public void delete(Long idClaseHorario) {
+        claseHorarioSQLDAO.delete(findClaseHorario(idClaseHorario));
     }
 }

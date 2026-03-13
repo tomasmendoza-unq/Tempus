@@ -1,5 +1,6 @@
 package edu.ar.tempus.service;
 
+import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.model.*;
 import edu.ar.tempus.persistence.neo4J.ComisionNeo4JDAO;
 import org.junit.jupiter.api.AfterEach;
@@ -49,6 +50,8 @@ public class ComisionServiceTest {
 
     private Materia inglesGuardada;
 
+    private Comision comisionGuardada;
+
     @BeforeEach
     public void setUp() {
         Materia ingles = Materia.builder()
@@ -67,6 +70,23 @@ public class ComisionServiceTest {
                 .role(Role.USER)
                 .build();
 
+        ClaseHorario lunes = ClaseHorario.builder()
+                .dia(DiasSemana.LUNES)
+                .inicio(LocalTime.of(8, 0))
+                .fin(LocalTime.of(10, 0))
+                .build();
+
+        ClaseHorario miercoles = ClaseHorario.builder()
+                .dia(DiasSemana.MIERCOLES)
+                .inicio(LocalTime.of(9, 0))
+                .fin(LocalTime.of(11, 0))
+                .build();
+
+        Comision nuevaComision = Comision.builder()
+                .clases(List.of(lunes, miercoles))
+                .build();
+
+        comisionGuardada = comisionService.guardar(nuevaComision, inglesGuardada.getMateriaId());
 
     }
 
@@ -196,6 +216,13 @@ public class ComisionServiceTest {
                 guardadaC.getComisionId()
         );
         assertEquals(false, compatibleBC, "La Comisión B NO debería ser compatible con C (se solapan)");
+    }
+
+    @Test
+    public void eliminarUnaComision(){
+        comisionService.eliminarComision(comisionGuardada.getComisionId());
+
+        assertThrows(EntityNotFoundException.class, () -> comisionService.recuperar(comisionGuardada.getComisionId()));
     }
 
     @AfterEach
