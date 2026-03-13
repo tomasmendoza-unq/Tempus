@@ -98,4 +98,9 @@ public class ComisionServiceImpl implements ComisionService {
         return comisionRepository.guardar(comision);
     }
 
+    @Override
+    public void eliminarComision(Long idComision) {
+        comisionRepository.delete(idComision);
+    }
+
 }

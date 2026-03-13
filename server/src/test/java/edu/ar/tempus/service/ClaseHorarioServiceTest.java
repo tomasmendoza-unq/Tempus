@@ -135,7 +135,7 @@ public class ClaseHorarioServiceTest {
                 );
 
         assertThrows(Exception.class, () ->
-                claseHorarioService.actualizar(List.of(dto)//TODO SOLUCIONAR
+                claseHorarioService.actualizar(List.of(dto))
         );
     }
 

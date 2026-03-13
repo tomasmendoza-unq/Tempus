@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ClaseHorarioService {
     List<ClaseHorario> actualizar(@Valid List<UpdateClaseHorarioDTORequest> request);
+
+    void delete(Long idClaseHorario);
 }

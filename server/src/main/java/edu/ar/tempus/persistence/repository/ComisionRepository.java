@@ -24,4 +24,6 @@ public interface ComisionRepository {
     List<Materia> recuperarMateriasPorComision(List<Long> comisionIds);
 
     Page<Comision> recuperarComisiones(Pageable pageable, Long carreraIds);
+
+    void delete(Long idComision);
 }

@@ -25,4 +25,6 @@ public interface ComisionService {
     Page<Comision> recuperarComisiones(int page, Long alumnoId);
 
     Comision actualizar(Long idComision, UpdateComisionDTORequest updateComision);
+
+    void eliminarComision(Long idComision);
 }
