@@ -67,7 +67,6 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/carrera/public").permitAll()
                         .requestMatchers("/error").permitAll()
-                        .requestMatchers("/comision").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
