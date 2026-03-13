@@ -2,11 +2,9 @@ package edu.ar.tempus.persistence.repository.impls;
 
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.model.Comision;
-import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.persistence.neo4J.ComisionNeo4JDAO;
 import edu.ar.tempus.persistence.neo4J.MateriaNeo4JDAO;
-import edu.ar.tempus.persistence.neo4J.entity.ComisionNeo4J;
 import edu.ar.tempus.persistence.neo4J.entity.ComisionNeo4J;
 import edu.ar.tempus.persistence.neo4J.entity.MateriaNeo4J;
 import edu.ar.tempus.persistence.repository.ComisionRepository;
@@ -107,8 +105,8 @@ public class ComisionRepositoryImpl implements ComisionRepository {
     }
 
     @Override
-    public Page<Comision> recuperarComisiones(Pageable pageable) {
-        return comisionDAOSQL.findAll(pageable);
+    public Page<Comision> recuperarComisiones(Pageable pageable, Long carreraId) {
+        return comisionDAOSQL.findAll(pageable, carreraId);
     }
 
     private String buildQuery(int n) {

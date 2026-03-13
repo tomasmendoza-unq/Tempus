@@ -4,10 +4,12 @@ import edu.ar.tempus.controller.dto.comision.ComisionDTORequest;
 import edu.ar.tempus.controller.dto.comision.ComisionDTOResponse;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.service.ComisionService;
+import edu.ar.tempus.utils.AuthUtils;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,16 +19,20 @@ import java.util.List;
 public final class ComisionControllerRest {
 
     private final ComisionService comisionService;
+    private final AuthUtils authUtils;
 
-    public ComisionControllerRest(ComisionService comisionService) {
+    public ComisionControllerRest(ComisionService comisionService, AuthUtils authUtils) {
         this.comisionService = comisionService;
+        this.authUtils = authUtils;
     }
 
     @GetMapping
     public ResponseEntity<Page<ComisionDTOResponse>> obtenerComisiones(
-            @RequestParam(defaultValue = "0") int page
+            @RequestParam(defaultValue = "0") int page,
+            Authentication authentication
     ){
-        Page<Comision> comisiones = comisionService.recuperarComisiones(page);
+        Long alumnoId = authUtils.getAlumnoId(authentication);
+        Page<Comision> comisiones = comisionService.recuperarComisiones(page, alumnoId);
         Page<ComisionDTOResponse> response = comisiones.map(ComisionDTOResponse::desdeModelo);
 
         return new ResponseEntity<>(response, HttpStatus.OK);

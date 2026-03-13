@@ -1,12 +1,13 @@
 package edu.ar.tempus.service.impl;
 
-import edu.ar.tempus.exceptions.business.AlumnoAnotadoAOtraComisionException;
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.exceptions.business.SuperPosicionDeHorariosException;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
+import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.persistence.repository.ComisionRepository;
 import edu.ar.tempus.persistence.sql.MateriaSQLDAO;
+import edu.ar.tempus.persistence.sql.UsuarioDAOSQL;
 import edu.ar.tempus.service.ComisionService;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -24,10 +25,12 @@ public class ComisionServiceImpl implements ComisionService {
 
     private final MateriaSQLDAO materiaSQLDAO;
 
+    private final UsuarioDAOSQL  usuarioDAO;
 
-    public ComisionServiceImpl(ComisionRepository comisionRepository, MateriaSQLDAO materiaSQLDAO) {
+    public ComisionServiceImpl(ComisionRepository comisionRepository, MateriaSQLDAO materiaSQLDAO, UsuarioDAOSQL usuarioDAO) {
         this.comisionRepository = comisionRepository;
         this.materiaSQLDAO = materiaSQLDAO;
+        this.usuarioDAO = usuarioDAO;
     }
 
     @Override
@@ -72,9 +75,10 @@ public class ComisionServiceImpl implements ComisionService {
     }
 
     @Override
-    public Page<Comision> recuperarComisiones(int page) {
+    public Page<Comision> recuperarComisiones(int page, Long alumnoId) {
+        Usuario alumno = usuarioDAO.findById(alumnoId).orElseThrow(() -> new EntityNotFoundException(Usuario.class.getName(), alumnoId));
         Pageable pageable = PageRequest.of(page, 9);
-        return comisionRepository.recuperarComisiones(pageable);
+        return comisionRepository.recuperarComisiones(pageable, alumno.getCarreraActiva().getId());
     }
 
 }

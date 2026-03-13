@@ -20,5 +20,5 @@ public interface ComisionService {
 
     List<Materia> recuperarMateriasPorComision(List<Long> comisionIds);
 
-    Page<Comision> recuperarComisiones(int page);
+    Page<Comision> recuperarComisiones(int page, Long alumnoId);
 }

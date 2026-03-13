@@ -1,11 +1,7 @@
 package edu.ar.tempus.service;
 
-import edu.ar.tempus.model.ClaseHorario;
-import edu.ar.tempus.model.Comision;
-import edu.ar.tempus.model.DiasSemana;
-import edu.ar.tempus.model.Materia;
+import edu.ar.tempus.model.*;
 import edu.ar.tempus.persistence.neo4J.ComisionNeo4JDAO;
-import edu.ar.tempus.persistence.neo4J.entity.ComisionNeo4J;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,10 +32,20 @@ public class ComisionServiceTest {
     private MateriaService materiaService;
 
     @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
     private ComisionNeo4JDAO comisionNeo4JDAO;
 
     @Autowired
     private ComisionService comisionService;
+
+    @Autowired
+    private CarreraService carreraService;
+
+    private Carrera sistemas;
+
+    private Usuario usuario1;
 
     private Materia inglesGuardada;
 
@@ -50,6 +57,17 @@ public class ComisionServiceTest {
                 .build();
 
         inglesGuardada = materiaService.guardar(ingles);
+
+        usuario1 = Usuario.builder()
+                .email("tm@gmail.com")
+                .password("password123")
+                .nombre("Juan")
+                .apellido("Pérez")
+                .telefono("221-4567890")
+                .role(Role.USER)
+                .build();
+
+
     }
 
     @Test
@@ -84,30 +102,50 @@ public class ComisionServiceTest {
     }
     @Test
     public void recuperarComisionesPaginadas() {
+        Materia matematica = Materia.builder()
+                .materiaNombre("Matematica")
+                .correlativas(new HashSet<>())
+                .build();
+        Materia matematicaGuardada = materiaService.guardar(matematica);
+
+
+        sistemas = carreraService.guardar(
+                Carrera.builder().nombreCarrera("Lic. en sistemas").build(),
+                Set.of(matematicaGuardada.getMateriaId())
+        );
+        usuario1 = usuarioService.guardarUsuario(usuario1, sistemas.getId());
+
         ClaseHorario lunes = ClaseHorario.builder()
                 .dia(DiasSemana.LUNES)
                 .inicio(LocalTime.of(8, 0))
                 .fin(LocalTime.of(10, 0))
                 .build();
-        
+
         for (int i = 0; i < 12; i++) {
-            Comision comision = Comision.builder()
-                    .clases(List.of(lunes))
-                    .build();
-            comisionService.guardar(comision, inglesGuardada.getMateriaId());
+            comisionService.guardar(
+                    Comision.builder().clases(List.of(lunes)).build(),
+                    matematicaGuardada.getMateriaId()
+            );
         }
 
-        Page<Comision> primeraPagina = comisionService.recuperarComisiones(0);
-        Page<Comision> segundaPagina = comisionService.recuperarComisiones(1);
+
+        for (int i = 0; i < 5; i++) {
+            comisionService.guardar(
+                    Comision.builder().clases(List.of(lunes)).build(),
+                    inglesGuardada.getMateriaId()
+            );
+        }
+
+        Page<Comision> primeraPagina = comisionService.recuperarComisiones(0, usuario1.getId());
+        Page<Comision> segundaPagina = comisionService.recuperarComisiones(1, usuario1.getId());
 
         assertEquals(9, primeraPagina.getContent().size(), "La primera página debería tener 9 comisiones");
         assertEquals(3, segundaPagina.getContent().size(), "La segunda página debería tener 3 comisiones");
-        assertEquals(12, primeraPagina.getTotalElements(), "El total de comisiones debería ser 12");
+        assertEquals(12, primeraPagina.getTotalElements(), "Solo deberían recuperarse las 12 comisiones de la carrera del usuario");
         assertEquals(2, primeraPagina.getTotalPages(), "Debería haber 2 páginas en total");
-        assertTrue(primeraPagina.hasNext(), "La primera página debería tener una siguiente");
-        assertFalse(segundaPagina.hasNext(), "La segunda página no debería tener una siguiente");
+        assertTrue(primeraPagina.hasNext());
+        assertFalse(segundaPagina.hasNext());
     }
-
     @Test
     public void crearComisionesYValidarCompatibilidadEnNeo4j() {
 

@@ -2,9 +2,9 @@ package edu.ar.tempus.persistence.repository;
 
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
-import edu.ar.tempus.persistence.neo4J.entity.ComisionNeo4J;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -23,5 +23,5 @@ public interface ComisionRepository {
 
     List<Materia> recuperarMateriasPorComision(List<Long> comisionIds);
 
-    Page<Comision> recuperarComisiones(Pageable pageable);
+    Page<Comision> recuperarComisiones(Pageable pageable, Long carreraIds);
 }

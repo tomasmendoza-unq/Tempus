@@ -22,8 +22,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 public class UsuarioServiceTest {
 
-    @Autowired
-    private HorarioService horarioService;
 
     @Autowired
     private MateriaService materiaService;
