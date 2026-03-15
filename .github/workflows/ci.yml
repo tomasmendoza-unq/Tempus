@@ -103,22 +103,22 @@ jobs:
               uses: docker/setup-buildx-action@v3
 
             - name: Build Frontend Docker image
-              run: docker build -t tempus-frontend:latest ./client
+              run: docker build -t tempus-frontend:latest ./client/Tempus
 
             - name: Run Frontend Build inside Docker
               run: |
                   docker run --rm \
                     -e VITE_API_URL=http://localhost:8080 \
-                    -v ${PWD}/client/dist:/app/dist \
+                    -v ${PWD}/client/Tempus/dist:/app/dist \
                     tempus-frontend:latest \
                     sh -c "npm run build"
 
             - name: Verify Build Output
               run: |
                   echo "📁 Contenido del directorio dist:"
-                  ls -la ./client/dist/
+                  ls -la ./client/Tempus/dist/
 
-                  if [ -f "./client/dist/index.html" ]; then
+                  if [ -f "./client/Tempus/dist/index.html" ]; then
                       echo "✅ Build exitoso - index.html encontrado"
                   else
                       echo "❌ Build fallido - no se encontró index.html"
@@ -158,4 +158,4 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: frontend-build
-                  path: client/dist/
+                  path: client/Tempus/dist/
