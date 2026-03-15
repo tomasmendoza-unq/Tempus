@@ -6,6 +6,7 @@ import edu.ar.tempus.model.DiasSemana;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.parser.MultipartInputStreamFileResource;
 import edu.ar.tempus.parser.PdfParserClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -22,6 +23,9 @@ import java.util.stream.Collectors;
 public class PdfParserClientImpl implements PdfParserClient {
 
     private final RestClient restClient = RestClient.create();
+
+    @Value("${PARSER_URL}")
+    private String parserUrl;
 
     private static final Map<String, DiasSemana> DIAS = Map.of(
             "Lun", DiasSemana.LUNES,
@@ -43,7 +47,7 @@ public class PdfParserClientImpl implements PdfParserClient {
             body.add("file", new MultipartInputStreamFileResource(pdfInputStream, "oferta.pdf"));
 
             ParserResponse response = restClient.post()
-                    .uri("http://localhost:8000/parsear")
+                    .uri(parserUrl + "/parsear")
                     .contentType(MediaType.MULTIPART_FORM_DATA)
                     .body(body)
                     .retrieve()
@@ -78,7 +82,6 @@ public class PdfParserClientImpl implements PdfParserClient {
                 .map(parte -> {
                     parte = parte.replaceAll("\\(Virtual\\)", "").trim();
                     String[] tokens = parte.split("\\s+");
-                    // Verificar que tenga al menos 4 tokens: "Lun 09:30 a 12:59"
                     if (tokens.length < 4) return null;
                     DiasSemana dia = DIAS.getOrDefault(tokens[0], null);
                     if (dia == null) return null;
@@ -94,7 +97,6 @@ public class PdfParserClientImpl implements PdfParserClient {
                 .toList();
     }
 
-    // Records internos para deserializar la respuesta de FastAPI
     private record ComisionDTO(String actividad, String comision, String modalidad, String horario) {}
     private record ParserResponse(List<ComisionDTO> comisiones) {}
 }
