@@ -5,6 +5,6 @@ import edu.ar.tempus.model.Materia;
 import java.io.InputStream;
 import java.util.List;
 
-public interface OfertaParserService {
+public interface PdfParserClient {
     List<Materia> parsear(InputStream pdfInputStream);
 }

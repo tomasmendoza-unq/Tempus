@@ -11,12 +11,15 @@ public record ComisionDTORequestSimple(
         List<ClaseHorarioDTORequest> claseHorario,
 
         @NotNull(message = "El nombre de la comision es requerida")
-        String nombreComision
+        String nombreComision,
+
+        String modalidad
 ) {
     public Comision aModelo() {
         return Comision.builder()
                 .clases(claseHorario.stream().map(ClaseHorarioDTORequest::aModelo).toList())
                 .comisionNombre(nombreComision)
+                .modalidad(modalidad)
                 .build();
     }
 }

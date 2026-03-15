@@ -16,7 +16,9 @@ public record ComisionDTORequest(
         List<ClaseHorarioDTORequest> claseHorario,
 
         @NotNull(message = "La materia es requerida")
-        Long materiaId
+        Long materiaId,
+
+        String modalidad
 ) {
 
 
@@ -26,6 +28,7 @@ public record ComisionDTORequest(
 
         return Comision.builder()
                 .clases(claseHorario)
+                .modalidad(request.modalidad)
                 .build();
     }
 }

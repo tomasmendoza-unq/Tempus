@@ -12,7 +12,8 @@ public record ComisionDTOResponseSimple(
         Long comisionId,
         String comisionNombre,
         List<ClaseHorarioDTOResponse> claseHorario,
-        MateriaDTOResponseSimple materia
+        MateriaDTOResponseSimple materia,
+        String modalidad
 ) {
 
     public static ComisionDTOResponseSimple desdeModelo(Comision comision) {
@@ -21,7 +22,8 @@ public record ComisionDTOResponseSimple(
                 comision.getComisionId(),
                 comision.getComisionNombre(),
                 comision.getClases().stream().map(ClaseHorarioDTOResponse::desdeModelo).toList(),
-                materia
+                materia,
+                comision.getModalidad()
         );
     }
 }

@@ -9,6 +9,8 @@
         </id>
 
         <property name="comisionNombre" column="comision_nombre" type="string" />
+        <property name="modalidad" column="comision_modalidad" type="string" />
+
 
         <list name="clases" cascade="all" fetch="join" lazy="false">
             <key column="comision_id" not-null="true"/>

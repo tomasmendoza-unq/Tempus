@@ -1,5 +1,6 @@
 package edu.ar.tempus.model;
 
+import jakarta.validation.constraints.Null;
 import lombok.*;
 
 import java.time.LocalTime;
@@ -17,6 +18,9 @@ public class Comision {
     private Materia materia;
     private String comisionNombre;
     private List<ClaseHorario> clases;
+
+    @Builder.Default
+    private String modalidad=null;
 
 
 }

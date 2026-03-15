@@ -3,7 +3,7 @@ package edu.ar.tempus.service.impl;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.service.ImportacionService;
 import edu.ar.tempus.service.MateriaService;
-import edu.ar.tempus.parser.OfertaParserService;
+import edu.ar.tempus.parser.PdfParserClient;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,11 +18,11 @@ import java.util.List;
 @Transactional
 public class ImportacionServiceImpl implements ImportacionService {
 
-    private final OfertaParserService ofertaParserService;
+    private final PdfParserClient ofertaParserService;
 
     private final MateriaService materiaService;
 
-    public ImportacionServiceImpl(OfertaParserService ofertaParserService, MateriaService materiaService) {
+    public ImportacionServiceImpl(PdfParserClient ofertaParserService, MateriaService materiaService) {
         this.ofertaParserService = ofertaParserService;
         this.materiaService = materiaService;
     }
