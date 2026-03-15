@@ -47,7 +47,7 @@ jobs:
               uses: docker/setup-buildx-action@v3
 
             - name: Build Backend Docker image
-              run: docker build -t ecovida-backend:latest --target development ./BackEnd
+              run: docker build -t tempus-backend:latest --target development ./server
 
             - name: Wait for services to be ready
               run: |
@@ -78,16 +78,83 @@ jobs:
                     -e NEO_URL=neo4j://host.docker.internal:7687 \
                     -e NEO_USER=neo4j \
                     -e NEO_PASSWORD=rootroot \
-                    -e MP_ACCESS_TOKEN=TEST-token \
-                    ecovida-backend:latest test
+                    tempus-backend:latest test
 
             - name: Publish Test Results
               if: always()
               uses: actions/upload-artifact@v4
               with:
                   name: backend-test-results
-                  path: BackEnd/target/surefire-reports/
+                  path: server/target/surefire-reports/
 
             - name: Stop Backend Container
               if: always()
-              run: docker rm -f ecovida-test || true
+              run: docker rm -f tempus-test || true
+
+    frontend:
+        name: Frontend - React (Docker)
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+            - name: Build Frontend Docker image
+              run: docker build -t tempus-frontend:latest ./client
+
+            - name: Run Frontend Build inside Docker
+              run: |
+                  docker run --rm \
+                    -v ${PWD}/client/dist:/app/dist \
+                    tempus-frontend:latest \
+                    sh -c "npm run build"
+
+            - name: Verify Build Output
+              run: |
+                  echo "📁 Contenido del directorio dist:"
+                  ls -la ./client/dist/
+
+                  if [ -f "./client/dist/index.html" ]; then
+                      echo "✅ Build exitoso - index.html encontrado"
+                  else
+                      echo "❌ Build fallido - no se encontró index.html"
+                      exit 1
+                  fi
+
+            - name: Smoke Test - Start Frontend Dev Server
+              run: |
+                  echo "🚀 Starting frontend container for smoke test..."
+                  docker run -d --name tempus-frontend-test \
+                    -p 5173:5173 \
+                    tempus-frontend:latest
+
+                  echo "⏳ Waiting for frontend to start (max 30s)..."
+                  for i in {1..6}; do
+                    if curl -fs http://localhost:5173 > /dev/null; then
+                      echo "✅ Frontend dev server is running!"
+                      break
+                    fi
+                    echo "Waiting... ($i/6)"
+                    sleep 5
+                  done
+
+                  if ! curl -fs http://localhost:5173 > /dev/null; then
+                    echo "❌ Frontend failed to start. Showing logs:"
+                    docker logs tempus-frontend-test
+                    exit 1
+                  fi
+
+                  echo "✅ Frontend smoke test passed!"
+
+            - name: Stop Frontend Container
+              if: always()
+              run: docker rm -f tempus-frontend-test || true
+
+            - name: Upload Build Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: frontend-build
+                  path: client/dist/
