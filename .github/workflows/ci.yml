@@ -108,6 +108,7 @@ jobs:
             - name: Run Frontend Build inside Docker
               run: |
                   docker run --rm \
+                    -e VITE_API_URL=http://localhost:8080 \
                     -v ${PWD}/client/dist:/app/dist \
                     tempus-frontend:latest \
                     sh -c "npm run build"
