@@ -63,7 +63,7 @@ public final class CarreraControllerRest {
 
     @PostMapping("/load")
     public ResponseEntity<String> loadPorBulk(@RequestBody CarreraDTOBulkRequest carreraDTOBulkRequest) {
-        carreraService.guardarCarreraCompleta(carreraDTOBulkRequest);
+        carreraService.guardarCarreraCompleta(carreraDTOBulkRequest.aModelo());
         return ResponseEntity.ok("Se cargo con exito la oferta");
     }
 

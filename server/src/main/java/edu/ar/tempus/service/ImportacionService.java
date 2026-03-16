@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.List;
 
 public interface ImportacionService {
-    void cargarOfertaAcademica(InputStream pdfInputStream);
 
-    Page<Materia> preview(MultipartFile pdf, Pageable pageable);
+    List<Materia> preview(MultipartFile pdf);
 }

@@ -30,15 +30,12 @@ public final class ImportacionControllerREST {
     }
 
     @PostMapping("/preview")
-    public ResponseEntity<Page<MateriaPreviewDTO>> preview(
-            @RequestParam("pdf") MultipartFile pdf,
-            @PageableDefault(size = 200) Pageable pageable) {
+    public ResponseEntity<List<MateriaPreviewDTO>> preview(
+            @RequestParam("pdf") MultipartFile pdf) {
 
-        Page<Materia> preview = importacionService.preview(pdf, pageable);
+        List<Materia> preview = importacionService.preview(pdf);
 
-        List<MateriaPreviewDTO> materias = preview.getContent().stream().map(MateriaPreviewDTO::desdeModelo).toList();
-
-        Page<MateriaPreviewDTO> response = new PageImpl<>(materias, pageable, preview.getTotalElements());
+        List<MateriaPreviewDTO> response = preview.stream().map(MateriaPreviewDTO::desdeModelo).toList();
 
         return ResponseEntity.ok(response);
     }
