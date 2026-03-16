@@ -101,22 +101,22 @@ public class MateriaRepositoryImpl implements MateriaRepository {
 
     @Override
     public List<Materia> saveAll(List<Materia> materias) {
-        List<Materia> materiasSaved = materiaSQLDAO.saveAll(materias);
 
-        List<MateriaNeo4J> neo4JS = materiasSaved.stream().map(materiaMapper::toNeo4J).toList();
-
-        materiaNeo4JDAO.saveAll(neo4JS);
-
-        //ESTO HAY QUE REFACTORIZAR
-        materiasSaved.forEach(materia -> {
+        materias.forEach(materia -> {
             if (materia.getComisiones() != null) {
-                materia.getComisiones().forEach(comision -> {
-                    comision.setMateria(materia);
-
-                    comisionRepository.guardar(comision);
-                });
+                materia.getComisiones().forEach(comision ->
+                        comision.setMateria(materia)
+                );
             }
         });
+
+        List<Materia> materiasSaved = materiaSQLDAO.saveAll(materias);
+
+        List<MateriaNeo4J> neo4JS = materiasSaved.stream()
+                .map(materiaMapper::toNeo4J)
+                .toList();
+
+        materiaNeo4JDAO.saveAll(neo4JS);
 
         return materiasSaved;
     }

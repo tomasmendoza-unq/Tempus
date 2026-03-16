@@ -1,9 +1,11 @@
 package edu.ar.tempus.service;
 
-import edu.ar.tempus.model.Carrera;
-import edu.ar.tempus.model.Materia;
-import edu.ar.tempus.model.Role;
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.controller.dto.carrera.CarreraDTOBulkRequest;
+import edu.ar.tempus.controller.dto.claseHorario.ClaseHorarioDTORequest;
+import edu.ar.tempus.controller.dto.comision.ComisionDTORequestSimple;
+import edu.ar.tempus.controller.dto.materia.MateriaComisionDTORequest;
+import edu.ar.tempus.controller.dto.materia.MateriaDTORequest;
+import edu.ar.tempus.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -113,6 +116,67 @@ public class CarreraServiceTest {
         assertTrue(carrerasNoSuscripto.stream()
                 .anyMatch(c -> c.getId().equals(otraCarrera.getId()))
         );
+    }
+    @Test
+    public void guardarCarreraCompletaDeberiaCrearCarreraMateriasYComisiones() {
+
+        ClaseHorarioDTORequest horario = new ClaseHorarioDTORequest(
+                DiasSemana.LUNES,
+                LocalTime.of(10, 0),
+                LocalTime.of(12, 0)
+        );
+
+        ComisionDTORequestSimple comision = new ComisionDTORequestSimple(
+                List.of(horario),
+                "1001-A",
+                "PRESENCIAL"
+        );
+
+        MateriaComisionDTORequest materia1 = new MateriaComisionDTORequest(
+                "Programacion I",
+                List.of(comision)
+        );
+
+        MateriaComisionDTORequest materia2 = new MateriaComisionDTORequest(
+                "Matematica I",
+                List.of(comision)
+        );
+
+        CarreraDTOBulkRequest bulkRequest = new CarreraDTOBulkRequest(
+                "Tecnicatura en Programacion",
+                List.of(materia1, materia2)
+        );
+
+        Carrera carreraGuardada = carreraService.guardarCarreraCompleta(bulkRequest);
+
+        assertNotNull(carreraGuardada);
+        assertNotNull(carreraGuardada.getId());
+
+        Carrera carreraRecuperada = carreraService.recuperar(carreraGuardada.getId());
+
+        assertEquals("Tecnicatura en Programacion", carreraRecuperada.getNombreCarrera());
+
+        assertEquals(2, carreraRecuperada.getMaterias().size());
+
+        assertTrue(
+                carreraRecuperada.getMaterias()
+                        .stream()
+                        .anyMatch(m -> m.getMateriaNombre().equals("Programacion I"))
+        );
+
+        assertTrue(
+                carreraRecuperada.getMaterias()
+                        .stream()
+                        .anyMatch(m -> m.getMateriaNombre().equals("Matematica I"))
+        );
+
+        Materia materia = carreraRecuperada.getMaterias()
+                .stream()
+                .filter(m -> m.getMateriaNombre().equals("Programacion I"))
+                .findFirst()
+                .orElseThrow();
+
+        assertFalse(materia.getComisiones().isEmpty());
     }
 
     @AfterEach

@@ -20,7 +20,6 @@ const useImport = () => {
     try {
       const data = await previewImportService(formData);
 
-      // ahora el backend devuelve directamente List<Materia>
       const materiasPreview = data || [];
 
       setMaterias(materiasPreview);
