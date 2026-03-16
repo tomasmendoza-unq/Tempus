@@ -9,30 +9,40 @@ const useImport = () => {
   const previsualizarPDF = async (file) => {
     if (!file) {
       toast.warn("Por favor, seleccioná un archivo PDF");
-      return;
+      return [];
     }
 
     setCargando(true);
+
     const formData = new FormData();
-    formData.append('pdf', file);
+    formData.append("pdf", file);
 
     try {
       const data = await previewImportService(formData);
 
-      const content = data.content || [];
-      setMaterias(content);
-      
-      if (content.length === 0) {
+      // ahora el backend devuelve directamente List<Materia>
+      const materiasPreview = data || [];
+
+      setMaterias(materiasPreview);
+
+      if (materiasPreview.length === 0) {
         toast.info("No se encontraron materias en el archivo");
       } else {
         toast.success("PDF procesado correctamente");
       }
-      
-      return content;
+
+      return materiasPreview;
+
     } catch (error) {
       console.error("Error en preview:", error);
-      toast.error(error.response?.data?.message || "Error al procesar el PDF");
+
+      toast.error(
+        error.response?.data?.message ||
+        "Error al procesar el PDF"
+      );
+
       throw error;
+
     } finally {
       setCargando(false);
     }
@@ -42,12 +52,12 @@ const useImport = () => {
     setMaterias([]);
   };
 
-  return { 
-    materias, 
+  return {
+    materias,
     setMaterias,
-    cargando, 
+    cargando,
     previsualizarPDF,
-    limpiarPreview 
+    limpiarPreview
   };
 };
 
