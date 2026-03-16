@@ -11,6 +11,7 @@ export const ROUTES = {
   CARRERAS: "/carreras",
   PERFIL: "/perfil",
   COMISIONES: "/comisiones",
+  IMPORT: "/import"
 }
 
 export const API_ROUTES = {

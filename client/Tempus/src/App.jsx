@@ -12,6 +12,7 @@ import { ProtectedRoute } from "./hooks/ProtectedRoute"
 import Carreras from "./pages/Carreras"
 import PerfilPage from "./pages/PerfilPage"
 import Comision from "./pages/Comision"
+import ImportPage from "./pages/ImportPage"
 
 function App() {
   return (
@@ -68,6 +69,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <Comision />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path={ROUTES.IMPORT}
+            element={
+              <ProtectedRoute>
+                <ImportPage />
               </ProtectedRoute>
             }
           />

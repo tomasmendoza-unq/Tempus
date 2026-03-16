@@ -1,6 +1,7 @@
 package edu.ar.tempus.controller;
 
-import edu.ar.tempus.controller.dto.materia.MateriaDTOResponse;
+import edu.ar.tempus.controller.dto.materia.MateriaPreviewDTO;
+import edu.ar.tempus.controller.dto.materia.MateriaPreviewDTO;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.parser.PdfParserClient;
 import edu.ar.tempus.service.ImportacionService;
@@ -29,28 +30,17 @@ public final class ImportacionControllerREST {
     }
 
     @PostMapping("/preview")
-    public ResponseEntity<Page<MateriaDTOResponse>> preview(
+    public ResponseEntity<Page<MateriaPreviewDTO>> preview(
             @RequestParam("pdf") MultipartFile pdf,
             @PageableDefault(size = 200) Pageable pageable) {
 
         Page<Materia> preview = importacionService.preview(pdf, pageable);
 
-        List<MateriaDTOResponse> materias = preview.getContent().stream().map(MateriaDTOResponse::desdeModelo).toList();
+        List<MateriaPreviewDTO> materias = preview.getContent().stream().map(MateriaPreviewDTO::desdeModelo).toList();
 
-        Page<MateriaDTOResponse> response = new PageImpl<>(materias, pageable, preview.getTotalElements());
+        Page<MateriaPreviewDTO> response = new PageImpl<>(materias, pageable, preview.getTotalElements());
 
         return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/load")
-    public ResponseEntity<String> load(@RequestParam("pdf") MultipartFile pdf) {
-        try {
-            importacionService.cargarOfertaAcademica(pdf.getInputStream());
-            return ResponseEntity.ok().body("Se subió con éxito la oferta");
-        } catch (IOException e) {
-
-            return ResponseEntity.internalServerError().body("Error al leer el archivo PDF");
-        }
     }
 
 
