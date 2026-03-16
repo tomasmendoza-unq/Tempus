@@ -8,7 +8,7 @@ on:
 
 jobs:
     backend-tests:
-        name: Backend - Tests (Docker + Postgres + Neo4j)
+        name: Backend - Tests (Docker + Postgres + Neo4j + Parser)
         runs-on: ubuntu-latest
 
         services:
@@ -46,6 +46,41 @@ jobs:
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3
 
+            # ==============================
+            # SETUP PYTHON PARSER
+            # ==============================
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.11"
+
+            - name: Install parser dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install -r parser/requirements.txt
+
+            - name: Start FastAPI parser
+              run: |
+                  echo "🚀 Starting FastAPI parser..."
+                  nohup uvicorn main:app --app-dir parser --host 0.0.0.0 --port 8000 &
+                  sleep 5
+
+            - name: Verify parser is running
+              run: |
+                  for i in {1..10}; do
+                    if curl -fs http://localhost:8000/docs > /dev/null; then
+                      echo "✅ Parser is running!"
+                      break
+                    fi
+                    echo "Waiting for parser... ($i/10)"
+                    sleep 3
+                  done
+
+            # ==============================
+            # BUILD BACKEND
+            # ==============================
+
             - name: Build Backend Docker image
               run: docker build -t tempus-backend:latest --target development ./server
 
@@ -78,6 +113,7 @@ jobs:
                     -e NEO_URL=neo4j://host.docker.internal:7687 \
                     -e NEO_USER=neo4j \
                     -e NEO_PASSWORD=rootroot \
+                    -e PARSER_URL=http://host.docker.internal:8000 \
                     tempus-backend:latest test
 
             - name: Publish Test Results
