@@ -120,34 +120,36 @@ public class CarreraServiceTest {
     @Test
     public void guardarCarreraCompletaDeberiaCrearCarreraMateriasYComisiones() {
 
-        ClaseHorarioDTORequest horario = new ClaseHorarioDTORequest(
-                DiasSemana.LUNES,
-                LocalTime.of(10, 0),
-                LocalTime.of(12, 0)
-        );
+        ClaseHorario clase = ClaseHorario.builder()
+                .dia(DiasSemana.LUNES)
+                .inicio(LocalTime.of(10, 0))
+                .fin(LocalTime.of(12, 0))
+                .build();
 
-        ComisionDTORequestSimple comision = new ComisionDTORequestSimple(
-                List.of(horario),
-                "1001-A",
-                "PRESENCIAL"
-        );
+        Comision comision = Comision.builder()
+                .comisionNombre("1001-A")
+                .modalidad("PRESENCIAL")
+                .clases(List.of(clase))
+                .build();
 
-        MateriaComisionDTORequest materia1 = new MateriaComisionDTORequest(
-                "Programacion I",
-                List.of(comision)
-        );
+        Materia materia1 = Materia.builder()
+                .materiaNombre("Programacion I")
+                .comisiones(List.of(comision))
+                .correlativas(new HashSet<>())
+                .build();
 
-        MateriaComisionDTORequest materia2 = new MateriaComisionDTORequest(
-                "Matematica I",
-                List.of(comision)
-        );
+        Materia materia2 = Materia.builder()
+                .materiaNombre("Matematica I")
+                .comisiones(List.of(comision))
+                .correlativas(new HashSet<>())
+                .build();
 
-        CarreraDTOBulkRequest bulkRequest = new CarreraDTOBulkRequest(
-                "Tecnicatura en Programacion",
-                List.of(materia1, materia2)
-        );
+        Carrera carrera = Carrera.builder()
+                .nombreCarrera("Tecnicatura en Programacion")
+                .materias(List.of(materia1, materia2))
+                .build();
 
-        Carrera carreraGuardada = carreraService.guardarCarreraCompleta(bulkRequest);
+        Carrera carreraGuardada = carreraService.guardarCarreraCompleta(carrera);
 
         assertNotNull(carreraGuardada);
         assertNotNull(carreraGuardada.getId());
@@ -155,7 +157,6 @@ public class CarreraServiceTest {
         Carrera carreraRecuperada = carreraService.recuperar(carreraGuardada.getId());
 
         assertEquals("Tecnicatura en Programacion", carreraRecuperada.getNombreCarrera());
-
         assertEquals(2, carreraRecuperada.getMaterias().size());
 
         assertTrue(

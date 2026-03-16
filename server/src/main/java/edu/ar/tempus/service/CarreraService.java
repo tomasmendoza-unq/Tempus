@@ -17,5 +17,5 @@ public interface CarreraService {
 
     List<Carrera> recuperarCarrerasPorAlumno(Long alumnoId);
 
-    Carrera guardarCarreraCompleta(CarreraDTOBulkRequest carreraDTOBulkRequest);
+    Carrera guardarCarreraCompleta(Carrera carrera);
 }

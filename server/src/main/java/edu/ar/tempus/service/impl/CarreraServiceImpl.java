@@ -66,19 +66,15 @@ public class CarreraServiceImpl implements CarreraService {
     }
 
     @Override
-    public Carrera guardarCarreraCompleta(CarreraDTOBulkRequest bulkRequest) {
-        //refactor
-        List<Materia> materias = bulkRequest.materias().stream().map(MateriaComisionDTORequest::aModelo).toList();
-
-
-        List<Materia> materiasGuardadas = materiaService.guardarMaterias(materias);
+    public Carrera guardarCarreraCompleta(Carrera carrera) {
+        List<Materia> materiasGuardadas = materiaService.guardarMaterias(carrera.getMaterias());
 
         Set<Long> materiaIds = materiasGuardadas.stream()
                 .map(Materia::getMateriaId)
                 .collect(Collectors.toSet());
 
         Carrera nuevaCarrera = Carrera.builder()
-                .nombreCarrera(bulkRequest.nombreCarrera())
+                .nombreCarrera(carrera.getNombreCarrera())
                 .build();
 
         return this.guardar(nuevaCarrera, materiaIds);
