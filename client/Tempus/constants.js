@@ -11,6 +11,7 @@ export const ROUTES = {
   CARRERAS: "/carreras",
   PERFIL: "/perfil",
   COMISIONES: "/comisiones",
+  IMPORT: "/import"
 }
 
 export const API_ROUTES = {
@@ -40,5 +41,7 @@ export const API_ROUTES = {
   ASOCIAR_MATERIAS: "/api/materia/asociar",
   SELECCIONAR_CARRERA_ACTIVA: (carreraId) =>
     `/api/usuario/carreras/${carreraId}/activar`,
-  RECUPERAR_CARRERAS: `/carrera/public`
+  RECUPERAR_CARRERAS: `/carrera/public`,
+  PREVIEW_IMPORT: "/import/preview",
+  CARRERA_BULK: "/carrera/load"
 }

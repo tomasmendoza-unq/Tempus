@@ -7,6 +7,7 @@ import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.persistence.neo4J.MateriaNeo4JDAO;
 import edu.ar.tempus.persistence.neo4J.entity.MateriaNeo4J;
+import edu.ar.tempus.persistence.repository.ComisionRepository;
 import edu.ar.tempus.persistence.repository.MateriaRepository;
 import edu.ar.tempus.persistence.repository.mapper.MateriaMapper;
 import edu.ar.tempus.persistence.sql.MateriaSQLDAO;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class MateriaRepositoryImpl implements MateriaRepository {
@@ -21,13 +23,13 @@ public class MateriaRepositoryImpl implements MateriaRepository {
     private final MateriaSQLDAO materiaSQLDAO;
     private final MateriaNeo4JDAO materiaNeo4JDAO;
     private final MateriaMapper materiaMapper;
+    private final ComisionRepository comisionRepository;
 
-    public MateriaRepositoryImpl(MateriaSQLDAO materiaSQLDAO,
-                                 MateriaNeo4JDAO materiaNeo4JDAO,
-                                 MateriaMapper materiaMapper) {
+    public MateriaRepositoryImpl(MateriaSQLDAO materiaSQLDAO, MateriaNeo4JDAO materiaNeo4JDAO, MateriaMapper materiaMapper, ComisionRepository comisionRepository) {
         this.materiaSQLDAO = materiaSQLDAO;
         this.materiaNeo4JDAO = materiaNeo4JDAO;
         this.materiaMapper = materiaMapper;
+        this.comisionRepository = comisionRepository;
     }
 
     @Override
@@ -95,6 +97,28 @@ public class MateriaRepositoryImpl implements MateriaRepository {
                 .toList();
 
         return materiaNeo4JDAO.cuentaConLasCorrelativas(materiasAprobadasIds, comisionIds);
+    }
+
+    @Override
+    public List<Materia> saveAll(List<Materia> materias) {
+        List<Materia> materiasSaved = materiaSQLDAO.saveAll(materias);
+
+        List<MateriaNeo4J> neo4JS = materiasSaved.stream().map(materiaMapper::toNeo4J).toList();
+
+        materiaNeo4JDAO.saveAll(neo4JS);
+
+        //ESTO HAY QUE REFACTORIZAR
+        materiasSaved.forEach(materia -> {
+            if (materia.getComisiones() != null) {
+                materia.getComisiones().forEach(comision -> {
+                    comision.setMateria(materia);
+
+                    comisionRepository.guardar(comision);
+                });
+            }
+        });
+
+        return materiasSaved;
     }
 
     @Override

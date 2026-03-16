@@ -26,4 +26,5 @@ public interface MateriaRepository {
 
     boolean validarSiCuentaConLasCorrelativas(Usuario alumno, List<Long> comisionIds);
 
+    List<Materia> saveAll(List<Materia> materias);
 }

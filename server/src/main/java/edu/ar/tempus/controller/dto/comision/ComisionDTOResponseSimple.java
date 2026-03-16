@@ -1,6 +1,7 @@
 package edu.ar.tempus.controller.dto.comision;
 
 import edu.ar.tempus.controller.dto.claseHorario.ClaseHorarioDTOResponse;
+import edu.ar.tempus.controller.dto.materia.MateriaComisionDTORequest;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponseSimple;
 import edu.ar.tempus.model.Comision;
 
@@ -9,15 +10,20 @@ import java.util.List;
 
 public record ComisionDTOResponseSimple(
         Long comisionId,
+        String comisionNombre,
         List<ClaseHorarioDTOResponse> claseHorario,
-        MateriaDTOResponseSimple materia
+        MateriaDTOResponseSimple materia,
+        String modalidad
 ) {
 
     public static ComisionDTOResponseSimple desdeModelo(Comision comision) {
+        MateriaDTOResponseSimple materia = comision.getMateria() == null ?  null : MateriaDTOResponseSimple.desdeModelo(comision.getMateria());
         return new ComisionDTOResponseSimple(
                 comision.getComisionId(),
+                comision.getComisionNombre(),
                 comision.getClases().stream().map(ClaseHorarioDTOResponse::desdeModelo).toList(),
-                MateriaDTOResponseSimple.desdeModelo(comision.getMateria())
+                materia,
+                comision.getModalidad()
         );
     }
 }
