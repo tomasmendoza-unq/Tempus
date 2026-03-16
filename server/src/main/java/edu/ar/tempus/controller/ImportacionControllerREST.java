@@ -19,7 +19,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/imports")
+@RequestMapping("/import")
 public final class ImportacionControllerREST {
 
     private final ImportacionService importacionService;

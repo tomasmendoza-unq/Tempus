@@ -4,11 +4,14 @@ import { createApi } from "../helpers/apiCRUD"
 const api = createApi(API.BASE_URL)
 
 
-export const previewImportService = () =>
+export const previewImportService = (formData) =>
   api
-    .post(API_ROUTES.PREVIEW_IMPORT)
+    .post(API_ROUTES.PREVIEW_IMPORT, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
     .then((res) => res)
     .catch((error) => {
-      throw error
-
-    })
+      throw error;
+    });
