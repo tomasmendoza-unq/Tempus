@@ -19,3 +19,12 @@ export const recuperarCarrerasService = () =>
       throw error
 
     })
+
+export const crearCarreraBulkService = (bulkData) =>
+  api
+    .post(API_ROUTES.CARRERA_BULK, bulkData)
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+
+    })
