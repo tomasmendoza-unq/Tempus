@@ -20,31 +20,17 @@ public class ImportacionServiceImpl implements ImportacionService {
 
     private final PdfParserClient ofertaParserService;
 
-    private final MateriaService materiaService;
-
-    public ImportacionServiceImpl(PdfParserClient ofertaParserService, MateriaService materiaService) {
+    public ImportacionServiceImpl(PdfParserClient ofertaParserService) {
         this.ofertaParserService = ofertaParserService;
-        this.materiaService = materiaService;
     }
 
-    @Override
-    public void cargarOfertaAcademica(InputStream pdfInputStream) {
 
-        List<Materia> materias = ofertaParserService.parsear(pdfInputStream);
-
-        materiaService.guardarMaterias(materias);
-
-    }
 
     @Override
-    public Page<Materia> preview(MultipartFile pdf, Pageable pageable) {
+    public List<Materia> preview(MultipartFile pdf) {
         try {
-            List<Materia> materias = ofertaParserService.parsear(pdf.getInputStream());
+            return ofertaParserService.parsear(pdf.getInputStream());
 
-            int start = (int) pageable.getOffset();
-            int end = Math.min(start + pageable.getPageSize(), materias.size());
-
-            return new PageImpl<>(materias.subList(start, end), pageable, materias.size());
         } catch (Exception e) {
             throw new RuntimeException("Error leyendo el PDF", e);
         }

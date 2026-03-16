@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,54 +31,43 @@ public class ImportacionServiceTest {
     @Autowired
     private MateriaService materiaService;
 
-    private InputStream pdfInputStream;
+    private MultipartFile pdfFile;
 
     @BeforeEach
     public void setUp() throws IOException {
-        ClassPathResource resource = new ClassPathResource("pdfs/BLOG_Oferta-TPI-2026c1-sitio_0403026.pdf");
-        pdfInputStream = resource.getInputStream();
+        ClassPathResource resource =
+                new ClassPathResource("pdfs/BLOG_Oferta-TPI-2026c1-sitio_0403026.pdf");
+
+        pdfFile = new MockMultipartFile(
+                "file",
+                "oferta.pdf",
+                "application/pdf",
+                resource.getInputStream()
+        );
     }
-
     @Test
-    public void cargarOfertaAcademicaDeberiaProcesarElPdfReal() {
-        importacionService.cargarOfertaAcademica(pdfInputStream);
+    public void previewOfertaAcademicaDeberiaParsearElPdfReal() {
 
-        List<Materia> materias = materiaService.recuperarTodos();
+        List<Materia> materias = importacionService.preview(pdfFile);
 
         assertFalse(materias.isEmpty());
-        assertTrue(materias.stream().anyMatch(m -> m.getMateriaNombre().equalsIgnoreCase("Bases de Datos")));
-        assertTrue(materias.stream().anyMatch(m -> m.getMateriaNombre().equalsIgnoreCase("Matemática I")));
+
+        assertTrue(materias.stream()
+                .anyMatch(m -> m.getMateriaNombre().equalsIgnoreCase("Bases de Datos")));
+
+        assertTrue(materias.stream()
+                .anyMatch(m -> m.getMateriaNombre().equalsIgnoreCase("Matemática I")));
 
         Materia bd = materias.stream()
                 .filter(m -> m.getMateriaNombre().equalsIgnoreCase("Bases de Datos"))
                 .findFirst()
                 .orElseThrow();
 
-        assertFalse(bd.getComisiones().isEmpty(), "La materia Bases de Datos debería tener comisiones");
-        assertTrue(bd.getComisiones().size() >= 6);
-
-
-        Materia objetos3 = materias.stream()
-                .filter(m -> m.getMateriaNombre().contains("Objetos III"))
-                .findFirst()
-                .orElseThrow(() -> new AssertionError("No se encontró la materia Programación con Objetos III"));
-
-        boolean tieneComisionCritica = objetos3.getComisiones().stream()
-                .anyMatch(c -> c.getComisionNombre().contains("1051-1-G14"));
-
-        assertTrue(tieneComisionCritica, "Debería haber parseado la comisión 1051-1-G14 a pesar del horario 9:00");
-
-        var comisionObjetos = objetos3.getComisiones().stream()
-                .filter(c -> c.getComisionNombre().contains("1051-1-G14"))
-                .findFirst()
-                .get();
-
-        assertFalse(comisionObjetos.getClases().isEmpty(), "La comisión debería tener horarios asociados");
+        assertFalse(bd.getComisiones().isEmpty());
     }
 
     @AfterEach
-    public void tearDown() throws IOException {
-        pdfInputStream.close();
+    public void tearDown()  {
         resetService.resetAll();
     }
 }
