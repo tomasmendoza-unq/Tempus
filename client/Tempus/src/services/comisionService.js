@@ -34,3 +34,11 @@ export const editarComisionService = (comisionId, formData) =>
     .catch((error) => {
       throw error
     })
+
+export const eliminarComisionService = (comisionId) =>
+  api
+    .delete(API_ROUTES.ELIMINAR_COMISION(comisionId))
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })

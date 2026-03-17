@@ -3,6 +3,7 @@ import {
   obtenerComisionService,
   obtenerTodasComisionesService,
   editarComisionService,
+  eliminarComisionService,
 } from "../services/comisionService"
 
 import {
@@ -80,6 +81,15 @@ export function useComision() {
     }
   }
 
+  const eliminarComision = async (comisionId) => {
+    try {
+      await eliminarComisionService(comisionId)
+      toast.success("Comisión eliminada exitosamente.")
+    } catch {
+      toast.error("Error al eliminar la comisión. Intentá de nuevo.")
+    }
+  }
+
   return {
     crearComision,
     obtenerComision,
@@ -87,6 +97,7 @@ export function useComision() {
     editarComision,
     editarHorariosComision,
     eliminarHorarioComision,
+    eliminarComision,
   }
 }
 
