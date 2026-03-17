@@ -23,7 +23,9 @@ export default function RegisterPage() {
   });
 
   useEffect(() => {
-    recuperarCarreras().then(setCarreras);
+    recuperarCarreras()
+      .then(data => setCarreras(data ?? []))
+      .catch(() => setCarreras([]));
   }, []);
 
   const handleChange = (e) => {
@@ -56,9 +58,9 @@ export default function RegisterPage() {
           label="Carrera"
           value={carreraSeleccionada?.idCarrera || ""}
           placeholder="Seleccioná una carrera"
-          options={carreras.map(c => ({ 
-            value: c.idCarrera, 
-            label: c.nombreCarrera 
+          options={(carreras ?? []).map(c => ({
+            value: c.idCarrera,
+            label: c.nombreCarrera
           }))}
           onChange={(value) => {
             const carrera = carreras.find((c) => c.idCarrera == value);
