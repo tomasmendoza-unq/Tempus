@@ -33,6 +33,14 @@ export default function ComisionMostrar() {
           <ComisionCard key={comision.comisionId} comision={comision}>
             <div>
               <button
+                onClick={() =>
+                  navigate(`/comisiones/editar/${comision?.comisionId}`)
+                }
+                className="mt-4 text-green-600 hover:bg-green-900 transition-colors duration-200 hover:text-white font-bold py-2 px-4 rounded"
+              >
+                <Edit />
+              </button>
+              <button
                 onClick={() => {
                   setComisionSeleccionada(comision.comisionId)
                   setIsOpenModal(true)
@@ -40,14 +48,6 @@ export default function ComisionMostrar() {
                 className="mt-4 text-red-600 hover:bg-red-900 transition-colors duration-200 hover:text-white font-bold py-2 px-4 rounded"
               >
                 <Trash2 />
-              </button>
-              <button
-                onClick={() =>
-                  navigate(`/comisiones/editar/${comision?.comisionId}`)
-                }
-                className="mt-4 text-green-600 hover:bg-green-900 transition-colors duration-200 hover:text-white font-bold py-2 px-4 rounded"
-              >
-                <Edit />
               </button>
             </div>
           </ComisionCard>
