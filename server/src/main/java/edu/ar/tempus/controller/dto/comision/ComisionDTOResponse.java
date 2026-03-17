@@ -14,6 +14,7 @@ import java.util.List;
 public record ComisionDTOResponse(
         Long comisionId,
         List<ClaseHorarioDTOResponse> claseHorario,
+        String comisionNombre,
         MateriaDTOResponseSimple materia,
         String modalidad
 ) {
@@ -21,6 +22,7 @@ public record ComisionDTOResponse(
         return new ComisionDTOResponse(
                 comision.getComisionId(),
                 comision.getClases().stream().map(ClaseHorarioDTOResponse::desdeModelo).toList(),
+                comision.getComisionNombre(),
                 MateriaDTOResponseSimple.desdeModelo(comision.getMateria()),
                 comision.getModalidad()
         );
