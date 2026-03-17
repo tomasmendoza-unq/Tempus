@@ -5,12 +5,12 @@ export default function ComisionSelectorMateria({
   selectedId,
 }) {
   return (
-    <div>
-      <h2 className="text-xl text-white font-bold mb-4">
+    <div className="w-full">
+      <h2 className="text-2xl text-white font-bold mb-6 flex items-center gap-2">
         Seleccionar Materia para la Comisión
       </h2>
       <MateriasSelector
-        buscadorClassName="max-w-sm"
+        buscadorClassName="w-full" 
         selectedId={selectedId}
         onClick={(m) => {
           setMateriaSeleccionada((prev) => ({
