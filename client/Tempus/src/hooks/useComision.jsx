@@ -33,9 +33,10 @@ export function useComision() {
     }
   }
 
-  const obtenerTodasComisiones = async () => {
+  const obtenerTodasComisiones = async (page = 0) => {
     try {
-      const comisiones = await obtenerTodasComisionesService()
+      const comisiones = await obtenerTodasComisionesService(page)
+      console.log(comisiones)
       return comisiones
     } catch {
       toast.error("Error al obtener las comisiones. Intentá de nuevo.")

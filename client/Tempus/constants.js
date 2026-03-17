@@ -42,7 +42,7 @@ export const API_ROUTES = {
   CREAR_COMISION: "/comision/crear",
   OBTENER_COMISION: (comisionId) => `/comision/${comisionId}`,
   OBTENER_DATOS_BASICOS: () => "/api/usuario/perfil",
-  OBTENER_TODAS_COMISIONES: "/comision",
+  OBTENER_TODAS_COMISIONES: (page = 0) => `/comision?page=${page}`,
   ACTUALIZAR_COMISION: (comisionId) => `/comision/${comisionId}`,
   ACTUALIZAR_HORARIO: "/claseHorario/actualizar",
   ELIMINAR_HORARIO: (horarioId) => `/claseHorario/${horarioId}`,

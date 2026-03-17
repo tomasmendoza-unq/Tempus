@@ -41,20 +41,21 @@ public class ComisionRepositoryImpl implements ComisionRepository {
     @Override
     public Comision guardar(Comision comision) {
         Comision comisionGuardada = comisionDAOSQL.save(comision);
+        System.out.println("Guardada en SQL con id: " + comisionGuardada.getComisionId());
 
         Long materiaId = comision.getMateria().getMateriaId();
+        System.out.println("Buscando materia en Neo4j con id: " + materiaId);
 
         MateriaNeo4J materiaNeo = materiaNeo4JDAO.findById(materiaId)
                 .orElseThrow(() -> new EntityNotFoundException(MateriaNeo4J.class.getName(), materiaId));
 
+        System.out.println("Materia encontrada en Neo4j: " + materiaNeo);
+
         ComisionNeo4J neo = comisionMapper.toNeo4J(comisionGuardada, materiaNeo);
-        neo.setMateria(materiaNeo);
-
         ComisionNeo4J neoGuardado = comisionNeo4JDAO.save(neo);
-
+        System.out.println("Guardada en Neo4j con id: " + neoGuardado.getId());
 
         return comisionGuardada;
-
     }
 
     @Override

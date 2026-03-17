@@ -51,71 +51,103 @@ export default function ComisionAgregar() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-10">
-      <h1 className="text-2xl font-bold mb-2 text-white text-center">
-        Gestión de Comisiones
-      </h1>
-
-      <ComisionStepper />
-
-      <div className="mt-6">
-        {step === 0 && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            <ComisionSelectorMateria />
-            {comision.materiaSeleccionada ? (
-              <ComisionMateriaSeleccionada />
-            ) : (
-              <p className="text-gray-500 self-center">
-                Seleccioná una materia para continuar.
-              </p>
-            )}
+    <div className="min-h-screen bg-[#121212] text-white p-4 md:p-8">
+      <div className="max-w-[1600px] mx-auto w-full flex flex-col gap-8">
+        
+        <header className="text-center space-y-2">
+          <h1 className="text-3xl font-bold">Gestión de Comisiones</h1>
+          <div className="max-w-2xl mx-auto py-4">
+            <ComisionStepper currentStep={step} />
           </div>
-        )}
+        </header>
 
-        {step === 1 && <ComisionHorarioForm />}
+        <main className="mt-4">
+          {step === 0 && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              
+              <div className="lg:col-span-8 bg-[#1e1e1e] rounded-2xl p-6 shadow-xl border border-white/5 overflow-hidden">
+                <div className="max-h-[65vh] overflow-y-auto pr-2 custom-scrollbar relative">
+                  <ComisionSelectorMateria
+                    setMateriaSeleccionada={setComision}
+                    selectedId={comision.materiaSeleccionada?.materiaId}
+                    buscadorClassName="sticky top-0 z-30 bg-[#1e1e1e] pb-4"
+                  />
+                </div>
+              </div>
 
-        {step === 2 && <ComisionReview />}
-      </div>
+              <div className="lg:col-span-4 lg:sticky lg:top-8">
+                {comision.materiaSeleccionada ? (
+                  <div className="bg-[#1e1e1e] rounded-2xl p-1 border border-white/5 shadow-lg">
+                    <ComisionMateriaSeleccionada
+                      materiaSeleccionada={comision.materiaSeleccionada}
+                      setMateriaSeleccionada={setComision}
+                    />
+                  </div>
+                ) : (
+                  <div className="bg-[#1e1e1e] border-2 border-dashed border-gray-700 rounded-2xl p-12 text-center">
+                    <p className="text-gray-500 font-medium">
+                      Seleccioná una materia para comenzar con la comisión.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
-      <div className="flex justify-between mt-8">
-        {step > 0 ? (
-          <button
-            onClick={anterior}
-            className="flex items-center gap-2 text-gray-300 hover:text-white border border-gray-600 hover:border-gray-400 px-5 py-2.5 rounded-lg transition-colors"
-          >
-            <ArrowLeft size={16} />
-            Anterior
-          </button>
-        ) : (
-          <div />
-        )}
+          {step === 1 && (
+            <div className="max-w-4xl mx-auto bg-[#1e1e1e] p-8 rounded-2xl border border-white/5">
+              <ComisionHorarioForm comision={comision} setComision={setComision} />
+            </div>
+          )}
 
-        {step < 2 ? (
-          <button
-            onClick={siguiente}
-            disabled={!canNext}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold transition-colors ${
-              canNext
-                ? "bg-red-600 hover:bg-red-700 text-white"
-                : "bg-gray-700 text-gray-500 cursor-not-allowed"
-            }`}
-          >
-            Siguiente
-            <ArrowRight size={16} />
-          </button>
-        ) : (
-          <button
-            onClick={confirmarComision}
-            disabled={enviando}
-            className={`flex items-center gap-2 font-semibold px-5 py-2.5 rounded-lg transition-colors ${
-              enviando
-                ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                : "bg-green-600 hover:bg-green-700 text-white"
-            }`}
-          >
-            {enviando ? "Enviando..." : "Confirmar Comisión"}
-          </button>
-        )}
+          {step === 2 && (
+            <div className="max-w-4xl mx-auto bg-[#1e1e1e] p-8 rounded-2xl border border-white/5">
+              <ComisionReview comision={comision} />
+            </div>
+          )}
+        </main>
+
+
+        <footer className="flex justify-between items-center mt-4 pb-10">
+          {step > 0 ? (
+            <button
+              onClick={anterior}
+              className="flex items-center gap-2 text-gray-300 hover:text-white border border-gray-600 px-6 py-3 rounded-xl transition-all"
+            >
+              <ArrowLeft size={18} />
+              Anterior
+            </button>
+          ) : (
+            <div />
+          )}
+
+          {step < 2 ? (
+            <button
+              onClick={siguiente}
+              disabled={!canNext}
+              className={`flex items-center gap-2 px-8 py-3 rounded-xl font-bold transition-all ${
+                canNext
+                  ? "bg-red-700 hover:bg-red-600 text-white shadow-lg shadow-red-900/20"
+                  : "bg-gray-800 text-gray-500 cursor-not-allowed"
+              }`}
+            >
+              Siguiente
+              <ArrowRight size={18} />
+            </button>
+          ) : (
+            <button
+              onClick={confirmarComision}
+              disabled={enviando}
+              className={`flex items-center gap-2 font-bold px-8 py-3 rounded-xl transition-all ${
+                enviando
+                  ? "bg-gray-700 text-gray-400 cursor-not-allowed"
+                  : "bg-green-600 hover:bg-green-500 text-white"
+              }`}
+            >
+              {enviando ? "Enviando..." : "Confirmar Comisión"}
+            </button>
+          )}
+        </footer>
       </div>
     </div>
   )

@@ -118,6 +118,12 @@ public class MateriaRepositoryImpl implements MateriaRepository {
 
         materiaNeo4JDAO.saveAll(neo4JS);
 
+        materiasSaved.forEach(materia -> {
+            if (materia.getComisiones() != null && !materia.getComisiones().isEmpty()) {
+                materia.getComisiones().forEach(comisionRepository::guardar);
+            }
+        });
+
         return materiasSaved;
     }
 
