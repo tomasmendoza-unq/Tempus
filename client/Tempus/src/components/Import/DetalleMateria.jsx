@@ -1,3 +1,5 @@
+import HorarioList from "../Comision/HorarioList"
+
 export const DetalleMateria = ({ materia }) => {
   if (!materia) return (
     <div className="flex items-center justify-center h-full text-gray-400 italic">
@@ -19,16 +21,7 @@ export const DetalleMateria = ({ materia }) => {
                 {com.modalidad}
               </span>
             </div>
-            <div className="space-y-2">
-              {com.claseHorario.map((horario, hIdx) => (
-                <div key={hIdx} className="flex items-center text-xs">
-                  <span className="w-20 font-bold text-gray-400 uppercase">{horario.dia}</span>
-                  <span className="bg-white px-3 py-1 rounded-md border border-gray-100 font-medium text-gray-700">
-                    {horario.inicio.substring(0, 5)} - {horario.fin.substring(0, 5)}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <HorarioList horarios={com.claseHorario} />
           </div>
         ))}
       </div>
