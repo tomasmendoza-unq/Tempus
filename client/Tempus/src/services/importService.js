@@ -6,11 +6,7 @@ const api = createApi(API.BASE_URL)
 
 export const previewImportService = (formData) =>
   api
-    .post(API_ROUTES.PREVIEW_IMPORT, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
+    .post(API_ROUTES.PREVIEW_IMPORT, formData)
     .then((res) => res)
     .catch((error) => {
       throw error;
