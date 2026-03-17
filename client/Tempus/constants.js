@@ -43,4 +43,7 @@ export const API_ROUTES = {
   OBTENER_COMISION: (comisionId) => `/comision/${comisionId}`,
   OBTENER_DATOS_BASICOS: () => "/api/usuario/perfil",
   OBTENER_TODAS_COMISIONES: "/comision",
+  ACTUALIZAR_COMISION: (comisionId) => `/comision/${comisionId}`,
+  ACTUALIZAR_HORARIO: "/claseHorario/actualizar",
+  ELIMINAR_HORARIO: (horarioId) => `/claseHorario/${horarioId}`,
 }
