@@ -1,14 +1,16 @@
 package edu.ar.tempus.controller;
 
+import edu.ar.tempus.controller.dto.claseHorario.ClaseHorarioDTOResponse;
 import edu.ar.tempus.controller.dto.horario.HorarioDTORequest;
 import edu.ar.tempus.controller.dto.horario.HorarioDTOResponse;
-import edu.ar.tempus.exceptions.business.BusinessException;
+import edu.ar.tempus.controller.dto.claseHorario.UpdateClaseHorarioDTORequest;
+import edu.ar.tempus.model.ClaseHorario;
 import edu.ar.tempus.model.Horario;
 import edu.ar.tempus.service.HorarioService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,4 +31,6 @@ public final class HorarioControllerREST {
 
         return ResponseEntity.ok(response);
     }
+
+
 }

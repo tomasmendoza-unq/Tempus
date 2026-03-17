@@ -1,22 +1,16 @@
-import ComisionSelectorMateria from "../components/Comision/ComisionSelectorMateria"
-import ComisionMateriaSeleccionada from "../components/Comision/ComisionMateriaSeleccionada"
-import ComisionStepper from "../components/Comision/ComisionStepper"
-import ComisionHorarioForm from "../components/Comision/ComisionHorarioForm"
-import ComisionReview from "../components/Comision/ComisionReview"
-import { crearComisionService } from "../services/comisionService"
+import ComisionSelectorMateria from "../../components/Comision/ComisionSelectorMateria"
+import ComisionMateriaSeleccionada from "../../components/Comision/ComisionMateriaSeleccionada"
+import ComisionStepper from "../../components/Comision/ComisionStepper"
+import ComisionHorarioForm from "../../components/Comision/ComisionHorarioForm"
+import ComisionReview from "../../components/Comision/ComisionReview"
+import { useComision, useFormComision } from "../../hooks/useComision"
 import { useState } from "react"
 import { ArrowLeft, ArrowRight } from "feather-icons-react"
-import { toast } from "react-toastify"
 
-export default function Comision() {
-  const [comision, setComision] = useState({
-    comision: {
-      materiaId: null,
-      horarios: [],
-    },
-    step: 0,
-    materiaSeleccionada: null,
-  })
+export default function ComisionAgregar() {
+  const { comision, setComision, clearFormComision } = useFormComision()
+
+  const { crearComision } = useComision()
 
   const { step } = comision
 
@@ -38,6 +32,7 @@ export default function Comision() {
 
   const confirmarComision = async () => {
     setEnviando(true)
+
     try {
       const payload = {
         materiaId: comision.comision.materiaId,
@@ -47,21 +42,11 @@ export default function Comision() {
           fin: h.horaFin,
         })),
       }
-      const a = await crearComisionService(payload)
 
-      toast.success("Comisión creada exitosamente.")
-    } catch (error) {
-      toast.error("Error al crear la comisión. Intentá de nuevo.")
+      await crearComision(payload)
+      clearFormComision()
     } finally {
       setEnviando(false)
-      setComision({
-        comision: {
-          materiaId: null,
-          horarios: [],
-        },
-        step: 0,
-        materiaSeleccionada: null,
-      })
     }
   }
 
@@ -71,20 +56,14 @@ export default function Comision() {
         Gestión de Comisiones
       </h1>
 
-      <ComisionStepper currentStep={step} />
+      <ComisionStepper />
 
       <div className="mt-6">
         {step === 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            <ComisionSelectorMateria
-              setMateriaSeleccionada={setComision}
-              selectedId={comision.materiaSeleccionada?.materiaId}
-            />
+            <ComisionSelectorMateria />
             {comision.materiaSeleccionada ? (
-              <ComisionMateriaSeleccionada
-                materiaSeleccionada={comision.materiaSeleccionada}
-                setMateriaSeleccionada={setComision}
-              />
+              <ComisionMateriaSeleccionada />
             ) : (
               <p className="text-gray-500 self-center">
                 Seleccioná una materia para continuar.
@@ -93,11 +72,9 @@ export default function Comision() {
           </div>
         )}
 
-        {step === 1 && (
-          <ComisionHorarioForm comision={comision} setComision={setComision} />
-        )}
+        {step === 1 && <ComisionHorarioForm />}
 
-        {step === 2 && <ComisionReview comision={comision} />}
+        {step === 2 && <ComisionReview />}
       </div>
 
       <div className="flex justify-between mt-8">

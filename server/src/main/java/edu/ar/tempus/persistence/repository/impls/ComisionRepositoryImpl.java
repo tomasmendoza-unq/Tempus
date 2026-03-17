@@ -2,16 +2,16 @@ package edu.ar.tempus.persistence.repository.impls;
 
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.model.Comision;
-import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.persistence.neo4J.ComisionNeo4JDAO;
 import edu.ar.tempus.persistence.neo4J.MateriaNeo4JDAO;
-import edu.ar.tempus.persistence.neo4J.entity.ComisionNeo4J;
 import edu.ar.tempus.persistence.neo4J.entity.ComisionNeo4J;
 import edu.ar.tempus.persistence.neo4J.entity.MateriaNeo4J;
 import edu.ar.tempus.persistence.repository.ComisionRepository;
 import edu.ar.tempus.persistence.repository.mapper.ComisionMapper;
 import edu.ar.tempus.persistence.sql.ComisionDAOSQL;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.neo4j.core.Neo4jClient;
 import org.springframework.stereotype.Component;
 
@@ -100,6 +100,20 @@ public class ComisionRepositoryImpl implements ComisionRepository {
     @Override
     public List<Materia> recuperarMateriasPorComision(List<Long> comisionIds) {
         return comisionDAOSQL.findAllMateriasByIds(comisionIds);
+    }
+
+    @Override
+    public Page<Comision> recuperarComisiones(Pageable pageable, Long carreraId) {
+        return comisionDAOSQL.findAll(pageable, carreraId);
+    }
+
+    @Override
+    public void delete(Long idComision) {
+        Comision comision = comisionDAOSQL.findById(idComision).orElseThrow(() -> new EntityNotFoundException(Comision.class.getName(), idComision));
+        ComisionNeo4J comisionNeo4J = comisionNeo4JDAO.findById(idComision).orElseThrow(() -> new EntityNotFoundException(Comision.class.getName(), idComision));
+
+        comisionNeo4JDAO.delete(comisionNeo4J);
+        comisionDAOSQL.delete(comision);
     }
 
     private String buildQuery(int n) {
