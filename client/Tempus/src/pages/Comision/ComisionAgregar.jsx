@@ -3,20 +3,14 @@ import ComisionMateriaSeleccionada from "../../components/Comision/ComisionMater
 import ComisionStepper from "../../components/Comision/ComisionStepper"
 import ComisionHorarioForm from "../../components/Comision/ComisionHorarioForm"
 import ComisionReview from "../../components/Comision/ComisionReview"
-import { crearComisionService } from "../../services/comisionService"
+import { useComision, useFormComision } from "../../hooks/useComision"
 import { useState } from "react"
 import { ArrowLeft, ArrowRight } from "feather-icons-react"
-import { toast } from "react-toastify"
 
 export default function ComisionAgregar() {
-  const [comision, setComision] = useState({
-    comision: {
-      materiaId: null,
-      horarios: [],
-    },
-    step: 0,
-    materiaSeleccionada: null,
-  })
+  const { comision, setComision, clearFormComision } = useFormComision()
+
+  const { crearComision } = useComision()
 
   const { step } = comision
 
@@ -38,6 +32,7 @@ export default function ComisionAgregar() {
 
   const confirmarComision = async () => {
     setEnviando(true)
+
     try {
       const payload = {
         materiaId: comision.comision.materiaId,
@@ -47,20 +42,11 @@ export default function ComisionAgregar() {
           fin: h.horaFin,
         })),
       }
-      await crearComisionService(payload)
-      toast.success("Comisión creada exitosamente.")
-    } catch (error) {
-      toast.error("Error al crear la comisión. Intentá de nuevo.")
+
+      await crearComision(payload)
+      clearFormComision()
     } finally {
       setEnviando(false)
-      setComision({
-        comision: {
-          materiaId: null,
-          horarios: [],
-        },
-        step: 0,
-        materiaSeleccionada: null,
-      })
     }
   }
 
