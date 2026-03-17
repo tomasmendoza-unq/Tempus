@@ -1,5 +1,6 @@
 package edu.ar.tempus.controller;
 
+import edu.ar.tempus.controller.dto.carrera.CarreraDTOBulkRequest;
 import edu.ar.tempus.controller.dto.carrera.CarreraDTORequest;
 import edu.ar.tempus.controller.dto.carrera.CarreraDTOResponse;
 import edu.ar.tempus.controller.dto.carrera.CarreraDTOResponseSimple;
@@ -58,6 +59,12 @@ public final class CarreraControllerRest {
         List<CarreraDTOResponseSimple> response = carreras.stream().map(CarreraDTOResponseSimple::desdeModelo).toList();
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/load")
+    public ResponseEntity<String> loadPorBulk(@RequestBody CarreraDTOBulkRequest carreraDTOBulkRequest) {
+        carreraService.guardarCarreraCompleta(carreraDTOBulkRequest.aModelo());
+        return ResponseEntity.ok("Se cargo con exito la oferta");
     }
 
     @PostMapping("/crear")

@@ -1,0 +1,197 @@
+name: CI
+
+on:
+    push:
+        branches: [main, dev]
+    pull_request:
+        branches: [main, dev]
+
+jobs:
+    backend-tests:
+        name: Backend - Tests (Docker + Postgres + Neo4j + Parser)
+        runs-on: ubuntu-latest
+
+        services:
+            postgres:
+                image: postgres:16
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: jamaica09
+                    POSTGRES_DB: tempus
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd="pg_isready -U postgres"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=5
+
+            neo4j:
+                image: neo4j:5
+                env:
+                    NEO4J_AUTH: neo4j/rootroot
+                ports:
+                    - 7474:7474
+                    - 7687:7687
+                options: >-
+                    --health-cmd="wget -q --spider http://localhost:7474 || exit 1"
+                    --health-interval=15s
+                    --health-timeout=10s
+                    --health-retries=10
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+            # ==============================
+            # SETUP PYTHON PARSER
+            # ==============================
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.11"
+
+            - name: Install parser dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install -r parser/requirements.txt
+
+            - name: Start FastAPI parser
+              run: |
+                  echo "🚀 Starting FastAPI parser..."
+                  nohup uvicorn main:app --app-dir parser --host 0.0.0.0 --port 8000 &
+                  sleep 5
+
+            - name: Verify parser is running
+              run: |
+                  for i in {1..10}; do
+                    if curl -fs http://localhost:8000/docs > /dev/null; then
+                      echo "✅ Parser is running!"
+                      break
+                    fi
+                    echo "Waiting for parser... ($i/10)"
+                    sleep 3
+                  done
+
+            # ==============================
+            # BUILD BACKEND
+            # ==============================
+
+            - name: Build Backend Docker image
+              run: docker build -t tempus-backend:latest --target development ./server
+
+            - name: Wait for services to be ready
+              run: |
+                  echo "⏳ Waiting for Postgres..."
+                  for i in {1..10}; do
+                    nc -z localhost 5432 && echo "✅ Postgres is up" && break
+                    echo "Waiting for Postgres... ($i/10)"
+                    sleep 5
+                  done
+
+                  echo "⏳ Waiting for Neo4j..."
+                  for i in {1..15}; do
+                    curl -fs http://localhost:7474 && echo "✅ Neo4j is up" && break
+                    echo "Waiting for Neo4j... ($i/15)"
+                    sleep 5
+                  done
+
+            - name: Run Backend Tests inside Docker
+              run: |
+                  docker run --rm \
+                    --add-host=host.docker.internal:host-gateway \
+                    -e TZ=America/Argentina/Buenos_Aires \
+                    -e POSTGRES_HOST=host.docker.internal \
+                    -e POSTGRES_PORT=5432 \
+                    -e POSTGRES_DB=tempus \
+                    -e POSTGRES_USER=postgres \
+                    -e POSTGRES_PASSWORD=jamaica09 \
+                    -e NEO_URL=neo4j://host.docker.internal:7687 \
+                    -e NEO_USER=neo4j \
+                    -e NEO_PASSWORD=rootroot \
+                    -e PARSER_URL=http://host.docker.internal:8000 \
+                    tempus-backend:latest test
+
+            - name: Publish Test Results
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: backend-test-results
+                  path: server/target/surefire-reports/
+
+            - name: Stop Backend Container
+              if: always()
+              run: docker rm -f tempus-test || true
+
+    frontend:
+        name: Frontend - React (Docker)
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+            - name: Build Frontend Docker image
+              run: docker build -t tempus-frontend:latest ./client/Tempus
+
+            - name: Run Frontend Build inside Docker
+              run: |
+                  docker run --rm \
+                    -e VITE_API_URL=http://localhost:8080 \
+                    -v ${PWD}/client/Tempus/dist:/app/dist \
+                    tempus-frontend:latest \
+                    sh -c "npm run build"
+
+            - name: Verify Build Output
+              run: |
+                  echo "📁 Contenido del directorio dist:"
+                  ls -la ./client/Tempus/dist/
+
+                  if [ -f "./client/Tempus/dist/index.html" ]; then
+                      echo "✅ Build exitoso - index.html encontrado"
+                  else
+                      echo "❌ Build fallido - no se encontró index.html"
+                      exit 1
+                  fi
+
+            - name: Smoke Test - Start Frontend Dev Server
+              run: |
+                  echo "🚀 Starting frontend container for smoke test..."
+                  docker run -d --name tempus-frontend-test \
+                    -p 5173:5173 \
+                    tempus-frontend:latest
+
+                  echo "⏳ Waiting for frontend to start (max 30s)..."
+                  for i in {1..6}; do
+                    if curl -fs http://localhost:5173 > /dev/null; then
+                      echo "✅ Frontend dev server is running!"
+                      break
+                    fi
+                    echo "Waiting... ($i/6)"
+                    sleep 5
+                  done
+
+                  if ! curl -fs http://localhost:5173 > /dev/null; then
+                    echo "❌ Frontend failed to start. Showing logs:"
+                    docker logs tempus-frontend-test
+                    exit 1
+                  fi
+
+                  echo "✅ Frontend smoke test passed!"
+
+            - name: Stop Frontend Container
+              if: always()
+              run: docker rm -f tempus-frontend-test || true
+
+            - name: Upload Build Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: frontend-build
+                  path: client/Tempus/dist/

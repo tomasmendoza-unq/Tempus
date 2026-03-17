@@ -1,9 +1,11 @@
 package edu.ar.tempus.service;
 
-import edu.ar.tempus.model.Carrera;
-import edu.ar.tempus.model.Materia;
-import edu.ar.tempus.model.Role;
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.controller.dto.carrera.CarreraDTOBulkRequest;
+import edu.ar.tempus.controller.dto.claseHorario.ClaseHorarioDTORequest;
+import edu.ar.tempus.controller.dto.comision.ComisionDTORequestSimple;
+import edu.ar.tempus.controller.dto.materia.MateriaComisionDTORequest;
+import edu.ar.tempus.controller.dto.materia.MateriaDTORequest;
+import edu.ar.tempus.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -113,6 +116,68 @@ public class CarreraServiceTest {
         assertTrue(carrerasNoSuscripto.stream()
                 .anyMatch(c -> c.getId().equals(otraCarrera.getId()))
         );
+    }
+    @Test
+    public void guardarCarreraCompletaDeberiaCrearCarreraMateriasYComisiones() {
+
+        ClaseHorario clase = ClaseHorario.builder()
+                .dia(DiasSemana.LUNES)
+                .inicio(LocalTime.of(10, 0))
+                .fin(LocalTime.of(12, 0))
+                .build();
+
+        Comision comision = Comision.builder()
+                .comisionNombre("1001-A")
+                .modalidad("PRESENCIAL")
+                .clases(List.of(clase))
+                .build();
+
+        Materia materia1 = Materia.builder()
+                .materiaNombre("Programacion I")
+                .comisiones(List.of(comision))
+                .correlativas(new HashSet<>())
+                .build();
+
+        Materia materia2 = Materia.builder()
+                .materiaNombre("Matematica I")
+                .comisiones(List.of(comision))
+                .correlativas(new HashSet<>())
+                .build();
+
+        Carrera carrera = Carrera.builder()
+                .nombreCarrera("Tecnicatura en Programacion")
+                .materias(List.of(materia1, materia2))
+                .build();
+
+        Carrera carreraGuardada = carreraService.guardarCarreraCompleta(carrera);
+
+        assertNotNull(carreraGuardada);
+        assertNotNull(carreraGuardada.getId());
+
+        Carrera carreraRecuperada = carreraService.recuperar(carreraGuardada.getId());
+
+        assertEquals("Tecnicatura en Programacion", carreraRecuperada.getNombreCarrera());
+        assertEquals(2, carreraRecuperada.getMaterias().size());
+
+        assertTrue(
+                carreraRecuperada.getMaterias()
+                        .stream()
+                        .anyMatch(m -> m.getMateriaNombre().equals("Programacion I"))
+        );
+
+        assertTrue(
+                carreraRecuperada.getMaterias()
+                        .stream()
+                        .anyMatch(m -> m.getMateriaNombre().equals("Matematica I"))
+        );
+
+        Materia materia = carreraRecuperada.getMaterias()
+                .stream()
+                .filter(m -> m.getMateriaNombre().equals("Programacion I"))
+                .findFirst()
+                .orElseThrow();
+
+        assertFalse(materia.getComisiones().isEmpty());
     }
 
     @AfterEach

@@ -14,6 +14,7 @@ import PerfilPage from "./pages/PerfilPage"
 import ComisionAgregar from "./pages/Comision/ComisionAgregar"
 import ComisionMostrar from "./pages/Comision/ComisionMostrar"
 import ComisionEditar from "./pages/Comision/ComisionEditar"
+import ImportPage from "./pages/ImportPage"
 
 function App() {
   return (
@@ -86,6 +87,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <ComisionEditar />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path={ROUTES.IMPORT}
+            element={
+              <ProtectedRoute>
+                <ImportPage />
               </ProtectedRoute>
             }
           />

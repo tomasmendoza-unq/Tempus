@@ -1,5 +1,6 @@
 package edu.ar.tempus.service;
 
+import edu.ar.tempus.controller.dto.carrera.CarreraDTOBulkRequest;
 import edu.ar.tempus.model.Carrera;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface CarreraService {
     List<Carrera> recuperarCarreraPorNombre(String lic);
 
     List<Carrera> recuperarCarrerasPorAlumno(Long alumnoId);
+
+    Carrera guardarCarreraCompleta(Carrera carrera);
 }

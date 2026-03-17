@@ -13,6 +13,7 @@ export const ROUTES = {
   COMISION_AGREGAR: "/comisiones/agregar",
   COMISION_MOSTRAR: "/comisiones/mostrar",
   COMISION_EDITAR: "/comisiones/editar/:id",
+  IMPORT: "/import"
 }
 
 export const API_ROUTES = {
@@ -46,4 +47,6 @@ export const API_ROUTES = {
   ACTUALIZAR_HORARIO: "/claseHorario/actualizar",
   ELIMINAR_HORARIO: (horarioId) => `/claseHorario/${horarioId}`,
   ELIMINAR_COMISION: (comisionId) => `/comision/${comisionId}`,
+  PREVIEW_IMPORT: "/import/preview",
+  CARRERA_BULK: "/carrera/load"
 }

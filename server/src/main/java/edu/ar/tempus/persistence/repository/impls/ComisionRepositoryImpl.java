@@ -53,8 +53,6 @@ public class ComisionRepositoryImpl implements ComisionRepository {
         ComisionNeo4J neoGuardado = comisionNeo4JDAO.save(neo);
 
 
-        comisionNeo4JDAO.vincularCompatibilidadesPorId(neoGuardado.getId());
-
         return comisionGuardada;
 
     }
@@ -119,38 +117,58 @@ public class ComisionRepositoryImpl implements ComisionRepository {
     }
 
     private String buildQuery(int n) {
+
         StringBuilder sb = new StringBuilder();
+
         sb.append("""
-        MATCH (m:Materia) WHERE m.id IN $materiasIds
-            WITH m ORDER BY size([(m)<-[:PERTENECE_A]-(c:Comision) | c]) ASC
-        MATCH (c:Comision)-[:PERTENECE_A]->(m)
-            WITH m, collect(c.id) AS comisionesIdxM
-            WITH collect(comisionesIdxM) AS grupos
-        MATCH (c:Comision)-[:PERTENECE_A]->(m:Materia)
-        WHERE m.id IN $materiasIds
-            WITH grupos, collect(c.id) AS todasLasIds
-        MATCH (c1c:Comision)-[:COMPATIBLE_CON]->(c2c:Comision)
-        WHERE c1c.id IN todasLasIds AND c2c.id IN todasLasIds
-            AND NOT any(g IN grupos WHERE c1c.id IN g AND c2c.id IN g)
-            WITH grupos, collect([c1c.id, c2c.id]) AS compatibles
+    MATCH (m:Materia) WHERE m.id IN $materiasIds
+        WITH m ORDER BY size([(m)<-[:PERTENECE_A]-(c:Comision) | c]) ASC
+    MATCH (c:Comision)-[:PERTENECE_A]->(m)
+        WITH m, collect(c.id) AS comisionesIdxM
+        WITH collect(comisionesIdxM) AS grupos
     """);
 
         for (int i = 0; i < n; i++) {
+
             sb.append("UNWIND grupos[").append(i).append("] AS c").append(i).append("\n");
+
             if (i > 0) {
-                sb.append("WITH grupos, compatibles, ");
-                sb.append(IntStream.range(0, i + 1).mapToObj(j -> "c" + j).collect(Collectors.joining(", "))).append("\n");
+
+                sb.append("WITH grupos, ");
+                sb.append(
+                        IntStream.range(0, i + 1)
+                                .mapToObj(j -> "c" + j)
+                                .collect(Collectors.joining(", "))
+                ).append("\n");
+
                 sb.append("WHERE ");
+
                 int finalI = i;
-                int finalI1 = i;
-                sb.append(IntStream.range(0, i)
-                        .mapToObj(j -> "([c" + j + ", c" + finalI + "] IN compatibles OR [c" + finalI1 + ", c" + j + "] IN compatibles)")
-                        .collect(Collectors.joining(" AND "))).append("\n");
+
+                sb.append(
+                        IntStream.range(0, i)
+                                .mapToObj(j -> """
+                            NOT EXISTS {
+                                MATCH (cA:Comision)-[:SE_DICTA_EL]->(h1:ClaseHorario),
+                                      (cB:Comision)-[:SE_DICTA_EL]->(h2:ClaseHorario)
+                                WHERE cA.id = c%d
+                                  AND cB.id = c%d
+                                  AND h1.dia = h2.dia
+                                  AND h1.inicio < h2.fin
+                                  AND h1.fin > h2.inicio
+                            }
+                            """.formatted(j, finalI))
+                                .collect(Collectors.joining(" AND "))
+                ).append("\n");
             }
         }
 
         sb.append("RETURN [");
-        sb.append(IntStream.range(0, n).mapToObj(j -> "c" + j).collect(Collectors.joining(", ")));
+        sb.append(
+                IntStream.range(0, n)
+                        .mapToObj(j -> "c" + j)
+                        .collect(Collectors.joining(", "))
+        );
         sb.append("] AS combinacion LIMIT $cantidadHorarios");
 
         return sb.toString();

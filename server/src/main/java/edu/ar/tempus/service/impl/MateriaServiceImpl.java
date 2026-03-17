@@ -73,5 +73,10 @@ public class MateriaServiceImpl implements MateriaService {
         return materiaRepository.recuperarMateriasPorNombre(nombreMateria);
     }
 
+    @Override
+    public List<Materia> guardarMaterias(List<Materia> materias) {
+        return materiaRepository.saveAll(materias);
+    }
+
 
 }
