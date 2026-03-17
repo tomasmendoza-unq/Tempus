@@ -43,7 +43,7 @@ public final class ComisionControllerRest {
     public ResponseEntity<ComisionDTOResponse> obtenerComision(@PathVariable("comisionId") Long comisionId){
         Comision comision = comisionService.recuperar(comisionId);
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(ComisionDTOResponse.desdeModelo(comision));
+        return ResponseEntity.status(HttpStatus.OK).body(ComisionDTOResponse.desdeModelo(comision));
     }
 
     @PostMapping("/crear")

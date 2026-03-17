@@ -26,3 +26,11 @@ export const obtenerTodasComisionesService = () =>
     .catch((error) => {
       throw error
     })
+
+export const editarComisionService = (comisionId, formData) =>
+  api
+    .put(API_ROUTES.ACTUALIZAR_COMISION(comisionId), formData)
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })
