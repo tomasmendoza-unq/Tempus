@@ -3,19 +3,12 @@ import ComisionMateriaSeleccionada from "../../components/Comision/ComisionMater
 import ComisionStepper from "../../components/Comision/ComisionStepper"
 import ComisionHorarioForm from "../../components/Comision/ComisionHorarioForm"
 import ComisionReview from "../../components/Comision/ComisionReview"
-import { useComision } from "../../hooks/useComision"
+import { useComision, useFormComision } from "../../hooks/useComision"
 import { useState } from "react"
 import { ArrowLeft, ArrowRight } from "feather-icons-react"
 
 export default function ComisionAgregar() {
-  const [comision, setComision] = useState({
-    comision: {
-      materiaId: null,
-      horarios: [],
-    },
-    step: 0,
-    materiaSeleccionada: null,
-  })
+  const { comision, setComision, clearFormComision } = useFormComision()
 
   const { crearComision } = useComision()
 
@@ -51,15 +44,7 @@ export default function ComisionAgregar() {
       }
 
       await crearComision(payload)
-
-      setComision({
-        comision: {
-          materiaId: null,
-          horarios: [],
-        },
-        step: 0,
-        materiaSeleccionada: null,
-      })
+      clearFormComision()
     } finally {
       setEnviando(false)
     }
