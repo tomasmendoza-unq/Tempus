@@ -8,7 +8,7 @@ export function useComisionContext() {
     throw new Error("useComisionContext must be used within ComisionProvider")
   }
 
-  const { dispatch, comision, step, materiaSeleccionada } = context
+  const { dispatch, comision, step, materiaSeleccionada, cargando } = context
   const estadoComision = { comision, step, materiaSeleccionada }
 
   const setComision = (payload) => {
@@ -31,14 +31,25 @@ export function useComisionContext() {
     dispatch({ type: "LIMPIAR_FORM_COMISION" })
   }
 
+  const setCargando = (valor) => {
+    dispatch({ type: "SET_CARGANDO", payload: valor })
+  }
+
+  const cargarComisionCompleta = (datos) => {
+    dispatch({ type: "CARGAR_COMISION_COMPLETA", payload: datos })
+  }
+
   return {
     comision: estadoComision,
     step,
     materiaSeleccionada,
+    cargando,
     setComision,
     updateStep,
     setMateriaSeleccionada,
     setHorariosComision,
     clearFormComision,
+    setCargando,
+    cargarComisionCompleta,
   }
 }

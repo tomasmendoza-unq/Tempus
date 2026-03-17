@@ -4,6 +4,7 @@ import DetalleMateria from "../Materia/DetalleMateria"
 import { useTraerMateria } from "../../hooks/useMateria"
 import { List } from "feather-icons-react"
 import { useState } from "react"
+import { useFormComision } from "../../hooks/useComision"
 
 const DIAS_LABELS = {
   LUNES: "Lunes",
@@ -14,7 +15,8 @@ const DIAS_LABELS = {
   SABADO: "Sábado",
 }
 
-export default function ComisionReview({ comision }) {
+export default function ComisionReview() {
+  const { comision } = useFormComision()
   const { materiaSeleccionada } = comision
   const { horarios } = comision.comision
   const [isModalOpen, setIsModalOpen] = useState(false)

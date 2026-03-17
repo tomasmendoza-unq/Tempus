@@ -56,20 +56,14 @@ export default function ComisionAgregar() {
         Gestión de Comisiones
       </h1>
 
-      <ComisionStepper currentStep={step} />
+      <ComisionStepper />
 
       <div className="mt-6">
         {step === 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            <ComisionSelectorMateria
-              setMateriaSeleccionada={setComision}
-              selectedId={comision.materiaSeleccionada?.materiaId}
-            />
+            <ComisionSelectorMateria />
             {comision.materiaSeleccionada ? (
-              <ComisionMateriaSeleccionada
-                materiaSeleccionada={comision.materiaSeleccionada}
-                setMateriaSeleccionada={setComision}
-              />
+              <ComisionMateriaSeleccionada />
             ) : (
               <p className="text-gray-500 self-center">
                 Seleccioná una materia para continuar.
@@ -78,11 +72,9 @@ export default function ComisionAgregar() {
           </div>
         )}
 
-        {step === 1 && (
-          <ComisionHorarioForm comision={comision} setComision={setComision} />
-        )}
+        {step === 1 && <ComisionHorarioForm />}
 
-        {step === 2 && <ComisionReview comision={comision} />}
+        {step === 2 && <ComisionReview />}
       </div>
 
       <div className="flex justify-between mt-8">
