@@ -14,7 +14,6 @@ import PerfilPage from "./pages/PerfilPage"
 import ComisionAgregar from "./pages/Comision/ComisionAgregar"
 import ComisionMostrar from "./pages/Comision/ComisionMostrar"
 import ComisionEditar from "./pages/Comision/ComisionEditar"
-import ComisionEliminar from "./pages/Comision/ComisionEliminar"
 
 function App() {
   return (
@@ -87,14 +86,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <ComisionEditar />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ROUTES.COMISION_ELIMINAR}
-            element={
-              <ProtectedRoute>
-                <ComisionEliminar />
               </ProtectedRoute>
             }
           />
