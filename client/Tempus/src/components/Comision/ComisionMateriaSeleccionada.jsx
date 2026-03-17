@@ -1,19 +1,19 @@
 import TarjetaMateria from "../Materia/TarjetaMateria"
 import { X } from "feather-icons-react"
+import { useFormComision } from "../../hooks/useComision"
 
-export default function ComisionMateriaSeleccionada({
-  materiaSeleccionada,
-  setMateriaSeleccionada,
-}) {
+export default function ComisionMateriaSeleccionada() {
+  const { comision, setComision } = useFormComision()
+
   return (
     <div>
       <h2 className="text-xl text-white font-bold mb-4">
         Materia Seleccionada para la Comisión
       </h2>
-      <TarjetaMateria materia={materiaSeleccionada}>
+      <TarjetaMateria materia={comision.materiaSeleccionada}>
         <button
           onClick={() =>
-            setMateriaSeleccionada((prev) => ({
+            setComision((prev) => ({
               ...prev,
               materiaSeleccionada: null,
               comision: { ...prev.comision, materiaId: null },

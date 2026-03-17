@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalTime;
 
 public record ClaseHorarioDTOResponse(
+        Long id,
         @NotNull(message = "El dia que se dicta es requerido")
          DiasSemana dia,
          @NotNull(message = "La hora inicio es requerida")
@@ -15,13 +16,11 @@ public record ClaseHorarioDTOResponse(
         @NotNull(message = "La hora fin es requerida")
          LocalTime fin
 ) {
-    @AssertTrue(message = "El horario de fin debe ser posterior al horario de inicio")
-    public boolean isHorarioValido() {
-        return fin.isAfter(inicio);
-    }
+
 
     public static ClaseHorarioDTOResponse desdeModelo(ClaseHorario clases) {
         return new ClaseHorarioDTOResponse(
+                clases.getId(),
                 clases.getDia(),
                 clases.getInicio(),
                 clases.getFin()

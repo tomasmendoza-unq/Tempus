@@ -2,6 +2,8 @@ package edu.ar.tempus.persistence.sql;
 
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,4 +31,11 @@ public interface ComisionDAOSQL extends JpaRepository<Comision,Long> {
         WHERE c.comisionId IN :comisionIds
     """)
     List<Materia> findAllMateriasByIds(@Param("comisionIds") List<Long> comisionIds);
+
+    @Query("""
+        FROM Comision c
+        JOIN c.materia.carreras cr
+        WHERE cr.id = :carreraId
+        """)//TODO: INTENTAR SACAR EL JOIN
+    Page<Comision> findAll(Pageable pageable, @Param("carreraId") Long carreraId);
 }

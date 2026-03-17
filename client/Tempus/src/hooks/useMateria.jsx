@@ -4,7 +4,6 @@ import {
   traerTodasMateriasService,
   buscarMateriaPorNombreService,
   traerMateriasDisponiblesService,
-  asociarMateriaService,
   asociarMateriasService,
 } from "../services/materiaService"
 import { useMateriaContext } from "./ContextHooks/useMateriaContext"
@@ -173,31 +172,6 @@ export function useTraerMateriasDisponibles() {
     error,
     materias,
   }
-}
-
-export function useAsociarMateria() {
-  const {
-    cargando,
-    error,
-    fetchMateriaRequest,
-    fetchMateriaFailure,
-    materiaCreadaConExito,
-  } = useMateriaContext()
-
-  const asociarMateria = async (materiaOrigenId, materiaDestinoId) => {
-    fetchMateriaRequest()
-    try {
-      await asociarMateriaService(materiaOrigenId, materiaDestinoId)
-      toast.success("Correlativa vinculada con éxito")
-      materiaCreadaConExito()
-    } catch (err) {
-      fetchMateriaFailure(err)
-      toast.error("Error al vincular las materias")
-      throw err
-    }
-  }
-
-  return { asociarMateria, cargando, error }
 }
 
 export function useAsociarMaterias() {

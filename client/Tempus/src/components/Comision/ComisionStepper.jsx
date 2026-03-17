@@ -1,4 +1,5 @@
 import { Check } from "feather-icons-react"
+import { useFormComision } from "../../hooks/useComision"
 
 const STEPS = [
   { label: "Materia", description: "Seleccionar materia" },
@@ -7,11 +8,14 @@ const STEPS = [
 ]
 
 export default function ComisionStepper({ currentStep }) {
+  const { comision } = useFormComision()
+  const stepActual = currentStep ?? comision.step
+
   return (
     <div className="flex items-center justify-center w-full mb-10">
       {STEPS.map((step, index) => {
-        const isCompleted = index < currentStep
-        const isActive = index === currentStep
+        const isCompleted = index < stepActual
+        const isActive = index === stepActual
 
         return (
           <div key={step.label} className="flex items-center">
