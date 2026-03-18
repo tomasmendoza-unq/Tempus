@@ -3,11 +3,20 @@ import { getErrorMessage } from "./errorMessages"
 export const createApi = (baseURL) => {
   const getHeaders = (additionalHeaders = {}) => {
     const token = localStorage.getItem("token");
-    return {
-      "Content-Type": "application/json",
+    const headers = {
       ...(token ? { "Authorization": `Bearer ${token}` } : {}),
       ...additionalHeaders,
     };
+
+    if (!headers["isMultipart"]) {
+      headers["Content-Type"] = "application/json";
+    } else {
+
+      delete headers["Content-Type"];
+      delete headers["isMultipart"];
+    }
+
+    return headers;
   };
 
   const parseResponse = async (res) => {
@@ -26,11 +35,14 @@ export const createApi = (baseURL) => {
     },
 
     post: async (endpoint, data, headers = {}) => {
+      const isFormData = data instanceof FormData;
+
       const res = await fetch(`${baseURL}${endpoint}`, {
         method: "POST",
-        headers: getHeaders(headers),
-        body: JSON.stringify(data),
+        headers: getHeaders(isFormData ? { ...headers, isMultipart: true } : headers),
+        body: isFormData ? data : JSON.stringify(data),
       })
+
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
         const errorMessage =
@@ -43,10 +55,12 @@ export const createApi = (baseURL) => {
     },
 
     put: async (endpoint, data, headers = {}) => {
+      const isFormData = data instanceof FormData;
+
       const res = await fetch(`${baseURL}${endpoint}`, {
         method: "PUT",
-        headers: getHeaders(headers),
-        body: JSON.stringify(data),
+        headers: getHeaders(isFormData ? { ...headers, isMultipart: true } : headers),
+        body: isFormData ? data : JSON.stringify(data),
       })
       if (!res.ok) throw new Error(getErrorMessage(res.status))
       return parseResponse(res)
@@ -62,10 +76,12 @@ export const createApi = (baseURL) => {
     },
 
     patch: async (endpoint, data, headers = {}) => {
+      const isFormData = data instanceof FormData;
+
       const res = await fetch(`${baseURL}${endpoint}`, {
         method: "PATCH",
-        headers: getHeaders(headers),
-        body: JSON.stringify(data),
+        headers: getHeaders(isFormData ? { ...headers, isMultipart: true } : headers),
+        body: isFormData ? data : JSON.stringify(data),
       })
       if (!res.ok) throw new Error(getErrorMessage(res.status))
       return parseResponse(res)

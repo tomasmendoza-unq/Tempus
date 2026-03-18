@@ -1,11 +1,13 @@
 package edu.ar.tempus.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-// No le den pelota a esta clase. No tienen que tocar nada aca para el TP.
+
 @Configuration
+@EnableSpringDataWebSupport(pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 public class AppConfiguration implements WebMvcConfigurer {
 
 

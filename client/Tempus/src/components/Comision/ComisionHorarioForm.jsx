@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Plus, Trash2 } from "feather-icons-react"
+import { useFormComision } from "../../hooks/useComision"
 
 const DIAS = [
   { label: "Lunes", value: "LUNES" },
@@ -10,7 +11,10 @@ const DIAS = [
   { label: "Sábado", value: "SABADO" },
 ]
 
-export default function ComisionHorarioForm({ comision, setComision }) {
+export default function ComisionHorarioForm({
+  titulo = "Agregar Horarios de Cursada",
+}) {
+  const { comision, setComision } = useFormComision()
   const [dia, setDia] = useState("")
   const [horaInicio, setHoraInicio] = useState("")
   const [horaFin, setHoraFin] = useState("")
@@ -62,9 +66,7 @@ export default function ComisionHorarioForm({ comision, setComision }) {
 
   return (
     <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
-      <h2 className="text-xl text-white font-bold mb-5">
-        Agregar Horarios de Cursada
-      </h2>
+      <h2 className="text-xl text-white font-bold mb-5">{titulo}</h2>
 
       <div className="flex flex-wrap items-end gap-4 mb-4">
         <div className="flex flex-col gap-1">

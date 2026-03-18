@@ -1,5 +1,7 @@
 package edu.ar.tempus.service.impl;
 
+import edu.ar.tempus.controller.dto.claseHorario.UpdateClaseHorarioDTORequest;
+import edu.ar.tempus.model.ClaseHorario;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Horario;
 import edu.ar.tempus.service.ComisionService;
@@ -14,6 +16,7 @@ import java.util.Optional;
 public class HorarioServiceimpl implements HorarioService {
 
     private final ComisionService comisionService;
+
 
     public HorarioServiceimpl(ComisionService comisionService) {
         this.comisionService = comisionService;
@@ -30,4 +33,5 @@ public class HorarioServiceimpl implements HorarioService {
                         .build())
                 .toList();
     }
+
 }

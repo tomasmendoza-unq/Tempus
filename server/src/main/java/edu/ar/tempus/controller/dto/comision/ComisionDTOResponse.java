@@ -14,13 +14,17 @@ import java.util.List;
 public record ComisionDTOResponse(
         Long comisionId,
         List<ClaseHorarioDTOResponse> claseHorario,
-        MateriaDTOResponseSimple materia
+        String comisionNombre,
+        MateriaDTOResponseSimple materia,
+        String modalidad
 ) {
     public static ComisionDTOResponse desdeModelo(Comision comision) {
         return new ComisionDTOResponse(
                 comision.getComisionId(),
                 comision.getClases().stream().map(ClaseHorarioDTOResponse::desdeModelo).toList(),
-                MateriaDTOResponseSimple.desdeModelo(comision.getMateria())
+                comision.getComisionNombre(),
+                MateriaDTOResponseSimple.desdeModelo(comision.getMateria()),
+                comision.getModalidad()
         );
     }
 }

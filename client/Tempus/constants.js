@@ -10,35 +10,43 @@ export const ROUTES = {
   LOGIN: "/login",
   CARRERAS: "/carreras",
   PERFIL: "/perfil",
-  COMISIONES: "/comisiones",
+  COMISION_AGREGAR: "/comisiones/agregar",
+  COMISION_MOSTRAR: "/comisiones/mostrar",
+  COMISION_EDITAR: "/comisiones/editar/:id",
+  IMPORT: "/import"
 }
 
 export const API_ROUTES = {
+  REGISTER: "/auth/register",
+  LOGIN: "/auth/login",
+  TRAER_PERFIL: "/api/usuario",
+  GENERAR_HORARIO_COMPATIBLE: "/api/horario/compatible",
   CREAR_MATERIA: "/api/materia/crear",
   TRAER_MATERIA: (materiaId) => `/api/materia/${materiaId}`,
   TRAER_TODAS_MATERIAS: "/api/materia",
   BUSCAR_MATERIA_POR_NOMBRE: (materiaNombre) =>
     `/api/materia/buscar/${materiaNombre}`,
-  GENERAR_HORARIO_COMPATIBLE: "/api/horario/compatible",
-  REGISTER: "/auth/register",
-  LOGIN: "/auth/login",
-  CREAR_CARRERA: "/carrera/crear",
-  TRAER_PERFIL: "/api/usuario",
-  ANOTARSE_A_COMISIONES: (comisionesId) =>
-    `/api/usuario/anotarse/${comisionesId.join(",")}`,
   TRAER_MATERIAS_DISPONIBLES: "/api/materia/disponible",
   APROBAR_CURSADA: (comisionId) => `/api/usuario/aprobar/${comisionId}`,
   DESAPROBAR_MATERIA: (materiaId) => `/api/usuario/desaprobar/${materiaId}`,
-  OBTENER_COMISION: (comisionId) => `/comision/${comisionId}`,
-  CREAR_COMISION: "/comision/crear",
-  ASOCIAR_MATERIA: (materiaOrigen, materiaDestino) =>
-    `/api/materia/asociar/${materiaOrigen}/${materiaDestino}`,
-  OBTENER_DATOS_BASICOS: () => "/api/usuario/perfil",
+  ASOCIAR_MATERIAS: "/api/materia/asociar",
+  CREAR_CARRERA: "/carrera/crear",
   TRAER_CARRERAS_DISPONIBLES: "/carrera/disponibles",
   SUSCRIBIR_CARRERA: (carreraId) =>
     `/api/usuario/suscribir/carrera/${carreraId}`,
-  ASOCIAR_MATERIAS: "/api/materia/asociar",
   SELECCIONAR_CARRERA_ACTIVA: (carreraId) =>
     `/api/usuario/carreras/${carreraId}/activar`,
-  RECUPERAR_CARRERAS: `/carrera/public`
+  RECUPERAR_CARRERAS: `/carrera/public`,
+  ANOTARSE_A_COMISIONES: (comisionesId) =>
+    `/api/usuario/anotarse/${comisionesId.join(",")}`,
+  CREAR_COMISION: "/comision/crear",
+  OBTENER_COMISION: (comisionId) => `/comision/${comisionId}`,
+  OBTENER_DATOS_BASICOS: () => "/api/usuario/perfil",
+  OBTENER_TODAS_COMISIONES: (page = 0) => `/comision?page=${page}`,
+  ACTUALIZAR_COMISION: (comisionId) => `/comision/${comisionId}`,
+  ACTUALIZAR_HORARIO: "/claseHorario/actualizar",
+  ELIMINAR_HORARIO: (horarioId) => `/claseHorario/${horarioId}`,
+  ELIMINAR_COMISION: (comisionId) => `/comision/${comisionId}`,
+  PREVIEW_IMPORT: "/import/preview",
+  CARRERA_BULK: "/carrera/load"
 }

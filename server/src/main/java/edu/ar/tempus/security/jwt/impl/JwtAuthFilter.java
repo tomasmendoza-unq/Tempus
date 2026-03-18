@@ -28,6 +28,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return request.getMethod().equalsIgnoreCase("OPTIONS");
+    }
+
+    @Override
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
@@ -49,8 +54,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (username != null &&
                     SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                UserDetails user =
-                        userDetailsService.loadUserByUsername(username);
+                UserDetails user = userDetailsService.loadUserByUsername(username);
 
                 if (jwtService.tokenValido(token, user)) {
                     UsernamePasswordAuthenticationToken auth =
@@ -61,15 +65,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                             new WebAuthenticationDetailsSource()
                                     .buildDetails(request));
 
-                    SecurityContextHolder.getContext()
-                            .setAuthentication(auth);
+                    SecurityContextHolder.getContext().setAuthentication(auth);
                 }
             }
 
-            chain.doFilter(request, response);
-
         } catch (Exception e) {
-            // 🔥 Token inválido → 401
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             response.getWriter().write("""
@@ -77,7 +77,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                   "mensaje": "Token inválido o expirado"
                 }
             """);
+            return;
         }
+
+        chain.doFilter(request, response);
     }
 
 }

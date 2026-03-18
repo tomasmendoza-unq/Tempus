@@ -1,15 +1,15 @@
-import { useUser } from "../../hooks/useUser";
-import DropDown from "../Ui/Dropdown/Dropdown";
+import { useUser } from "../../hooks/useUser"
+import DropDown from "../Ui/Dropdown/Dropdown"
 
 export default function CarreraSelector() {
-  const { perfil, carreraActiva, seleccionarCarrera } = useUser();
+  const { perfil, carreraActiva, seleccionarCarrera } = useUser()
 
-  if (!perfil?.carreras?.length) return null;
+  if (!perfil?.carreras?.length) return null
 
   const handleSeleccion = ([, idCarrera]) => {
-    const carrera = perfil.carreras.find((c) => c.idCarrera == idCarrera);
-    if (carrera) seleccionarCarrera(carrera);
-  };
+    const carrera = perfil.carreras.find((c) => c.idCarrera == idCarrera)
+    if (carrera) seleccionarCarrera(carrera)
+  }
 
   return (
     <div className="flex items-center gap-3 bg-red-900/30 px-4 py-2.5 rounded-lg border border-red-800/50 backdrop-blur-sm">
@@ -28,5 +28,5 @@ export default function CarreraSelector() {
         callback={handleSeleccion}
       />
     </div>
-  );
+  )
 }

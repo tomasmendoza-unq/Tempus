@@ -18,3 +18,27 @@ export const obtenerComisionService = (comisionId) =>
     .catch((error) => {
       throw error
     })
+
+export const obtenerTodasComisionesService = (page = 0) =>
+  api
+    .get(API_ROUTES.OBTENER_TODAS_COMISIONES(page))
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })
+
+export const editarComisionService = (comisionId, formData) =>
+  api
+    .put(API_ROUTES.ACTUALIZAR_COMISION(comisionId), formData)
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })
+
+export const eliminarComisionService = (comisionId) =>
+  api
+    .delete(API_ROUTES.ELIMINAR_COMISION(comisionId))
+    .then((res) => res)
+    .catch((error) => {
+      throw error
+    })
