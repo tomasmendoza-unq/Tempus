@@ -10,6 +10,8 @@ public interface UsuarioService {
 
     Usuario guardarUsuario(Usuario usuario, Long carreraId);
 
+    Usuario generarAdmin(Usuario usuario);
+
     Optional<Usuario> recuperarUsuarioPorEmail(String email);
 
     void anotarseAComision(List<Long> comisionId, Long alumnoId);

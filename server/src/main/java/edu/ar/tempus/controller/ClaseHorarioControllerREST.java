@@ -7,13 +7,14 @@ import edu.ar.tempus.service.ClaseHorarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/claseHorario")
-public final class ClaseHorarioControllerREST {
+public class ClaseHorarioControllerREST {
 
     private final ClaseHorarioService claseHorarioService;
 
@@ -22,6 +23,7 @@ public final class ClaseHorarioControllerREST {
     }
 
     @PatchMapping("/actualizar")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<ClaseHorarioDTOResponse>> actualizar(@Valid @RequestBody List<UpdateClaseHorarioDTORequest> request) {
         List<ClaseHorario> claseHorarios = claseHorarioService.actualizar(request);
 
@@ -31,6 +33,7 @@ public final class ClaseHorarioControllerREST {
     }
 
     @DeleteMapping("/{idClaseHorario}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> eliminarHorario(@PathVariable("idClaseHorario") Long idClaseHorario) {
         claseHorarioService.delete(idClaseHorario);
 

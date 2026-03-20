@@ -9,13 +9,14 @@ import edu.ar.tempus.model.Horario;
 import edu.ar.tempus.service.HorarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/horario")
-public final class HorarioControllerREST {
+public class HorarioControllerREST {
 
     private final HorarioService horarioService;
 
@@ -24,6 +25,7 @@ public final class HorarioControllerREST {
     }
 
     @PostMapping("/compatible")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<HorarioDTOResponse>> generarHorarioCompatible(@RequestBody HorarioDTORequest request) {
         List<Horario> horarioCompatible = horarioService.generarNHorarioCon(request.materiasIds(), request.cantidadHorarios());
 

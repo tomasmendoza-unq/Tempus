@@ -10,6 +10,7 @@ import edu.ar.tempus.service.CarreraService;
 import edu.ar.tempus.utils.AuthUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/carrera")
-public final class CarreraControllerRest {
+public class CarreraControllerRest {
 
     private final CarreraService carreraService;
 
@@ -51,6 +52,7 @@ public final class CarreraControllerRest {
     }
 
     @GetMapping("/disponibles")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<CarreraDTOResponseSimple>> obtenerCarrerasDisponibles(Authentication authentication) {
         Long alumnoId = authUtils.getAlumnoId(authentication);
 
@@ -62,12 +64,14 @@ public final class CarreraControllerRest {
     }
 
     @PostMapping("/load")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> loadPorBulk(@RequestBody CarreraDTOBulkRequest carreraDTOBulkRequest) {
         carreraService.guardarCarreraCompleta(carreraDTOBulkRequest.aModelo());
         return ResponseEntity.ok("Se cargo con exito la oferta");
     }
 
     @PostMapping("/crear")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CarreraDTOResponse>  crear(@RequestBody CarreraDTORequest carreraDTORequest) {
         Carrera carrera = CarreraDTORequest.aModelo(carreraDTORequest);
 

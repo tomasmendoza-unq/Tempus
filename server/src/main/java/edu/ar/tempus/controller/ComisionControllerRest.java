@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/comision")
-public final class ComisionControllerRest {
+public class ComisionControllerRest {
 
     private final ComisionService comisionService;
     private final AuthUtils authUtils;
@@ -47,6 +48,7 @@ public final class ComisionControllerRest {
     }
 
     @PostMapping("/crear")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ComisionDTOResponse> crearComision(@Valid @RequestBody ComisionDTORequest request){
         Comision comision = ComisionDTORequest.aModelo(request);
 
@@ -56,6 +58,7 @@ public final class ComisionControllerRest {
     }
 
     @PutMapping("/{idComision}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ComisionDTOResponse> actualizarComision(
             @Valid @RequestBody UpdateComisionDTORequest request,
             @PathVariable("idComision") Long idComision){
@@ -68,6 +71,7 @@ public final class ComisionControllerRest {
     }
 
     @DeleteMapping("/{idComision}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> eliminarComision(@PathVariable("idComision") Long idComision){
         comisionService.eliminarComision(idComision);
 

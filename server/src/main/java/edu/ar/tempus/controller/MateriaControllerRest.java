@@ -12,6 +12,7 @@ import edu.ar.tempus.utils.AuthUtils;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/materia")
-public final class MateriaControllerRest {
+public class MateriaControllerRest {
 
     private final MateriaService materiaService;
     private final AuthUtils authUtils;
@@ -45,6 +46,7 @@ public final class MateriaControllerRest {
     }
 
     @GetMapping("/disponible")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<MateriaDTOResponseSimple>> getDisponibleMateria(Authentication authentication){
 
         Long alumnoId = authUtils.getAlumnoId(authentication);
@@ -66,6 +68,7 @@ public final class MateriaControllerRest {
     }
 
     @PostMapping("/crear")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MateriaDTOResponse> crearMateria(@RequestBody MateriaDTORequest materiaDTO) {
         Materia materia = MateriaDTORequest.aModelo(materiaDTO);
 
@@ -76,6 +79,7 @@ public final class MateriaControllerRest {
 
 
     @PostMapping("/asociar/{materiaOrigenId}/{materiaDestinoId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> asociarMateria(@PathVariable("materiaOrigenId") Long materiaOrigenId,
                                                @PathVariable("materiaDestinoId") Long materiaDestinoId) {
         materiaService.asociarMateria(materiaOrigenId, materiaDestinoId);
@@ -84,6 +88,7 @@ public final class MateriaControllerRest {
 
 
     @PostMapping("/asociar")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> asociarMaterias(@RequestBody AsociarMateriaDTORequest asocMateriaDtoRequest){
         materiaService.asociarMaterias(asocMateriaDtoRequest.materiaOrigenId(), asocMateriaDtoRequest.materiasDestinoIds());
         return ResponseEntity.ok("Asociado correctamente");

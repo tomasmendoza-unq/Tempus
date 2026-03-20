@@ -53,6 +53,18 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public Usuario generarAdmin(Usuario usuario) {
+
+        if (this.recuperarUsuarioPorEmail(usuario.getEmail()).isPresent()) {
+            throw new EmailYaExisteException(
+                    "El email ya está registrado"
+            );
+        }
+
+        return usuarioDAOSQL.save(usuario);
+    }
+
+    @Override
     public Optional<Usuario> recuperarUsuarioPorEmail(String email) {
         return usuarioDAOSQL.findByEmailEqualsIgnoreCase(email);
     }

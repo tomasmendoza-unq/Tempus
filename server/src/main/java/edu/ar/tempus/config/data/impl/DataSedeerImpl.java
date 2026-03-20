@@ -5,6 +5,7 @@ import edu.ar.tempus.model.*;
 import edu.ar.tempus.service.CarreraService;
 import edu.ar.tempus.service.ComisionService;
 import edu.ar.tempus.service.MateriaService;
+import edu.ar.tempus.service.UsuarioService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -20,11 +21,13 @@ public class DataSedeerImpl implements DataSedeer {
     private final MateriaService materiaService;
     private final ComisionService comisionService;
     private final CarreraService carreraService;
+    private final UsuarioService usuarioService;
 
-    public DataSedeerImpl(MateriaService materiaService, ComisionService comisionService, CarreraService carreraService) {
+    public DataSedeerImpl(MateriaService materiaService, ComisionService comisionService, CarreraService carreraService, UsuarioService usuarioService) {
         this.materiaService = materiaService;
         this.comisionService = comisionService;
         this.carreraService = carreraService;
+        this.usuarioService = usuarioService;
     }
 
     @Override
@@ -80,6 +83,17 @@ public class DataSedeerImpl implements DataSedeer {
                                 crearClase(DiasSemana.JUEVES, 8, 10)
                         )).build(),
                 programacion.getMateriaId());
+
+        usuarioService.generarAdmin(
+                Usuario.builder()
+                        .email("admin1235232@gmail.com")
+                        .password("je3233")
+                        .nombre("Tomas")
+                        .apellido("Mendoza")
+                        .telefono("221-4567890")
+                        .role(Role.ADMIN)
+                        .build()
+        );
 
         System.out.println(">>> DataSeeder: Materias, Carreras y Comisiones creadas con éxito.");
     }

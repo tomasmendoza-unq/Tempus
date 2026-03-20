@@ -7,6 +7,7 @@ import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.service.UsuarioService;
 import edu.ar.tempus.utils.AuthUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/usuario")
-public final class UsuarioControllerREST {
+public class UsuarioControllerREST {
 
     private final AuthUtils authUtils;
 
@@ -26,6 +27,7 @@ public final class UsuarioControllerREST {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<UsuarioResponseDetallesDTO> obtenerDetallesCompletos(Authentication authentication) {
         Long alumnoId = authUtils.getAlumnoId(authentication);
 
@@ -37,6 +39,7 @@ public final class UsuarioControllerREST {
     }
 
     @PostMapping("/anotarse/{comisionesId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> anotarseAComisiones(@PathVariable("comisionesId") List<Long> comisionId, Authentication authentication) {
         usuarioService.anotarseAComision(comisionId, authUtils.getAlumnoId(authentication)); //aca se podria generar un certificado
 
@@ -44,6 +47,7 @@ public final class UsuarioControllerREST {
     }
 
     @PostMapping("/aprobar/{comisionesId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> AprobarAMateria(@PathVariable("comisionesId") List<Long> comisionId, Authentication authentication) {
         usuarioService.aprobarMaterias(comisionId, authUtils.getAlumnoId(authentication));
 
@@ -51,6 +55,7 @@ public final class UsuarioControllerREST {
     }
 
     @PostMapping("/desaprobar/{materiaId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> DesaprobarMateria(@PathVariable("materiaId") Long materiaId, Authentication authentication) {
         usuarioService.desaprobarMateria(materiaId, authUtils.getAlumnoId(authentication));
 
@@ -58,6 +63,7 @@ public final class UsuarioControllerREST {
     }
 
     @PostMapping("/suscribir/carrera/{carreraId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> suscribirseACarrera(@PathVariable("carreraId") Long carreraId, Authentication authentication) {
         usuarioService.suscribirseACarrera(carreraId, authUtils.getAlumnoId(authentication));
 
@@ -65,6 +71,7 @@ public final class UsuarioControllerREST {
     }
 
     @GetMapping("/perfil")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<UsuarioResponseSimpleDTO>  obtenerDetallesSimple(Authentication authentication) {
         Long alumnoId = authUtils.getAlumnoId(authentication);
 
@@ -76,6 +83,7 @@ public final class UsuarioControllerREST {
     }
 
     @PutMapping("/carreras/{carreraId}/activar")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> seleccionarCarrera(@PathVariable Long carreraId, Authentication authentication) {
         usuarioService.seleccionarCarreraActiva(
                 carreraId,

@@ -4,6 +4,7 @@ package edu.ar.tempus.security.jwt.impl;
 import edu.ar.tempus.security.jwt.JwtService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,11 @@ public class JwtServiceImpl implements JwtService {
     public String generarToken(UserDetails user) {
         return Jwts.builder()
                 .setSubject(user.getUsername())
+                .claim("role", user.getAuthorities()
+                        .stream()
+                        .findFirst()
+                        .map(GrantedAuthority::getAuthority)
+                        .orElse(""))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(
                         System.currentTimeMillis() + 3600000

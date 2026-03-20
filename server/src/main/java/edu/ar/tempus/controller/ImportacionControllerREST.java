@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/import")
-public final class ImportacionControllerREST {
+public class ImportacionControllerREST {
 
     private final ImportacionService importacionService;
 
@@ -30,6 +31,7 @@ public final class ImportacionControllerREST {
     }
 
     @PostMapping("/preview")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<MateriaPreviewDTO>> preview(
             @RequestParam("pdf") MultipartFile pdf) {
 
