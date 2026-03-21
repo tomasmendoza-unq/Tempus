@@ -65,6 +65,7 @@ public class SecurityConfig {
                         .requestMatchers("/carrera/public").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/import/preview").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/carrera/load").permitAll()
                         .anyRequest().authenticated()
                 )
