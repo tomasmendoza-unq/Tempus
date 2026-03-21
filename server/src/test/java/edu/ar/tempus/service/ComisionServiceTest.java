@@ -2,6 +2,7 @@ package edu.ar.tempus.service;
 
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.model.*;
+import edu.ar.tempus.model.usuario.Usuario;
 import edu.ar.tempus.persistence.neo4J.ComisionNeo4JDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

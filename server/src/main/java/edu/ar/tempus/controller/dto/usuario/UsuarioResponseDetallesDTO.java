@@ -4,8 +4,7 @@ import edu.ar.tempus.controller.dto.carrera.CarreraDTOResponse;
 import edu.ar.tempus.controller.dto.carrera.CarreraDTOResponseSimple;
 import edu.ar.tempus.controller.dto.comision.ComisionDTOResponseSimple;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponseSimple;
-import edu.ar.tempus.model.Role;
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.model.usuario.Usuario;
 
 import java.util.List;
 

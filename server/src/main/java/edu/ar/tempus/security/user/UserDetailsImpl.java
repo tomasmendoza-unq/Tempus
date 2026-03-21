@@ -1,7 +1,7 @@
 package edu.ar.tempus.security.user;
 
 
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.model.usuario.Usuario;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

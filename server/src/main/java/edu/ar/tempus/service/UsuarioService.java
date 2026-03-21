@@ -1,6 +1,6 @@
 package edu.ar.tempus.service;
 
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.model.usuario.Usuario;
 
 import java.util.List;
 import java.util.Optional;

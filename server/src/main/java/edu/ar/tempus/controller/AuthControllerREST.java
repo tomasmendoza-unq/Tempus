@@ -3,7 +3,7 @@ package edu.ar.tempus.controller;
 import edu.ar.tempus.controller.dto.auth.LoginRequestDTO;
 import edu.ar.tempus.controller.dto.auth.LoginResponseDTO;
 import edu.ar.tempus.controller.dto.usuario.UsuarioRequestDTO;
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.model.usuario.Usuario;
 import edu.ar.tempus.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.*;

@@ -1,7 +1,7 @@
 package edu.ar.tempus.persistence.repository;
 
 import edu.ar.tempus.model.Materia;
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.model.usuario.Usuario;
 
 import java.util.List;
 

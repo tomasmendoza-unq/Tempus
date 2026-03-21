@@ -3,7 +3,7 @@ package edu.ar.tempus.service;
 import edu.ar.tempus.model.Carrera;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.model.Role;
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.model.usuario.Usuario;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

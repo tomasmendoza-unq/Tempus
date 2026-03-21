@@ -4,7 +4,7 @@ import edu.ar.tempus.exceptions.business.DependenciaCircularException;
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.exceptions.business.RelacionCorrelativaYaExisteException;
 import edu.ar.tempus.model.Materia;
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.model.usuario.Usuario;
 import edu.ar.tempus.persistence.neo4J.MateriaNeo4JDAO;
 import edu.ar.tempus.persistence.neo4J.entity.MateriaNeo4J;
 import edu.ar.tempus.persistence.repository.ComisionRepository;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class MateriaRepositoryImpl implements MateriaRepository {

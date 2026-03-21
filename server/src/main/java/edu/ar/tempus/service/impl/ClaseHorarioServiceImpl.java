@@ -3,7 +3,6 @@ package edu.ar.tempus.service.impl;
 import edu.ar.tempus.controller.dto.claseHorario.UpdateClaseHorarioDTORequest;
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.model.ClaseHorario;
-import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.persistence.repository.ComisionRepository;
 import edu.ar.tempus.persistence.sql.ClaseHorarioSQLDAO;
 import edu.ar.tempus.service.ClaseHorarioService;

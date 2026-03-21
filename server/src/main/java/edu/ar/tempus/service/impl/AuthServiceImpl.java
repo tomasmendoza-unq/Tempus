@@ -5,7 +5,7 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import edu.ar.tempus.controller.dto.auth.LoginResponseDTO;
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.model.usuario.Usuario;
 import edu.ar.tempus.security.jwt.JwtService;
 import edu.ar.tempus.security.user.UserDetailsImpl;
 import edu.ar.tempus.service.AuthService;

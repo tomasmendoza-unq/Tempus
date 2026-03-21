@@ -1,11 +1,7 @@
 package edu.ar.tempus.service;
 
-import edu.ar.tempus.controller.dto.carrera.CarreraDTOBulkRequest;
-import edu.ar.tempus.controller.dto.claseHorario.ClaseHorarioDTORequest;
-import edu.ar.tempus.controller.dto.comision.ComisionDTORequestSimple;
-import edu.ar.tempus.controller.dto.materia.MateriaComisionDTORequest;
-import edu.ar.tempus.controller.dto.materia.MateriaDTORequest;
 import edu.ar.tempus.model.*;
+import edu.ar.tempus.model.usuario.Usuario;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

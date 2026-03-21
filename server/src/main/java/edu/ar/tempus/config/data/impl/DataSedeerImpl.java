@@ -2,6 +2,7 @@ package edu.ar.tempus.config.data.impl;
 
 import edu.ar.tempus.config.data.DataSedeer;
 import edu.ar.tempus.model.*;
+import edu.ar.tempus.model.usuario.Usuario;
 import edu.ar.tempus.service.CarreraService;
 import edu.ar.tempus.service.ComisionService;
 import edu.ar.tempus.service.MateriaService;

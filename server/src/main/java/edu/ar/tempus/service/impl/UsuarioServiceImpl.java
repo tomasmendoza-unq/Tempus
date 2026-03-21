@@ -6,7 +6,7 @@ import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.model.Carrera;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.model.usuario.Usuario;
 import edu.ar.tempus.persistence.repository.MateriaRepository;
 import edu.ar.tempus.persistence.sql.CarreraDAOSQL;
 import edu.ar.tempus.persistence.sql.UsuarioDAOSQL;

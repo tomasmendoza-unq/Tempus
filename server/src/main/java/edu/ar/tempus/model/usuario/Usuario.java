@@ -1,8 +1,12 @@
-package edu.ar.tempus.model;
+package edu.ar.tempus.model.usuario;
 
 import edu.ar.tempus.exceptions.business.SinCarreraActivaException;
 import edu.ar.tempus.exceptions.business.UsuarioNoPerteneceALaCarreraException;
 import edu.ar.tempus.exceptions.business.YaSeEncuentraSuscritoALaCarrera;
+import edu.ar.tempus.model.Carrera;
+import edu.ar.tempus.model.Comision;
+import edu.ar.tempus.model.Materia;
+import edu.ar.tempus.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

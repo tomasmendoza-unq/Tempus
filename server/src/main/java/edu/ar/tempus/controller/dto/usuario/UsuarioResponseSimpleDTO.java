@@ -1,7 +1,7 @@
 package edu.ar.tempus.controller.dto.usuario;
 
 import edu.ar.tempus.controller.dto.carrera.CarreraDTOResponseSimple;
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.model.usuario.Usuario;
 
 import java.util.List;
 

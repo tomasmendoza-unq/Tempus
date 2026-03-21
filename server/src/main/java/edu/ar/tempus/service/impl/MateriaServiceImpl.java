@@ -3,7 +3,7 @@ package edu.ar.tempus.service.impl;
 import edu.ar.tempus.exceptions.business.DependenciaCircularException;
 import edu.ar.tempus.exceptions.business.RelacionCorrelativaYaExisteException;
 import edu.ar.tempus.model.Materia;
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.model.usuario.Usuario;
 import edu.ar.tempus.persistence.repository.MateriaRepository;
 import edu.ar.tempus.service.MateriaService;
 import edu.ar.tempus.service.UsuarioService;

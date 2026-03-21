@@ -1,9 +1,8 @@
 package edu.ar.tempus.controller;
 
-import edu.ar.tempus.controller.dto.usuario.UsuarioResponseDTO;
 import edu.ar.tempus.controller.dto.usuario.UsuarioResponseDetallesDTO;
 import edu.ar.tempus.controller.dto.usuario.UsuarioResponseSimpleDTO;
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.model.usuario.Usuario;
 import edu.ar.tempus.service.UsuarioService;
 import edu.ar.tempus.utils.AuthUtils;
 import org.springframework.http.ResponseEntity;

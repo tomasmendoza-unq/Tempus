@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="edu.ar.tempus.model">
 
-    <class name="edu.ar.tempus.model.Usuario" table="usuario">
+    <class name="edu.ar.tempus.model.usuario.Usuario" table="usuario">
 
         <id name="id">
             <generator class="identity"/>
