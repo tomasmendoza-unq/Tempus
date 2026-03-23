@@ -43,7 +43,7 @@ public class DataSedeerImpl implements DataSedeer {
                 .materiaNombre("Programacion I").correlativas(new HashSet<>()).build());
 
         // --- 2. CARRERAS ---
-        carreraService.guardar(
+        Carrera ca = carreraService.guardar(
                 Carrera.builder().nombreCarrera("Ingeniería en Sistemas").build(),
                 Set.of(ingles.getMateriaId(), matematica.getMateriaId(), programacion.getMateriaId())
         );
@@ -89,6 +89,7 @@ public class DataSedeerImpl implements DataSedeer {
                         .email("admin1235232@gmail.com")
                         .password("je3233")
                         .nombre("Tomas")
+                        .carreraActiva(ca)
                         .apellido("Mendoza")
                         .telefono("221-4567890")
                         .role(Role.ADMIN)
