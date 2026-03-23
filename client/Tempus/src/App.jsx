@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, Navigate } from "react-router-dom"
 import "./App.css"
 import Correlativas from "./pages/Correlativas"
 import Home from "./pages/Home"
@@ -9,6 +9,7 @@ import GeneradorHorarios from "./pages/Horarios"
 import RegisterPage from "./pages/RegisterPage"
 import LoginPage from "./pages/LoginPage"
 import { ProtectedRoute } from "./hooks/ProtectedRoute"
+import { getJwtPayload } from "./helpers/jwt"
 import Carreras from "./pages/Carreras"
 import PerfilPage from "./pages/PerfilPage"
 import ComisionAgregar from "./pages/Comision/ComisionAgregar"
@@ -17,19 +18,39 @@ import ComisionEditar from "./pages/Comision/ComisionEditar"
 import ImportPage from "./pages/ImportPage"
 
 function App() {
+  const isAuthenticated = !!getJwtPayload()
   return (
     <div className="min-h-screen text-slate-900">
       <NavBar />
       <main className="px-6 py-8">
         <Routes>
           <Route path={ROUTES.HOME} element={<Home />} />
-          <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
-          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+
+          <Route
+            path={ROUTES.REGISTER}
+            element={
+              isAuthenticated ? (
+                <Navigate to={ROUTES.HOME} replace />
+              ) : (
+                <RegisterPage />
+              )
+            }
+          />
+          <Route
+            path={ROUTES.LOGIN}
+            element={
+              isAuthenticated ? (
+                <Navigate to={ROUTES.HOME} replace />
+              ) : (
+                <LoginPage />
+              )
+            }
+          />
 
           <Route
             path={ROUTES.PERFIL}
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ROLE_USER", "ROLE_ADMIN"]}>
                 <PerfilPage />
               </ProtectedRoute>
             }
@@ -37,7 +58,7 @@ function App() {
           <Route
             path={ROUTES.MATERIAS}
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
                 <Materias />
               </ProtectedRoute>
             }
@@ -45,7 +66,7 @@ function App() {
           <Route
             path={ROUTES.CORRELATIVAS}
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
                 <Correlativas />
               </ProtectedRoute>
             }
@@ -53,7 +74,7 @@ function App() {
           <Route
             path={ROUTES.HORARIOS}
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
                 <GeneradorHorarios />
               </ProtectedRoute>
             }
@@ -61,7 +82,7 @@ function App() {
           <Route
             path={ROUTES.CARRERAS}
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
                 <Carreras />
               </ProtectedRoute>
             }
@@ -69,7 +90,7 @@ function App() {
           <Route
             path={ROUTES.COMISION_AGREGAR}
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
                 <ComisionAgregar />
               </ProtectedRoute>
             }
@@ -77,7 +98,7 @@ function App() {
           <Route
             path={ROUTES.COMISION_MOSTRAR}
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
                 <ComisionMostrar />
               </ProtectedRoute>
             }
@@ -85,7 +106,7 @@ function App() {
           <Route
             path={ROUTES.COMISION_EDITAR}
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
                 <ComisionEditar />
               </ProtectedRoute>
             }
@@ -94,7 +115,7 @@ function App() {
           <Route
             path={ROUTES.IMPORT}
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["ROLE_ADMIN"]}>
                 <ImportPage />
               </ProtectedRoute>
             }
