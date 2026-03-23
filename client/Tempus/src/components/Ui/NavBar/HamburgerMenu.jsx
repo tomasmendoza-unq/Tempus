@@ -1,12 +1,15 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Menu, X, User } from "feather-icons-react"
-import ComisionesSubmenu from "./ComisionesSubmenu"
+import { Menu, X } from "feather-icons-react"
+import MenuSection from "./MenuSection"
+import { getJwtPayload } from "../../../helpers/jwt"
 
 export default function HamburgerMenu({ isAuthenticated, usuario, logout }) {
   const [isOpen, setIsOpen] = useState(false)
 
   const closeMenu = () => setIsOpen(false)
+
+  const data = isAuthenticated ? getJwtPayload() : null
 
   return (
     <>
@@ -48,30 +51,30 @@ export default function HamburgerMenu({ isAuthenticated, usuario, logout }) {
 
           {isAuthenticated && (
             <>
-              <hr className="my-3 border-red-900/50" />
-              <div className="mb-1 px-4 text-[10px] uppercase font-black text-red-400/60 tracking-widest">
-                Mi Espacio
-              </div>
-              <NavLink to="/perfil" onClick={closeMenu}>
-                <div className="flex items-center gap-2">
-                  <User size={18} /> Mi Perfil
-                </div>
-              </NavLink>
-              <NavLink to="/horario" onClick={closeMenu}>
-                Horarios
-              </NavLink>
-
-              <hr className="my-3 border-red-900/50" />
-              <div className="mb-1 px-4 text-[10px] uppercase font-black text-red-400/60 tracking-widest">
-                Planificación
-              </div>
-              <NavLink to="/materias" onClick={closeMenu}>
-                Gestión de Materias
-              </NavLink>
-              <NavLink to="/carreras" onClick={closeMenu}>
-                Carreras
-              </NavLink>
-              <ComisionesSubmenu closeMenu={closeMenu} />
+              {data.role === "ROLE_ADMIN" && (
+                <>
+                  <MenuSection closeMenu={closeMenu} showComisiones={true}>
+                    <NavLink to="/horario" onClick={closeMenu}>
+                      Horarios
+                    </NavLink>
+                    <hr className="my-3 border-red-900/50" />
+                    <div className="mb-1 px-4 text-[10px] uppercase font-black text-red-400/60 tracking-widest">
+                      Planificación
+                    </div>
+                    <NavLink to="/materias" onClick={closeMenu}>
+                      Gestión de Materias
+                    </NavLink>
+                    <NavLink to="/carreras" onClick={closeMenu}>
+                      Carreras
+                    </NavLink>
+                  </MenuSection>
+                </>
+              )}
+              {data.role === "ROLE_USER" && (
+                <>
+                  <MenuSection closeMenu={closeMenu}></MenuSection>
+                </>
+              )}
             </>
           )}
         </nav>
@@ -107,7 +110,7 @@ export default function HamburgerMenu({ isAuthenticated, usuario, logout }) {
   )
 }
 
-function NavLink({ to, onClick, children }) {
+export function NavLink({ to, onClick, children }) {
   return (
     <Link
       to={to}
