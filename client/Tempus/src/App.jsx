@@ -91,14 +91,7 @@ function App() {
             }
           />
 
-          <Route
-            path={ROUTES.IMPORT}
-            element={
-              <ProtectedRoute>
-                <ImportPage />
-              </ProtectedRoute>
-            }
-          />
+          <Route path={ROUTES.IMPORT} element={<ImportPage />} />
           <Route
             path="*"
             element={

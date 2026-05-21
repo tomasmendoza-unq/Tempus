@@ -1,8 +1,21 @@
 import Carrusel from "../components/Ui/Carrusel/Carrusel"
-
+//vza_0e7628ef880f4abcab9fbd43d1a02580
 export default function Home() {
   return (
     <section className="flex flex-col items-center justify-center min-h-[70vh] text-center px-6">
+      <iframe
+        src="http://localhost:5173/testimonial?apiKey=vza_26c22dc8852d48dfbcab6f62fe4bb1cd"
+        title="Formulario de testimonios"
+        frameBorder="0"
+        loading="lazy"
+        style={{
+          width: "100%",
+          minHeight: "100vh",
+          marginBottom: "2rem",
+          height: "auto",
+          border: "none",
+        }}
+      ></iframe>
       <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
         Bienvenido a <span className="text-red-500">Tempus</span>
       </h1>
@@ -19,9 +32,18 @@ export default function Home() {
         Usa el menú o el carrusel para comenzar.
       </p>
 
-      <div className="mt-10 w-full">
-        <Carrusel />
-      </div>
+      <iframe
+        src="http://localhost:5173/testimonial/published?apiKey=vza_26c22dc8852d48dfbcab6f62fe4bb1cd"
+        title="Carrusel de testimonios"
+        frameBorder="0"
+        loading="lazy"
+        style={{
+          width: "100%",
+          minHeight: "100vh",
+          height: "auto",
+          border: "none",
+        }}
+      ></iframe>
     </section>
   )
 }

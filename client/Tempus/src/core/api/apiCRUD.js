@@ -1,27 +1,30 @@
-import { getErrorMessage } from "./errorMessages"
+import { getErrorMessage } from "../../helpers/errorMessages"
 
 export const createApi = (baseURL) => {
   const getHeaders = (additionalHeaders = {}) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token")
     const headers = {
-      ...(token ? { "Authorization": `Bearer ${token}` } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...additionalHeaders,
-    };
-
-    if (!headers["isMultipart"]) {
-      headers["Content-Type"] = "application/json";
-    } else {
-
-      delete headers["Content-Type"];
-      delete headers["isMultipart"];
     }
 
-    return headers;
-  };
+    if (!headers["isMultipart"]) {
+      headers["Content-Type"] = "application/json"
+    } else {
+      delete headers["Content-Type"]
+      delete headers["isMultipart"]
+    }
+
+    return headers
+  }
 
   const parseResponse = async (res) => {
     const text = await res.text()
-    try { return JSON.parse(text) } catch { return text }
+    try {
+      return JSON.parse(text)
+    } catch {
+      return text
+    }
   }
 
   return {
@@ -35,16 +38,18 @@ export const createApi = (baseURL) => {
     },
 
     post: async (endpoint, data, headers = {}) => {
-      const isFormData = data instanceof FormData;
+      const isFormData = data instanceof FormData
 
       const res = await fetch(`${baseURL}${endpoint}`, {
         method: "POST",
-        headers: getHeaders(isFormData ? { ...headers, isMultipart: true } : headers),
+        headers: getHeaders(
+          isFormData ? { ...headers, isMultipart: true } : headers
+        ),
         body: isFormData ? data : JSON.stringify(data),
       })
 
       if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
+        const errorData = await res.json().catch(() => ({}))
         const errorMessage =
           (errorData?.detalles && Object.values(errorData.detalles)[0]) ||
           errorData?.mensaje ||
@@ -55,11 +60,13 @@ export const createApi = (baseURL) => {
     },
 
     put: async (endpoint, data, headers = {}) => {
-      const isFormData = data instanceof FormData;
+      const isFormData = data instanceof FormData
 
       const res = await fetch(`${baseURL}${endpoint}`, {
         method: "PUT",
-        headers: getHeaders(isFormData ? { ...headers, isMultipart: true } : headers),
+        headers: getHeaders(
+          isFormData ? { ...headers, isMultipart: true } : headers
+        ),
         body: isFormData ? data : JSON.stringify(data),
       })
       if (!res.ok) throw new Error(getErrorMessage(res.status))
@@ -76,11 +83,13 @@ export const createApi = (baseURL) => {
     },
 
     patch: async (endpoint, data, headers = {}) => {
-      const isFormData = data instanceof FormData;
+      const isFormData = data instanceof FormData
 
       const res = await fetch(`${baseURL}${endpoint}`, {
         method: "PATCH",
-        headers: getHeaders(isFormData ? { ...headers, isMultipart: true } : headers),
+        headers: getHeaders(
+          isFormData ? { ...headers, isMultipart: true } : headers
+        ),
         body: isFormData ? data : JSON.stringify(data),
       })
       if (!res.ok) throw new Error(getErrorMessage(res.status))

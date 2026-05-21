@@ -1,5 +1,5 @@
 import { API, API_ROUTES } from "../../constants"
-import { createApi } from "../helpers/apiCRUD"
+import { createApi } from "../core/api/apiCRUD"
 
 const api = createApi(API.BASE_URL)
 
