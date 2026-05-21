@@ -1,3 +1,4 @@
+import { API } from "../../../constants"
 import { getErrorMessage } from "../../helpers/errorMessages"
 
 export const createApi = (baseURL) => {
@@ -97,3 +98,5 @@ export const createApi = (baseURL) => {
     },
   }
 }
+
+export const apiClient = createApi(API.BASE_URL)

@@ -1,0 +1,4 @@
+.comisiones-container {
+  display: grid;
+  grid-template-columns: 1px 1px 1px;
+}

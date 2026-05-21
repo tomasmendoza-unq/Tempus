@@ -1,7 +1,5 @@
-import { API, API_ROUTES } from "../../constants"
-import { createApi } from "../core/api/apiCRUD"
-
-const api = createApi(API.BASE_URL)
+import { API_ROUTES } from "../../constants"
+import { apiClient as api } from "../core/api/apiCRUD"
 
 export const registrarUsuarioService = (formData) =>
   api

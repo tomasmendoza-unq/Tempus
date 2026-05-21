@@ -15,6 +15,7 @@ import ComisionAgregar from "./pages/Comision/ComisionAgregar"
 import ComisionMostrar from "./pages/Comision/ComisionMostrar"
 import ComisionEditar from "./pages/Comision/ComisionEditar"
 import ImportPage from "./pages/ImportPage"
+import { ComisionRoutesConfig } from "./feature/comision/routes/ComisionRoutes.config"
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path={ROUTES.HOME} element={<Home />} />
           <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
           <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+          {ComisionRoutesConfig}
 
           <Route
             path={ROUTES.PERFIL}
