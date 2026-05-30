@@ -4,6 +4,7 @@ import { ComisionCard } from "../../components/ComisionCard"
 import { useGetDisponiblesMaterias } from "../../../materia/hook/use-get-disponibles-materias"
 import "./styles/Comisiones.css"
 import { SearchMateria } from "../../../materia/components/searchMateria/SearchMateria"
+import { HeaderPanel } from "../../../../shared/components/HeaderPanel/HeaderPanel"
 
 export const Comisiones = () => {
 	const { fetch, comisiones } = useGetComisiones()
@@ -36,22 +37,26 @@ export const Comisiones = () => {
 
 	return (
 		<section className="comisiones-page">
-			<section className="search-materia">
-				<h2>Materias disponibles</h2>
+			<HeaderPanel
+				title="Materias disponibles"
+				variant="plain"
+				className="search-materia"
+				contentClassName="search-materia__body"
+			>
 				<SearchMateria materias={materias} />
-			</section>
+			</HeaderPanel>
 			<section className="comisiones-container">
 				{comisionesPorMateria.map((grupo) => (
-					<article key={grupo.id} className="comisiones-panel">
-						<header className="comisiones-panel__header">
-							<h1>{grupo.nombre}</h1>
-						</header>
-						<section className="comisiones-panel__body">
-							{grupo.comisiones.map((comision) => (
-								<ComisionCard key={comision.comisionId} comision={comision} />
-							))}
-						</section>
-					</article>
+					<HeaderPanel
+						key={grupo.id}
+						title={grupo.nombre}
+						className="comisiones-panel"
+						contentClassName="comisiones-panel__body"
+					>
+						{grupo.comisiones.map((comision) => (
+							<ComisionCard key={comision.comisionId} comision={comision} />
+						))}
+					</HeaderPanel>
 				))}
 			</section>
 		</section>
