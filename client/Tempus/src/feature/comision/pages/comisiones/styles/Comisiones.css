@@ -1,0 +1,69 @@
+.comisiones-page {
+	display: grid;
+	grid-template-columns: minmax(300px, 1fr) minmax(480px, 1fr);
+	gap: 2rem;
+	height: 100%;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.comisiones-container {
+	display: grid;
+	grid-column: 2;
+	gap: 1.5rem;
+	align-content: start;
+	min-height: 0;
+	overflow-y: auto;
+	padding: 0 0.25rem 0 0;
+}
+
+.search-materia {
+	grid-column: 1;
+	min-height: 0;
+}
+
+.search-materia__body {
+	padding: 16px;
+}
+
+.comisiones-panel {
+	max-height: min(414px, calc(100vh - 160px));
+}
+
+.comisiones-panel__body {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	align-content: start;
+	gap: 14px;
+	overflow-y: auto;
+	padding: 20px 21px;
+}
+
+@media (max-width: 900px) {
+	.comisiones-page {
+		grid-template-columns: 1fr;
+		height: auto;
+		overflow: visible;
+	}
+
+	.search-materia,
+	.comisiones-container {
+		grid-column: 1;
+	}
+
+	.comisiones-container {
+		overflow: visible;
+	}
+
+	.comisiones-panel__body {
+		grid-template-columns: 1fr;
+		overflow: visible;
+		padding: 16px;
+	}
+
+	.comisiones-panel {
+		height: auto;
+		max-height: none;
+		overflow: visible;
+	}
+}

@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, useLocation } from "react-router-dom"
 import "./App.css"
 import Correlativas from "./pages/Correlativas"
 import Home from "./pages/Home"
@@ -15,102 +15,100 @@ import ComisionAgregar from "./pages/Comision/ComisionAgregar"
 import ComisionMostrar from "./pages/Comision/ComisionMostrar"
 import ComisionEditar from "./pages/Comision/ComisionEditar"
 import ImportPage from "./pages/ImportPage"
+import { ComisionRoutesConfig } from "./feature/comision/routes/ComisionRoutes.config"
 
 function App() {
-  return (
-    <div className="min-h-screen text-slate-900">
-      <NavBar />
-      <main className="px-6 py-8">
-        <Routes>
-          <Route path={ROUTES.HOME} element={<Home />} />
-          <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
-          <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+	const location = useLocation()
+	const isWorkspacePage = location.pathname.startsWith("/refactor")
 
-          <Route
-            path={ROUTES.PERFIL}
-            element={
-              <ProtectedRoute>
-                <PerfilPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ROUTES.MATERIAS}
-            element={
-              <ProtectedRoute>
-                <Materias />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ROUTES.CORRELATIVAS}
-            element={
-              <ProtectedRoute>
-                <Correlativas />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ROUTES.HORARIOS}
-            element={
-              <ProtectedRoute>
-                <GeneradorHorarios />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ROUTES.CARRERAS}
-            element={
-              <ProtectedRoute>
-                <Carreras />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ROUTES.COMISION_AGREGAR}
-            element={
-              <ProtectedRoute>
-                <ComisionAgregar />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ROUTES.COMISION_MOSTRAR}
-            element={
-              <ProtectedRoute>
-                <ComisionMostrar />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ROUTES.COMISION_EDITAR}
-            element={
-              <ProtectedRoute>
-                <ComisionEditar />
-              </ProtectedRoute>
-            }
-          />
+	return (
+		<div className="app-shell text-slate-900">
+			<NavBar />
+			<main className={`app-main ${isWorkspacePage ? "app-main--workspace" : ""}`}>
+				<Routes>
+					<Route path={ROUTES.HOME} element={<Home />} />
+					<Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+					<Route path={ROUTES.LOGIN} element={<LoginPage />} />
+					{ComisionRoutesConfig}
 
-          <Route
-            path={ROUTES.IMPORT}
-            element={
-              <ProtectedRoute>
-                <ImportPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="*"
-            element={
-              <p className="text-sm text-red-800">
-                No se encontró la página que buscás.
-              </p>
-            }
-          />
-        </Routes>
-      </main>
-    </div>
-  )
+					<Route
+						path={ROUTES.PERFIL}
+						element={
+							<ProtectedRoute>
+								<PerfilPage />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={ROUTES.MATERIAS}
+						element={
+							<ProtectedRoute>
+								<Materias />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={ROUTES.CORRELATIVAS}
+						element={
+							<ProtectedRoute>
+								<Correlativas />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={ROUTES.HORARIOS}
+						element={
+							<ProtectedRoute>
+								<GeneradorHorarios />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={ROUTES.CARRERAS}
+						element={
+							<ProtectedRoute>
+								<Carreras />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={ROUTES.COMISION_AGREGAR}
+						element={
+							<ProtectedRoute>
+								<ComisionAgregar />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={ROUTES.COMISION_MOSTRAR}
+						element={
+							<ProtectedRoute>
+								<ComisionMostrar />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path={ROUTES.COMISION_EDITAR}
+						element={
+							<ProtectedRoute>
+								<ComisionEditar />
+							</ProtectedRoute>
+						}
+					/>
+
+					<Route path={ROUTES.IMPORT} element={<ImportPage />} />
+					<Route
+						path="*"
+						element={
+							<p className="text-sm text-red-800">
+								No se encontró la página que buscás.
+							</p>
+						}
+					/>
+				</Routes>
+			</main>
+		</div>
+	)
 }
 
 export default App
