@@ -1,62 +1,37 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useGetComisiones } from "../../hooks/use-get-comisiones"
-import { ComisionCard } from "../../components/ComisionCard"
 import { useGetDisponiblesMaterias } from "../../../materia/hook/use-get-disponibles-materias"
+import { useComisionesPorMateria } from "../../hooks/use-comisiones-por-materia"
+import { ComisionMateriaGroup } from "../../components/ComisionMateriaGroup"
 import "./styles/Comisiones.css"
 import { SearchMateria } from "../../../materia/components/searchMateria/SearchMateria"
-import { HeaderPanel } from "../../../../shared/components/HeaderPanel/HeaderPanel"
 
 export const Comisiones = () => {
+	const [materiaSeleccionada, setMateriaSeleccionada] = useState(null)
 	const { fetch, comisiones } = useGetComisiones()
 	const { fetch: fetchMaterias, materias } = useGetDisponiblesMaterias()
-
-	const comisionesPorMateria = comisiones.reduce((grupos, comision) => {
-		const materiaNombre = comision.materia?.materiaNombre || "Comisiones"
-		const materiaId = comision.materia?.materiaId || materiaNombre
-		const grupoExistente = grupos.find((grupo) => grupo.id === materiaId)
-
-		if (grupoExistente) {
-			grupoExistente.comisiones.push(comision)
-			return grupos
-		}
-
-		return [
-			...grupos,
-			{
-				id: materiaId,
-				nombre: materiaNombre,
-				comisiones: [comision],
-			},
-		]
-	}, [])
+	const comisionesPorMateria = useComisionesPorMateria(comisiones)
 
 	useEffect(() => {
 		fetch()
 		fetchMaterias()
 	}, [])
 
+	const comisionesFiltrables = materiaSeleccionada
+		? comisionesPorMateria.filter(
+				(grupo) => grupo.id === materiaSeleccionada.materiaId
+			)
+		: comisionesPorMateria
+
 	return (
 		<section className="comisiones-page">
-			<HeaderPanel
-				title="Materias disponibles"
-				variant="plain"
-				className="search-materia"
-				contentClassName="search-materia__body"
-			>
-				<SearchMateria materias={materias} />
-			</HeaderPanel>
+			<SearchMateria
+				materias={materias}
+				onSelectMateria={setMateriaSeleccionada}
+			/>
 			<section className="comisiones-container">
-				{comisionesPorMateria.map((grupo) => (
-					<HeaderPanel
-						key={grupo.id}
-						title={grupo.nombre}
-						className="comisiones-panel"
-						contentClassName="comisiones-panel__body"
-					>
-						{grupo.comisiones.map((comision) => (
-							<ComisionCard key={comision.comisionId} comision={comision} />
-						))}
-					</HeaderPanel>
+				{comisionesFiltrables.map((grupo) => (
+					<ComisionMateriaGroup key={grupo.id} grupo={grupo} />
 				))}
 			</section>
 		</section>
