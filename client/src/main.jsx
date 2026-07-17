@@ -13,21 +13,21 @@ import { AuthProvider as AuthProviderRf } from "./feature/auth/context/authProvi
 
 createRoot(document.getElementById("root")).render(
 	<StrictMode>
-		<MateriaProvider>
-			<HorarioProvider>
-				<ComisionProvider>
-					<AuthProviderRf>
-						<AuthProvider>
-							<UserProvider>
-								<BrowserRouter>
+		<BrowserRouter>
+			<MateriaProvider>
+				<HorarioProvider>
+					<ComisionProvider>
+						<AuthProviderRf>
+							<AuthProvider>
+								<UserProvider>
 									<App />
-								</BrowserRouter>
-							</UserProvider>
-						</AuthProvider>
-					</AuthProviderRf>
-				</ComisionProvider>
-			</HorarioProvider>
-		</MateriaProvider>
-		<ToastContainer position="bottom-right" autoClose={3000} />
+								</UserProvider>
+							</AuthProvider>
+						</AuthProviderRf>
+					</ComisionProvider>
+				</HorarioProvider>
+			</MateriaProvider>
+			<ToastContainer position="bottom-right" autoClose={3000} />
+		</BrowserRouter>
 	</StrictMode>
 )
