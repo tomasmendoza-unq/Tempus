@@ -14,14 +14,16 @@ export const AuthProvider = ({ children }) => {
 
 	const login = async (request) => {
 		setLoading(true)
+		const response = await loginService(request)
 
-		try {
-			const response = await loginService(request)
-			setUser(response.user)
-			setToken(response.token)
-		} catch (error) {
-			setError(error)
+		if (!response.ok) {
+			setError(response.error)
 		}
+
+		setUser(response.user)
+		setToken(response.token)
+
+		navigate("/profile")
 
 		setLoading(false)
 	}
