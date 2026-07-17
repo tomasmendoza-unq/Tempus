@@ -37,7 +37,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173", "https://tempus-henna.vercel.app"));
+        config.setAllowedOrigins(List.of("http://localhost:5173", "https://tempus-henna.vercel.app", "http://localhost:3000"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
@@ -63,7 +63,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/carrera/public").permitAll()
-                        .requestMatchers("/error").permitAll()
+                        .requestMatchers("/error/*").permitAll()
+                        .requestMatchers("/api/materia/buscar/**").permitAll()
                         .requestMatchers("/import/preview").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/carrera/load").permitAll()

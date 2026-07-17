@@ -76,7 +76,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- ✅ Fix: reemplazar todos los *-test inexistentes por spring-boot-starter-test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

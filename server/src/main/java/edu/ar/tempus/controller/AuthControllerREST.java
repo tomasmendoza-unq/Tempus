@@ -24,6 +24,8 @@ public final class AuthControllerREST {
     public ResponseEntity<LoginResponseDTO> register(
             @RequestBody @Valid UsuarioRequestDTO usuarioDTO) {
 
+        System.out.println(usuarioDTO.toString());
+
         Usuario usuario = authService.registrarUsuario(usuarioDTO.aModelo(), usuarioDTO.carreraId());
 
 
