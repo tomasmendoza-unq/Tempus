@@ -12,7 +12,6 @@ export const useGetDisponiblesMaterias = () => {
 			const data = await getDisponiblesMateriasService()
 			setMaterias(data)
 		} catch (error) {
-			console.error("Error fetching materias:", error)
 			setError(error)
 		} finally {
 			setIsLoading(false)
@@ -22,6 +21,7 @@ export const useGetDisponiblesMaterias = () => {
 	return {
 		materias,
 		fetch,
+		setMaterias,
 		isLoading,
 		error,
 	}
