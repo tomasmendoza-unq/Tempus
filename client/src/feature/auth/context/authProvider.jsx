@@ -3,14 +3,13 @@ import { AuthContext } from "./authContext"
 import { login as loginService } from "../service/login.service"
 import { register as registerService } from "../service/register.service"
 import { getToken } from "../service/token.service"
-import { useNavigate } from "react-router-dom"
+import { router } from "../../../app/routes"
 
 export const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(null)
 	const [token, setToken] = useState(null)
 	const [error, setError] = useState(null)
 	const [loading, setLoading] = useState(false)
-	const navigate = useNavigate()
 
 	const login = async (request) => {
 		setLoading(true)
@@ -23,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 		setUser(response.user)
 		setToken(response.token)
 
-		navigate("/profile")
+		router.navigate("/profile")
 
 		setLoading(false)
 	}
@@ -43,7 +42,7 @@ export const AuthProvider = ({ children }) => {
 		}
 		setUser(response.data)
 		setToken(response.token)
-		navigate("/profile")
+		router.navigate("/profile")
 
 		setLoading(false)
 	}

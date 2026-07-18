@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import useCarrera from "../hooks/useCarrera"
-import SelectField from "../components/Ui/Select/SelectField"
-import AuthLayout from "../components/Auth/AuthLayout"
-import AuthInput from "../components/Auth/AuthInput"
-import AuthButton from "../components/Auth/AuthButton"
-import { useAuth } from "../feature/auth/hook/use-auth"
+import useCarrera from "../../../../hooks/useCarrera"
+import SelectField from "../../../../components/Ui/Select/SelectField"
+import AuthLayout from "../../../../components/Auth/AuthLayout"
+import AuthInput from "../../../../components/Auth/AuthInput"
+import AuthButton from "../../../../components/Auth/AuthButton"
+import { useAuth } from "../../hook/use-auth"
 
 export default function RegisterPage() {
 	const { register, loading } = useAuth()
@@ -38,7 +38,10 @@ export default function RegisterPage() {
 	}
 
 	return (
-		<AuthLayout title="Crear Cuenta Tempus">
+		<AuthLayout title="Registrate">
+			<p className="text-center text-gray-500 text-sm -mt-2">
+				Crea tu cuenta en tempus y accede a tu panel de horarios
+			</p>
 			<form onSubmit={handleSubmit} className="space-y-4">
 				<div className="grid grid-cols-2 gap-4">
 					<AuthInput

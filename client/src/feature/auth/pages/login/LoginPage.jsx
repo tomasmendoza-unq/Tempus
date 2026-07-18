@@ -1,10 +1,10 @@
 import { useState } from "react"
-import { useAuth } from "../feature/auth/hook/use-auth"
+import { useAuth } from "../../hook/use-auth"
 import { Link } from "react-router-dom"
 
-import AuthLayout from "../components/Auth/AuthLayout"
-import AuthInput from "../components/Auth/AuthInput"
-import AuthButton from "../components/Auth/AuthButton"
+import AuthLayout from "../../../../components/Auth/AuthLayout"
+import AuthInput from "../../../../components/Auth/AuthInput"
+import AuthButton from "../../../../components/Auth/AuthButton"
 
 export default function LoginPage() {
 	const { login, loading } = useAuth()
