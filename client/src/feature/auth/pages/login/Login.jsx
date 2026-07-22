@@ -37,7 +37,7 @@ export default function Login() {
 				<AuthForm
 					inputs={inputs}
 					formData={formData}
-					onFormChange={handleChange}
+					handleChange={handleChange}
 				/>
 
 				<AuthButton
