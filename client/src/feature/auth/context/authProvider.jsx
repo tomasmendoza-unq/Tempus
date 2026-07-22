@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 		setUser(response.user)
 		setToken(response.token)
 
-		router.navigate("/profile")
+		router.navigate("/perfil")
 
 		setLoading(false)
 	}
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
 		}
 		setUser(response.data)
 		setToken(response.token)
-		router.navigate("/profile")
+		router.navigate("/perfil")
 
 		setLoading(false)
 	}
