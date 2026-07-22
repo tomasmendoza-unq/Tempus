@@ -1,6 +1,6 @@
 import { Outlet } from "react-router"
 import { ProtectedRoute } from "../../feature/auth/routes/ProtectedRoute.jsx"
-import NavBar from "../../shared/components/navbar/Navbar.jsx"
+import { NavBar } from "../../shared/components/navbar/NavBar.jsx"
 import { NavLinks } from "./NavLinks.js"
 import { UserFooter } from "./components/UserFooter"
 

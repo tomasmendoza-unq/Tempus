@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { HamburgerMenu } from "../hamburgerMenu/HamburgerMenu"
 import "./NavBar.css"
 
-export default function NavBar({ navLinks, footer }) {
+export const NavBar = ({ navLinks, footer }) => {
 	return (
 		<header className="navbar">
 			<div className="navbar__brand">
