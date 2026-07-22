@@ -2,11 +2,11 @@ import { useState } from "react"
 import { useAuth } from "../../hook/use-auth"
 import { Link } from "react-router-dom"
 
-import AuthLayout from "../../../../components/Auth/AuthLayout"
-import AuthInput from "../../../../components/Auth/AuthInput"
-import AuthButton from "../../../../components/Auth/AuthButton"
+import AuthLayout from "../../components/layout/AuthLayout"
+import AuthInput from "../../components/AuthInput"
+import AuthButton from "../../components/AuthButton"
 
-export default function LoginPage() {
+export default function Login() {
 	const { login, loading } = useAuth()
 
 	const [credentials, setCredentials] = useState({

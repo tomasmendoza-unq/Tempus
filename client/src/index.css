@@ -2,7 +2,8 @@
 
 :root {
 	background-color: #242424;
-	--background-color: #ffffff;
+	--background-color: #f5f5f5;
+	--background-color-secondary: #ffffff;
 	--color-primary: #dc2626;
 	--border-radius: 8px;
 }

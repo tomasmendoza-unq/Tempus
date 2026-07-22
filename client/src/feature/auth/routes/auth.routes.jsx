@@ -1,7 +1,7 @@
-import LoginPage from "../pages/login/LoginPage"
-import RegisterPage from "../pages/register/RegisterPage"
+import Login from "../pages/login/Login"
+import Register from "../pages/register/Register"
 
 export const authRoutes = [
-	{ path: "/login", element: <LoginPage /> },
-	{ path: "/register", element: <RegisterPage /> },
+	{ path: "/login", element: <Login /> },
+	{ path: "/register", element: <Register /> },
 ]
