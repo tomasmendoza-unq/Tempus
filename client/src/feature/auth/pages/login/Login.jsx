@@ -3,8 +3,8 @@ import { useAuth } from "../../hook/use-auth"
 import { Link } from "react-router-dom"
 
 import AuthLayout from "../../components/layout/AuthLayout"
-import AuthInput from "../../components/AuthInput"
-import AuthButton from "../../components/AuthButton"
+import AuthInput from "../../components/input/AuthInput"
+import AuthButton from "../../components/button/AuthButton"
 
 export default function Login() {
 	const { login, loading } = useAuth()

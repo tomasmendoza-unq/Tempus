@@ -1,5 +1,5 @@
 import { SelectField } from "../../../shared/components/SelectField/SelectField"
-import AuthInput from "../components/AuthInput"
+import AuthInput from "../components/input/AuthInput"
 
 export const fieldRegistry = {
 	text: AuthInput,

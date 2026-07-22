@@ -1,4 +1,4 @@
-import { fieldRegistry } from "../config/fieldRegistry"
+import { fieldRegistry } from "../../config/fieldRegistry"
 
 export default function AuthForm({
 	inputs,
