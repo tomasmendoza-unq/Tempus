@@ -1,6 +1,6 @@
 import { Perfil } from "../pages/Perfil"
 
-export const perfilRoutes = [
+export const userRoutes = [
 	{
 		path: "/perfil",
 		element: <Perfil />,
