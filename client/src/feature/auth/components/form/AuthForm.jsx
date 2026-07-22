@@ -1,4 +1,4 @@
-import { fieldRegistry } from "../../config/fieldRegistry"
+import { field as fieldConfig } from "../../config/field"
 
 export default function AuthForm({
 	inputs,
@@ -9,7 +9,7 @@ export default function AuthForm({
 	return (
 		<>
 			{inputs.map((field) => {
-				const Field = fieldRegistry[field.type]
+				const Field = fieldConfig[field.type]
 				return (
 					<Field
 						key={field.name}

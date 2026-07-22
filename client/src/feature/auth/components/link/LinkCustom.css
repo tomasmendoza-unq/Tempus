@@ -1,0 +1,16 @@
+.link-text {
+	color: var(--color-primary);
+}
+
+.link {
+	color: var(--color-link);
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.link:hover {
+	color: var(--color-link);
+	text-decoration: none;
+	font-weight: bold;
+	text-decoration: underline;
+}

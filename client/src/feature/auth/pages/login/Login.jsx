@@ -1,50 +1,43 @@
-import { useState } from "react"
 import { useAuth } from "../../hook/use-auth"
 import { Link } from "react-router-dom"
-
 import AuthLayout from "../../components/layout/AuthLayout"
 import AuthInput from "../../components/input/AuthInput"
 import AuthButton from "../../components/button/AuthButton"
+import AuthForm from "../../components/form/AuthForm"
+import { inputs } from "./inputs"
+import { useFormData } from "../../../../shared/hooks/use-form-data"
+import { LinkCustom } from "../../components/link/LinkCustom"
 
 export default function Login() {
 	const { login, loading } = useAuth()
 
-	const [credentials, setCredentials] = useState({
+	const { formData, handleChange } = useFormData({
 		email: "",
 		password: "",
 	})
 
-	const handleChange = (e) => {
-		setCredentials({
-			...credentials,
-			[e.target.name]: e.target.value,
-		})
-	}
-
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		await login(credentials)
+		await login(formData)
 	}
 
 	return (
-		<AuthLayout title="Tempus">
-			<p className="text-center text-gray-500 text-sm -mt-2">
-				Ingresá a tu panel de horarios
-			</p>
-
-			<form onSubmit={handleSubmit} className="space-y-4">
-				<AuthInput
-					name="email"
-					type="email"
-					placeholder="Email"
-					onChange={handleChange}
+		<AuthLayout
+			title="Tempus"
+			subtitle="Ingresá a tu panel de horarios"
+			footer={
+				<LinkCustom
+					to="/register"
+					text="¿No tenés cuenta?"
+					textLink="Registrate"
 				/>
-
-				<AuthInput
-					name="password"
-					type="password"
-					placeholder="Contraseña"
-					onChange={handleChange}
+			}
+		>
+			<form onSubmit={handleSubmit} className="space-y-4">
+				<AuthForm
+					inputs={inputs}
+					formData={formData}
+					onFormChange={handleChange}
 				/>
 
 				<AuthButton
@@ -52,16 +45,6 @@ export default function Login() {
 					text="Iniciar Sesión"
 					loadingText="Validando..."
 				/>
-
-				<p className="text-center text-sm text-gray-600 pt-2">
-					¿No tenés cuenta?{" "}
-					<Link
-						to="/register"
-						className="text-red-900 font-bold hover:underline"
-					>
-						Registrate
-					</Link>
-				</p>
 			</form>
 		</AuthLayout>
 	)

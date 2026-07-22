@@ -1,8 +1,6 @@
 import { useEffect } from "react"
-import { Link } from "react-router-dom"
 import useCarrera from "../../../../hooks/useCarrera"
 import SelectField from "../../../../components/Ui/Select/SelectField"
-import AuthInput from "../../components/input/AuthInput"
 import AuthButton from "../../components/button/AuthButton"
 import { inputs } from "./inputs"
 import { useAuth } from "../../hook/use-auth"
@@ -10,6 +8,7 @@ import { SelectCarrera } from "../../../carreras/components/SelectCarrera"
 import { useFormData } from "../../../../shared/hooks/use-form-data"
 import AuthForm from "../../components/form/AuthForm"
 import AuthLayout from "../../components/layout/AuthLayout"
+import { LinkCustom } from "../../components/link/LinkCustom"
 
 export default function Register() {
 	const { register, loading } = useAuth()
@@ -38,7 +37,13 @@ export default function Register() {
 		<AuthLayout
 			title="Registrate"
 			subtitle="Crea tu cuenta"
-			footer={<Link to="/login">¿Ya tenés cuenta? Inicia sesión</Link>}
+			footer={
+				<LinkCustom
+					to="/login"
+					text="¿Ya tenés cuenta?"
+					textLink="Inicia sesión"
+				/>
+			}
 		>
 			<form onSubmit={handleSubmit} method="POST" className="space-y-4">
 				<AuthForm
