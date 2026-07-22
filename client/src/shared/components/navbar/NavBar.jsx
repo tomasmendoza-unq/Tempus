@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { useAuth } from "../../../feature/auth/hook/use-auth"
 import { HamburgerMenu } from "../hamburgerMenu/HamburgerMenu"
 
-export default function NavBar() {
+export default function NavBar({ navLinks, footer }) {
 	const { isAuthenticated, usuario, logout } = useAuth()
 
 	return (
@@ -17,6 +17,8 @@ export default function NavBar() {
 				isAuthenticated={isAuthenticated}
 				usuario={usuario}
 				logout={logout}
+				navLinks={navLinks}
+				footer={footer}
 			/>
 		</header>
 	)

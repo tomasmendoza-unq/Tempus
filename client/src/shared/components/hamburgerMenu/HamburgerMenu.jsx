@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { Menu, X, User } from "feather-icons-react"
 
-export const HamburgerMenu = ({ isAuthenticated, usuario, logout }) => {
+export const HamburgerMenu = ({ navLinks, footer }) => {
 	const [isOpen, setIsOpen] = useState(false)
 
 	const closeMenu = () => setIsOpen(false)
@@ -41,65 +41,15 @@ export const HamburgerMenu = ({ isAuthenticated, usuario, logout }) => {
 				</div>
 
 				<nav className="flex flex-col px-4 py-4 gap-1">
-					<NavLink to="/" onClick={closeMenu}>
-						Inicio
-					</NavLink>
-
-					{isAuthenticated && (
-						<>
-							<hr className="my-3 border-red-900/50" />
-							<div className="mb-1 px-4 text-[10px] uppercase font-black text-red-400/60 tracking-widest">
-								Mi Espacio
-							</div>
-							<NavLink to="/perfil" onClick={closeMenu}>
-								<div className="flex items-center gap-2">
-									<User size={18} /> Mi Perfil
-								</div>
-							</NavLink>
-							<NavLink to="/horario" onClick={closeMenu}>
-								Horarios
-							</NavLink>
-
-							<hr className="my-3 border-red-900/50" />
-							<div className="mb-1 px-4 text-[10px] uppercase font-black text-red-400/60 tracking-widest">
-								Planificación
-							</div>
-							<NavLink to="/materias" onClick={closeMenu}>
-								Gestión de Materias
-							</NavLink>
-							<NavLink to="/carreras" onClick={closeMenu}>
-								Carreras
-							</NavLink>
-							{/* <ComisionesSubmenu closeMenu={closeMenu} /> */}
-						</>
-					)}
+					{navLinks.map((link) => (
+						<NavLink key={link.path} to={link.path} onClick={closeMenu}>
+							{link.name}
+						</NavLink>
+					))}
 				</nav>
 
 				<div className="absolute bottom-0 left-0 right-0 px-6 py-5 border-t border-red-900/50">
-					{!isAuthenticated ? (
-						<Link
-							to="/login"
-							onClick={closeMenu}
-							className="block w-full text-center bg-white text-red-950 font-bold py-2.5 rounded-lg hover:bg-red-100 transition-colors"
-						>
-							Iniciar Sesión
-						</Link>
-					) : (
-						<div className="flex flex-col gap-3">
-							<span className="text-red-200 text-sm opacity-80 uppercase tracking-wide">
-								{usuario?.nombre}
-							</span>
-							<button
-								onClick={() => {
-									logout()
-									closeMenu()
-								}}
-								className="w-full bg-red-900/60 text-white font-bold py-2.5 rounded-lg hover:bg-red-800 transition-colors"
-							>
-								Cerrar Sesión
-							</button>
-						</div>
-					)}
+					{footer}
 				</div>
 			</div>
 		</>
