@@ -1,0 +1,11 @@
+.user-button {
+	background-color: var(--btn-primary);
+	border-radius: var(--border-radius);
+	cursor: pointer;
+	padding: 0.5rem 1rem;
+	color: var(--text-color);
+}
+
+.user-button:hover {
+	background-color: var(--btn-primary-hover);
+}
