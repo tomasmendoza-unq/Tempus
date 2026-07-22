@@ -1,0 +1,20 @@
+.auth-button {
+	width: 100%;
+	background-color: var(--btn-primary);
+	color: var(--btn-primery-color);
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	border-radius: 0.25rem;
+	font-weight: 700;
+	transition: all 0.15s ease-in-out;
+}
+
+.auth-button:hover:not(:disabled) {
+	background-color: var(--btn-primary-hover);
+	cursor: pointer;
+}
+
+.auth-button:disabled {
+	background-color: var(--btn-disable);
+	cursor: not-allowed;
+}
