@@ -6,11 +6,11 @@ export const register = async (request) => {
 	try {
 		const response = await apiClient.post(AUTH_ENDPOINTS.REGISTER, request)
 
-		const token = response.token
+		const { token, ...user } = response
 
-		setToken(token)
+		setToken({ user, token })
 
-		return { ok: true, data: response, token }
+		return { ok: true, data: response, token: token }
 	} catch (e) {
 		return {
 			ok: false,

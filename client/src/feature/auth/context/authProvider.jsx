@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
 			setError(response.error)
 		}
 
-		setUser(response.user)
+		setUser(response.data)
 		setToken(response.token)
 
 		router.navigate("/perfil")
