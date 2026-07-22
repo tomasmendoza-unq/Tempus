@@ -4,6 +4,7 @@ import NavBar from "../../shared/components/navbar/Navbar.jsx"
 import { NavLinks } from "./NavLinks.js"
 import { UserFooter } from "./components/UserFooter"
 
+//TODO: FALTA AGREGAR EL SELECT PARA MATERIA ACTIVA
 export const AuthenticatedLayout = () => {
 	return (
 		<ProtectedRoute>

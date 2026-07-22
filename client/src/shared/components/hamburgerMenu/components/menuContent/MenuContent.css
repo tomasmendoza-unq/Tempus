@@ -1,0 +1,6 @@
+nav {
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+	gap: 0.25rem;
+}
