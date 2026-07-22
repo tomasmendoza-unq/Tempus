@@ -1,9 +1,8 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { Menu, X, User } from "feather-icons-react"
-import ComisionesSubmenu from "./ComisionesSubmenu"
 
-export default function HamburgerMenu({ isAuthenticated, usuario, logout }) {
+export const HamburgerMenu = ({ isAuthenticated, usuario, logout }) => {
 	const [isOpen, setIsOpen] = useState(false)
 
 	const closeMenu = () => setIsOpen(false)
@@ -71,7 +70,7 @@ export default function HamburgerMenu({ isAuthenticated, usuario, logout }) {
 							<NavLink to="/carreras" onClick={closeMenu}>
 								Carreras
 							</NavLink>
-							<ComisionesSubmenu closeMenu={closeMenu} />
+							{/* <ComisionesSubmenu closeMenu={closeMenu} /> */}
 						</>
 					)}
 				</nav>
