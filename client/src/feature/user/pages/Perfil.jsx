@@ -1,26 +1,17 @@
 import { useEffect } from "react"
-import { useUser } from "../../../hooks/useUser"
 import { SuscripcionCarreras } from "../../../components/Carrera/SuscripcionCarreras"
 import { InfoPersonal } from "../../../components/Perfil/InfoPersonal"
 import { ListaCursadas } from "../../../components/Perfil/ListaCursadas"
 import { ListaFinales } from "../../../components/Perfil/ListaFinales"
+import { useGetUserDetails } from "../hook/use-get-user-details"
 
 export const Perfil = () => {
-	const {
-		perfil,
-		cargando,
-		obtenerPerfil,
-		aprobarCursada,
-		desaprobarMateria,
-		suscribirCarrera,
-		obtenerCarrerasDisponibles,
-	} = useUser()
-
+	const { userDetails, loading, error, fetchUserDetails } = useGetUserDetails()
 	useEffect(() => {
-		obtenerPerfil()
+		fetchUserDetails()
 	}, [])
 
-	if (cargando && !perfil) {
+	if (loading && !userDetails) {
 		return (
 			<div className="min-h-screen flex items-center justify-center">
 				<div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-950"></div>
@@ -28,32 +19,34 @@ export const Perfil = () => {
 		)
 	}
 
-	if (!perfil) return null
+	if (!userDetails) return null
+
+	if (error) <p>{error.message}</p>
 
 	return (
 		<div className="min-h-screen p-6 flex flex-col items-center">
 			<div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl border border-gray-100 space-y-8">
 				<InfoPersonal
-					nombre={perfil.nombre}
-					apellido={perfil.apellido}
-					email={perfil.email}
+					nombre={userDetails.nombre}
+					apellido={userDetails.apellido}
+					email={userDetails.email}
 				/>
 
 				<SuscripcionCarreras
-					carrerasUsuario={perfil.carreras}
-					onSuscribir={suscribirCarrera}
-					onObtenerCarreras={obtenerCarrerasDisponibles}
+					carrerasUsuario={userDetails.carreras}
+					// onSuscribir={suscribirCarrera}
+					// onObtenerCarreras={obtenerCarrerasDisponibles}
 				/>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 					<ListaCursadas
-						comisiones={perfil.comisiones}
-						onAprobar={aprobarCursada}
+						comisiones={userDetails.comisiones}
+						// onAprobar={aprobarCursada}
 					/>
 
 					<ListaFinales
-						materias={perfil.materiaDTOResponseSimples}
-						onDesaprobar={desaprobarMateria}
+						materias={userDetails.materiaDTOResponseSimples}
+						// onDesaprobar={desaprobarMateria}
 					/>
 				</div>
 			</div>
