@@ -1,4 +1,4 @@
-package edu.ar.tempus.service.impl;
+package edu.ar.tempus.feature.auth.service.impl;
 
 
 import com.google.i18n.phonenumbers.NumberParseException;
@@ -8,7 +8,7 @@ import edu.ar.tempus.controller.dto.auth.LoginResponseDTO;
 import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.security.jwt.JwtService;
 import edu.ar.tempus.security.user.UserDetailsImpl;
-import edu.ar.tempus.service.AuthService;
+import edu.ar.tempus.feature.auth.service.AuthService;
 import edu.ar.tempus.service.UsuarioService;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.userdetails.*;
@@ -38,16 +38,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     public Usuario registrarUsuario(Usuario usuario, Long carreraId) {
-        // Validar y formatear teléfono
-        if (usuario.getTelefono() != null && !usuario.getTelefono().isBlank()) {
-            String telefonoFormateado = validarYFormatearTelefono(usuario.getTelefono());
-            usuario.setTelefono(telefonoFormateado);
-        }
-
+        usuario.setTelefono(formatearTelefono(usuario.getTelefono()));
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioService.guardarUsuario(usuario, carreraId);
     }
 
+    private String formatearTelefono(String telefono) {
+        try {
+            Phonenumber.PhoneNumber numeroTelefono = phoneNumberUtil.parse(telefono, "AR");
+            return phoneNumberUtil.format(numeroTelefono, PhoneNumberUtil.PhoneNumberFormat.E164);
+        } catch (NumberParseException e) {
+            throw new IllegalStateException("Teléfono inválido", e);
+        }
+    }
     public LoginResponseDTO autenticarUsuario(UsernamePasswordAuthenticationToken token) {
         String email = token.getPrincipal().toString();
 
@@ -86,16 +89,5 @@ public class AuthServiceImpl implements AuthService {
         );
     }
 
-    private String validarYFormatearTelefono(String telefono) {
-        try {
-            Phonenumber.PhoneNumber numeroTelefono = phoneNumberUtil.parse(telefono, "AR");
-            if (!phoneNumberUtil.isValidNumber(numeroTelefono)) {
-                throw new IllegalArgumentException("El número de teléfono no es válido");
-            }
-            return phoneNumberUtil.format(numeroTelefono, PhoneNumberUtil.PhoneNumberFormat.E164);
 
-        } catch (NumberParseException e) {
-            throw new IllegalArgumentException("El formato del teléfono es inválido: ");
-        }
-    }
 }

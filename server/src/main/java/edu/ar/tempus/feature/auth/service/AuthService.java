@@ -1,4 +1,4 @@
-package edu.ar.tempus.service;
+package edu.ar.tempus.feature.auth.service;
 
 import edu.ar.tempus.controller.dto.auth.LoginResponseDTO;
 import edu.ar.tempus.model.Usuario;

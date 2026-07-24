@@ -3,6 +3,7 @@ package edu.ar.tempus.controller.dto.usuario;
 
 import edu.ar.tempus.model.Role;
 import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.shared.annotations.ValidPhone;
 import jakarta.validation.constraints.*;
 
 
@@ -25,6 +26,7 @@ public record UsuarioRequestDTO(
 
 
         @NotBlank(message = "El telefono es requerido")
+        @ValidPhone
         String telefono,
 
         Long carreraId

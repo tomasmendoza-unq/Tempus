@@ -3,9 +3,11 @@ package edu.ar.tempus.controller.exceptions;
 import edu.ar.tempus.exceptions.business.BusinessException;
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
 
@@ -83,6 +86,39 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleBadCredentialsException(
+            BadCredentialsException ex,
+            HttpServletRequest request) {
+
+        log.warn(ex.getMessage());
+
+        ErrorResponseDTO error = ErrorResponseDTO.of(
+                HttpStatus.UNAUTHORIZED.value(),
+                "Credenciales inválidas",
+                "El email o la contraseña son incorrectos",
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseDTO> handleException(
+            Exception ex,
+            HttpServletRequest request
+    ){
+        ErrorResponseDTO error = ErrorResponseDTO.of(
+                HttpStatus.CONFLICT.value(),
+                "Error inesperado",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        log.error(ex.getMessage(), ex);
+
+        return  ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
 }

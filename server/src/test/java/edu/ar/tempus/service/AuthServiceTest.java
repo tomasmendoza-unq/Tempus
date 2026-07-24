@@ -1,5 +1,6 @@
 package edu.ar.tempus.service;
 
+import edu.ar.tempus.feature.auth.service.AuthService;
 import edu.ar.tempus.model.Carrera;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.model.Role;

@@ -60,14 +60,25 @@ public class SecurityConfig {
                         .accessDeniedHandler(accessDeniedHandler)
                 )
                 .authorizeHttpRequests(auth -> auth
+                        // CORS preflight
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        // Documentación (Swagger / OpenAPI)
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
+                        // Auth (login, register, etc.)
                         .requestMatchers("/auth/**").permitAll()
+
+                        // Endpoints públicos de negocio
                         .requestMatchers("/carrera/public").permitAll()
-                        .requestMatchers("/error/*").permitAll()
+                        .requestMatchers("/carrera/load").permitAll()
                         .requestMatchers("/api/materia/buscar/**").permitAll()
                         .requestMatchers("/import/preview").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/carrera/load").permitAll()
+
+                        // Manejo de errores
+                        .requestMatchers("/error/*").permitAll()
+
+                        // Todo lo demás requiere autenticación
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
