@@ -1,16 +1,24 @@
 import { getToken } from "../../../feature/auth/service/token.service"
 
 export const attachRequestInterceptor = (instance) => {
-	instance.interceptors.request.use((config) => {
-		const token = getToken()
-		if (token) config.headers.Authorization = `Bearer ${token}`
-		return config
-	})
+	instance.interceptors.request.use(
+		(config) => {
+			const token = getToken()
+
+			if (token) {
+				config.headers.Authorization = `Bearer ${token}`
+			}
+
+			return config
+		},
+		(error) => Promise.reject(error)
+	)
 }
 
 export const attachResponseInterceptor = (instance) => {
 	instance.interceptors.response.use(
-		(response) => response.data,
+		(response) => ({ ok: true, data: response.data }),
+
 		(error) => {
 			console.error(
 				"[API Error]",
@@ -20,19 +28,17 @@ export const attachResponseInterceptor = (instance) => {
 			)
 
 			if (!error.response) {
-				return Promise.reject(new Error("No se pudo conectar con el servidor"))
+				return { ok: false, error: "No se pudo conectar con el servidor" }
 			}
 
-			const errorData = error.response.data
-			const errorMessage =
-				(errorData?.detalles && Object.values(errorData.detalles)[0]) ||
-				errorData?.message
+			const { data, status } = error.response
 
-			const err = new Error(errorMessage)
-			err.status = error.response.status
-			err.data = errorData
+			const message =
+				Object.values(data?.detalles ?? {})[0] ??
+				data?.message ??
+				"Ocurrió un error inesperado"
 
-			return Promise.reject(err)
+			return { ok: false, error: message, status, data }
 		}
 	)
 }

@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import useCarrera from "../../../../hooks/useCarrera"
+import { UseGetCarreras } from "../../../../feature/carreras/hook/use-get-carreras"
 import SelectField from "../../../../components/Ui/Select/SelectField"
 import AuthButton from "../../components/button/AuthButton"
 import { inputs } from "./inputs"
@@ -9,23 +9,23 @@ import { useFormData } from "../../../../shared/hooks/use-form-data"
 import AuthForm from "../../components/form/AuthForm"
 import AuthLayout from "../../components/layout/AuthLayout"
 import { LinkCustom } from "../../components/link/LinkCustom"
+import { FormError } from "../../components/formError/FormError"
 
 export default function Register() {
-	const { register, loading } = useAuth()
+	const { register, loading, error } = useAuth()
 
-	const { recuperarCarreras, carreras } = useCarrera()
+	const { fetchCarreras, carreras } = UseGetCarreras()
 
 	const { formData, handleChange } = useFormData({
 		email: "",
 		password: "",
 		nombre: "",
 		apellido: "",
-		telefono: "",
 		carreraId: "",
 	})
 
 	useEffect(() => {
-		recuperarCarreras()
+		fetchCarreras()
 	}, [])
 
 	const handleSubmit = async (e) => {
@@ -60,6 +60,8 @@ export default function Register() {
 						},
 					}}
 				/>
+				{error && <FormError error={error} />}
+
 				<AuthButton
 					loading={loading}
 					text="Registrarse"
