@@ -1,28 +1,19 @@
 import axios from "axios"
-import { API } from "../../../constants"
-import { getErrorMessage } from "../../helpers/errorMessages"
-import { getToken } from "../../feature/auth/service/token.service"
+
+import {
+	attachRequestInterceptor,
+	attachResponseInterceptor,
+} from "./interceptors/interceptors"
+
+export const API = {
+	BASE_URL: import.meta.env.VITE_API_URL || "http://localhost:8080",
+}
 
 export const createApi = (baseURL) => {
 	const instance = axios.create({ baseURL })
 
-	instance.interceptors.request.use((config) => {
-		const token = getToken()
-		if (token) config.headers.Authorization = `Bearer ${token}`
-		return config
-	})
-
-	instance.interceptors.response.use(
-		(response) => response.data,
-		(error) => {
-			const errorData = error.response?.data
-			const errorMessage =
-				(errorData?.detalles && Object.values(errorData.detalles)[0]) ||
-				errorData?.message ||
-				getErrorMessage(error.response?.status)
-			return Promise.reject(new Error(errorMessage))
-		}
-	)
+	attachRequestInterceptor(instance)
+	attachResponseInterceptor(instance)
 
 	return {
 		get: (endpoint, headers = {}) => instance.get(endpoint, { headers }),

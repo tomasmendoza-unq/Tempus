@@ -22,8 +22,6 @@ export default function Login() {
 		await login(formData)
 	}
 
-	if (error) <FormError message={error} />
-
 	return (
 		<AuthLayout
 			title="Tempus"
@@ -42,6 +40,7 @@ export default function Login() {
 					formData={formData}
 					handleChange={handleChange}
 				/>
+				{error && <FormError error={error} />}
 
 				<AuthButton
 					loading={loading}

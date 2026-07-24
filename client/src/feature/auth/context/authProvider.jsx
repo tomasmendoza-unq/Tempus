@@ -13,12 +13,12 @@ export const AuthProvider = ({ children }) => {
 
 	const login = async (request) => {
 		setLoading(true)
+		setError(null)
 		const response = await loginService(request)
 
 		if (!response.ok) {
 			setError(response.error)
 			setLoading(false)
-			console.log(error)
 			return
 		}
 

@@ -12,7 +12,6 @@ export const login = async (request) => {
 
 		return { ok: true, data: user, token }
 	} catch (error) {
-		console.log(error)
-		return { ok: false, error: error }
+		return { ok: false, error: error.message }
 	}
 }
