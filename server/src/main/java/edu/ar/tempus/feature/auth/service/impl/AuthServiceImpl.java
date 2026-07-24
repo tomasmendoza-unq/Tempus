@@ -22,7 +22,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-    private final PhoneNumberUtil phoneNumberUtil;
+
 
     public AuthServiceImpl(
             UsuarioService usuarioService,
@@ -34,7 +34,6 @@ public class AuthServiceImpl implements AuthService {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
-        this.phoneNumberUtil = PhoneNumberUtil.getInstance();
     }
 
     public Usuario registrarUsuario(Usuario usuario, Long carreraId) {

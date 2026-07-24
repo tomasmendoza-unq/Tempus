@@ -2,7 +2,11 @@ import { useEffect, useMemo, useState } from "react"
 import { AuthContext } from "./authContext"
 import { login as loginService } from "../service/login.service"
 import { register as registerService } from "../service/register.service"
-import { getToken, removeToken } from "../service/token.service"
+import {
+	getToken,
+	removeToken,
+	setToken as setAuth,
+} from "../service/token.service"
 import { router } from "../../../app/routes"
 
 export const AuthProvider = ({ children }) => {
@@ -14,6 +18,7 @@ export const AuthProvider = ({ children }) => {
 	const login = async (request) => {
 		setLoading(true)
 		setError(null)
+
 		const response = await loginService(request)
 
 		if (!response.ok) {
@@ -22,8 +27,11 @@ export const AuthProvider = ({ children }) => {
 			return
 		}
 
-		setUser(response.data)
-		setToken(response.token)
+		const { token, ...user } = response.data
+		setAuth({ user, token })
+
+		setUser(user)
+		setToken(token)
 
 		router.navigate("/perfil")
 		setLoading(false)
@@ -37,6 +45,7 @@ export const AuthProvider = ({ children }) => {
 
 	const register = async (request) => {
 		setLoading(true)
+		setError(null)
 		const response = await registerService(request)
 
 		if (!response.ok) {
@@ -44,6 +53,9 @@ export const AuthProvider = ({ children }) => {
 			setLoading(false)
 			return
 		}
+
+		const { token, ...user } = response.data
+		setAuth({ user, token })
 
 		setUser(response.data)
 		setToken(response.token)

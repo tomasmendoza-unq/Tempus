@@ -30,7 +30,7 @@ public final class CarreraControllerRest {
         this.authUtils = authUtils;
     }
 
-    @GetMapping("/public")
+    @GetMapping
     public ResponseEntity<List<CarreraDTOResponse>> obtenerCarreras() {
         List<Carrera> carreras = carreraService.recuperarTodos();
         List<CarreraDTOResponse> response = carreras.stream().map(CarreraDTOResponse::desdeModelo).toList();

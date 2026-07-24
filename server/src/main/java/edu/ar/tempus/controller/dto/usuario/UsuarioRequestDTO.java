@@ -24,6 +24,7 @@ public record UsuarioRequestDTO(
         @NotBlank(message = "El apellido es requerido")
         String apellido,
 
+        @NotNull(message = "La carrera es obligatoria")
         Long carreraId
 
     ){
