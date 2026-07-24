@@ -6,11 +6,11 @@ export const login = async (request) => {
 	try {
 		const response = await apiClient.post(AUTH_ENDPOINTS.LOGIN, request)
 
-		const token = response.token
+		const { token, ...user } = response
 
-		setToken(response.token)
+		setToken({ user, token })
 
-		return { ok: true, data: response, token: token }
+		return { ok: true, data: user, token }
 	} catch (error) {
 		console.log(error)
 		return { ok: false, error: error }

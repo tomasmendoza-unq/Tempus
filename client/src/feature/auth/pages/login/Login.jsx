@@ -20,7 +20,6 @@ export default function Login() {
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		await login(formData)
-		console.log(error)
 	}
 
 	if (error) <FormError message={error} />

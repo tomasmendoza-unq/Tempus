@@ -1,12 +1,13 @@
 import axios from "axios"
 import { API } from "../../../constants"
 import { getErrorMessage } from "../../helpers/errorMessages"
+import { getToken } from "../../feature/auth/service/token.service"
 
 export const createApi = (baseURL) => {
 	const instance = axios.create({ baseURL })
 
 	instance.interceptors.request.use((config) => {
-		const token = localStorage.getItem("token")
+		const token = getToken()
 		if (token) config.headers.Authorization = `Bearer ${token}`
 		return config
 	})

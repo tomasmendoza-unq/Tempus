@@ -6,6 +6,6 @@ export const getUserService = async () => {
 		const response = await apiClient.get(USER_ENDPOINTS.GET_USER)
 		return { ok: true, data: response }
 	} catch (error) {
-		throw { ok: false, error: error.message || "Error al obtener el usuario" }
+		throw { ok: false, error: error || "Error al obtener el usuario" }
 	}
 }
