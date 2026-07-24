@@ -14,7 +14,7 @@ export const register = async (request) => {
 	} catch (e) {
 		return {
 			ok: false,
-			error: e.error || "Error al registrar usuario",
+			error: e || "Error al registrar usuario",
 		}
 	}
 }

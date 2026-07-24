@@ -1,5 +1,5 @@
 import { apiClient } from "../../../core/api/apiCRUD"
-import { USER_ENDPOINTS } from "../api/userEndpoints"
+import { USER_ENDPOINTS } from "../api/userEndpoints.js"
 
 export const getUserService = async () => {
 	try {
