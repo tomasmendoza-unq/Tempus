@@ -8,7 +8,6 @@ public record UsuarioResponseDTO(
         String email,
         String nombre,
         String apellido,
-        String telefono,
         Role role,
         boolean enabled
 ){
@@ -18,7 +17,6 @@ public record UsuarioResponseDTO(
                 usuario.getEmail(),
                 usuario.getNombre(),
                 usuario.getApellido(),
-                usuario.getTelefono(),
                 usuario.getRole(),
                 usuario.isEnabled()
 

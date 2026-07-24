@@ -58,7 +58,6 @@ public class UsuarioServiceTest {
                 .password("password123")
                 .nombre("Juan")
                 .apellido("Pérez")
-                .telefono("221-4567890")
                 .role(Role.USER)
                 .build();
 
@@ -67,7 +66,6 @@ public class UsuarioServiceTest {
                 .password("password456")
                 .nombre("María")
                 .apellido("González")
-                .telefono("351-9876543")
                 .role(Role.ADMIN)
                 .build();
 
@@ -142,7 +140,6 @@ public class UsuarioServiceTest {
                 .password("password123")
                 .nombre("Juan")
                 .apellido("Pérez")
-                .telefono("221-4567890")
                 .role(Role.USER)
                 .build();
 

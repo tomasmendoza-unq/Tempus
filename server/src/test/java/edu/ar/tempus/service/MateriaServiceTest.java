@@ -221,7 +221,6 @@ public class MateriaServiceTest {
                         .password("123456")
                         .nombre("Test")
                         .apellido("Aislamiento")
-                        .telefono("351-9876543")
                         .role(Role.USER)
                         .build(),
                 sistemas.getId()

@@ -27,7 +27,6 @@ public class Usuario {
     @Builder.Default
     private boolean enabled = true;
 
-    private String telefono;
 
     private Role role;
 

@@ -68,7 +68,6 @@ public class CarreraServiceTest {
                 .password("password123")
                 .nombre("Juan")
                 .apellido("Pérez")
-                .telefono("221-4567890")
                 .role(Role.USER)
                 .build();
 

@@ -24,11 +24,6 @@ public record UsuarioRequestDTO(
         @NotBlank(message = "El apellido es requerido")
         String apellido,
 
-
-        @NotBlank(message = "El telefono es requerido")
-        @ValidPhone
-        String telefono,
-
         Long carreraId
 
     ){
@@ -38,7 +33,6 @@ public record UsuarioRequestDTO(
                     .password(password)
                     .nombre(this.nombre)
                     .apellido(this.apellido)
-                    .telefono(this.telefono)
                     .role(Role.USER)
                     .build();
         }

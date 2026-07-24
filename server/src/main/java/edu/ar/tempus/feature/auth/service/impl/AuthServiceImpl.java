@@ -38,19 +38,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     public Usuario registrarUsuario(Usuario usuario, Long carreraId) {
-        usuario.setTelefono(formatearTelefono(usuario.getTelefono()));
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioService.guardarUsuario(usuario, carreraId);
     }
 
-    private String formatearTelefono(String telefono) {
-        try {
-            Phonenumber.PhoneNumber numeroTelefono = phoneNumberUtil.parse(telefono, "AR");
-            return phoneNumberUtil.format(numeroTelefono, PhoneNumberUtil.PhoneNumberFormat.E164);
-        } catch (NumberParseException e) {
-            throw new IllegalStateException("Teléfono inválido", e);
-        }
-    }
     public LoginResponseDTO autenticarUsuario(UsernamePasswordAuthenticationToken token) {
         String email = token.getPrincipal().toString();
 
