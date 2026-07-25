@@ -1,6 +1,7 @@
 package edu.ar.tempus.feature.alumno.controller.dto;
 
 
+import edu.ar.tempus.feature.alumno.model.Alumno;
 import edu.ar.tempus.model.Role;
 import edu.ar.tempus.model.Usuario;
 import jakarta.validation.constraints.*;
@@ -27,8 +28,8 @@ public record AlumnoRequestDTO(
         Long carreraId
 
     ){
-        public Usuario aModelo() {
-            return Usuario.builder()
+        public Alumno aModelo() {
+            return Alumno.builder()
                     .email(this.email)
                     .password(password)
                     .nombre(this.nombre)
