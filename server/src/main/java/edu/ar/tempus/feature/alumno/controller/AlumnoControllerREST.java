@@ -25,7 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/alumno")
-public final class AlumnoControllerREST {
+public class AlumnoControllerREST {
 
 
     private final AlumnoService alumnoService;
