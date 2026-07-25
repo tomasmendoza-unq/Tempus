@@ -100,15 +100,96 @@ public final class AlumnoControllerREST {
     }
 
     @PostMapping("/carreras/suscribirse")
-    public ResponseEntity<String> suscribirseACarrera(
+    @Operation(
+            summary = "Suscribirse a una carrera",
+            description = "Permite al usuario autenticado suscribirse a una carrera disponible."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Suscripción realizada correctamente.",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = CarreraDTOResponseSimple.class)
+            )
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "La solicitud es inválida o el usuario ya se encuentra suscripto a la carrera.",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponseDTO.class)
+            )
+    )
+    @ApiResponse(
+            responseCode = "401",
+            description = "El usuario no está autenticado o el token es inválido.",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponseDTO.class)
+            )
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "No se encontró la carrera solicitada.",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponseDTO.class)
+            )
+    )
+    public ResponseEntity<CarreraDTOResponseSimple> suscribirseACarrera(
             @Valid @RequestBody SuscripcionCarreraRequestDTO request,
             @RequestAttribute("userId") Long idAlumno) {
 
-        usuarioService.suscribirseACarrera(request.idCarrera(), idAlumno);
+        Carrera carrera = alumnoService.suscribirseACarrera(request.idCarrera(), idAlumno);
 
-        return ResponseEntity.ok("Se realizó con éxito la operación");
+        return ResponseEntity.ok(CarreraDTOResponseSimple.desdeModelo(carrera));
     }
 
+    @PostMapping("/carreras/desuscribirse")
+    @Operation(
+            summary = "Desuscribirse de una carrera",
+            description = "Permite al usuario autenticado cancelar su suscripción a una carrera."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Desuscripción realizada correctamente.",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = CarreraDTOResponseSimple.class)
+            )
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "La solicitud es inválida o el usuario no está suscripto a la carrera.",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponseDTO.class)
+            )
+    )
+    @ApiResponse(
+            responseCode = "401",
+            description = "El usuario no está autenticado o el token es inválido.",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponseDTO.class)
+            )
+    )
+    @ApiResponse(
+            responseCode = "404",
+            description = "No se encontró la carrera solicitada.",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponseDTO.class)
+            )
+    )
+    public ResponseEntity<CarreraDTOResponseSimple> desuscribirseACarrera(
+            @Valid @RequestBody SuscripcionCarreraRequestDTO request,
+            @RequestAttribute("userId") Long idAlumno) {
+
+        Carrera carrera = alumnoService.desuscribirseACarrera(request.idCarrera(), idAlumno);
+
+        return ResponseEntity.ok(CarreraDTOResponseSimple.desdeModelo(carrera));
+    }
     @GetMapping("/perfil")
     public ResponseEntity<UsuarioResponseSimpleDTO>  obtenerDetallesSimple(Authentication authentication) {
         Long alumnoId = authUtils.getAlumnoId(authentication);

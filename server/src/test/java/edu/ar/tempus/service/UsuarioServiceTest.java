@@ -1,6 +1,7 @@
 package edu.ar.tempus.service;
 
 import edu.ar.tempus.exceptions.business.*;
+import edu.ar.tempus.feature.alumno.exception.YaSeEncuentraSuscritoALaCarrera;
 import edu.ar.tempus.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

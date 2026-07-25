@@ -3,7 +3,6 @@ package edu.ar.tempus.controller.dto.usuario;
 
 import edu.ar.tempus.model.Role;
 import edu.ar.tempus.model.Usuario;
-import edu.ar.tempus.shared.annotations.ValidPhone;
 import jakarta.validation.constraints.*;
 
 

@@ -1,11 +1,10 @@
-package edu.ar.tempus.controller;
+package edu.ar.tempus.feature.carrera.controller;
 
 import edu.ar.tempus.controller.dto.carrera.CarreraDTOBulkRequest;
 import edu.ar.tempus.controller.dto.carrera.CarreraDTORequest;
 import edu.ar.tempus.controller.dto.carrera.CarreraDTOResponse;
 import edu.ar.tempus.controller.dto.carrera.CarreraDTOResponseSimple;
 import edu.ar.tempus.model.Carrera;
-import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.service.CarreraService;
 import edu.ar.tempus.utils.AuthUtils;
 import org.springframework.http.HttpStatus;

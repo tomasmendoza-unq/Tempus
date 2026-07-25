@@ -1,9 +1,9 @@
-package edu.ar.tempus.shared.annotations.impl;
+package edu.ar.tempus.shared.annotations.constraints.impl;
 
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
-import edu.ar.tempus.shared.annotations.ValidPhone;
+import edu.ar.tempus.shared.annotations.constraints.ValidPhone;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

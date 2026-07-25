@@ -20,4 +20,6 @@ public interface CarreraDAOSQL extends JpaRepository<Carrera,Long> {
                 )
     """)
     List<Carrera> recuperarCarerrasPorAlumno(@Param("id") Long alumnoId);
+
+
 }

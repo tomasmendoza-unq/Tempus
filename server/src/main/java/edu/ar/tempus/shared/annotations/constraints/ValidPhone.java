@@ -1,7 +1,7 @@
-package edu.ar.tempus.shared.annotations;
+package edu.ar.tempus.shared.annotations.constraints;
 
 
-import edu.ar.tempus.shared.annotations.impl.ValidPhoneValidator;
+import edu.ar.tempus.shared.annotations.constraints.impl.ValidPhoneValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import java.lang.annotation.*;

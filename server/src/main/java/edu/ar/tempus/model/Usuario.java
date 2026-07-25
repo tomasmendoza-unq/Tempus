@@ -2,7 +2,8 @@ package edu.ar.tempus.model;
 
 import edu.ar.tempus.exceptions.business.SinCarreraActivaException;
 import edu.ar.tempus.exceptions.business.UsuarioNoPerteneceALaCarreraException;
-import edu.ar.tempus.exceptions.business.YaSeEncuentraSuscritoALaCarrera;
+import edu.ar.tempus.feature.alumno.exception.YaSeEncuentraSuscritoALaCarrera;
+import edu.ar.tempus.feature.alumno.exception.AlumnoNoEstaSuscriptoALaCarreraException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -77,5 +78,10 @@ public class Usuario {
             throw new UsuarioNoPerteneceALaCarreraException("El usuario no pertenece a esta carrera");
 
         this.carreraActiva = carrera;
+    }
+
+    public void desuscribirseACarrera(Carrera carrera) {
+        if(!carreras.contains(carrera)) throw new AlumnoNoEstaSuscriptoALaCarreraException("El alumno no esta suscripto a la carrera");
+        carreras.remove(carrera);
     }
 }

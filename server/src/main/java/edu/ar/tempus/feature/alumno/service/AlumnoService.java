@@ -6,4 +6,9 @@ import java.util.List;
 
 public interface AlumnoService {
     List<Carrera> getCarrerasDisponibles(Long idAlumno);
+
+    Carrera desuscribirseACarrera(Long idCarrera, Long idAlumno);
+
+    Carrera suscribirseACarrera(Long carreraId, Long alumnoId);
+
 }
