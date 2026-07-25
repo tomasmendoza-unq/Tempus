@@ -1,4 +1,8 @@
-import { getToken } from "../../../feature/auth/service/token.service"
+import { router } from "../../../app/routes"
+import {
+	getToken,
+	removeToken,
+} from "../../../feature/auth/service/token.service"
 
 export const attachRequestInterceptor = (instance) => {
 	instance.interceptors.request.use(
@@ -32,6 +36,11 @@ export const attachResponseInterceptor = (instance) => {
 			}
 
 			const { data, status } = error.response
+
+			if (status === 401) {
+				removeToken()
+				router.navigate("/login")
+			}
 
 			const message =
 				Object.values(data?.detalles ?? {})[0] ??

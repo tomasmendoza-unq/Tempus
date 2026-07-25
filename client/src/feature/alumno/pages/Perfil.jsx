@@ -37,7 +37,6 @@ export const Perfil = () => {
 				<SuscripcionCarreras
 					carrerasUsuario={alumnoDetails.carreras}
 					onSuscribir={suscribirseCarrera}
-					// onObtenerCarreras={obtenerCarrerasDisponibles}
 				/>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
