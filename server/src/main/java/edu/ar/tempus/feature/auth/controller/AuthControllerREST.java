@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.validation.Valid;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +44,7 @@ public final class AuthControllerREST {
                     schema = @Schema(implementation = ErrorResponseDTO.class)
             )
     )
+    @SecurityRequirements()
     public ResponseEntity<LoginResponseDTO> register(
             @RequestBody @Valid UsuarioRequestDTO usuarioDTO) {
 
@@ -72,6 +74,7 @@ public final class AuthControllerREST {
                     schema = @Schema(implementation = ErrorResponseDTO.class)
             )
     )
+    @SecurityRequirements()
     public ResponseEntity<LoginResponseDTO> login(
             @RequestBody @Valid LoginRequestDTO loginRequest) {
 

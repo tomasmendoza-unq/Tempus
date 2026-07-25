@@ -3,7 +3,7 @@ import { AuthContext } from "./authContext"
 import { login as loginService } from "../service/login.service"
 import { register as registerService } from "../service/register.service"
 import {
-	getToken,
+	getStoredAuth,
 	removeToken,
 	setToken as setAuth,
 } from "../service/token.service"
@@ -81,11 +81,10 @@ export const AuthProvider = ({ children }) => {
 	useEffect(() => {
 		const restoreSession = async () => {
 			try {
-				const stored = getToken()
+				const stored = getStoredAuth()
 				if (stored) {
-					const { user, token } = JSON.parse(stored)
-					setUser(user)
-					setToken(token)
+					setUser(stored.user)
+					setToken(stored.token)
 				}
 			} catch (error) {
 				setError(error.message)

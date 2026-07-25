@@ -1,15 +1,21 @@
-package edu.ar.tempus.feature.usuario.controller;
+package edu.ar.tempus.feature.alumno.controller;
 
+import edu.ar.tempus.controller.dto.carrera.CarreraDTOResponseSimple;
 import edu.ar.tempus.controller.dto.usuario.UsuarioResponseDetallesDTO;
 import edu.ar.tempus.controller.dto.usuario.UsuarioResponseSimpleDTO;
 import edu.ar.tempus.controller.exceptions.ErrorResponseDTO;
+import edu.ar.tempus.feature.alumno.service.AlumnoService;
+import edu.ar.tempus.feature.carrera.controller.dto.SuscripcionCarreraRequestDTO;
+import edu.ar.tempus.model.Carrera;
 import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.service.UsuarioService;
 import edu.ar.tempus.utils.AuthUtils;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -17,41 +23,55 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuario")
-public final class UsuarioControllerREST {
+@RequestMapping("/alumno")
+public final class AlumnoControllerREST {
 
     private final AuthUtils authUtils;
 
     private final UsuarioService usuarioService;
 
-    public UsuarioControllerREST(AuthUtils authUtils, UsuarioService usuarioService) {
+    private final AlumnoService alumnoService;
+
+    public AlumnoControllerREST(AuthUtils authUtils, UsuarioService usuarioService, AlumnoService alumnoService) {
         this.authUtils = authUtils;
         this.usuarioService = usuarioService;
+        this.alumnoService = alumnoService;
     }
 
     @GetMapping
-    @Operation(summary = "Login de usuario")
+    @Operation(
+            summary = "Obtener perfil del alumno autenticado",
+            description = "Retorna la información completa del perfil del alumno autenticado, incluyendo sus datos personales, carreras, carrera activa, materias aprobadas y comisiones."
+    )
     @ApiResponse(
             responseCode = "200",
-            description = "Login exitoso - Token en header Authorization",
-            headers = @io.swagger.v3.oas.annotations.headers.Header(
-                    name = "Authorization",
-                    description = "Bearer token",
-                    schema = @Schema(type = "string")
+            description = "Perfil obtenido correctamente.",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = UsuarioResponseDetallesDTO.class)
             )
     )
     @ApiResponse(
             responseCode = "401",
-            description = "Credenciales inválidas",
+            description = "El usuario no está autenticado o el token es inválido.",
             content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = ErrorResponseDTO.class)
             )
     )
-    public ResponseEntity<UsuarioResponseDetallesDTO> getPerfil(Authentication authentication) {
-        Long alumnoId = authUtils.getAlumnoId(authentication);
+    @ApiResponse(
+            responseCode = "404",
+            description = "No se encontró el usuario autenticado.",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponseDTO.class)
+            )
+    )
+    public ResponseEntity<UsuarioResponseDetallesDTO> getPerfil(
+            @RequestAttribute("userId") Long idAlumno
+    ) {
 
-        Usuario usuario = usuarioService.recuperarUsuarioPorId(alumnoId);
+        Usuario usuario = usuarioService.recuperarUsuarioPorId(idAlumno);
 
         UsuarioResponseDetallesDTO response = UsuarioResponseDetallesDTO.desdeModelo(usuario);
 
@@ -79,9 +99,12 @@ public final class UsuarioControllerREST {
         return ResponseEntity.ok("Se realizo con exito la operacion");
     }
 
-    @PostMapping("/suscribir/carrera/{carreraId}")
-    public ResponseEntity<String> suscribirseACarrera(@PathVariable("carreraId") Long carreraId, Authentication authentication) {
-        usuarioService.suscribirseACarrera(carreraId, authUtils.getAlumnoId(authentication));
+    @PostMapping("/carreras/suscribirse")
+    public ResponseEntity<String> suscribirseACarrera(
+            @Valid @RequestBody SuscripcionCarreraRequestDTO request,
+            @RequestAttribute("userId") Long idAlumno) {
+
+        usuarioService.suscribirseACarrera(request.idCarrera(), idAlumno);
 
         return ResponseEntity.ok("Se realizó con éxito la operación");
     }
@@ -95,6 +118,41 @@ public final class UsuarioControllerREST {
         UsuarioResponseSimpleDTO response = UsuarioResponseSimpleDTO.desdeModelo(usuario);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/carreras/disponibles")
+    @Operation(
+            summary = "Obtener carreras disponibles",
+            description = "Retorna la lista de carreras en las que el alumno autenticado aún puede inscribirse."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Carreras disponibles obtenidas correctamente.",
+            content = @Content(
+                    mediaType = "application/json",
+                    array = @ArraySchema(
+                            schema = @Schema(implementation = CarreraDTOResponseSimple.class)
+                    )
+            )
+    )
+    @ApiResponse(
+            responseCode = "401",
+            description = "El usuario no está autenticado o el token es inválido.",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponseDTO.class)
+            )
+    )
+    public ResponseEntity<List<CarreraDTOResponseSimple>> getCarrerasDisponibles(
+            @RequestAttribute("userId") Long idAlumno
+    ) {
+        List<Carrera> carreras = alumnoService.getCarrerasDisponibles(idAlumno);
+
+        return ResponseEntity.ok(
+                carreras.stream()
+                        .map(CarreraDTOResponseSimple::desdeModelo)
+                        .toList()
+        );
     }
 
     @PutMapping("/carreras/{carreraId}/activar")

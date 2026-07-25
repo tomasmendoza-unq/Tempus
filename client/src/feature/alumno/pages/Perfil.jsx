@@ -1,17 +1,21 @@
 import { useEffect } from "react"
-import { SuscripcionCarreras } from "../../../components/Carrera/SuscripcionCarreras"
 import { InfoPersonal } from "../../../components/Perfil/InfoPersonal"
 import { ListaCursadas } from "../../../components/Perfil/ListaCursadas"
 import { ListaFinales } from "../../../components/Perfil/ListaFinales"
-import { useGetUserDetails } from "../hook/use-get-user-details"
+import { useGetAlumnoDetails } from "../hook/use-get-alumno-details"
+import { UsePostSuscribirseCarrera } from "../hook/use-post-suscribirse-carrera"
+import { SuscripcionCarreras } from "../components/suscribirseCarrera/SuscripcionCarreras"
 
 export const Perfil = () => {
-	const { userDetails, loading, error, fetchUserDetails } = useGetUserDetails()
+	const { alumnoDetails, loading, error, fetchAlumnoDetails } =
+		useGetAlumnoDetails()
+
+	const { suscribirseCarrera } = UsePostSuscribirseCarrera()
 	useEffect(() => {
-		fetchUserDetails()
+		fetchAlumnoDetails()
 	}, [])
 
-	if (loading && !userDetails) {
+	if (loading && !alumnoDetails) {
 		return (
 			<div className="min-h-screen flex items-center justify-center">
 				<div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-950"></div>
@@ -19,33 +23,31 @@ export const Perfil = () => {
 		)
 	}
 
-	if (!userDetails) return null
-
 	if (error) <p>{error.message}</p>
 
 	return (
 		<div className="min-h-screen p-6 flex flex-col items-center">
 			<div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl border border-gray-100 space-y-8">
 				<InfoPersonal
-					nombre={userDetails.nombre}
-					apellido={userDetails.apellido}
-					email={userDetails.email}
+					nombre={alumnoDetails.nombre}
+					apellido={alumnoDetails.apellido}
+					email={alumnoDetails.email}
 				/>
 
 				<SuscripcionCarreras
-					carrerasUsuario={userDetails.carreras}
-					// onSuscribir={suscribirCarrera}
+					carrerasUsuario={alumnoDetails.carreras}
+					onSuscribir={suscribirseCarrera}
 					// onObtenerCarreras={obtenerCarrerasDisponibles}
 				/>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 					<ListaCursadas
-						comisiones={userDetails.comisiones}
+						comisiones={alumnoDetails.comisiones}
 						// onAprobar={aprobarCursada}
 					/>
 
 					<ListaFinales
-						materias={userDetails.materiaDTOResponseSimples}
+						materias={alumnoDetails.materiaDTOResponseSimples}
 						// onDesaprobar={desaprobarMateria}
 					/>
 				</div>
