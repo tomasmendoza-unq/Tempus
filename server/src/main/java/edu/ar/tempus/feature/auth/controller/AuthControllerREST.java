@@ -2,7 +2,7 @@ package edu.ar.tempus.feature.auth.controller;
 
 import edu.ar.tempus.controller.dto.auth.LoginRequestDTO;
 import edu.ar.tempus.controller.dto.auth.LoginResponseDTO;
-import edu.ar.tempus.controller.dto.usuario.UsuarioRequestDTO;
+import edu.ar.tempus.feature.alumno.controller.dto.AlumnoRequestDTO;
 import edu.ar.tempus.controller.exceptions.ErrorResponseDTO;
 import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.feature.auth.service.AuthService;
@@ -46,9 +46,9 @@ public final class AuthControllerREST {
     )
     @SecurityRequirements()
     public ResponseEntity<LoginResponseDTO> register(
-            @RequestBody @Valid UsuarioRequestDTO usuarioDTO) {
+            @RequestBody @Valid AlumnoRequestDTO request) {
 
-        Usuario usuario = authService.registrarUsuario(usuarioDTO.aModelo(), usuarioDTO.carreraId());
+        Usuario usuario = authService.registrar(request.aModelo(), request.carreraId());
 
         LoginResponseDTO response = authService.generarRespuestaPostRegistro(usuario);
 

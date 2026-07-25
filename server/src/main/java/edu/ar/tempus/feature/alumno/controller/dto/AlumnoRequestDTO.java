@@ -1,4 +1,4 @@
-package edu.ar.tempus.controller.dto.usuario;
+package edu.ar.tempus.feature.alumno.controller.dto;
 
 
 import edu.ar.tempus.model.Role;
@@ -6,7 +6,7 @@ import edu.ar.tempus.model.Usuario;
 import jakarta.validation.constraints.*;
 
 
-public record UsuarioRequestDTO(
+public record AlumnoRequestDTO(
         @NotNull(message = "El email no puede ser null")
         @NotBlank(message = "El email de usuario  es requerido")
         String email,
@@ -33,7 +33,7 @@ public record UsuarioRequestDTO(
                     .password(password)
                     .nombre(this.nombre)
                     .apellido(this.apellido)
-                    .role(Role.USER)
+                    .role(Role.ALUMNO)
                     .build();
         }
 }

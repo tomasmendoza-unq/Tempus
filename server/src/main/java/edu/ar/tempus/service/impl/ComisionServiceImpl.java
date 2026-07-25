@@ -3,6 +3,8 @@ package edu.ar.tempus.service.impl;
 import edu.ar.tempus.controller.dto.comision.UpdateComisionDTORequest;
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.exceptions.business.SuperPosicionDeHorariosException;
+import edu.ar.tempus.feature.alumno.model.Alumno;
+import edu.ar.tempus.feature.alumno.service.AlumnoService;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.model.Usuario;
@@ -27,12 +29,10 @@ public class ComisionServiceImpl implements ComisionService {
 
     private final MateriaSQLDAO materiaSQLDAO;
 
-    private final UsuarioDAOSQL  usuarioDAO;
 
-    public ComisionServiceImpl(ComisionRepository comisionRepository, MateriaSQLDAO materiaSQLDAO, UsuarioDAOSQL usuarioDAO) {
+    public ComisionServiceImpl(ComisionRepository comisionRepository, MateriaSQLDAO materiaSQLDAO) {
         this.comisionRepository = comisionRepository;
         this.materiaSQLDAO = materiaSQLDAO;
-        this.usuarioDAO = usuarioDAO;
     }
 
     @Override
@@ -81,8 +81,7 @@ public class ComisionServiceImpl implements ComisionService {
     }
 
     @Override
-    public Page<Comision> recuperarComisiones(int page, Long alumnoId) {
-        Usuario alumno = usuarioDAO.findById(alumnoId).orElseThrow(() -> new EntityNotFoundException(Usuario.class.getName(), alumnoId));
+    public Page<Comision> recuperarComisiones(int page, Alumno alumno) {
         Pageable pageable = PageRequest.of(page, 9);
         return comisionRepository.recuperarComisiones(pageable, alumno.getCarreraActiva().getId());
     }
