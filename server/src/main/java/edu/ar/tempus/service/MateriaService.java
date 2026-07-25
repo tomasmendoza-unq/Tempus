@@ -15,7 +15,7 @@ public interface MateriaService {
 
     List<Materia> recuperarTodos();
 
-    List<Materia> recuperarMateriasDisponibles(Long alumnoId);
+    List<Materia> recuperarMateriasDisponibles(List<Long> idsMaterias, Long idCarrera);
 
     List<Materia> recuperarMateriasPorNombre(String nombreMateria);
 

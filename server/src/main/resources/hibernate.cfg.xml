@@ -20,5 +20,6 @@
         <mapping resource="hibernate/Usuario.hbm.xml"/>
         <mapping resource="hibernate/Horario.hbm.xml"/>
         <mapping resource="hibernate/ClaseHorario.hbm.xml"/>
+        <mapping resource="hibernate/Alumno.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

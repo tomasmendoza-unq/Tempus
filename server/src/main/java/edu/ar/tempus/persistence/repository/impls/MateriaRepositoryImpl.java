@@ -3,6 +3,7 @@ package edu.ar.tempus.persistence.repository.impls;
 import edu.ar.tempus.exceptions.business.DependenciaCircularException;
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
 import edu.ar.tempus.exceptions.business.RelacionCorrelativaYaExisteException;
+import edu.ar.tempus.feature.alumno.model.Alumno;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.persistence.neo4J.MateriaNeo4JDAO;
@@ -90,7 +91,7 @@ public class MateriaRepositoryImpl implements MateriaRepository {
     }
 
     @Override
-    public boolean validarSiCuentaConLasCorrelativas(Usuario alumno, List<Long> comisionIds) {
+    public boolean validarSiCuentaConLasCorrelativas(Alumno alumno, List<Long> comisionIds) {
         List<Long> materiasAprobadasIds = alumno.getMateriasAprobadas()
                 .stream()
                 .map(Materia::getMateriaId)

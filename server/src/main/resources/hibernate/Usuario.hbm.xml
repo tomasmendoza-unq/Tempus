@@ -18,26 +18,6 @@
 
         <property name="role" column="role" type="edu.ar.tempus.model.Role"/>
 
-        <many-to-one name="carreraActiva"
-                     class="edu.ar.tempus.model.Carrera"
-                     column="carrera_activa_id"
-                     not-null="false"/>
-
-        <bag name="comisiones" table="usuario_comision" lazy="false">
-            <key column="usuario_id"/>
-            <many-to-many class="edu.ar.tempus.model.Comision" column="comision_id"/>
-        </bag>
-
-        <bag name="materiasAprobadas" table="usuario_materia_aprobada" lazy="false">
-            <key column="usuario_id"/>
-            <many-to-many class="edu.ar.tempus.model.Materia" column="materia_id"/>
-        </bag>
-
-        <bag name="carreras" table="usuario_carrera" lazy="false">
-            <key column="usuario_id"/>
-            <many-to-many class="edu.ar.tempus.model.Carrera" column="carrera_id"/>
-        </bag>
-
     </class>
 
 </hibernate-mapping>

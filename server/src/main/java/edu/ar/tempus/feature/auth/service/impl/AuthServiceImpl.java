@@ -5,6 +5,8 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import edu.ar.tempus.controller.dto.auth.LoginResponseDTO;
+import edu.ar.tempus.feature.alumno.model.Alumno;
+import edu.ar.tempus.feature.alumno.service.AlumnoService;
 import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.security.jwt.JwtService;
 import edu.ar.tempus.security.user.UserDetailsImpl;
@@ -19,26 +21,31 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final UsuarioService usuarioService;
+
     private final PasswordEncoder passwordEncoder;
+
     private final AuthenticationManager authenticationManager;
+
     private final JwtService jwtService;
 
+    private final AlumnoService alumnoService;
 
     public AuthServiceImpl(
             UsuarioService usuarioService,
             PasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager,
-            JwtService jwtService) {
+            JwtService jwtService, AlumnoService alumnoService) {
 
         this.usuarioService = usuarioService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.alumnoService = alumnoService;
     }
 
-    public Usuario registrarUsuario(Usuario usuario, Long carreraId) {
+    public Usuario registrar(Usuario usuario, Long carreraId) {
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        return usuarioService.guardarUsuario(usuario, carreraId);
+        return alumnoService.guardar((Alumno) usuario, carreraId);
     }
 
     public LoginResponseDTO autenticarUsuario(UsernamePasswordAuthenticationToken token) {

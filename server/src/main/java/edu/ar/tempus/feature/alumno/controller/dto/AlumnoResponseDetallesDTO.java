@@ -1,10 +1,10 @@
-package edu.ar.tempus.controller.dto.usuario;
+package edu.ar.tempus.feature.alumno.controller.dto;
 
 import edu.ar.tempus.controller.dto.carrera.CarreraDTOResponse;
 import edu.ar.tempus.controller.dto.carrera.CarreraDTOResponseSimple;
 import edu.ar.tempus.controller.dto.comision.ComisionDTOResponseSimple;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponseSimple;
-import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.feature.alumno.model.Alumno;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
         name = "UsuarioResponseDetallesDTO",
         description = "Información detallada del perfil del usuario autenticado."
 )
-public record UsuarioResponseDetallesDTO(
+public record AlumnoResponseDetallesDTO(
 
         @Schema(
                 description = "Identificador único del usuario.",
@@ -60,17 +60,17 @@ public record UsuarioResponseDetallesDTO(
         CarreraDTOResponseSimple carreraActiva
 
 ) {
-    public static UsuarioResponseDetallesDTO desdeModelo(Usuario usuario) {
-        return new UsuarioResponseDetallesDTO(
-                usuario.getId(),
-                usuario.getEmail(),
-                usuario.getNombre(),
-                usuario.getApellido(),
-                usuario.getComisiones().stream().map(ComisionDTOResponseSimple::desdeModelo).toList(),
-                usuario.getMateriasAprobadas().stream().map(MateriaDTOResponseSimple::desdeModelo).toList(),
-                usuario.getCarreras().stream().map(CarreraDTOResponse::desdeModelo).toList(),
-                usuario.getCarreraActiva() != null
-                        ? CarreraDTOResponseSimple.desdeModelo(usuario.getCarreraActiva())
+    public static AlumnoResponseDetallesDTO desdeModelo(Alumno alumno) {
+        return new AlumnoResponseDetallesDTO(
+                alumno.getId(),
+                alumno.getEmail(),
+                alumno.getNombre(),
+                alumno.getApellido(),
+                alumno.getComisiones().stream().map(ComisionDTOResponseSimple::desdeModelo).toList(),
+                alumno.getMateriasAprobadas().stream().map(MateriaDTOResponseSimple::desdeModelo).toList(),
+                alumno.getCarreras().stream().map(CarreraDTOResponse::desdeModelo).toList(),
+                alumno.getCarreraActiva() != null
+                        ? CarreraDTOResponseSimple.desdeModelo(alumno.getCarreraActiva())
                         : null
         );
     }

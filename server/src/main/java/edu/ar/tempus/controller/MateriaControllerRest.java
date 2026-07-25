@@ -44,17 +44,6 @@ public final class MateriaControllerRest {
         return ResponseEntity.ok(MateriaDTOResponse.desdeModelo(materia));
     }
 
-    @GetMapping("/disponible")
-    public ResponseEntity<List<MateriaDTOResponseSimple>> getDisponibleMateria(Authentication authentication){
-
-        Long alumnoId = authUtils.getAlumnoId(authentication);
-
-        List<Materia> materias = materiaService.recuperarMateriasDisponibles(alumnoId);
-
-        List<MateriaDTOResponseSimple> response = materias.stream().map(MateriaDTOResponseSimple::desdeModelo).toList();
-
-        return ResponseEntity.ok(response);
-    }
 
     @GetMapping("/buscar/{nombreMateria}")
     public ResponseEntity<List<MateriaDTOResponseSimple>> buscarMaterias(@PathVariable String nombreMateria){

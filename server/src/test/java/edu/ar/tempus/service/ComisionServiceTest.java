@@ -1,6 +1,8 @@
 package edu.ar.tempus.service;
 
 import edu.ar.tempus.exceptions.business.EntityNotFoundException;
+import edu.ar.tempus.feature.alumno.model.Alumno;
+import edu.ar.tempus.feature.alumno.service.AlumnoService;
 import edu.ar.tempus.model.*;
 import edu.ar.tempus.persistence.neo4J.ComisionNeo4JDAO;
 import org.junit.jupiter.api.AfterEach;
@@ -33,7 +35,7 @@ public class ComisionServiceTest {
     private MateriaService materiaService;
 
     @Autowired
-    private UsuarioService usuarioService;
+    private AlumnoService alumnoService;
 
     @Autowired
     private ComisionNeo4JDAO comisionNeo4JDAO;
@@ -46,7 +48,7 @@ public class ComisionServiceTest {
 
     private Carrera sistemas;
 
-    private Usuario usuario1;
+    private Alumno alumno;
 
     private Materia inglesGuardada;
 
@@ -61,12 +63,12 @@ public class ComisionServiceTest {
 
         inglesGuardada = materiaService.guardar(ingles);
 
-        usuario1 = Usuario.builder()
+        alumno = Alumno.builder()
                 .email("tm@gmail.com")
                 .password("password123")
                 .nombre("Juan")
                 .apellido("Pérez")
-                .role(Role.USER)
+                .role(Role.ALUMNO)
                 .build();
 
         ClaseHorario lunes = ClaseHorario.builder()
@@ -132,7 +134,7 @@ public class ComisionServiceTest {
                 Carrera.builder().nombreCarrera("Lic. en sistemas").build(),
                 Set.of(matematicaGuardada.getMateriaId())
         );
-        usuario1 = usuarioService.guardarUsuario(usuario1, sistemas.getId());
+        alumno = alumnoService.guardar(alumno, sistemas.getId());
 
         ClaseHorario lunes = ClaseHorario.builder()
                 .dia(DiasSemana.LUNES)
@@ -155,8 +157,8 @@ public class ComisionServiceTest {
             );
         }
 
-        Page<Comision> primeraPagina = comisionService.recuperarComisiones(0, usuario1.getId());
-        Page<Comision> segundaPagina = comisionService.recuperarComisiones(1, usuario1.getId());
+        Page<Comision> primeraPagina = comisionService.recuperarComisiones(0, alumno);
+        Page<Comision> segundaPagina = comisionService.recuperarComisiones(1, alumno);
 
         assertEquals(9, primeraPagina.getContent().size(), "La primera página debería tener 9 comisiones");
         assertEquals(3, segundaPagina.getContent().size(), "La segunda página debería tener 3 comisiones");

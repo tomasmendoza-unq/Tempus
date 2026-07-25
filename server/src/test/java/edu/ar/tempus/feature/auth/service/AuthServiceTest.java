@@ -1,22 +1,20 @@
-package edu.ar.tempus.service;
+package edu.ar.tempus.feature.auth.service;
 
-import edu.ar.tempus.feature.auth.service.AuthService;
 import edu.ar.tempus.model.Carrera;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.model.Role;
 import edu.ar.tempus.model.Usuario;
+import edu.ar.tempus.service.CarreraService;
+import edu.ar.tempus.service.MateriaService;
+import edu.ar.tempus.service.ResetService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -70,8 +68,8 @@ public class AuthServiceTest {
                 .role(Role.ADMIN)
                 .build();
 
-        usuario1 = authService.registrarUsuario(usuario1, carreraId);
-        usuario2 = authService.registrarUsuario(usuario2, carreraId);
+        usuario1 = authService.registrar(usuario1, carreraId);
+        usuario2 = authService.registrar(usuario2, carreraId);
     }
 
 
