@@ -1,11 +1,15 @@
-package edu.ar.tempus.controller;
+package edu.ar.tempus.feature.usuario.controller;
 
-import edu.ar.tempus.controller.dto.usuario.UsuarioResponseDTO;
 import edu.ar.tempus.controller.dto.usuario.UsuarioResponseDetallesDTO;
 import edu.ar.tempus.controller.dto.usuario.UsuarioResponseSimpleDTO;
+import edu.ar.tempus.controller.exceptions.ErrorResponseDTO;
 import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.service.UsuarioService;
 import edu.ar.tempus.utils.AuthUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/usuario")
+@RequestMapping("/usuario")
 public final class UsuarioControllerREST {
 
     private final AuthUtils authUtils;
@@ -26,7 +30,25 @@ public final class UsuarioControllerREST {
     }
 
     @GetMapping
-    public ResponseEntity<UsuarioResponseDetallesDTO> obtenerDetallesCompletos(Authentication authentication) {
+    @Operation(summary = "Login de usuario")
+    @ApiResponse(
+            responseCode = "200",
+            description = "Login exitoso - Token en header Authorization",
+            headers = @io.swagger.v3.oas.annotations.headers.Header(
+                    name = "Authorization",
+                    description = "Bearer token",
+                    schema = @Schema(type = "string")
+            )
+    )
+    @ApiResponse(
+            responseCode = "401",
+            description = "Credenciales inválidas",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponseDTO.class)
+            )
+    )
+    public ResponseEntity<UsuarioResponseDetallesDTO> getPerfil(Authentication authentication) {
         Long alumnoId = authUtils.getAlumnoId(authentication);
 
         Usuario usuario = usuarioService.recuperarUsuarioPorId(alumnoId);
