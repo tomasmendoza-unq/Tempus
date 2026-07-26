@@ -7,9 +7,10 @@ import AuthForm from "../../components/form/AuthForm"
 import { inputs } from "./inputs"
 import { useFormData } from "../../../../shared/hooks/use-form-data"
 import { LinkCustom } from "../../components/link/LinkCustom"
+import { FormError } from "../../components/formError/FormError"
 
 export default function Login() {
-	const { login, loading } = useAuth()
+	const { login, loading, error } = useAuth()
 
 	const { formData, handleChange } = useFormData({
 		email: "",
@@ -39,6 +40,7 @@ export default function Login() {
 					formData={formData}
 					handleChange={handleChange}
 				/>
+				{error && <FormError error={error} />}
 
 				<AuthButton
 					loading={loading}

@@ -1,0 +1,92 @@
+package edu.ar.tempus.feature.materia.controller;
+
+import edu.ar.tempus.controller.dto.materia.AsociarMateriaDTORequest;
+import edu.ar.tempus.controller.dto.materia.MateriaDTORequest;
+import edu.ar.tempus.controller.dto.materia.MateriaDTOResponse;
+import edu.ar.tempus.controller.dto.materia.MateriaDTOResponseSimple;
+import edu.ar.tempus.feature.alumno.annotations.AlumnoEndpoints;
+import edu.ar.tempus.feature.alumno.service.AlumnoService;
+import edu.ar.tempus.model.Materia;
+
+import edu.ar.tempus.service.MateriaService;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/materia")
+public class MateriaControllerRest {
+
+    private final MateriaService materiaService;
+
+    private final AlumnoService alumnoService;
+
+    public MateriaControllerRest(MateriaService materiaService, AlumnoService alumnoService) {
+        this.materiaService = materiaService;
+        this.alumnoService = alumnoService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MateriaDTOResponseSimple>> getAllMateria(){
+        List<Materia> materias = materiaService.recuperarTodos();
+        List<MateriaDTOResponseSimple> response = materias.stream().map(MateriaDTOResponseSimple::desdeModelo).toList();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MateriaDTOResponse> getMateria(@PathVariable Long id) {
+        Materia materia = materiaService.recuperar(id);
+
+        return ResponseEntity.ok(MateriaDTOResponse.desdeModelo(materia));
+    }
+
+
+    @GetMapping("/buscar/{nombreMateria}")
+    public ResponseEntity<List<MateriaDTOResponseSimple>> buscarMaterias(@PathVariable String nombreMateria){
+        List<Materia> materias = materiaService.recuperarMateriasPorNombre(nombreMateria);
+
+        List<MateriaDTOResponseSimple> response = materias.stream().map(MateriaDTOResponseSimple::desdeModelo).toList();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/crear")
+    public ResponseEntity<MateriaDTOResponse> crearMateria(@RequestBody MateriaDTORequest materiaDTO) {
+        Materia materia = MateriaDTORequest.aModelo(materiaDTO);
+
+        Materia materiaGuardada = materiaService.guardar(materia);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(MateriaDTOResponse.desdeModelo(materiaGuardada));
+    }
+
+
+    @GetMapping("/materia/disponible")
+    @AlumnoEndpoints
+    public ResponseEntity<List<MateriaDTOResponseSimple>> getDisponibleMateria(@RequestAttribute("userId") Long idAlumno){
+        List<Materia> materias = alumnoService.recuperarMateriasDisponibles(idAlumno);
+
+        List<MateriaDTOResponseSimple> response = materias.stream().map(MateriaDTOResponseSimple::desdeModelo).toList();
+
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PostMapping("/asociar/{materiaOrigenId}/{materiaDestinoId}")
+    public ResponseEntity<String> asociarMateria(@PathVariable("materiaOrigenId") Long materiaOrigenId,
+                                               @PathVariable("materiaDestinoId") Long materiaDestinoId) {
+        materiaService.asociarMateria(materiaOrigenId, materiaDestinoId);
+        return ResponseEntity.ok("Asociado correctamente");
+    }
+
+
+    @PostMapping("/asociar")
+    public ResponseEntity<String> asociarMaterias(@RequestBody AsociarMateriaDTORequest asocMateriaDtoRequest){
+        materiaService.asociarMaterias(asocMateriaDtoRequest.materiaOrigenId(), asocMateriaDtoRequest.materiasDestinoIds());
+        return ResponseEntity.ok("Asociado correctamente");
+    }
+
+}

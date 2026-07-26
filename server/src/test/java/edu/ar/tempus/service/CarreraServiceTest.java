@@ -5,6 +5,8 @@ import edu.ar.tempus.controller.dto.claseHorario.ClaseHorarioDTORequest;
 import edu.ar.tempus.controller.dto.comision.ComisionDTORequestSimple;
 import edu.ar.tempus.controller.dto.materia.MateriaComisionDTORequest;
 import edu.ar.tempus.controller.dto.materia.MateriaDTORequest;
+import edu.ar.tempus.feature.alumno.model.Alumno;
+import edu.ar.tempus.feature.alumno.service.AlumnoService;
 import edu.ar.tempus.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,9 +43,9 @@ public class CarreraServiceTest {
     private Carrera carrera, carrera2;
 
     @Autowired
-    private UsuarioService usuarioService;
+    private AlumnoService alumnoService;
 
-    private Usuario usuario;
+    private Alumno alumno;
 
 
     @BeforeEach
@@ -63,19 +65,18 @@ public class CarreraServiceTest {
                 .nombreCarrera("informatica46")
                 .build();
 
-        usuario = Usuario.builder()
+        alumno = Alumno.builder()
                 .email("juan.perez@mail.com")
                 .password("password123")
                 .nombre("Juan")
                 .apellido("Pérez")
-                .telefono("221-4567890")
-                .role(Role.USER)
+                .role(Role.ALUMNO)
                 .build();
 
 
         Carrera carreraGuardada = carreraService.guardar(carrera2, Set.of(leaGuardada.getMateriaId()));
 
-        usuario = usuarioService.guardarUsuario(usuario, carreraGuardada.getId());
+        alumno = alumnoService.guardar(alumno, carreraGuardada.getId());
     }
 
     @Test
@@ -105,9 +106,9 @@ public class CarreraServiceTest {
         );
 
 
-        usuarioService.suscribirseACarrera(carreraGuardada.getId(), usuario.getId());
+        alumnoService.suscribirseACarrera(carreraGuardada.getId(), alumno.getId());
 
-        List<Carrera> carrerasNoSuscripto = carreraService.recuperarCarrerasPorAlumno(usuario.getId());
+        List<Carrera> carrerasNoSuscripto = carreraService.recuperarCarrerasPorAlumno(alumno.getId());
 
         assertFalse(carrerasNoSuscripto.stream()
                 .anyMatch(c -> c.getId().equals(carreraGuardada.getId()))

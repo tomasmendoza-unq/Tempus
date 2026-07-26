@@ -23,32 +23,13 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioDAOSQL usuarioDAOSQL;
-    private final ComisionService comisionService;
-    private final MateriaRepository materiaRepository;
-    private final CarreraDAOSQL carreraDAOSQL;
 
-    public UsuarioServiceImpl(UsuarioDAOSQL usuarioDAOSQL, ComisionService comisionService, MateriaRepository materiaRepository, CarreraDAOSQL carreraDAOSQL) {
+    public UsuarioServiceImpl(UsuarioDAOSQL usuarioDAOSQL) {
         this.usuarioDAOSQL = usuarioDAOSQL;
-        this.comisionService = comisionService;
-        this.materiaRepository = materiaRepository;
-        this.carreraDAOSQL = carreraDAOSQL;
     }
 
     @Override
-    public Usuario recuperarUsuarioPorId(Long idUsuario) {
-        return usuarioDAOSQL.findById(idUsuario).orElseThrow(() -> new EntityNotFoundException(Usuario.class.getName(), idUsuario));
-    }
-
-    @Override
-    public Usuario guardarUsuario(Usuario usuario, Long carreraId) {
-        Carrera carrera = carreraDAOSQL.findById(carreraId).orElseThrow(() -> new EntityNotFoundException(Carrera.class.getName(), carreraId));
-        if (this.recuperarUsuarioPorEmail(usuario.getEmail()).isPresent()) {
-            throw new EmailYaExisteException(
-                    "El email ya está registrado"
-            );
-        }
-        usuario.suscribirseACarrera(carrera);
-
+    public Usuario guardarUsuario(Usuario usuario) {
         return usuarioDAOSQL.save(usuario);
     }
 
@@ -57,84 +38,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioDAOSQL.findByEmailEqualsIgnoreCase(email);
     }
 
-    @Override
-    public void anotarseAComision(List<Long> comisionIds, Long alumnoId) {
-        Usuario alumno = recuperarUsuarioPorId(alumnoId);
-        //validarQueTieneLasMaterias(alumno, comisionIds);
-        validarQueNoEstaInscriptoANingunaComision(comisionIds, alumnoId);
-        List<Long> comisionesAnotadas = usuarioDAOSQL.recuperarComisionesIds(alumnoId);
-        comisionService.validarSuperPosicion(comisionIds, comisionesAnotadas);
-        List<Comision> comisiones = comisionService.recuperarPorIds(comisionIds);
-
-        alumno.anotarseAComisiones(comisiones);
-
-        usuarioDAOSQL.save(alumno);
-    }
-
-    private void validarQueTieneLasMaterias(Usuario alumno, List<Long> comisionIds) {
-        if (materiaRepository.validarSiCuentaConLasCorrelativas(alumno, comisionIds)) throw new AlumnoNoCuentaConLasCorrelativasException("El alumno no cuenta con las correlativas para anotarse");
-    }
-
-    @Override
-    public void aprobarMaterias(List<Long> comisionIds, Long alumnoId) {
-        Usuario alumno = recuperarUsuarioPorId(alumnoId);
-        //refactor aca para comprobar directamente que no se aprobo dos veces la misma materia
-
-
-        if(usuarioDAOSQL.yaAproboAlgunaDeLasMaterias(alumnoId, comisionIds))
-            throw new MateriaYaAprobadaException("El alumno ya aprobó una de las materias");
-
-        List<Materia> materiasAprobadas = comisionService.recuperarMateriasPorComision(comisionIds);
-        List<Comision> comisionesAprobadas = comisionService.recuperarPorIds(comisionIds);
-
-        alumno.aprobarMaterias(materiasAprobadas);
-        alumno.desanotarseDeComisiones(comisionesAprobadas);
-
-        usuarioDAOSQL.save(alumno);
-    }
-
-    @Override
-    public List<Long> recuperarMateriasAprobadasPorAlumno(Long alumnoId) {
-        return usuarioDAOSQL.findMateriasAprobadasById(alumnoId);
-    }
-
-    @Override
-    public void desaprobarMateria(Long materiaId, Long alumnoId) {
-        Usuario alumno = recuperarUsuarioPorId(alumnoId);
-        Materia materia = materiaRepository.getById(materiaId);
-
-
-        alumno.desaprobarMateria(materia);
-        usuarioDAOSQL.save(alumno);
-
-    }
-
-    @Override
-    public void suscribirseACarrera(Long carreraId, Long alumnoId) {
-        Carrera carrera = carreraDAOSQL.findById(carreraId).orElseThrow(() -> new EntityNotFoundException(Carrera.class.getName(), carreraId));;
-
-        Usuario alumno = recuperarUsuarioPorId(alumnoId);
-
-        alumno.suscribirseACarrera(carrera);
-
-        usuarioDAOSQL.save(alumno);
-    }
-
-    @Override
-    public void seleccionarCarreraActiva(Long carreraId, Long alumnoId) {
-        Carrera carrera = carreraDAOSQL.findById(carreraId).orElseThrow(() -> new EntityNotFoundException(Carrera.class.getName(), carreraId));
-
-        Usuario alumno = recuperarUsuarioPorId(alumnoId);
-
-        alumno.seleccionarCarreraActiva(carrera);
-
-        usuarioDAOSQL.save(alumno);
-    }
-
-    private void validarQueNoEstaInscriptoANingunaComision(List<Long> comisionIds, Long alumnoId) {
-        if(usuarioDAOSQL.estaInscriptoAComisionDeMismaMateria(alumnoId, comisionIds)) throw new AlumnoAnotadoAOtraComisionException("El alumno ya se encuentra inscripto en una de las comisiones");
-        if(comisionService.hayComisionesDeMismaMateriaEnNuevas(comisionIds)) throw new AlumnoAnotadoAOtraComisionException("El alumno ya se encuentra inscripto en una de las comisiones");
-    }
 
 
 }

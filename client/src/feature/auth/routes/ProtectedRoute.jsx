@@ -1,5 +1,6 @@
 import { Navigate } from "react-router"
 import { useAuth } from "../hook/use-auth"
+import { Spinner } from "../../../shared/components/spinner/Spinner"
 
 export const ProtectedRoute = ({ children }) => {
 	const { user, loading } = useAuth()

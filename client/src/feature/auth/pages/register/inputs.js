@@ -20,11 +20,6 @@ export const inputs = [
 		placeholder: "Apellido",
 	},
 	{
-		name: "telefono",
-		type: "text",
-		placeholder: "Teléfono",
-	},
-	{
 		name: "carreraId",
 		type: "select",
 		placeholder: "Seleccione una carrera",

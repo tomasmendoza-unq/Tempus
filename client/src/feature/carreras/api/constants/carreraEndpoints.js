@@ -1,0 +1,8 @@
+const BASE = "/carrera"
+
+export const CARRERA_ENDPOINTS = {
+	GET_CARRERAS: BASE,
+	GET_CARRERAS_DISPONIBLES: `${BASE}/disponibles`,
+	CREATE_CARRERA: BASE,
+	CREATE_CARRERA_BULK: `${BASE}/bulk`,
+}

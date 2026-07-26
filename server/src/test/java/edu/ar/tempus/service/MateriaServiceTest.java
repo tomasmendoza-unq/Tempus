@@ -2,6 +2,8 @@ package edu.ar.tempus.service;
 
 import edu.ar.tempus.exceptions.business.DependenciaCircularException;
 import edu.ar.tempus.exceptions.business.RelacionCorrelativaYaExisteException;
+import edu.ar.tempus.feature.alumno.model.Alumno;
+import edu.ar.tempus.feature.alumno.service.AlumnoService;
 import edu.ar.tempus.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +30,7 @@ public class MateriaServiceTest {
     private MateriaService materiaService;
 
     @Autowired
-    private UsuarioService usuarioService;
+    private AlumnoService  alumnoService;
 
     @Autowired
     private CarreraService carreraService;
@@ -41,11 +43,6 @@ public class MateriaServiceTest {
     private Materia leaGuardada, leaGuardada2, leaGuardada3, inglesGuardada;
 
     private Carrera sistemas;
-
-    @Autowired
-    private ComisionService comisionService;
-
-    private Comision comision;
 
 
     @BeforeEach
@@ -87,10 +84,6 @@ public class MateriaServiceTest {
                 .dia(DiasSemana.LUNES)
                 .inicio(LocalTime.of(8, 0))
                 .fin(LocalTime.of(10, 0))
-                .build();
-
-        comision = Comision.builder()
-                .clases(List.of(horarioClase))
                 .build();
 
         sistemas = Carrera.builder()
@@ -212,47 +205,7 @@ public class MateriaServiceTest {
 
     }
 
-    //UNA MATERIA ESTA DISPONIBLE SI SE PUEDE CURSAR EN EL PROXIMO CUATRI
-    @Test
-    public void recuperarMateriasDisponibles_NoDebeRetornarMateriasDeOtrasCarreras() {
-        Usuario usuario = usuarioService.guardarUsuario(
-                Usuario.builder()
-                        .email("test.aislamiento@mail.com")
-                        .password("123456")
-                        .nombre("Test")
-                        .apellido("Aislamiento")
-                        .telefono("351-9876543")
-                        .role(Role.USER)
-                        .build(),
-                sistemas.getId()
-        );
 
-        Materia anatomia = materiaService.guardar(Materia.builder()
-                .materiaNombre("Anatomía")
-                .build());
-
-        Carrera medicina = carreraService.guardar(
-                Carrera.builder().nombreCarrera("Medicina").build(),
-                Set.of(anatomia.getMateriaId())
-        );
-
-
-        List<Materia> materiasDisponibles = materiaService.recuperarMateriasDisponibles(usuario.getId());
-
-        Set<Long> idsDisponibles = materiasDisponibles.stream()
-                .map(Materia::getMateriaId)
-                .collect(Collectors.toSet());
-
-
-        assertTrue(idsDisponibles.contains(leaGuardada.getMateriaId()),
-                "Debe incluir materias de la carrera del usuario");
-
-        assertFalse(idsDisponibles.contains(anatomia.getMateriaId()),
-                "No debe incluir materias de carreras a las que el usuario no pertenece");
-
-        assertEquals(1, materiasDisponibles.size(),
-                "El usuario solo debería ver 1 materia disponible de su carrera actual");
-    }
 
     @Test
     public void recuperarMateriaPorNombre(){

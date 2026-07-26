@@ -3,6 +3,7 @@ package edu.ar.tempus.controller;
 import edu.ar.tempus.controller.dto.comision.ComisionDTORequest;
 import edu.ar.tempus.controller.dto.comision.ComisionDTOResponse;
 import edu.ar.tempus.controller.dto.comision.UpdateComisionDTORequest;
+import edu.ar.tempus.feature.alumno.service.AlumnoService;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.service.ComisionService;
 import edu.ar.tempus.utils.AuthUtils;
@@ -20,20 +21,19 @@ import java.util.List;
 public final class ComisionControllerRest {
 
     private final ComisionService comisionService;
-    private final AuthUtils authUtils;
+    private final AlumnoService alumnoService;
 
-    public ComisionControllerRest(ComisionService comisionService, AuthUtils authUtils) {
+    public ComisionControllerRest(ComisionService comisionService, AlumnoService alumnoService) {
         this.comisionService = comisionService;
-        this.authUtils = authUtils;
+        this.alumnoService = alumnoService;
     }
 
     @GetMapping
     public ResponseEntity<Page<ComisionDTOResponse>> obtenerComisiones(
             @RequestParam(defaultValue = "0") int page,
-            Authentication authentication
+            @RequestAttribute("userId") Long idAlumno
     ){
-        Long alumnoId = authUtils.getAlumnoId(authentication);
-        Page<Comision> comisiones = comisionService.recuperarComisiones(page, alumnoId);
+        Page<Comision> comisiones = alumnoService.recuperarComisionesByAlumnoId(page, idAlumno);
         Page<ComisionDTOResponse> response = comisiones.map(ComisionDTOResponse::desdeModelo);
 
         return new ResponseEntity<>(response, HttpStatus.OK);

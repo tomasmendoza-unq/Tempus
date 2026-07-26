@@ -1,5 +1,6 @@
 package edu.ar.tempus.persistence.repository;
 
+import edu.ar.tempus.feature.alumno.model.Alumno;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.model.Usuario;
 
@@ -14,7 +15,7 @@ public interface MateriaRepository {
 
     List<Materia> recuperarTodos();
 
-    List<Materia> recuperarMateriasDisponibles(List<Long> materiasAprobadas, Long id);
+    List<Materia> recuperarMateriasDisponibles(List<Long> materiasAprobadas, Long idCarrera);
 
     List<Materia> recuperarMateriasPorNombre(String nombreMateria);
 
@@ -24,7 +25,7 @@ public interface MateriaRepository {
 
     boolean existeDependenciaCircular(Long materiaOrigenId, Long materiaDestinoId);
 
-    boolean validarSiCuentaConLasCorrelativas(Usuario alumno, List<Long> comisionIds);
+    boolean validarSiCuentaConLasCorrelativas(Alumno alumno, List<Long> comisionIds);
 
     List<Materia> saveAll(List<Materia> materias);
 }

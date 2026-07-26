@@ -1,6 +1,7 @@
 package edu.ar.tempus.service;
 
 import edu.ar.tempus.controller.dto.comision.UpdateComisionDTORequest;
+import edu.ar.tempus.feature.alumno.model.Alumno;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
 import jakarta.validation.Valid;
@@ -22,7 +23,7 @@ public interface ComisionService {
 
     List<Materia> recuperarMateriasPorComision(List<Long> comisionIds);
 
-    Page<Comision> recuperarComisiones(int page, Long alumnoId);
+    Page<Comision> recuperarComisiones(int page, Alumno  alumno);
 
     Comision actualizar(Long idComision, UpdateComisionDTORequest updateComision);
 
