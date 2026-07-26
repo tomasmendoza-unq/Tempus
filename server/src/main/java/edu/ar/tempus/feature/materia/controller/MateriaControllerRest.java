@@ -1,19 +1,17 @@
-package edu.ar.tempus.controller;
+package edu.ar.tempus.feature.materia.controller;
 
 import edu.ar.tempus.controller.dto.materia.AsociarMateriaDTORequest;
 import edu.ar.tempus.controller.dto.materia.MateriaDTORequest;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponse;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponseSimple;
 import edu.ar.tempus.feature.alumno.annotations.AlumnoEndpoints;
+import edu.ar.tempus.feature.alumno.service.AlumnoService;
 import edu.ar.tempus.model.Materia;
 
 import edu.ar.tempus.service.MateriaService;
-import edu.ar.tempus.utils.AuthUtils;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,9 +22,11 @@ public final class MateriaControllerRest {
 
     private final MateriaService materiaService;
 
+    private final AlumnoService alumnoService;
 
-    public MateriaControllerRest(MateriaService materiaService) {
+    public MateriaControllerRest(MateriaService materiaService, AlumnoService alumnoService) {
         this.materiaService = materiaService;
+        this.alumnoService = alumnoService;
     }
 
     @GetMapping

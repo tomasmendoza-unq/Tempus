@@ -172,43 +172,7 @@ public class AlumnoControllerREST {
         return ResponseEntity.ok(CarreraDTOResponseSimple.desdeModelo(carrera));
     }
 
-    @GetMapping("/carreras/disponibles")
-    @Operation(
-            summary = "Obtener carreras disponibles",
-            description = "Retorna la lista de carreras en las que el alumno autenticado aún puede inscribirse."
-    )
-    @ApiResponse(
-            responseCode = "200",
-            description = "Carreras disponibles obtenidas correctamente.",
-            content = @Content(
-                    mediaType = "application/json",
-                    array = @ArraySchema(
-                            schema = @Schema(implementation = CarreraDTOResponseSimple.class)
-                    )
-            )
-    )
-    @AlumnoEndpoints
-    public ResponseEntity<List<CarreraDTOResponseSimple>> getCarrerasDisponibles(
-            @RequestAttribute("userId") Long idAlumno
-    ) {
-        List<Carrera> carreras = alumnoService.getCarrerasDisponibles(idAlumno);
 
-        return ResponseEntity.ok(
-                carreras.stream()
-                        .map(CarreraDTOResponseSimple::desdeModelo)
-                        .toList()
-        );
-    }
-
-    @GetMapping("/disponible")
-    @AlumnoEndpoints
-    public ResponseEntity<List<MateriaDTOResponseSimple>> getDisponibleMateria(@RequestAttribute("userId") Long idAlumno){
-        List<Materia> materias = alumnoService.recuperarMateriasDisponibles(idAlumno);
-
-        List<MateriaDTOResponseSimple> response = materias.stream().map(MateriaDTOResponseSimple::desdeModelo).toList();
-
-        return ResponseEntity.ok(response);
-    }
 
 
     @PutMapping("/carreras/{carreraId}/activar")
