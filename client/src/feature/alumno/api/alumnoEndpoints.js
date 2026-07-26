@@ -1,5 +1,7 @@
+const BASE = "/alumno"
+
 export const ALUMNO_ENDPOINTS = {
-	GET_ALUMNO: "/alumno",
-	POST_SUSCRIBIRSE_CARRERA: "/alumno/carreras/suscribirse",
-	POST_DESUSCRIBIRSE_CARRERA: "/alumno/carreras/desuscribirse",
+	GET_ALUMNO: BASE,
+	POST_SUSCRIBIRSE_CARRERA: `${BASE}/carreras/suscribirse`,
+	POST_DESUSCRIBIRSE_CARRERA: `${BASE}/carreras/desuscribirse`,
 }
