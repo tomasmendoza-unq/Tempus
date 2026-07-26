@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { ActionList } from "../../../../shared/components/actionList/ActionList"
-import { ListCard } from "../../../../shared/components/listCard/ListCard"
 import { Calendar } from "feather-icons-react"
 import Modal from "../../../../components/Ui/Modal/Modal"
 import { HorarioModalContent } from "../../../../components/Horario/HorarioModalContent"
+import { ComisionAnotada } from "./ComisionAnotada"
 
-export const ListComisiones = ({ comisiones, onAprobar }) => {
+export const ComisionesAnotadas = ({ comisiones, onAprobar }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 
 	return (
@@ -24,13 +24,7 @@ export const ListComisiones = ({ comisiones, onAprobar }) => {
 				}
 				emptyMessage="No hay registros de cursadas actuales."
 				renderItem={(com) => (
-					<ListCard
-						key={com.comisionId}
-						title={com.comisionNombre}
-						subtitle={`Materia: ${com.materiaNombre}`}
-					>
-						<button onClick={() => onAprobar(com.comisionId)}>Aprobar</button>
-					</ListCard>
+					<ComisionAnotada comision={com} onAprobar={onAprobar} />
 				)}
 			/>
 			<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>

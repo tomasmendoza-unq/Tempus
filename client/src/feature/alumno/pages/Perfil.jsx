@@ -1,14 +1,13 @@
 import { useEffect } from "react"
 import { InfoPersonal } from "../../../components/Perfil/InfoPersonal"
-import { ListaCursadas } from "../../../components/Perfil/ListaCursadas"
-import { ListaFinales } from "../../../components/Perfil/ListaFinales"
 import { useGetAlumnoDetails } from "../hook/use-get-alumno-details"
 import { UsePostSuscribirseCarrera } from "../hook/use-post-suscribirse-carrera"
 import { SuscripcionCarreras } from "../components/suscribirseCarrera/SuscripcionCarreras"
 import { UsePostDesuscribirseCarrera } from "../hook/use-post-desuscribirse-carrera"
 import { Spinner } from "../../../shared/components/spinner/Spinner"
-import { ListMaterias } from "../../materia/components/listMaterias/ListMaterias"
-import { ListComisiones } from "../../comision/components/listComisiones/ListComisiones"
+import { ComisionesAnotadas } from "../components/comisionesAnotadas/ComisionesAnotadas"
+import { MateriasAprobadas } from "../components/materiasAprobadas/MateriasAprobadas"
+import { useSuscripcionCarreras } from "../hook/use-suscripcion-carreras"
 
 export const Perfil = () => {
 	const {
@@ -19,32 +18,8 @@ export const Perfil = () => {
 		setAlumnoDetails,
 	} = useGetAlumnoDetails()
 
-	const { suscribirseCarrera } = UsePostSuscribirseCarrera()
-
-	const { desuscribirseCarrera } = UsePostDesuscribirseCarrera()
-
-	const handleDesuscribir = async (idCarrera) => {
-		const carreraEliminada = await desuscribirseCarrera(idCarrera)
-
-		if (!carreraEliminada) return
-
-		setAlumnoDetails((prev) => ({
-			...prev,
-			carreras: prev.carreras.filter(
-				(c) => c.idCarrera !== carreraEliminada.idCarrera
-			),
-		}))
-	}
-
-	const handleSuscribir = async (idCarrera) => {
-		const carreraAgregada = await suscribirseCarrera(idCarrera)
-		if (!carreraAgregada) return
-
-		setAlumnoDetails((prev) => ({
-			...prev,
-			carreras: [...prev.carreras, carreraAgregada],
-		}))
-	}
+	const { handleSuscribir, handleDesuscribir } =
+		useSuscripcionCarreras(setAlumnoDetails)
 
 	useEffect(() => {
 		fetchAlumnoDetails()
@@ -76,12 +51,12 @@ export const Perfil = () => {
 				/>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-					<ListComisiones
+					<ComisionesAnotadas
 						comisiones={alumnoDetails.comisiones}
 						// onAprobar={aprobarCursada}
 					/>
 
-					<ListMaterias
+					<MateriasAprobadas
 						materias={alumnoDetails.materiaDTOResponseSimples}
 						// onDesaprobar={desaprobarMateria}
 					/>
