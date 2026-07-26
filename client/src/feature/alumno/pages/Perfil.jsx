@@ -1,13 +1,12 @@
 import { useEffect } from "react"
 import { InfoPersonal } from "../../../components/Perfil/InfoPersonal"
 import { useGetAlumnoDetails } from "../hook/use-get-alumno-details"
-import { UsePostSuscribirseCarrera } from "../hook/use-post-suscribirse-carrera"
 import { SuscripcionCarreras } from "../components/suscribirseCarrera/SuscripcionCarreras"
-import { UsePostDesuscribirseCarrera } from "../hook/use-post-desuscribirse-carrera"
 import { Spinner } from "../../../shared/components/spinner/Spinner"
 import { ComisionesAnotadas } from "../components/comisionesAnotadas/ComisionesAnotadas"
 import { MateriasAprobadas } from "../components/materiasAprobadas/MateriasAprobadas"
 import { useSuscripcionCarreras } from "../hook/use-suscripcion-carreras"
+import { useCursadas } from "../hook/use-cursadas"
 
 export const Perfil = () => {
 	const {
@@ -20,6 +19,7 @@ export const Perfil = () => {
 
 	const { handleSuscribir, handleDesuscribir } =
 		useSuscripcionCarreras(setAlumnoDetails)
+	const { handleAprobar, handleDesaprobar } = useCursadas(setAlumnoDetails)
 
 	useEffect(() => {
 		fetchAlumnoDetails()
@@ -29,11 +29,14 @@ export const Perfil = () => {
 		return <Spinner />
 	}
 
-	if (error) <p>{error.message}</p>
-
 	return (
-		<div className="min-h-screen p-6 flex flex-col items-center">
-			<div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl border border-gray-100 space-y-8">
+		<main className="min-h-screen p-6 flex flex-col items-center">
+			<article className="bg-white p-8 rounded-xl shadow-lg w-full max-w-4xl border border-gray-100 space-y-8">
+				{error && (
+					<div className="bg-red-100 text-red-700 p-4 rounded-md">
+						<p>{error.message}</p>
+					</div>
+				)}
 				<InfoPersonal
 					nombre={alumnoDetails.nombre}
 					apellido={alumnoDetails.apellido}
@@ -42,26 +45,22 @@ export const Perfil = () => {
 
 				<SuscripcionCarreras
 					carrerasUsuario={alumnoDetails.carreras}
-					onSuscribir={(idCarrera) => {
-						handleSuscribir(idCarrera)
-					}}
-					onDesuscribir={(idCarrera) => {
-						handleDesuscribir(idCarrera)
-					}}
+					onSuscribir={handleSuscribir}
+					onDesuscribir={handleDesuscribir}
 				/>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+				<section className="grid grid-cols-1 md:grid-cols-2 gap-8">
 					<ComisionesAnotadas
 						comisiones={alumnoDetails.comisiones}
-						// onAprobar={aprobarCursada}
+						onAprobar={handleAprobar}
 					/>
 
 					<MateriasAprobadas
-						materias={alumnoDetails.materiaDTOResponseSimples}
-						// onDesaprobar={desaprobarMateria}
+						materias={alumnoDetails.cursadas}
+						onDesaprobar={handleDesaprobar}
 					/>
-				</div>
-			</div>
-		</div>
+				</section>
+			</article>
+		</main>
 	)
 }

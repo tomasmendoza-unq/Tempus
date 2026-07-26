@@ -1,4 +1,4 @@
-import { HeaderCursadas } from "../../../components/Perfil/HeaderCursadas"
+import { Header } from "../header/Header"
 
 export const ActionList = ({
 	items,
@@ -8,7 +8,7 @@ export const ActionList = ({
 	renderItem,
 }) => (
 	<section>
-		<HeaderCursadas title={headerTitle}>{headerAction}</HeaderCursadas>
+		<Header title={headerTitle}>{headerAction}</Header>
 
 		{items.length ? (
 			items.map(renderItem)

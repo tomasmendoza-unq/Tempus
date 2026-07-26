@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { Book, Plus } from "feather-icons-react"
-import { CarreraModalContent } from "../../../../components/Carrera/CarreraModalContent"
 import "./SuscripcionCarreras.css"
 import Modal from "../../../../components/Ui/Modal/Modal"
 import { UseGetCarrerasDisponibles } from "../../../carreras/hook/use-get-carreras-disponibles"
 import { ActionList } from "../../../../shared/components/actionList/ActionList"
 import { CarreraSuscriptaItem } from "../carreraSuscriptaItem/CarreraSuscriptaItem"
+import { CarreraModalContent } from "../../../carreras/components/carreraModalDisponible/CarreraModalContent"
 
 export function SuscripcionCarreras({
 	carrerasUsuario,
