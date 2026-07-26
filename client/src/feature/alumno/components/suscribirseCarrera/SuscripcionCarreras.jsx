@@ -1,10 +1,11 @@
 import { useState } from "react"
-import { Book, Plus, Trash2 } from "feather-icons-react"
+import { Book, Plus } from "feather-icons-react"
 import { CarreraModalContent } from "../../../../components/Carrera/CarreraModalContent"
 import "./SuscripcionCarreras.css"
 import Modal from "../../../../components/Ui/Modal/Modal"
 import { UseGetCarrerasDisponibles } from "../../../carreras/hook/use-get-carreras-disponibles"
 import { ActionList } from "../../../../shared/components/actionList/ActionList"
+import { CarreraSuscriptaItem } from "../carreraSuscriptaItem/CarreraSuscriptaItem"
 
 export function SuscripcionCarreras({
 	carrerasUsuario,
@@ -41,24 +42,10 @@ export function SuscripcionCarreras({
 				}
 				emptyMessage="Aún no estás suscripto a ninguna carrera."
 				renderItem={(carrera) => (
-					<div key={carrera.idCarrera} className="suscripcion-carreras__item">
-						<div className="suscripcion-carreras__item-info">
-							<span className="suscripcion-carreras__item-name">
-								{carrera.nombreCarrera}
-							</span>
-							<span className="suscripcion-carreras__item-code">
-								Código: {carrera.idCarrera}
-							</span>
-						</div>
-
-						<button
-							onClick={() => onDesuscribir?.(carrera.idCarrera)}
-							className="suscripcion-carreras__delete-btn"
-							title="Dar de baja carrera"
-						>
-							<Trash2 className="suscripcion-carreras__delete-icon" />
-						</button>
-					</div>
+					<CarreraSuscriptaItem
+						carrera={carrera}
+						onDesuscribir={onDesuscribir}
+					/>
 				)}
 			/>
 
