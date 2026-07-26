@@ -4,6 +4,7 @@ import edu.ar.tempus.controller.dto.materia.AsociarMateriaDTORequest;
 import edu.ar.tempus.controller.dto.materia.MateriaDTORequest;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponse;
 import edu.ar.tempus.controller.dto.materia.MateriaDTOResponseSimple;
+import edu.ar.tempus.feature.alumno.annotations.AlumnoEndpoints;
 import edu.ar.tempus.model.Materia;
 
 import edu.ar.tempus.service.MateriaService;
@@ -22,11 +23,10 @@ import java.util.List;
 public final class MateriaControllerRest {
 
     private final MateriaService materiaService;
-    private final AuthUtils authUtils;
 
-    public MateriaControllerRest(MateriaService materiaService, AuthUtils authUtils) {
+
+    public MateriaControllerRest(MateriaService materiaService) {
         this.materiaService = materiaService;
-        this.authUtils = authUtils;
     }
 
     @GetMapping
@@ -61,6 +61,17 @@ public final class MateriaControllerRest {
         Materia materiaGuardada = materiaService.guardar(materia);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(MateriaDTOResponse.desdeModelo(materiaGuardada));
+    }
+
+
+    @GetMapping("/materia/disponible")
+    @AlumnoEndpoints
+    public ResponseEntity<List<MateriaDTOResponseSimple>> getDisponibleMateria(@RequestAttribute("userId") Long idAlumno){
+        List<Materia> materias = alumnoService.recuperarMateriasDisponibles(idAlumno);
+
+        List<MateriaDTOResponseSimple> response = materias.stream().map(MateriaDTOResponseSimple::desdeModelo).toList();
+
+        return ResponseEntity.ok(response);
     }
 
 

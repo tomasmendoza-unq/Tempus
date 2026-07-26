@@ -5,22 +5,53 @@ import { ListaFinales } from "../../../components/Perfil/ListaFinales"
 import { useGetAlumnoDetails } from "../hook/use-get-alumno-details"
 import { UsePostSuscribirseCarrera } from "../hook/use-post-suscribirse-carrera"
 import { SuscripcionCarreras } from "../components/suscribirseCarrera/SuscripcionCarreras"
+import { UsePostDesuscribirseCarrera } from "../hook/use-post-desuscribirse-carrera"
+import { Spinner } from "../../../shared/components/spinner/Spinner"
+import { ListComisiones } from "../../comisiones/components/ListComisiones"
+import { ListMaterias } from "../../materia/components/listMaterias/ListMaterias"
 
 export const Perfil = () => {
-	const { alumnoDetails, loading, error, fetchAlumnoDetails } =
-		useGetAlumnoDetails()
+	const {
+		alumnoDetails,
+		loading,
+		error,
+		fetchAlumnoDetails,
+		setAlumnoDetails,
+	} = useGetAlumnoDetails()
 
 	const { suscribirseCarrera } = UsePostSuscribirseCarrera()
+
+	const { desuscribirseCarrera } = UsePostDesuscribirseCarrera()
+
+	const handleDesuscribir = async (idCarrera) => {
+		const carreraEliminada = await desuscribirseCarrera(idCarrera)
+
+		if (!carreraEliminada) return
+
+		setAlumnoDetails((prev) => ({
+			...prev,
+			carreras: prev.carreras.filter(
+				(c) => c.idCarrera !== carreraEliminada.idCarrera
+			),
+		}))
+	}
+
+	const handleSuscribir = async (idCarrera) => {
+		const carreraAgregada = await suscribirseCarrera(idCarrera)
+		if (!carreraAgregada) return
+
+		setAlumnoDetails((prev) => ({
+			...prev,
+			carreras: [...prev.carreras, carreraAgregada],
+		}))
+	}
+
 	useEffect(() => {
 		fetchAlumnoDetails()
 	}, [])
 
 	if (loading && !alumnoDetails) {
-		return (
-			<div className="min-h-screen flex items-center justify-center">
-				<div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-950"></div>
-			</div>
-		)
+		return <Spinner />
 	}
 
 	if (error) <p>{error.message}</p>
@@ -36,16 +67,21 @@ export const Perfil = () => {
 
 				<SuscripcionCarreras
 					carrerasUsuario={alumnoDetails.carreras}
-					onSuscribir={suscribirseCarrera}
+					onSuscribir={(idCarrera) => {
+						handleSuscribir(idCarrera)
+					}}
+					onDesuscribir={(idCarrera) => {
+						handleDesuscribir(idCarrera)
+					}}
 				/>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-					<ListaCursadas
+					<ListComisiones
 						comisiones={alumnoDetails.comisiones}
 						// onAprobar={aprobarCursada}
 					/>
 
-					<ListaFinales
+					<ListMaterias
 						materias={alumnoDetails.materiaDTOResponseSimples}
 						// onDesaprobar={desaprobarMateria}
 					/>

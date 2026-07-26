@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { Book, Plus, Trash2 } from "feather-icons-react"
 import { CarreraModalContent } from "../../../../components/Carrera/CarreraModalContent"
-import { UseGetCarrerasDisponibles } from "../../hook/use-get-carreras-disponibles"
 import "./SuscripcionCarreras.css"
 import Modal from "../../../../components/Ui/Modal/Modal"
+import { UseGetCarrerasDisponibles } from "../../../carreras/hook/use-get-carreras-disponibles"
 
 export function SuscripcionCarreras({
 	carrerasUsuario,

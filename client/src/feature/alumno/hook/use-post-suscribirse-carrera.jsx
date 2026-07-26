@@ -14,10 +14,11 @@ export const UsePostSuscribirseCarrera = () => {
 		if (!reponse.ok) {
 			setError(reponse.error)
 			setLoading(false)
-			return
+			return null
 		}
 
 		setLoading(false)
+		return reponse.data
 	}
 
 	return {

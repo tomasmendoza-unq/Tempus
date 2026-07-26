@@ -22,5 +22,5 @@ export const useGetAlumnoDetails = () => {
 		setLoading(false)
 	}
 
-	return { alumnoDetails, loading, error, fetchAlumnoDetails }
+	return { alumnoDetails, loading, error, fetchAlumnoDetails, setAlumnoDetails }
 }
