@@ -7,8 +7,8 @@ import { UsePostSuscribirseCarrera } from "../hook/use-post-suscribirse-carrera"
 import { SuscripcionCarreras } from "../components/suscribirseCarrera/SuscripcionCarreras"
 import { UsePostDesuscribirseCarrera } from "../hook/use-post-desuscribirse-carrera"
 import { Spinner } from "../../../shared/components/spinner/Spinner"
-import { ListComisiones } from "../../comisiones/components/ListComisiones"
 import { ListMaterias } from "../../materia/components/listMaterias/ListMaterias"
+import { ListComisiones } from "../../comision/components/listComisiones/ListComisiones"
 
 export const Perfil = () => {
 	const {

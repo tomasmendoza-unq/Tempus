@@ -4,6 +4,7 @@ import { CarreraModalContent } from "../../../../components/Carrera/CarreraModal
 import "./SuscripcionCarreras.css"
 import Modal from "../../../../components/Ui/Modal/Modal"
 import { UseGetCarrerasDisponibles } from "../../../carreras/hook/use-get-carreras-disponibles"
+import { ActionList } from "../../../../shared/components/actionList/ActionList"
 
 export function SuscripcionCarreras({
 	carrerasUsuario,
@@ -26,53 +27,40 @@ export function SuscripcionCarreras({
 
 	return (
 		<section className="suscripcion-carreras">
-			<div className="suscripcion-carreras__header">
-				<div className="suscripcion-carreras__title">
-					<Book className="suscripcion-carreras__icon" />
-					<h3>Mis Carreras</h3>
-				</div>
-				<button
-					onClick={handleAbrirModal}
-					className="suscripcion-carreras__add-btn"
-				>
-					<Plus className="suscripcion-carreras__add-icon" />
-					Nueva Carrera
-				</button>
-			</div>
+			<ActionList
+				items={carrerasUsuario}
+				headerTitle="Mis Carreras"
+				headerAction={
+					<button
+						onClick={handleAbrirModal}
+						className="suscripcion-carreras__add-btn"
+					>
+						<Plus className="suscripcion-carreras__add-icon" />
+						Nueva Carrera
+					</button>
+				}
+				emptyMessage="Aún no estás suscripto a ninguna carrera."
+				renderItem={(carrera) => (
+					<div key={carrera.idCarrera} className="suscripcion-carreras__item">
+						<div className="suscripcion-carreras__item-info">
+							<span className="suscripcion-carreras__item-name">
+								{carrera.nombreCarrera}
+							</span>
+							<span className="suscripcion-carreras__item-code">
+								Código: {carrera.idCarrera}
+							</span>
+						</div>
 
-			<div className="suscripcion-carreras__list-container">
-				{carrerasUsuario?.length > 0 ? (
-					<div className="suscripcion-carreras__list">
-						{carrerasUsuario.map((carrera) => (
-							<div
-								key={carrera.idCarrera}
-								className="suscripcion-carreras__item"
-							>
-								<div className="suscripcion-carreras__item-info">
-									<span className="suscripcion-carreras__item-name">
-										{carrera.nombreCarrera}
-									</span>
-									<span className="suscripcion-carreras__item-code">
-										Código: {carrera.idCarrera}
-									</span>
-								</div>
-
-								<button
-									onClick={() => onDesuscribir?.(carrera.idCarrera)}
-									className="suscripcion-carreras__delete-btn"
-									title="Dar de baja carrera"
-								>
-									<Trash2 className="suscripcion-carreras__delete-icon" />
-								</button>
-							</div>
-						))}
-					</div>
-				) : (
-					<div className="suscripcion-carreras__empty">
-						Aún no estás suscripto a ninguna carrera.
+						<button
+							onClick={() => onDesuscribir?.(carrera.idCarrera)}
+							className="suscripcion-carreras__delete-btn"
+							title="Dar de baja carrera"
+						>
+							<Trash2 className="suscripcion-carreras__delete-icon" />
+						</button>
 					</div>
 				)}
-			</div>
+			/>
 
 			<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
 				<CarreraModalContent

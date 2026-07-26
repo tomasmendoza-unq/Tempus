@@ -3,11 +3,12 @@ import { HeaderCursadas } from "../../../components/Perfil/HeaderCursadas"
 export const ActionList = ({
 	items,
 	headerTitle,
+	headerAction,
 	emptyMessage,
 	renderItem,
 }) => (
 	<section>
-		<HeaderCursadas title={headerTitle} />
+		<HeaderCursadas title={headerTitle}>{headerAction}</HeaderCursadas>
 
 		{items.length ? (
 			items.map(renderItem)
