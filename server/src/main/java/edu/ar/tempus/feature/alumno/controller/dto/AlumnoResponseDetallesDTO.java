@@ -47,7 +47,7 @@ public record AlumnoResponseDetallesDTO(
         @Schema(
                 description = "Materias aprobadas por el usuario."
         )
-        List<MateriaDTOResponseSimple> materiaDTOResponseSimples,
+        List<MateriaDTOResponseSimple> cursadas,
 
         @Schema(
                 description = "Carreras a las que pertenece el usuario."

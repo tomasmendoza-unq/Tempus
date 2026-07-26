@@ -8,12 +8,10 @@ import edu.ar.tempus.feature.alumno.service.AlumnoService;
 import edu.ar.tempus.model.Carrera;
 import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
-import edu.ar.tempus.model.Usuario;
 import edu.ar.tempus.persistence.repository.MateriaRepository;
 import edu.ar.tempus.persistence.sql.CarreraDAOSQL;
 import edu.ar.tempus.service.CarreraService;
 import edu.ar.tempus.service.ComisionService;
-import edu.ar.tempus.service.UsuarioService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -98,6 +96,21 @@ public class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
+    public Materia aprobarComision(Long idComision, Long idAlumno) {
+        Alumno alumno = getAlumnoById(idAlumno);
+
+        Comision comision = comisionService.recuperar(idComision);
+
+        Materia materia = comision.getMateria();
+
+        alumno.aprobarMateria(materia);
+
+        alumnoDAOSQL.save(alumno);
+
+        return materia;
+    }
+
+    @Override
     public List<Materia> recuperarMateriasDisponibles(Long alumnoId) {
         Alumno alumno = this.getAlumnoById(alumnoId);
         List<Long> materiasAprobadas =  this.recuperarMateriasAprobadasPorAlumno(alumnoId);
@@ -150,16 +163,16 @@ public class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
-    public void desaprobarMateria(Long materiaId, Long alumnoId) {
+    public Materia desaprobarMateria(Long materiaId, Long alumnoId) {
         Alumno alumno = getAlumnoById(alumnoId);
 
         Materia materia = materiaRepository.getById(materiaId);
-
 
         alumno.desaprobarMateria(materia);
 
         alumnoDAOSQL.save(alumno);
 
+        return materia;
     }
 
     @Override

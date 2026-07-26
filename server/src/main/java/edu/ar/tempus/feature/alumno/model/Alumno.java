@@ -77,4 +77,7 @@ public class Alumno extends Usuario {
         carreras.remove(carrera);
     }
 
+    public void aprobarMateria(Materia materia) {
+        materiasAprobadas.add(materia);
+    }
 }

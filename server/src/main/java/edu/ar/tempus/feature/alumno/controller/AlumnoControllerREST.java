@@ -9,6 +9,7 @@ import edu.ar.tempus.feature.alumno.model.Alumno;
 import edu.ar.tempus.feature.alumno.service.AlumnoService;
 import edu.ar.tempus.feature.carrera.controller.dto.SuscripcionCarreraRequestDTO;
 import edu.ar.tempus.model.Carrera;
+import edu.ar.tempus.model.Comision;
 import edu.ar.tempus.model.Materia;
 import edu.ar.tempus.utils.AuthUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -76,22 +77,22 @@ public class AlumnoControllerREST {
         return ResponseEntity.ok("Se realizo con exito la operacion");
     }
 
-    @PostMapping("/aprobar/{comisionesId}")
+    @PostMapping("/comision/aprobar/{comisionId}")
     @AlumnoEndpoints
-    public ResponseEntity<String> AprobarAMateria(@PathVariable("comisionesId") List<Long> comisionId,
+    public ResponseEntity<MateriaDTOResponseSimple> AprobarAMateria(@PathVariable("comisionId") Long comisionId,
                                                   @RequestAttribute("userId") Long idAlumno) {
-        alumnoService.aprobarMaterias(comisionId, idAlumno);
+        Materia materia = alumnoService.aprobarComision(comisionId, idAlumno);
 
-        return ResponseEntity.ok("Se realizo con exito la operacion");
+        return ResponseEntity.ok(MateriaDTOResponseSimple.desdeModelo(materia));
     }
 
-    @PostMapping("/desaprobar/{materiaId}")
+    @PostMapping("/materia/desaprobar/{materiaId}")
     @AlumnoEndpoints
-    public ResponseEntity<String> DesaprobarMateria(@PathVariable("materiaId") Long materiaId,
+    public ResponseEntity<MateriaDTOResponseSimple> DesaprobarMateria(@PathVariable("materiaId") Long materiaId,
                                                     @RequestAttribute("userId") Long idAlumno) {
-        alumnoService.desaprobarMateria(materiaId, idAlumno);
+        Materia materia = alumnoService.desaprobarMateria(materiaId, idAlumno);
 
-        return ResponseEntity.ok("Se realizo con exito la operacion");
+        return ResponseEntity.ok(MateriaDTOResponseSimple.desdeModelo(materia));
     }
 
     @PostMapping("/carreras/suscribirse")

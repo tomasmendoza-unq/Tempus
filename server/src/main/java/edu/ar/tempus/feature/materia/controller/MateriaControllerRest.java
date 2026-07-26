@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/materia")
-public final class MateriaControllerRest {
+public class MateriaControllerRest {
 
     private final MateriaService materiaService;
 

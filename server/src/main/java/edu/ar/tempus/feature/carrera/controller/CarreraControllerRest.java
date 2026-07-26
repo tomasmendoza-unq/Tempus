@@ -23,19 +23,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/carrera")
-public final class CarreraControllerRest {
+public class CarreraControllerRest {
 
     private final CarreraService carreraService;
 
     private final AlumnoService alumnoService;
 
-    private final AuthUtils authUtils;
-
-
-    public CarreraControllerRest(CarreraService carreraService, AlumnoService alumnoService, AuthUtils authUtils) {
+    public CarreraControllerRest(CarreraService carreraService, AlumnoService alumnoService) {
         this.carreraService = carreraService;
         this.alumnoService = alumnoService;
-        this.authUtils = authUtils;
     }
 
     @GetMapping
@@ -59,7 +55,7 @@ public final class CarreraControllerRest {
     }
 
 
-    @GetMapping("/carreras/disponibles")
+    @GetMapping("/disponibles")
     @Operation(
             summary = "Obtener carreras disponibles",
             description = "Retorna la lista de carreras en las que el alumno autenticado aún puede inscribirse."
