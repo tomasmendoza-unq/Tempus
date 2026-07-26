@@ -1,0 +1,119 @@
+.not-found {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1.5rem;
+	background-color: var(--background-color);
+}
+
+.not-found__card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: 0.75rem;
+	max-width: 26rem;
+	width: 100%;
+	padding: 3rem 2.5rem;
+	background-color: var(--background-color-secondary);
+	border-radius: var(--border-radius);
+	box-shadow: var(--box-shadow);
+}
+
+.not-found__eyebrow {
+	font-size: 0.7rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	color: var(--btn-primary-hover);
+	background-color: var(--background-color);
+	padding: 0.3rem 0.75rem;
+	border-radius: 9999px;
+	border: 1px solid var(--btn-primary-hover);
+}
+
+.not-found__code {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	margin: 0.5rem 0;
+}
+
+.not-found__digit {
+	font-size: 4.5rem;
+	font-weight: 900;
+	line-height: 1;
+	color: var(--btn-primary-hover);
+	letter-spacing: -0.03em;
+}
+
+.not-found__icon-wrap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 4.5rem;
+	height: 4.5rem;
+	border-radius: 50%;
+	background-color: var(--navbar-background);
+	animation: not-found-spin 6s linear infinite;
+}
+
+.not-found__icon {
+	width: 2.25rem;
+	height: 2.25rem;
+	color: var(--btn-primery-color);
+}
+
+@keyframes not-found-spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.not-found__title {
+	font-size: 1.25rem;
+	font-weight: bold;
+	color: var(--color-primary);
+	margin-top: 0.5rem;
+}
+
+.not-found__subtitle {
+	font-size: 0.875rem;
+	color: var(--btn-disable);
+	line-height: 1.5;
+}
+
+.not-found__link {
+	margin-top: 0.75rem;
+	background-color: var(--btn-primary);
+	color: var(--btn-primery-color);
+	font-size: 0.75rem;
+	font-weight: 900;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	padding: 0.75rem 1.75rem;
+	border-radius: var(--border-radius);
+	text-decoration: none;
+	transition:
+		background-color 150ms ease,
+		transform 150ms ease;
+}
+
+.not-found__link:hover {
+	background-color: var(--btn-primary-hover);
+}
+
+.not-found__link:active {
+	transform: scale(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.not-found__icon-wrap {
+		animation: none;
+	}
+}
