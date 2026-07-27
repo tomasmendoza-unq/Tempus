@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/materia")
+@RequestMapping("/materia")
 public class MateriaControllerRest {
 
     private final MateriaService materiaService;
@@ -64,7 +64,7 @@ public class MateriaControllerRest {
     }
 
 
-    @GetMapping("/materia/disponible")
+    @GetMapping("/disponible")
     @AlumnoEndpoints
     public ResponseEntity<List<MateriaDTOResponseSimple>> getDisponibleMateria(@RequestAttribute("userId") Long idAlumno){
         List<Materia> materias = alumnoService.recuperarMateriasDisponibles(idAlumno);
