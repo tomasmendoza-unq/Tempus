@@ -18,3 +18,9 @@
 	font-size: 1.5rem;
 	font-weight: 700;
 }
+
+.navbar__logo {
+	height: 64px;
+	width: auto;
+	display: block;
+}
