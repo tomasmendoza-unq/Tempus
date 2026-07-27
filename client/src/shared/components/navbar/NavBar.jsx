@@ -7,7 +7,11 @@ export const NavBar = ({ navLinks, footer }) => {
 		<header className="navbar">
 			<div className="navbar__brand">
 				<Link to="/">
-					<h1 className="navbar__title">Tempus</h1>
+					<img
+						src="https://res.cloudinary.com/dvkvlpq07/image/upload/v1785110781/navbar_uircg2.png"
+						alt="Tempus"
+						className="navbar__logo"
+					/>
 				</Link>
 			</div>
 			<HamburgerMenu navLinks={navLinks} footer={footer} />
