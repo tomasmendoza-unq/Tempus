@@ -5,6 +5,7 @@ import edu.ar.tempus.controller.dto.materia.MateriaDTOResponseSimple;
 import edu.ar.tempus.feature.alumno.annotations.AlumnoEndpoints;
 import edu.ar.tempus.feature.alumno.controller.dto.AlumnoResponseDetallesDTO;
 import edu.ar.tempus.controller.exceptions.ErrorResponseDTO;
+import edu.ar.tempus.feature.alumno.controller.dto.InscribirseComisionesRequestDTO;
 import edu.ar.tempus.feature.alumno.model.Alumno;
 import edu.ar.tempus.feature.alumno.service.AlumnoService;
 import edu.ar.tempus.feature.carrera.controller.dto.SuscripcionCarreraRequestDTO;
@@ -68,11 +69,11 @@ public class AlumnoControllerREST {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/anotarse/{comisionesId}")
+    @PostMapping("/comision/inscribirse")
     @AlumnoEndpoints
-    public ResponseEntity<String> anotarseAComisiones(@PathVariable("comisionesId") List<Long> comisionId,
+    public ResponseEntity<String> anotarseAComisiones(@RequestBody InscribirseComisionesRequestDTO request,
                                                       @RequestAttribute("userId") Long idAlumno) {
-        alumnoService.anotarseAComision(comisionId, idAlumno); //aca se podria generar un certificado
+        alumnoService.anotarseAComision(request.comisionesId(), idAlumno); //aca se podria generar un certificado
 
         return ResponseEntity.ok("Se realizo con exito la operacion");
     }
