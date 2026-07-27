@@ -27,7 +27,6 @@ const useCarrera = () => {
 			toast.error(
 				error.response?.data?.message || "Error al procesar la carga masiva"
 			)
-			console.log(error)
 			throw error
 		}
 	}

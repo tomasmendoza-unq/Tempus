@@ -78,7 +78,6 @@ export function useUser() {
 			localStorage.setItem("tempus_carrera_id", carrera.idCarrera)
 		} catch (err) {
 			fetchUserFailure(err.message || "Error al seleccionar carrera")
-			console.log(err)
 			toast.error("No se pudo seleccionar la carrera")
 		}
 	}
