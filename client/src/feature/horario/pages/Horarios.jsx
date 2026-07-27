@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react"
-import { useGenerarHorario } from "../../../hooks/useHorario"
 import { MateriaSelector } from "../../../components/Horario/MateriaSelector"
 import { GeneradorControls } from "../../../components/Horario/GeneradorControls"
 import { ResultadoList } from "../../../components/Horario/ResultadoList"
 import { UseGetDisponiblesMaterias } from "../../materia/hook/use-get-disponibles-materias"
+import { usePostHorarioCompatible } from "../hook/use-post-horario-compatible"
 
 export default function GeneradorHorarios() {
-	const { generarHorarios, cargando, resultados } = useGenerarHorario()
+	const [resultados, setResultados] = useState([])
+
+	const {
+		generarHorarios,
+		loading: loadingGenerar,
+		error: errorGenerar,
+	} = usePostHorarioCompatible()
 
 	const { getMateriasDisponibles, materias, loading, error } =
 		UseGetDisponiblesMaterias()
@@ -25,10 +31,12 @@ export default function GeneradorHorarios() {
 		)
 	}
 
-	const handleCalcular = () => {
+	const handleCalcular = async () => {
 		if (selectedIds.length === 0)
 			return alert("Seleccioná al menos una materia")
-		generarHorarios(selectedIds, cantidad)
+		const response = await generarHorarios(selectedIds, cantidad)
+		if (errorGenerar) return alert("Error al generar horarios: " + errorGenerar)
+		setResultados(response)
 	}
 
 	return (
@@ -47,11 +55,11 @@ export default function GeneradorHorarios() {
 				cantidad={cantidad}
 				setCantidad={setCantidad}
 				onCalcular={handleCalcular}
-				cargando={cargando}
+				cargando={loadingGenerar}
 				disabled={selectedIds.length === 0}
 			/>
 
-			<ResultadoList resultados={resultados} cargando={cargando} />
+			<ResultadoList resultados={resultados} cargando={loadingGenerar} />
 		</div>
 	)
 }

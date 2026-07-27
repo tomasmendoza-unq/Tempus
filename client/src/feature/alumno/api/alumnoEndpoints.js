@@ -8,4 +8,5 @@ export const ALUMNO_ENDPOINTS = {
 		`${BASE}/materia/desaprobar/${idMateria}`,
 	POST_APROBAR_COMISION: (idComision) =>
 		`${BASE}/comision/aprobar/${idComision}`,
+	POST_INSCRIBIRSE: `${BASE}/comision/inscribirse`,
 }
