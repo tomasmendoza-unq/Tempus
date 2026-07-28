@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
-import { MateriaSelector } from "../../../components/Horario/MateriaSelector"
+import { MateriaSelector } from "../../materia/components/materiaSelector/MateriaSelector"
 import { GeneradorControls } from "../../../components/Horario/GeneradorControls"
 import { ResultadoList } from "../../../components/Horario/ResultadoList"
 import { UseGetDisponiblesMaterias } from "../../materia/hook/use-get-disponibles-materias"
 import { usePostHorarioCompatible } from "../hook/use-post-horario-compatible"
+import { FormHorario } from "../components/form/FormHorario"
+import { useFormData } from "../../../shared/hooks/use-form-data"
 
-export default function GeneradorHorarios() {
+export default function GenerarHorario() {
 	const [resultados, setResultados] = useState([])
 
 	const {
@@ -17,49 +19,49 @@ export default function GeneradorHorarios() {
 	const { getMateriasDisponibles, materias, loading, error } =
 		UseGetDisponiblesMaterias()
 
-	const [selectedIds, setSelectedIds] = useState([])
-	const [cantidad, setCantidad] = useState(3)
-
+	const { formData, handleChange, setField } = useFormData({
+		selectedIds: [],
+		cantidad: 3,
+	})
 	useEffect(() => {
 		getMateriasDisponibles()
-		setSelectedIds([])
+		setField("selectedIds", [])
 	}, [])
 
 	const toggleMateria = (id) => {
-		setSelectedIds((prev) =>
-			prev.includes(id) ? prev.filter((mId) => mId !== id) : [...prev, id]
-		)
+		const nuevos = formData.selectedIds.includes(id)
+			? formData.selectedIds.filter((mId) => mId !== id)
+			: [...formData.selectedIds, id]
+		setField("selectedIds", nuevos)
 	}
 
-	const handleCalcular = async () => {
-		if (selectedIds.length === 0)
+	const handleCalcular = async (e) => {
+		e.preventDefault()
+		if (formData.selectedIds.length === 0)
 			return alert("Seleccioná al menos una materia")
-		const response = await generarHorarios(selectedIds, cantidad)
-		if (errorGenerar) return alert("Error al generar horarios: " + errorGenerar)
+		const response = await generarHorarios(
+			formData.selectedIds,
+			Number(formData.cantidad)
+		)
 		setResultados(response)
 	}
 
 	return (
-		<div className="flex flex-col p-6 space-y-6">
-			<h2 className="text-2xl font-bold text-white text-center">
-				Gestion Horarios
-			</h2>
+		<main className="flex flex-col p-6 space-y-6">
 			<MateriaSelector
 				materias={materias}
-				selectedIds={selectedIds}
+				selectedIds={formData.selectedIds}
 				onToggle={toggleMateria}
 				cargando={loading}
 			/>
-
-			<GeneradorControls
-				cantidad={cantidad}
-				setCantidad={setCantidad}
-				onCalcular={handleCalcular}
-				cargando={loadingGenerar}
-				disabled={selectedIds.length === 0}
+			<FormHorario
+				formData={formData}
+				handleChange={handleChange}
+				onSubmit={handleCalcular}
+				loading={loadingGenerar}
 			/>
 
 			<ResultadoList resultados={resultados} cargando={loadingGenerar} />
-		</div>
+		</main>
 	)
 }

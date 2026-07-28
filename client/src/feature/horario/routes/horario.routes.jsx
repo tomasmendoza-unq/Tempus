@@ -1,5 +1,5 @@
-import GeneradorHorarios from "../pages/Horarios"
+import GenerarHorario from "../pages/GenerarHorario"
 
 export const horarioRoutes = [
-	{ path: "/horarios", element: <GeneradorHorarios /> },
+	{ path: "/horarios", element: <GenerarHorario /> },
 ]

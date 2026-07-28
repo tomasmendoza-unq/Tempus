@@ -1,4 +1,4 @@
-.auth-input {
+.text-input {
 	width: 100%;
 	border: 1px solid #d1d5db;
 	padding: 0.5rem;
@@ -6,6 +6,6 @@
 	outline: none;
 }
 
-.auth-input:focus {
+.text-input:focus {
 	box-shadow: 0 0 0 2px #7f1d1d;
 }

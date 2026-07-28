@@ -1,15 +1,14 @@
 import { useEffect } from "react"
 import { UseGetCarreras } from "../../../../feature/carreras/hook/use-get-carreras"
-import SelectField from "../../../../components/Ui/Select/SelectField"
-import AuthButton from "../../components/button/AuthButton"
 import { inputs } from "./inputs"
 import { useAuth } from "../../hook/use-auth"
 import { SelectCarrera } from "../../../carreras/components/SelectCarrera"
 import { useFormData } from "../../../../shared/hooks/use-form-data"
-import AuthForm from "../../components/form/AuthForm"
 import AuthLayout from "../../components/layout/AuthLayout"
 import { LinkCustom } from "../../components/link/LinkCustom"
 import { FormError } from "../../components/formError/FormError"
+import Button from "../../../../shared/components/button/Button"
+import DynamicForm from "../../../../shared/components/form/DynamicForm"
 
 export default function Register() {
 	const { register, loading, error } = useAuth()
@@ -46,7 +45,7 @@ export default function Register() {
 			}
 		>
 			<form onSubmit={handleSubmit} method="POST" className="space-y-4">
-				<AuthForm
+				<DynamicForm
 					inputs={inputs}
 					formData={formData}
 					handleChange={handleChange}
@@ -62,7 +61,8 @@ export default function Register() {
 				/>
 				{error && <FormError error={error} />}
 
-				<AuthButton
+				<Button
+					type="submit"
 					loading={loading}
 					text="Registrarse"
 					loadingText="Registrando..."
