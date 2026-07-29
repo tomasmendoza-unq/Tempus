@@ -77,7 +77,8 @@ public class Alumno extends Usuario {
         carreras.remove(carrera);
     }
 
-    public void aprobarMateria(Materia materia) {
-        materiasAprobadas.add(materia);
+    public void aprobarMateria(Comision comision) {
+        comisiones.remove(comision);
+        materiasAprobadas.add(comision.getMateria());
     }
 }

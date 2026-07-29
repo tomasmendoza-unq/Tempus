@@ -101,13 +101,11 @@ public class AlumnoServiceImpl implements AlumnoService {
 
         Comision comision = comisionService.recuperar(idComision);
 
-        Materia materia = comision.getMateria();
-
-        alumno.aprobarMateria(materia);
+        alumno.aprobarMateria(comision);
 
         alumnoDAOSQL.save(alumno);
 
-        return materia;
+        return comision.getMateria();
     }
 
     @Override
