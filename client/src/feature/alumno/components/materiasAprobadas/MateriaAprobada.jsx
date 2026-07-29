@@ -1,3 +1,5 @@
+import { Trash2 } from "feather-icons-react"
+
 export const MateriaAprobada = ({ materia, onDesaprobar }) => (
 	<div
 		key={materia.materiaId}

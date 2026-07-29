@@ -1,8 +1,9 @@
+import { Grid } from "../../../../shared/components/grid/Grid"
 import { MateriaButton } from "../materiaButton/MateriaButton"
 
 export function MateriaGrid({ materias, selectedIds, onToggle }) {
 	return (
-		<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+		<Grid>
 			{materias?.map((materia) => (
 				<MateriaButton
 					key={materia.materiaId}
@@ -11,6 +12,6 @@ export function MateriaGrid({ materias, selectedIds, onToggle }) {
 					onToggle={onToggle}
 				/>
 			))}
-		</div>
+		</Grid>
 	)
 }

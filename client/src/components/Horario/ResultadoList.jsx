@@ -1,5 +1,6 @@
 import { HorarioGrid } from "./HorarioGrid"
 import { usePostIncribirseComisiones } from "../../feature/alumno/hook/use-post-inscribirse-comisiones"
+import { toast } from "react-toastify"
 
 export function ResultadoList({ resultados, cargando }) {
 	const { inscribirse, loading, error } = usePostIncribirseComisiones()
@@ -11,6 +12,13 @@ export function ResultadoList({ resultados, cargando }) {
 				Generar.
 			</div>
 		)
+	}
+
+	const onInscribirse = async (horario) => {
+		const comisionesIds = horario.comisiones.map((c) => c.comisionId)
+		inscribirse(comisionesIds)
+		if (error) toast.error(error)
+		else toast.success("Inscripción realizada con éxito")
 	}
 
 	return (
@@ -31,12 +39,7 @@ export function ResultadoList({ resultados, cargando }) {
 						</div>
 
 						<button
-							onClick={() => {
-								const comisionesIds = horario.comisiones.map(
-									(c) => c.comisionId
-								)
-								inscribirse(comisionesIds)
-							}}
+							onClick={() => onInscribirse(horario)}
 							disabled={loading}
 							className="px-4 py-2 bg-red-950 text-white text-xs font-bold rounded-lg hover:bg-red-900 disabled:bg-gray-400 transition-colors shadow-sm active:scale-95"
 						>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { MateriaSelector } from "../../materia/components/materiaSelector/MateriaSelector"
-import { GeneradorControls } from "../../../components/Horario/GeneradorControls"
 import { ResultadoList } from "../../../components/Horario/ResultadoList"
 import { UseGetDisponiblesMaterias } from "../../materia/hook/use-get-disponibles-materias"
 import { usePostHorarioCompatible } from "../hook/use-post-horario-compatible"
 import { FormHorario } from "../components/form/FormHorario"
 import { useFormData } from "../../../shared/hooks/use-form-data"
+import { toast } from "react-toastify"
 
 export default function GenerarHorario() {
 	const [resultados, setResultados] = useState([])
@@ -28,6 +28,11 @@ export default function GenerarHorario() {
 		setField("selectedIds", [])
 	}, [])
 
+	useEffect(() => {
+		if (error) toast.error(error)
+		if (errorGenerar) toast.error(errorGenerar)
+	}, [error, errorGenerar])
+
 	const toggleMateria = (id) => {
 		const nuevos = formData.selectedIds.includes(id)
 			? formData.selectedIds.filter((mId) => mId !== id)
@@ -37,13 +42,17 @@ export default function GenerarHorario() {
 
 	const handleCalcular = async (e) => {
 		e.preventDefault()
-		if (formData.selectedIds.length === 0)
-			return alert("Seleccioná al menos una materia")
+		if (formData.selectedIds.length === 0) {
+			toast.info("Seleccioná al menos una materia")
+			return
+		}
+
 		const response = await generarHorarios(
 			formData.selectedIds,
 			Number(formData.cantidad)
 		)
 		setResultados(response)
+		toast.success("Horarios generados con éxito")
 	}
 
 	return (
