@@ -1,4 +1,4 @@
-.auth-button {
+.button {
 	width: 100%;
 	background-color: var(--btn-primary);
 	color: var(--btn-primery-color);
@@ -9,12 +9,12 @@
 	transition: all 0.15s ease-in-out;
 }
 
-.auth-button:hover:not(:disabled) {
+.button:hover:not(:disabled) {
 	background-color: var(--btn-primary-hover);
 	cursor: pointer;
 }
 
-.auth-button:disabled {
+.button:disabled {
 	background-color: var(--btn-disable);
 	cursor: not-allowed;
 }

@@ -72,7 +72,7 @@ public class SecurityConfig {
                         // Endpoints públicos de negocio
                         .requestMatchers("/carrera").permitAll()
                         .requestMatchers("/carrera/load").permitAll()
-                        .requestMatchers("/api/materia/buscar/**").permitAll()
+                        .requestMatchers("/materia/buscar/**").permitAll()
                         .requestMatchers("/import/preview").permitAll()
 
                         // Manejo de errores

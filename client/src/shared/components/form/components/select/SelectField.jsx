@@ -1,4 +1,4 @@
-export const SelectField = ({ name, label, value, onChange, options }) => {
+export default function SelectField({ name, label, value, onChange, options }) {
 	return (
 		<select
 			name={name}

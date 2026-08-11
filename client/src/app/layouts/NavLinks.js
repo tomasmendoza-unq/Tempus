@@ -1,7 +1,7 @@
 export const NavLinks = [
 	{ name: "Inicio", path: "/" },
 	{ name: "Mi perfil", path: "/perfil" },
-	{ name: "Horarios", path: "/horario" },
+	{ name: "Horarios", path: "/horarios" },
 	{ name: "Materias", path: "/materias" },
 	{ name: "Carreras", path: "/carreras" },
 	{ name: "Comisiones", path: "/comisiones" },

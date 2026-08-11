@@ -4,7 +4,7 @@ import { NavBar } from "../../shared/components/navbar/NavBar.jsx"
 import { NavLinks } from "./NavLinks.js"
 import { UserFooter } from "./components/UserFooter"
 
-//TODO: FALTA AGREGAR EL SELECT PARA MATERIA ACTIVA
+//TODO: FALTA AGREGAR EL SELECT PARA carrera ACTIVA
 export const AuthenticatedLayout = () => {
 	return (
 		<ProtectedRoute>

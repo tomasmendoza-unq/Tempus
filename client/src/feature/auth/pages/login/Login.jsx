@@ -1,13 +1,12 @@
 import { useAuth } from "../../hook/use-auth"
 import { Link } from "react-router-dom"
 import AuthLayout from "../../components/layout/AuthLayout"
-import AuthInput from "../../components/input/AuthInput"
-import AuthButton from "../../components/button/AuthButton"
-import AuthForm from "../../components/form/AuthForm"
 import { inputs } from "./inputs"
 import { useFormData } from "../../../../shared/hooks/use-form-data"
 import { LinkCustom } from "../../components/link/LinkCustom"
 import { FormError } from "../../components/formError/FormError"
+import DynamicForm from "../../../../shared/components/form/DynamicForm"
+import Button from "../../../../shared/components/button/Button"
 
 export default function Login() {
 	const { login, loading, error } = useAuth()
@@ -35,14 +34,15 @@ export default function Login() {
 			}
 		>
 			<form onSubmit={handleSubmit} className="space-y-4">
-				<AuthForm
+				<DynamicForm
 					inputs={inputs}
 					formData={formData}
 					handleChange={handleChange}
 				/>
 				{error && <FormError error={error} />}
 
-				<AuthButton
+				<Button
+					type="submit"
 					loading={loading}
 					text="Iniciar Sesión"
 					loadingText="Validando..."

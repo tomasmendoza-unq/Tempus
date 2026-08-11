@@ -1,6 +1,6 @@
-import "./AuthInput.css"
+import "./TextField.css"
 
-export default function AuthInput({
+export default function TextField({
 	name,
 	type = "text",
 	placeholder,
@@ -14,7 +14,7 @@ export default function AuthInput({
 			placeholder={placeholder}
 			onChange={onChange}
 			required={required}
-			className="auth-input"
+			className="text-input"
 		/>
 	)
 }

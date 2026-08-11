@@ -1,6 +1,6 @@
-import { field as fieldConfig } from "../../config/field"
+import { field as fields } from "./config/field"
 
-export default function AuthForm({
+export default function DynamicForm({
 	inputs,
 	formData,
 	handleChange,
@@ -9,7 +9,7 @@ export default function AuthForm({
 	return (
 		<>
 			{inputs.map((field) => {
-				const Field = fieldConfig[field.type]
+				const Field = fields[field.type]
 				return (
 					<Field
 						key={field.name}
